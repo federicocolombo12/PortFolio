@@ -51,3 +51,13 @@ To guide the user through the interaction without screens, I integrated visual m
 ## 💡 Main Challenges Overcome
 - **Concurrency & Watchdog:** Kept high-frequency audio sampling (I2S), WebSocket connection with Firebase, ultrasonic measurements, and LED animations active simultaneously without ever blocking the main loop (`delay()`) and preventing the ESP32's Watchdog Timeout resets.
 - **Hardware Isolation:** Resolved power conflicts and electrical noise by logically and physically separating the power supply of the locks (5V inductive coils) from the control logic (3.3V sensors and microphone) and assigning specific general-purpose pins to avoid kernel panics.
+
+## Media Gallery
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '2rem' }}>
+  <video src="/projects/Phygital_Smart_Locker/IMG_5505.mov" controls preload="metadata" style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="/projects/Phygital_Smart_Locker/IMG_5506.mov" controls preload="metadata" style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.23.mp4" controls preload="metadata" style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.24.mp4" controls preload="metadata" style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.25.mp4" controls preload="metadata" style={{width: '100%', borderRadius: '12px'}}></video>
+  <img src="/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg" style={{width: '100%', borderRadius: '12px', objectFit: 'cover'}} />
+</div>
