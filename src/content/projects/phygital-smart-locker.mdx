@@ -23,7 +23,7 @@ I designed and developed the backend firmware and hardware infrastructure for an
 ## 🛠️ Key Activities & Technical Development
 
 ### 1. Secure Audio Authentication System (DTMF)
-<video src="/PortFolio/projects/Phygital_Smart_Locker/IMG_5505.mov" autoplay loop muted playsinline style={{float: 'left', width: '40%', margin: '0 1rem 1rem 0', borderRadius: '12px'}}></video>
+<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/IMG_5505.mov" autoplay loop muted playsinline style={{float: 'left', width: '40%', margin: '0 1rem 1rem 0', borderRadius: '12px'}}></video>
 I implemented a proprietary handshake protocol based on audio frequencies (Dual-Tone Multi-Frequency), eliminating the need for physical screens or keypads on the locker.
 
 - **I2S Audio Processing:** Integrated an INMP441 digital microphone via the I2S bus, ensuring clean 16kHz sampling without blocking the processor.
@@ -45,12 +45,12 @@ I structured the data architecture (JSON) so that the ESP32 acts as the "Operati
 - Managed WiFi connection with auto-reconnection mechanisms and Watchdog timers to ensure device uptime.
 
 ### 4. Dynamic Visual Feedback (Physical UX/UI)
-<video src="/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.23.mp4" autoplay loop muted playsinline style={{float: 'right', width: '30%', margin: '0 0 1rem 1rem', borderRadius: '12px'}}></video>
+<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.23.mp4" autoplay loop muted playsinline style={{float: 'right', width: '30%', margin: '0 0 1rem 1rem', borderRadius: '12px'}}></video>
 To guide the user through the interaction without screens, I integrated visual management via RGB LED rings (Adafruit NeoPixel).
 - **Circular Feedback:** During the 3 seconds of ultrasonic sensor scanning, the LEDs show a yellow circular "loading" animation.
 - **Operation Outcome:** LEDs visually communicate success (Green for confirmed return or correct login) or error (Red for fraud attempt or wrong audio password), as well as the system's stand-by state.
 
-<video src="/PortFolio/projects/Phygital_Smart_Locker/IMG_5506.mov" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px', marginTop: '1rem'}}></video>
+<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/IMG_5506.mov" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px', marginTop: '1rem'}}></video>
 
 ---
 
@@ -59,7 +59,7 @@ To guide the user through the interaction without screens, I integrated visual m
 - **Hardware Isolation:** Resolved power conflicts and electrical noise by logically and physically separating the power supply of the locks (5V inductive coils) from the control logic (3.3V sensors and microphone) and assigning specific general-purpose pins to avoid kernel panics.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '2rem' }}>
-  <video src="/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.24.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px'}}></video>
-  <video src="/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.25.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px'}}></video>
-  <img src="/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg" style={{width: '100%', borderRadius: '12px', objectFit: 'cover'}} />
+  <video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.24.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.25.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px'}}></video>
+  <img src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg" style={{width: '100%', borderRadius: '12px', objectFit: 'cover'}} />
 </div>
