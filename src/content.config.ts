@@ -16,6 +16,10 @@ const projects = defineCollection({
 			heroImage: z.optional(image()),
 			category: z.string().optional(),
 			rank: z.number().optional(),
+			itchLink: z.string().optional(),
+			githubLink: z.string().optional(),
+			raiCinemaLink: z.string().optional(),
+			youtubeLink: z.string().optional(),
 		}),
 });
 

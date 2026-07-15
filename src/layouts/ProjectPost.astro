@@ -77,6 +77,40 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 						<h1>{title}</h1>
 						<hr />
 					</div>
+
+					{/* External Links Section */}
+					{(Astro.props.itchLink || Astro.props.githubLink || Astro.props.raiCinemaLink) && (
+						<div class="external-links" style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+							{Astro.props.itchLink && (
+								<a href={Astro.props.itchLink} target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; color: var(--accent); text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
+									🎮 Play on Itch.io
+								</a>
+							)}
+							{Astro.props.githubLink && (
+								<a href={Astro.props.githubLink} target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; color: var(--accent); text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
+									💻 View on GitHub
+								</a>
+							)}
+							{Astro.props.raiCinemaLink && (
+								<a href={Astro.props.raiCinemaLink} target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; color: var(--accent); text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
+									🎬 Watch on Rai Cinema
+								</a>
+							)}
+						</div>
+					)}
+
+					{/* YouTube Embed Section */}
+					{Astro.props.youtubeLink && (
+						<div class="youtube-embed" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: var(--box-shadow);">
+							<iframe 
+								src={Astro.props.youtubeLink} 
+								style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+								allowfullscreen>
+							</iframe>
+						</div>
+					)}
+
 					<slot />
 				</div>
 			</article>

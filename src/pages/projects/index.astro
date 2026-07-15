@@ -118,7 +118,7 @@ const categories = [...new Set(posts.map(post => post.data.category).filter(Bool
 					{
 						posts.map((post) => (
 							<li class="project-card" data-category={post.data.category}>
-								<a href={`/projects/${post.id}/`}>
+								<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/projects/${post.id}/`}>
 									{post.data.heroImage && (
 										<Image width={720} height={405} src={post.data.heroImage} alt={post.data.title} />
 									)}
