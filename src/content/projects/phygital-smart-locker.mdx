@@ -1,0 +1,53 @@
+---
+title: '"Phygital" Smart Locker with Audio Authentication & Cloud IoT'
+description: 'Embedded System Project in Digital Interaction Design'
+pubDate: '2026-03-05'
+heroImage: '../../assets/blog-placeholder-1.jpg'
+---
+
+> [!NOTE]
+> **Azione richiesta per i Media:** Questo progetto contiene dei video allegati su Notion, che ho omesso qui sotto. Ricordati di scaricare i video (`IMG_5505.mov`, `WhatsApp_Video...`) da Notion e di inserirli in Astro usando il tag `<video src="/percorso-video.mp4" controls></video>`. Ho anche rimosso un'immagine di Canva, puoi rimetterla scaricandola e linkandola!
+
+[Complete Project Report](https://www.canva.com/design/DAHAFhC8tz0/KKv57OQ4PoPhY5P6FZZRXQ/edit?utm_content=DAHAFhC8tz0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+## 📖 Project Overview
+I designed and developed the backend firmware and hardware infrastructure for an IoT Smart Locker system aimed at managing book lending and returns. The system acts as a bridge between the digital world (Mobile App) and the physical environment (Locker), ensuring security, real-time feedback, and advanced "Anti-Cheat" logic.
+
+- **Role:** IoT & Embedded Systems Developer
+- **Tech Stack:** C++ (Arduino framework), ESP32 (Microcontroller), Firebase Realtime Database, I2S Audio Processing, HC-SR04 Ultrasonic Sensors, Adafruit NeoPixel LEDs.
+
+---
+
+## 🛠️ Key Activities & Technical Development
+
+### 1. Secure Audio Authentication System (DTMF)
+I implemented a proprietary handshake protocol based on audio frequencies (Dual-Tone Multi-Frequency), eliminating the need for physical screens or keypads on the locker.
+
+- **I2S Audio Processing:** Integrated an INMP441 digital microphone via the I2S bus, ensuring clean 16kHz sampling without blocking the processor.
+- **Goertzel Algorithm:** Wrote and optimized the Goertzel mathematical algorithm for real-time audio frequency analysis (a simplified FFT), allowing the ESP32 to decode sounds emitted by the user's smartphone.
+- **Dynamic Security:** The ESP32 randomly generates a unique 4-digit "Token" for each session, syncing it to the Cloud.
+- **V5 Protocol & Noise Filters:** Developed filtering logic (temporal debounce and anti-repetition) to discard environmental noise. The protocol requires a Start command (`#`) and allows cancellation, autonomously managing timeouts to ensure system security.
+
+### 2. Sensor Logic & "Anti-Cheat" System (State Machine)
+Physical compartment management is not a simple "open/close" command, but a full Finite State Machine (FSM) based on non-blocking programming.
+
+- **Sensor Integration:** Each compartment features a relay (for the electric lock), a microswitch (to verify the physical closure of the door), and an HC-SR04 ultrasonic sensor (to detect the presence of an object).
+- **"Anti-Cheat" Logic Engine:** Programmed the ESP32 to recognize user intent. If the App requests to open an *empty* compartment for a return, and the user closes the door *without* inserting the book, the ESP32 detects the discrepancy via the ultrasonic sensor and **automatically reopens the door**, signaling an error.
+
+### 3. Real-Time Cloud Synchronization (Firebase RTDB)
+I structured the data architecture (JSON) so that the ESP32 acts as the "Operational Arm" (physical truth) and the App as the "Mind" (business logic), communicating via Firebase.
+
+- The ESP32 constantly listens in a non-blocking manner to receive opening commands (Push requests) from the database.
+- Upon any physical interaction (closing a compartment), the ESP32 instantly updates the database state (`isClosed`, `hasBook`), triggering real-time reactions on the user App interface.
+- Managed WiFi connection with auto-reconnection mechanisms and Watchdog timers to ensure device uptime.
+
+### 4. Dynamic Visual Feedback (Physical UX/UI)
+To guide the user through the interaction without screens, I integrated visual management via RGB LED rings (Adafruit NeoPixel).
+- **Circular Feedback:** During the 3 seconds of ultrasonic sensor scanning, the LEDs show a yellow circular "loading" animation.
+- **Operation Outcome:** LEDs visually communicate success (Green for confirmed return or correct login) or error (Red for fraud attempt or wrong audio password), as well as the system's stand-by state.
+
+---
+
+## 💡 Main Challenges Overcome
+- **Concurrency & Watchdog:** Kept high-frequency audio sampling (I2S), WebSocket connection with Firebase, ultrasonic measurements, and LED animations active simultaneously without ever blocking the main loop (`delay()`) and preventing the ESP32's Watchdog Timeout resets.
+- **Hardware Isolation:** Resolved power conflicts and electrical noise by logically and physically separating the power supply of the locks (5V inductive coils) from the control logic (3.3V sensors and microphone) and assigning specific general-purpose pins to avoid kernel panics.

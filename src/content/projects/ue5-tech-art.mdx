@@ -1,19 +1,45 @@
 ---
 title: 'UE5 Tech Art Showcase'
-description: 'A showcase of Technical Art, procedural generation, and custom shaders in Unreal Engine 5.'
-pubDate: 'Jul 15 2026'
+description: 'Project in Videogame'
+pubDate: '2026-07-15'
 heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
-Benvenuto nel mio **UE5 Tech Art Showcase**.
+> [!NOTE]
+> **Azione richiesta per i Media:** Su Notion era presente un'immagine Figma (un embed). Puoi reinserire le immagini o i video che avevi su Notion scaricandoli e inserendoli nella cartella `src/assets`.
 
-Questo progetto dimostra le mie competenze nell'uso di **Unreal Engine 5** per la creazione di Technical Art avanzata.
-Il focus è su:
-- Generazione Procedurale
-- Materiali e Shader Custom (HLSL)
-- Ottimizzazione delle performance (Lumen & Nanite)
+## 📌 Project Overview
+**"Tech Art per il Cinema e i Videogiochi"** is an academic project developed during the A.A. 2025/2026 at Politecnico di Torino, in collaboration with Dario Romano. The project explores various Technical Art pipelines in Unreal Engine 5, aimed at getting an understanding of procedural generation, motion capture, and advanced 3D rendering techniques.
 
-## Workflow
+## 🛠️ Assignments & Technical Breakdown
 
-In questa sezione descrivo solitamente il mio workflow...
-Qui potrai inserire codice, modelli interattivi 3D e immagini!
+### 1. Environment Art & World Building
+- **Goal:** Create a hybrid fantasy environment merging the styles of *The Witcher* and *Studio Ghibli*.
+- **Tools & Tech:** PCG (Procedural Content Generation) governed by Splines, Nanite Landscape, Megaplants (Nanite Foliage with Subsurface Scattering and World Position Offset for wind), and Mie Scattering.
+- **Topography:** 16-bit Heightmaps imported via Landscape Tool, fused with an Auto-Material using Slope and Altitude masking.
+
+### 2. Metahumans & Character Pipeline
+- **Goal:** Avatar creation using *Reality Scan* and *Mesh to MetaHuman*.
+- **Challenges:** Explored the limitations of the *Facebuilder + Blender* pipeline (Alembic export scaling issues, Groom binding failures, sliding root hairs).
+- **Solution:** Shifted to a robust pipeline using Unreal's native Groom assets, adjusting physical collisions and *Strand Size* to achieve realistic hair simulation.
+
+### 3. Cinematics & Motion Capture
+- **Narrative:** A "Post Mortem" meta-gag where the digital avatars of the creators discuss the technical failures of their first MetaHuman attempts.
+- **Workflow:** 
+	- **Sequencer:** Modular structure using Master Sequence, Camera Cuts, and Subsequences for parallel workflows.
+	- **Mocap:** Body animations via *Cartwheel* (with additive timeline corrections) and facial mocap via *Live Link Face* (iPhone).
+
+### 4. Photogrammetry, NeRF & Gaussian Splatting
+- **Exploration:** Comparative study of 3D scanning techniques.
+- **Pipelines Tested:** 
+	- *Reality Capture* for standard photogrammetry.
+	- *NeRF* (Neural Radiance Fields) via NerfStudio, overcoming Linux/Windows DLL conflicts.
+	- *3D Gaussian Splatting* tested both via AI services (Luma AI) and locally (XScene plugin for UE5).
+- **Colmap Automation:** Utilized custom batch scripts and FFmpeg to automate frame extraction and Point Cloud generation.
+
+### 5. VFX with Niagara System
+- **Goal:** Enhance the first assignment's environment with a moody and magical atmosphere.
+- **Implementation:** 
+	- Night cycle driven by *Celestial Night/Day Actor*.
+	- Procedural VFX using *Niagara*: glowing ground embers, wind-blown pink petals, and meteors.
+	- **Blueprint Logic:** Programmed a `Point Attraction Force` to dynamically curve meteor trajectories towards a specific target in the scene, and managed complex particle collisions.

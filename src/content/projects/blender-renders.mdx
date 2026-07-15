@@ -1,0 +1,37 @@
+---
+title: 'Blender Renders'
+description: 'Project in Blender'
+pubDate: '2024-09-29'
+heroImage: '../../assets/blog-placeholder-2.jpg'
+---
+
+For this Computer Graphics project, I was tasked with creating high-quality, photorealistic 3D renders entirely from scratch. I managed the complete CGI (Computer-Generated Imagery) pipeline, taking the project from initial concept and blockout to the final rendered composition.
+
+- **Role:** 3D Artist / CG Generalist
+- **Tech Stack & Tools:** Blender, Cycles Render Engine, PBR Material Workflow, Node-based Procedural Texturing.
+
+---
+
+## 🛠️ Key Activities & CGI Pipeline
+
+### 1. 3D Modeling & Topology
+I built the geometry of the scene focusing on clean topology and proper edge flow to ensure realistic light reflection and smooth subdivision surfaces.
+- **Hard-Surface & Organic Modeling:** Utilized a mix of polygonal modeling techniques, boolean operations, and subdivision surface modifiers to create detailed and accurate assets.
+- **Scene Optimization:** Managed polygon counts and utilized instancing to keep the viewport responsive and optimize rendering times without sacrificing visual quality.
+
+### 2. UV Unwrapping & Texturing (PBR)
+To achieve photorealism, I applied a Physically Based Rendering (PBR) workflow to all assets in the scene.
+- **UV Mapping:** Carefully unwrapped 3D models to minimize texture stretching and hide seams in less visible areas.
+- **Material Creation:** Built complex node trees in Blender's Shader Editor. I combined image textures (Albedo, Roughness, Normal, and Displacement maps) with procedural nodes to create realistic surface imperfections like dust, scratches, and wear-and-tear.
+
+### 3. Lighting & Camera Setup
+Lighting was a crucial step to set the mood and highlight the geometry of the models.
+- **Illumination Setup:** Combined HDRI (High Dynamic Range Imaging) for realistic environmental reflections with a customized 3-point lighting setup (Key, Fill, and Back/Rim lights) to enhance depth and volume.
+- **Cinematic Composition:** Set up virtual cameras using real-world photographic principles, adjusting focal length, depth of field (DoF), and rule-of-thirds composition to guide the viewer's eye.
+
+### 4. Rendering & Post-Processing
+- **Cycles Engine:** Configured the Cycles path-tracing engine for the final output, optimizing sample counts and light bounces for a noise-free image.
+- **Compositing:** Used Blender’s built-in Compositor to add post-processing effects such as glare, color grading, and subtle chromatic aberration, giving the final renders a cinematic and polished look.
+
+> [!NOTE]
+> **Azione richiesta per i Media:** Su Notion c'era un database inline ("Results") contenente le immagini dei render. Ti invito a inserire qui i file immagine dei render esportati (es. `![render1](../../assets/render1.jpg)`).
