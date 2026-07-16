@@ -1,0 +1,371 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Federico Colombo - CV</title>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<style>
+			:root {
+				--cv-primary: #0d6b63; /* Teal */
+				--cv-dark: #222222;
+				--cv-text: #444444;
+				--cv-light: #ffffff;
+				--cv-bg: #f5f5f5;
+			}
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: 'Montserrat', sans-serif;
+				background-color: var(--cv-bg);
+				color: var(--cv-text);
+				line-height: 1.5;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
+			}
+
+			/* Controls for web view */
+			.cv-controls {
+				text-align: center;
+				padding: 20px;
+				background-color: #1a1a1a;
+				color: white;
+				display: flex;
+				justify-content: center;
+				gap: 20px;
+			}
+			.cv-controls button, .cv-controls a {
+				background-color: var(--cv-primary);
+				color: white;
+				border: none;
+				padding: 10px 20px;
+				font-size: 1rem;
+				font-family: 'Montserrat', sans-serif;
+				cursor: pointer;
+				text-decoration: none;
+				border-radius: 5px;
+				font-weight: 600;
+				transition: opacity 0.2s;
+			}
+			.cv-controls button:hover, .cv-controls a:hover {
+				opacity: 0.8;
+			}
+
+			/* A4 Container */
+			.cv-container {
+				width: 210mm;
+				min-height: 297mm;
+				background: var(--cv-light);
+				margin: 40px auto;
+				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+				display: flex;
+				overflow: hidden;
+				position: relative;
+			}
+
+			/* Topography/Pattern Background for right column (simulated with SVG data URI) */
+			.cv-container::before {
+				content: '';
+				position: absolute;
+				top: 0; right: 0; bottom: 0; left: 35%; /* Right column width */
+				background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 Q150,150 300,50 T600,50' fill='none' stroke='%23f0f0f0' stroke-width='2'/%3E%3Cpath d='M0,150 Q150,250 300,150 T600,150' fill='none' stroke='%23f0f0f0' stroke-width='2'/%3E%3Cpath d='M0,250 Q150,350 300,250 T600,250' fill='none' stroke='%23f0f0f0' stroke-width='2'/%3E%3C/svg%3E");
+				background-size: cover;
+				opacity: 0.5;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			/* Columns */
+			.left-column {
+				width: 35%;
+				background-color: var(--cv-primary);
+				color: var(--cv-light);
+				padding: 40px 30px;
+				z-index: 1;
+			}
+			.right-column {
+				width: 65%;
+				padding: 50px 40px;
+				z-index: 1;
+			}
+
+			/* Profile Image */
+			.profile-pic-container {
+				text-align: center;
+				margin-bottom: 40px;
+			}
+			.profile-pic {
+				width: 160px;
+				height: 160px;
+				border-radius: 50%;
+				object-fit: cover;
+				border: 4px solid var(--cv-light);
+				box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+			}
+
+			/* Left Column Sections */
+			.left-section-title {
+				font-size: 1.2rem;
+				font-weight: 600;
+				margin-bottom: 20px;
+				padding-bottom: 10px;
+				border-bottom: 2px solid rgba(255,255,255,0.5);
+				letter-spacing: 1px;
+				text-transform: uppercase;
+			}
+			
+			.project-item {
+				margin-bottom: 30px;
+			}
+			.project-title {
+				font-size: 1.1rem;
+				font-weight: 600;
+				margin-bottom: 10px;
+				line-height: 1.3;
+			}
+			.project-desc {
+				font-size: 0.85rem;
+				line-height: 1.5;
+				opacity: 0.9;
+				text-align: justify;
+			}
+
+			/* Right Column Header */
+			.header-name {
+				font-size: 3rem;
+				font-weight: 400;
+				color: var(--cv-dark);
+				margin-bottom: 5px;
+				letter-spacing: -1px;
+			}
+			.header-title {
+				font-size: 1.1rem;
+				font-weight: 500;
+				color: var(--cv-primary);
+				margin-bottom: 20px;
+			}
+			.contact-info {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 15px;
+				font-size: 0.85rem;
+				color: var(--cv-text);
+				margin-bottom: 40px;
+			}
+			.contact-item {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+			}
+			.contact-icon {
+				color: #999;
+				font-style: normal;
+				font-weight: bold;
+			}
+
+			/* Right Column Sections */
+			.right-section-title {
+				font-size: 1.3rem;
+				font-weight: 500;
+				color: var(--cv-dark);
+				margin-bottom: 15px;
+				padding-bottom: 5px;
+				border-bottom: 1px solid #ccc;
+				text-transform: uppercase;
+			}
+			.profile-text {
+				font-size: 0.9rem;
+				line-height: 1.6;
+				margin-bottom: 40px;
+				text-align: justify;
+			}
+
+			/* Experience */
+			.experience-item {
+				margin-bottom: 30px;
+			}
+			.experience-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				margin-bottom: 5px;
+			}
+			.experience-title {
+				font-size: 1.2rem;
+				font-weight: 500;
+				color: var(--cv-dark);
+			}
+			.experience-date {
+				font-size: 0.85rem;
+				color: var(--cv-text);
+				font-weight: 500;
+			}
+			.experience-company-location {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 15px;
+			}
+			.experience-company {
+				font-size: 1rem;
+				font-weight: 600;
+				color: var(--cv-primary);
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+			.experience-location {
+				font-size: 0.85rem;
+				color: var(--cv-text);
+			}
+			.experience-desc {
+				font-size: 0.9rem;
+				line-height: 1.5;
+				margin-left: 15px;
+			}
+			.experience-desc li {
+				margin-bottom: 5px;
+			}
+
+			/* Print Styles */
+			@media print {
+				body {
+					background-color: white;
+					margin: 0;
+					padding: 0;
+				}
+				.cv-controls {
+					display: none !important;
+				}
+				.cv-container {
+					margin: 0;
+					box-shadow: none;
+					width: 100%;
+					height: 100%;
+					min-height: 100vh;
+				}
+				/* Ensure background colors print correctly */
+				.left-column {
+					-webkit-print-color-adjust: exact;
+					print-color-adjust: exact;
+				}
+				@page {
+					size: A4;
+					margin: 0;
+				}
+			}
+
+			@media (max-width: 800px) {
+				.cv-container {
+					width: 100%;
+					flex-direction: column;
+					margin: 0;
+				}
+				.left-column, .right-column {
+					width: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cv-controls">
+			<button onclick="window.print()">Download PDF</button>
+			<a href={`${import.meta.env.BASE_URL}`}>Back to Portfolio</a>
+		</div>
+
+		<div class="cv-container">
+			<!-- Left Column -->
+			<div class="left-column">
+				<div class="profile-pic-container">
+					<!-- Replace with the actual image path -->
+					<img src={`${import.meta.env.BASE_URL}/profile.jpeg`} alt="Federico Colombo" class="profile-pic" onerror="this.style.display='none'">
+				</div>
+
+				<h2 class="left-section-title">Personal Projects</h2>
+
+				<div class="project-item">
+					<h3 class="project-title">Awaken Asylum - Educational Interactive Project</h3>
+					<p class="project-desc">
+						Awakened Asylum is an immersive experience developed in Unity that explores the forgotten history of psychiatric institutions in Piedmont. Through a first-person journey, players uncover the dark past of mental health treatment while navigating a meticulously reconstructed historical environment.
+					</p>
+				</div>
+
+				<div class="project-item">
+					<h3 class="project-title">Nihil - Metroidvania Prototype</h3>
+					<p class="project-desc">
+						Nihil is a 2D video game developed as part of the Game Design and Gamification exam at Politecnico di Torino. The game revolves around a key transformation mechanic that allows the player to change shape into different forms, unlocking new abilities and areas.
+					</p>
+				</div>
+				
+				<!-- Add more projects as needed -->
+			</div>
+
+			<!-- Right Column -->
+			<div class="right-column">
+				<h1 class="header-name">FEDERICO COLOMBO</h1>
+				<div class="header-title">Technical Artist | Unity Expert | Game Developer</div>
+				
+				<div class="contact-info">
+					<div class="contact-item">
+						<i class="contact-icon">📞</i> +39-3513078191
+					</div>
+					<div class="contact-item">
+						<i class="contact-icon">✉️</i> colombofederico28@gmail.com
+					</div>
+					<div class="contact-item">
+						<i class="contact-icon">🔗</i> linkedin.com/in/federico-colombo10
+					</div>
+					<div class="contact-item">
+						<i class="contact-icon">📍</i> Torino, Italy
+					</div>
+				</div>
+
+				<h2 class="right-section-title">Professional Profile</h2>
+				<p class="profile-text">
+					In my professional future, I aim to work in the field of media engineering, closely aligned with my Degree in Cinema and Media Engineering. In particular, I want to apply my knowledge in VR/XR development, Game development, and Computer Graphics. I am passionate about contributing to the creation of innovative and creative projects, utilizing the technical skills acquired during my studies to elevate both the visual and technical quality of productions.
+				</p>
+
+				<h2 class="right-section-title">Work Experience</h2>
+
+				<div class="experience-item">
+					<div class="experience-header">
+						<h3 class="experience-title">Technical Artist and Gameplay Programmer</h3>
+						<span class="experience-date">01/2025 - Present</span>
+					</div>
+					<div class="experience-company-location">
+						<span class="experience-company">LEVEL UP LAB</span>
+						<span class="experience-location">Torino, Italy</span>
+					</div>
+					<ul class="experience-desc">
+						<li>Working as a Game Programmer and Technical Artist for Level Up Lab, a student team at Politecnico di Torino.</li>
+						<li>Responsible for Unity development, contributing to the design and implementation of core gameplay systems.</li>
+						<li>Alongside another team member, managed the creation and integration of all 3D models for the "Line Operator" project, overseeing both the artistic vision and technical implementation in Unity.</li>
+						<li>Currently focusing on the creation of Shaders and Post-Processing effects to enhance the game's visual identity.</li>
+					</ul>
+				</div>
+				
+				<!-- Additional Work Experience can be added here -->
+				<div class="experience-item">
+					<div class="experience-header">
+						<h3 class="experience-title">XR Master Thesis - R&D Graphics Programmer</h3>
+						<span class="experience-date">03/2026 - Present</span>
+					</div>
+					<div class="experience-company-location">
+						<span class="experience-company">Lemons in the Room</span>
+						<span class="experience-location">Firenze, Italy</span>
+					</div>
+					<ul class="experience-desc">
+						<li>Developing a 'context-aware' system for Mixed Reality that makes scanned real-world objects interactive and physically plausible.</li>
+						<li>Implemented a real-time pipeline for Meta Quest 3 capable of converting Depth Maps into continuous geometry through Compute and Mesh Shaders.</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>
