@@ -2,7 +2,7 @@
 title: 'Bio-Adaptive SDFs in Medical XR (WIP)'
 description: 'Procedural HLSL Raymarching framework for trauma therapy driven by physiological data'
 pubDate: '2026-07-16'
-heroImage: '../../assets/blog-placeholder-about.jpg'
+heroImage: '../../assets/thesis-cover.png'
 category: 'TechArt'
 rank: 1
 githubLink: 'https://github.com/federicocolombo12/Tesi_SDF_MedicalXR'
@@ -18,6 +18,11 @@ The goal is to develop a dynamic, bio-responsive visual medium for trauma therap
 ### 1. Procedural Topological Morphing
 Instead of traditional mesh morphing, I am developing a C#/HLSL framework for **Runtime SDFs**. By calculating distance fields mathematically on the GPU, the system achieves infinite, seamless morphing states—such as blending a high-frequency "stress" geometry into a smooth "calm" sphere—without memory overhead or voxelization artifacts.
 
+<div style={{ margin: '2rem 0' }}>
+    <video src="/videos/thesis/SdfPulsing.mp4" autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+    <p style={{ textAlign: 'center', fontSize: '0.9em', color: 'gray', marginTop: '0.5rem' }}>Mathematical SDF morphing driven by physiological inputs.</p>
+</div>
+
 ### 2. High-Performance Raymarching for Mobile XR
 A major hurdle for Raymarching in XR is the immense GPU fill-rate cost, which typically makes it unviable for standalone headsets like the Meta Quest 3 (which requires 72Hz+ for medical safety). I am implementing advanced optimization techniques:
 - **Dynamic Bounding Volume Adapting**: Adjusting the raymarching volume bounds dynamically to fit the active SDF nodes, drastically reducing pixel evaluation.
@@ -26,7 +31,14 @@ A major hurdle for Raymarching in XR is the immense GPU fill-rate cost, which ty
 ### 3. Bio-Feedback Hardware Integration
 I established a BLE (Bluetooth Low Energy) bridge between Unity and the "Checkme Pro" medical device. This pipeline streams raw physiological data, passes it through interpolation buffers to ensure jitter-free geometric deformations, and feeds it directly into the shader properties.
 
+<div style={{ margin: '2rem 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+    <video src="/videos/thesis/HeartPulsing.mp4" autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+    <video src="/videos/thesis/ShowcaseSDF.mp4" autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+</div>
+<p style={{ textAlign: 'center', fontSize: '0.9em', color: 'gray', marginTop: '0.5rem' }}>Showcase of the SDF Raymarching engine responding in real-time.</p>
+
 ## Unity Asset Store Potential
 A primary objective of this research is productization. The final framework will be packaged into a commercial-grade, VR-optimized tool for the **Unity Asset Store**, filling a major market gap for modern, high-performance raymarching tools optimized for URP/HDRP. It will feature Custom Nodes for Unity Shader Graph, allowing non-programmers to visually customize lighting, PBR shading, and textures on mathematically defined surfaces.
 
 *(This project is currently a Work In Progress. Further technical breakdowns and performance profiling will be added as development continues.)*
+
