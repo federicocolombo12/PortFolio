@@ -1,0 +1,32 @@
+---
+title: 'Bio-Adaptive SDFs in Medical XR (WIP)'
+description: 'Procedural HLSL Raymarching framework for trauma therapy driven by physiological data'
+pubDate: '2026-07-16'
+heroImage: '../../assets/blog-placeholder-about.jpg'
+category: 'TechArt'
+rank: 1
+githubLink: 'https://github.com/federicocolombo12/Tesi_SDF_MedicalXR'
+---
+
+**Bio-Adaptive Signed Distance Fields in Medical XR** is my ongoing Master Thesis project in collaboration with the *Lemons In The Room* startup. It focuses on pushing the boundaries of procedural generation and physiological computing on standalone XR headsets.
+
+## The Challenge
+The goal is to develop a dynamic, bio-responsive visual medium for trauma therapy in Extended Reality. Instead of relying on static pre-baked meshes, the project maps real-time physiological data (ECG, Heart Rate, SpO2) from medical devices directly onto the mathematical parameters of Signed Distance Fields (SDFs). This creates a "Bio-Adaptive Visual System" that mirrors and facilitates a patient's autonomic regulation.
+
+## Core Technical Art Pillars
+
+### 1. Procedural Topological Morphing
+Instead of traditional mesh morphing, I am developing a C#/HLSL framework for **Runtime SDFs**. By calculating distance fields mathematically on the GPU, the system achieves infinite, seamless morphing states—such as blending a high-frequency "stress" geometry into a smooth "calm" sphere—without memory overhead or voxelization artifacts.
+
+### 2. High-Performance Raymarching for Mobile XR
+A major hurdle for Raymarching in XR is the immense GPU fill-rate cost, which typically makes it unviable for standalone headsets like the Meta Quest 3 (which requires 72Hz+ for medical safety). I am implementing advanced optimization techniques:
+- **Dynamic Bounding Volume Adapting**: Adjusting the raymarching volume bounds dynamically to fit the active SDF nodes, drastically reducing pixel evaluation.
+- **Foveated Raymarching**: Rendering peripheral rays at lower resolutions by integrating deeply with the Scriptable Render Pipeline (URP/HDRP).
+
+### 3. Bio-Feedback Hardware Integration
+I established a BLE (Bluetooth Low Energy) bridge between Unity and the "Checkme Pro" medical device. This pipeline streams raw physiological data, passes it through interpolation buffers to ensure jitter-free geometric deformations, and feeds it directly into the shader properties.
+
+## Unity Asset Store Potential
+A primary objective of this research is productization. The final framework will be packaged into a commercial-grade, VR-optimized tool for the **Unity Asset Store**, filling a major market gap for modern, high-performance raymarching tools optimized for URP/HDRP. It will feature Custom Nodes for Unity Shader Graph, allowing non-programmers to visually customize lighting, PBR shading, and textures on mathematically defined surfaces.
+
+*(This project is currently a Work In Progress. Further technical breakdowns and performance profiling will be added as development continues.)*
