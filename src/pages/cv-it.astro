@@ -3,11 +3,11 @@ import BaseHead from '../components/BaseHead.astro';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="it">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Federico Colombo - Resume</title>
+		<title>Federico Colombo - Curriculum Vitae</title>
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 		<style>
 			:root {
@@ -278,9 +278,9 @@ import BaseHead from '../components/BaseHead.astro';
 	</head>
 	<body>
 		<div class="cv-controls">
-			<button onclick="window.print()">Download PDF</button>
-			<a href={`${import.meta.env.BASE_URL}/cv-it`}>🇮🇹 Versione Italiana</a>
-			<a href={`${import.meta.env.BASE_URL}`}>Back to Portfolio</a>
+			<button onclick="window.print()">Scarica PDF</button>
+			<a href={`${import.meta.env.BASE_URL}/cv`}>🇬🇧 English Version</a>
+			<a href={`${import.meta.env.BASE_URL}`}>Torna al Portfolio</a>
 		</div>
 
 		<div class="cv-container">
@@ -290,39 +290,39 @@ import BaseHead from '../components/BaseHead.astro';
 					<img src={`${import.meta.env.BASE_URL}/profile.jpeg`} alt="Federico Colombo" class="profile-pic" onerror="this.style.display='none'">
 				</div>
 
-				<h2 class="left-section-title">Skills</h2>
+				<h2 class="left-section-title">Competenze</h2>
 				<ul class="skills-list">
-					<li><strong>Languages:</strong> C#, C++, Python, HLSL/GLSL</li>
-					<li><strong>Engines:</strong> Unity, Godot, Unreal Engine</li>
+					<li><strong>Linguaggi:</strong> C#, C++, Python, HLSL/GLSL</li>
+					<li><strong>Motori Grafici:</strong> Unity, Godot, Unreal Engine</li>
 					<li><strong>Software:</strong> Blender, DaVinci Resolve, Jira, Git</li>
 					<li><strong>Management:</strong> Agile, Tech Direction, Project Management</li>
 				</ul>
 
-				<h2 class="left-section-title">Education</h2>
+				<h2 class="left-section-title">Formazione</h2>
 				<div class="left-item">
-					<h3 class="left-item-title">M.Sc. Cinema and Media Engineering</h3>
+					<h3 class="left-item-title">Laurea Magistrale in Ingegneria del Cinema e dei Mezzi di Comunicazione</h3>
 					<div class="left-item-subtitle">Politecnico di Torino | 2024 - 2026</div>
-					<p class="left-item-desc">Expected mark: 106/110.</p>
+					<p class="left-item-desc">Voto stimato: 106/110.</p>
 				</div>
 				<div class="left-item">
-					<h3 class="left-item-title">B.Sc. Cinema and Media Engineering</h3>
+					<h3 class="left-item-title">Laurea Triennale in Ingegneria del Cinema e dei Mezzi di Comunicazione</h3>
 					<div class="left-item-subtitle">Politecnico di Torino | 2021 - 2024</div>
-					<p class="left-item-desc">Final mark: 100/110.</p>
+					<p class="left-item-desc">Voto finale: 100/110.</p>
 				</div>
 
-				<h2 class="left-section-title">Personal Projects</h2>
+				<h2 class="left-section-title">Progetti Personali</h2>
 				<div class="left-item">
 					<h3 class="left-item-title">Awaken Asylum</h3>
-					<div class="left-item-subtitle">Educational Interactive Project</div>
+					<div class="left-item-subtitle">Progetto Educativo Interattivo</div>
 					<p class="left-item-desc">
-						Immersive VR experience developed in Unity exploring the history of psychiatric institutions in Piedmont through meticulous historical reconstruction.
+						Esperienza immersiva VR sviluppata in Unity che esplora la storia degli istituti psichiatrici in Piemonte attraverso una meticolosa ricostruzione storica.
 					</p>
 				</div>
 				<div class="left-item">
 					<h3 class="left-item-title">Nihil</h3>
-					<div class="left-item-subtitle">Metroidvania Prototype</div>
+					<div class="left-item-subtitle">Prototipo Metroidvania</div>
 					<p class="left-item-desc">
-						2D video game revolving around a key transformation mechanic allowing players to change shape and unlock new abilities.
+						Videogioco 2D incentrato su una meccanica chiave di trasformazione che permette al giocatore di cambiare forma per sbloccare nuove abilità.
 					</p>
 				</div>
 			</div>
@@ -336,60 +336,60 @@ import BaseHead from '../components/BaseHead.astro';
 					<div class="contact-item"><i class="contact-icon">📞</i> +39-3513078191</div>
 					<div class="contact-item"><i class="contact-icon">✉️</i> colombofederico28@gmail.com</div>
 					<div class="contact-item"><i class="contact-icon">🔗</i> linkedin.com/in/federico-colombo10</div>
-					<div class="contact-item"><i class="contact-icon">📍</i> Torino, Italy</div>
+					<div class="contact-item"><i class="contact-icon">📍</i> Torino, Italia</div>
 				</div>
 
-				<h2 class="right-section-title">Professional Profile</h2>
+				<h2 class="right-section-title">Profilo Professionale</h2>
 				<p class="profile-text">
-					Game & XR Developer and Multimedia Arts enthusiast, actively pursuing a Master's Degree in Cinema and Media Engineering. My goal is to bridge the gap between artistic vision and technical implementation. I specialize in VR/XR development, Computer Graphics, and Gameplay Programming, utilizing a strong foundation in rendering pipelines and procedural generation to elevate the visual and technical quality of interactive productions.
+					Sviluppatore Game & XR con una forte passione per le Arti Multimediali, attualmente laureando magistrale in Ingegneria del Cinema e dei Mezzi di Comunicazione. Il mio obiettivo è fare da ponte tra visione artistica e implementazione tecnica. Sono specializzato in sviluppo VR/XR, Computer Grafica e Gameplay Programming, utilizzando solide basi nella programmazione di pipeline di rendering e generazione procedurale per innalzare la qualità visiva e tecnica delle produzioni interattive.
 				</p>
 
-				<h2 class="right-section-title">Work Experience</h2>
+				<h2 class="right-section-title">Esperienza Lavorativa</h2>
 
 				<div class="experience-item">
 					<div class="experience-header">
-						<h3 class="experience-title">XR Master Thesis - R&D Graphics Programmer</h3>
-						<span class="experience-date">03/2026 - Present</span>
+						<h3 class="experience-title">Tesi Magistrale XR - R&D Graphics Programmer</h3>
+						<span class="experience-date">03/2026 - Presente</span>
 					</div>
 					<div class="experience-company-location">
 						<span class="experience-company">Lemons in the Room</span>
-						<span class="experience-location">Firenze, Italy</span>
+						<span class="experience-location">Firenze, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Developing a 'context-aware' system for Mixed Reality that makes scanned real-world objects interactive and physically plausible.</li>
-						<li>Implementing a real-time pipeline for Meta Quest 3 capable of converting Depth Maps into continuous geometry through Compute and Mesh Shaders.</li>
-						<li>Performing GPU-based topological analysis fused with semantic data to generate procedural PBR materials.</li>
+						<li>Sviluppo di un sistema 'context-aware' per Mixed Reality volto a rendere oggetti reali scansionati interattivi e fisicamente plausibili.</li>
+						<li>Implementazione di una pipeline in real-time per Meta Quest 3 capace di convertire Depth Maps in geometria continua tramite Compute e Mesh Shaders.</li>
+						<li>Sviluppo di analisi topologiche su GPU unite a dati semantici per la generazione di materiali PBR procedurali.</li>
 					</ul>
 				</div>
 
 				<div class="experience-item">
 					<div class="experience-header">
 						<h3 class="experience-title">Technical Artist & Gameplay Programmer</h3>
-						<span class="experience-date">01/2025 - Present</span>
+						<span class="experience-date">01/2025 - Presente</span>
 					</div>
 					<div class="experience-company-location">
 						<span class="experience-company">LEVEL UP LAB</span>
-						<span class="experience-location">Torino, Italy</span>
+						<span class="experience-location">Torino, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Contributing to the design and implementation of core gameplay systems in Unity for a student team at Politecnico di Torino.</li>
-						<li>Managed the creation and integration of all 3D models for the "Line Operator" project, overseeing artistic vision and technical viability.</li>
-						<li>Developing custom Shaders and Post-Processing effects to establish and enhance the game's unique visual identity.</li>
+						<li>Sviluppo e progettazione dei sistemi di gameplay principali in Unity per un team studentesco del Politecnico di Torino.</li>
+						<li>Gestione della creazione e integrazione di tutti i modelli 3D per il progetto "Line Operator", assicurando la fattibilità tecnica della visione artistica.</li>
+						<li>Sviluppo di Shader custom ed effetti di Post-Processing per definire e arricchire l'identità visiva del gioco.</li>
 					</ul>
 				</div>
 				
 				<div class="experience-item">
 					<div class="experience-header">
-						<h3 class="experience-title">Teaching Assistant (GUI)</h3>
+						<h3 class="experience-title">Assistente alla Didattica (GUI)</h3>
 						<span class="experience-date">10/2024 - 01/2025</span>
 					</div>
 					<div class="experience-company-location">
 						<span class="experience-company">Politecnico di Torino</span>
-						<span class="experience-location">Torino, Italy</span>
+						<span class="experience-location">Torino, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Provided technical support and mentoring to students during lectures and laboratory sessions for the Graphical User Interfaces course.</li>
-						<li>Created high-quality instructional content to improve students' comprehension of UI/UX principles.</li>
+						<li>Supporto tecnico e tutoring agli studenti durante le lezioni e i laboratori del corso di Interfacce Grafiche (Graphical User Interfaces).</li>
+						<li>Creazione di materiale didattico di alta qualità per facilitare la comprensione dei principi di UI/UX.</li>
 					</ul>
 				</div>
 
@@ -400,11 +400,11 @@ import BaseHead from '../components/BaseHead.astro';
 					</div>
 					<div class="experience-company-location">
 						<span class="experience-company">RKH SRL</span>
-						<span class="experience-location">Torino, Italy</span>
+						<span class="experience-location">Torino, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Operated professional cameras (RED, Blackmagic 4K/6K, Panasonic S1) and assisted the DOP with complex lighting setups.</li>
-						<li>Handled editing and post-production workflows using DaVinci Resolve for music videos, podcasts, and corporate content.</li>
+						<li>Operatore di macchine da presa professionali (RED, Blackmagic 4K/6K, Panasonic S1) e assistente alla fotografia per setup di illuminazione complessi.</li>
+						<li>Gestione dei workflow di montaggio e post-produzione con DaVinci Resolve per videoclip musicali, podcast e contenuti corporate.</li>
 					</ul>
 				</div>
 
