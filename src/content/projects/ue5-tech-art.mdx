@@ -67,8 +67,11 @@ The cinematic sequence ("Post Mortem") was orchestrated using a modular **Sequen
 Instead of expensive suits, we utilized **Cartwheel** for AI-driven body mocap, tweaking the faulty roots and foot sliding via *Additive Tracks* directly in the timeline. 
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
-  <div>
-    <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a3_cartwheel.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+    <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a3_cartwheel.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+    <div style={{ overflow: 'hidden', borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+      ![Dario Acting](../../assets/tech-art/a3_dario_acting.png)
+    </div>
   </div>
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     ![Cinematics Sequencer Setup](../../assets/tech-art/cine_a3.png)
@@ -84,6 +87,11 @@ The facial acting was captured in real-time via iPhone using **Live Link Face**,
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     ![Final Cinematic Frame](../../assets/tech-art/a3_final.png)
   </div>
+</div>
+
+### Video Definitivo (Cinematic Mocap)
+<div style={{ backgroundColor: '#222', borderRadius: '12px', padding: '15% 0', textAlign: 'center', color: '#666', margin: '2rem 0' }}>
+  [ Placeholder Video Definitivo A3 ]
 </div>
 
 ---
@@ -125,17 +133,24 @@ To bring a magical feel to the environment, a complex **Niagara System** was eng
   <div>
     The magic lies in the **Blueprint Logic**: the target's World Location is injected into the Niagara System dynamically every frame. The *Point Attraction Force* module reads this parameter, bending the comet's trajectory mid-air to hunt down the target. Modifying the "Strand Size" on the hair groom prevented the mesh from clipping or exploding upon collision with the magic particles.
   </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    ![Niagara Comet VFX](../../assets/tech-art/niagara_a5.png)
+  <div>
+    <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_final.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
   </div>
 </div>
 
-### Final Result Export
-<div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_final.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+### Final Result Render
+<div style={{ margin: '2rem 0', overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+  ![Definitive Render](../../assets/tech-art/a5_render.png)
 </div>
 
 ---
 
 ## Resources
-[👉 **View the full Figma Presentation**](https://www.figma.com/file/placeholder-link)
+
+<iframe style={{ border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', marginTop: '2rem', width: '100%', height: '450px' }} src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdeck%2FY8w4tPcqatEeqzEAsafK9Z" allowFullScreen></iframe>
+
+<div style={{ marginTop: '1rem', textAlign: 'center' }}>
+  <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 'bold', fontSize: '1.2rem', textDecoration: 'none', color: '#ff5c5c' }}>
+    👉 Apri la presentazione completa su Figma
+  </a>
+</div>
