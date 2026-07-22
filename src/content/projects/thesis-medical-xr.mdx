@@ -2,7 +2,7 @@
 title: 'Bio-Adaptive SDFs in Medical XR (WIP)'
 description: 'Procedural HLSL Raymarching framework for trauma therapy driven by physiological data'
 pubDate: '2026-07-16'
-heroImage: '../../assets/thesis-cover.png'
+heroImage: '../../assets/thesis-cover-heart.jpg'
 category: 'TechArt'
 rank: 1
 githubLink: 'https://github.com/federicocolombo12/Tesi_SDF_MedicalXR'
@@ -12,6 +12,13 @@ githubLink: 'https://github.com/federicocolombo12/Tesi_SDF_MedicalXR'
 
 ## The Challenge
 The goal is to develop a dynamic, bio-responsive visual medium for trauma therapy in Extended Reality. Instead of relying on static pre-baked meshes, the project maps real-time physiological data (ECG, Heart Rate, SpO2) from medical devices directly onto the mathematical parameters of Signed Distance Fields (SDFs). This creates a "Bio-Adaptive Visual System" that mirrors and facilitates a patient's autonomic regulation.
+
+## The Research Pivot: From Environmental Mesh Reconstruction to Bio-Adaptive Raymarching
+The thesis initially started with a different focus: **Real-time Mesh Reconstruction** and environmental depth scanning for Mixed Reality. The early experiments involved raw depth extraction using Meta's Depth API, depth map reprojection, and point cloud generation. 
+
+However, during the research phase, I discovered robust open-source frameworks on GitHub (specifically `QuestRoomScan` and `UnityGaussianSplatting`) that already solved the environmental scanning and reconstruction problem out-of-the-box. Realizing that reinventing environmental mesh reconstruction wouldn't add enough novel value, I made a strategic decision to pivot the research entirely.
+
+The new (and final) direction became **Bio-Adaptive SDFs via Pure Mathematical Raymarching (HLSL)**. Instead of reconstructing static real-world meshes, the project shifted to generating dynamic, infinite-resolution bio-feedback shapes that morph in real-time without the overhead of traditional polygonal rendering.
 
 ## Core Technical Art Pillars
 
