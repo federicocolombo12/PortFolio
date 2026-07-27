@@ -26,9 +26,8 @@ Politecnico di Torino | 2021 - 2024
 
 **Lemons In The Room** | Florence, Italy
 *XR Master Thesis - R&D Graphics Programmer* | 03/2026 - Present
-- Developed a 'context-aware' system for Mixed Reality that makes scanned real-world objects interactive and physically plausible.
-- Implemented a real-time pipeline for Meta Quest 3 capable of converting Depth Maps into continuous geometry through Compute and Mesh Shaders, optimizing real-time performance.
-- Performed GPU-based topological analysis fused with semantic data to generate procedural PBR materials dynamically.
+- Developing a bio-adaptive HLSL Raymarching framework for Meta Quest 3, rendering dynamic Signed Distance Fields (SDFs) driven by real-time physiological data (BLE).
+- Engineering GPU optimizations including Dynamic Bounding Volumes and Foveated Raymarching to maintain 72Hz+ on standalone XR hardware.
 
 **Level Up Lab** | Turin, Italy
 *Technical Artist & Gameplay Programmer* | 01/2025 - Present
@@ -58,8 +57,8 @@ Politecnico di Torino | 2021 - 2024
 
 ## PERSONAL PROJECTS
 
-**Awaken Asylum** | *Educational Interactive Project*
-- Immersive VR experience developed in Unity exploring the history of psychiatric institutions in Piedmont through meticulous historical reconstruction.
+**Harmony VR (Avenue Cove)** | *Lead Technical Artist*
+- Immersive audio-reactive VR experience. Engineered complex Particle Systems and Shaders via VFX Graph driven by real-time audio analysis.
 
-**Nihil** | *Metroidvania Prototype*
-- 2D video game revolving around a key transformation mechanic allowing players to change shape and unlock new abilities, programmed utilizing robust design patterns.
+**UE5 Tech Art Showcase** | *Tech Art & Procedural Workflows*
+- A comprehensive technical exploration inside Unreal Engine 5 featuring Procedural Content Generation (PCG), custom Landscape Auto-Materials, advanced Niagara VFX, and photorealistic MetaHuman integration.

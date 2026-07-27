@@ -26,9 +26,8 @@ Politecnico di Torino | 2021 - 2024
 
 **Lemons In The Room** | Firenze, Italia
 *Tesi Magistrale XR - R&D Graphics Programmer* | 03/2026 - Presente
-- Sviluppato un sistema 'context-aware' per Mixed Reality volto a rendere oggetti reali scansionati interattivi e fisicamente plausibili.
-- Implementato una pipeline in real-time per Meta Quest 3 capace di convertire Depth Maps in geometria continua tramite Compute e Mesh Shaders, ottimizzando le performance.
-- Sviluppato analisi topologiche su GPU unite a dati semantici per la generazione real-time di materiali PBR procedurali.
+- Sviluppo di un framework bio-adattivo basato su HLSL Raymarching per Meta Quest 3, dedicato al rendering dinamico di Signed Distance Fields (SDFs) guidati da dati fisiologici in tempo reale tramite BLE.
+- Implementazione di ottimizzazioni GPU, tra cui Dynamic Bounding Volumes e Foveated Raymarching, per garantire framerate superiori a 72Hz su hardware XR standalone.
 
 **Level Up Lab** | Torino, Italia
 *Technical Artist & Gameplay Programmer* | 01/2025 - Presente
@@ -58,8 +57,8 @@ Politecnico di Torino | 2021 - 2024
 
 ## PROGETTI PERSONALI
 
-**Awaken Asylum** | *Progetto Educativo Interattivo*
-- Esperienza immersiva VR sviluppata in Unity che esplora la storia degli istituti psichiatrici in Piemonte attraverso una meticolosa ricostruzione storica.
+**Harmony VR (Avenue Cove)** | *Lead Technical Artist*
+- Esperienza VR audio-reattiva. Sviluppato Sistemi Particellari complessi e Shader tramite VFX Graph guidati dall'analisi audio in tempo reale.
 
-**Nihil** | *Prototipo Metroidvania*
-- Videogioco 2D incentrato su una meccanica chiave di trasformazione che permette al giocatore di cambiare forma per sbloccare nuove abilità, programmato utilizzando architetture software scalabili.
+**UE5 Tech Art Showcase** | *Tech Art & Procedural Workflows*
+- Esplorazione tecnica avanzata in Unreal Engine 5 focalizzata su Procedural Content Generation (PCG), Landscape Auto-Material, complessi effetti VFX con Niagara e integrazione fotorealistica di MetaHuman.
