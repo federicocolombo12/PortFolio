@@ -1,13 +1,41 @@
 ---
-title: 'Cinematics & Low-Budget Mocap'
-description: 'Utilizing Cartwheel AI, Live Link Face, and modular Sequencers for UE5 Cinematics'
+title: 'UE5 MetaHuman Based Cinematics'
+description: 'Integrating Reality Scan, MetaHumans, and Low-Budget Mocap for Cinematics in Unreal Engine 5'
 pubDate: '2026-07-22'
 heroImage: '../../assets/tech-art/a3_final.png'
 category: 'TechArt'
-rank: 4
+rank: 3
 ---
 
-**Cinematics & Low-Budget Mocap** demonstrates how to achieve professional-grade cinematic sequences in Unreal Engine 5 using AI and accessible hardware, bypassing the need for expensive motion capture suits.
+**UE5 MetaHuman Based Cinematics** explores the technical challenges and problem-solving required to integrate custom-sculpted faces into the Unreal Engine 5 MetaHuman ecosystem, and orchestrate them into a full cinematic sequence using AI motion capture.
+
+## 1. MetaHuman Integration & Grooming
+
+The initial attempt to import a custom sculpted face via FaceBuilder and Alembic to MetaHuman failed critically: the **Groom Binding broke**, causing the hair to detach and explode during facial animations. 
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    ![Metahuman Groom Issue](../../assets/tech-art/mh_a2.png)
+  </div>
+  <div>
+    We experienced heavy physics glitches and clipping during early grooming attempts. The hair curves lacked structural integrity in the simulation.
+  </div>
+</div>
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div>
+    <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a2_hair.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  </div>
+  <div>
+    <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a2_hair_2.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  </div>
+</div>
+
+The successful pivot involved using **Reality Scan** combined with the *Mesh to MetaHuman* plugin. This allowed for an accurate topological fit while perfectly preserving the complex rigging, skin shaders, and groom components that make MetaHumans photorealistic.
+
+---
+
+## 2. Cinematics & Low-Budget Mocap
 
 The cinematic sequence ("Post Mortem") was orchestrated using a modular **Sequencer Hierarchy** (Master Sequence -> Camera Cuts -> Subsequences). This allowed parallel workflows for character animations and global editing.
 
