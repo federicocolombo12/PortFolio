@@ -7,30 +7,35 @@ category: 'TechArt'
 rank: 4
 ---
 
-**Reality Capture vs Gaussian Splatting** is an exploration of extracting high-fidelity 3D data from 2D videos, comparing traditional photogrammetry with modern neural rendering techniques.
+**Reality Capture** is an exploration of extracting high-fidelity 3D data from 2D videos, comparing traditional photogrammetry with modern neural rendering techniques like NeRFs and Gaussian Splatting.
 
-Extracting 3D data from video required strict photographic rules. Our "golden rules" for photogrammetry were: 
+### 1. Photogrammetry (COLMAP)
+Extracting 3D data from video required strict photographic rules. Our "golden rules" were: 
 * **No Stabilization**: the camera must be "pure" to avoid confusing the algorithms.
 * **Chest Height**: camera facing forward to maintain a constant perspective.
 * **Crab Walk**: moving around the perimeter of the room first, followed by three slow 360° pans from the center.
+
+Processing 4500 frames through **COLMAP** locally led to a 10-hour failure due to non-convergent algorithms. We bypassed this by scripting an *FFmpeg* batch to sample frames (1 out of 7), and running COLMAP fully automated via CLI.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div>
     <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a4_house.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
   </div>
-  <div>
-    Processing 4500 frames through **COLMAP** locally led to a 10-hour failure due to non-convergent algorithms. We bypassed this by scripting an *FFmpeg* batch to sample frames (1 out of 7), and running COLMAP via CLI.
+  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    ![Gaussians vs Colmap](../../assets/tech-art/gaussian_a4.png)
   </div>
 </div>
 
-We then compared **NeRF** (which suffered from "melted wax" artifacts and floaters) against **Gaussian Splatting**. The local *XScene* gaussian generation proved noisy and time-consuming (4h for bad results), while AI cloud tools like *Luma* and *Vid2Scene* delivered cleaner Point Clouds out-of-the-box.
+### 2. Local vs Cloud Gaussian Splatting
+We compared **NeRF** (which suffered from "melted wax" artifacts and floaters) against **Gaussian Splatting**. 
 
-<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+To generate Splats locally, we used **XScene**, a plugin for Unreal Engine 5.5. While it offered complete privacy and process customization without web waitlists, the performance was lacking. After 4 hours of elaboration on an RTX 4070, the resulting mesh was nearly unreadable, heavily corrupted, and impossible to clean up effectively.
+
+As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**. Despite having to wait in server queues (taking up to two days), the final `.ply` point clouds worked flawlessly *out-of-the-box* via NanoGS plugins, delivering an incredibly clean and faithful environment reconstruction compared to the local XScene attempt.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr', margin: '2rem 0' }}>
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     ![Gaussians AI Setup](../../assets/tech-art/a4_gaussian.png)
-  </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    ![Gaussians vs Colmap](../../assets/tech-art/gaussian_a4.png)
   </div>
 </div>
 

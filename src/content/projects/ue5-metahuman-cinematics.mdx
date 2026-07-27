@@ -7,18 +7,21 @@ category: 'TechArt'
 rank: 3
 ---
 
-**UE5 MetaHuman Based Cinematics** explores the technical challenges and problem-solving required to integrate custom-sculpted faces into the Unreal Engine 5 MetaHuman ecosystem, and orchestrate them into a full cinematic sequence using AI motion capture.
+**UE5 MetaHuman Based Cinematics** explores the technical challenges of integrating custom-sculpted faces into the Unreal Engine 5 MetaHuman ecosystem and orchestrating them into a full cinematic sequence using AI motion capture.
 
 ## 1. MetaHuman Integration & Grooming
 
-The initial attempt to import a custom sculpted face via FaceBuilder and Alembic to MetaHuman failed critically: the **Groom Binding broke**, causing the hair to detach and explode during facial animations. 
+### The Failed FaceBuilder Pipeline
+Our initial approach relied on **FaceBuilder** in Blender. While technically sound—using Camera Matching and Texture Projection to "bake" color data into a seamless Albedo UV map—it caused massive bottlenecks in engine. The *MetaHuman Identity* solver attempted to re-fit its skeleton to our custom mesh, softening the hard facial features we extracted. 
+
+Furthermore, custom meshes require custom Grooming (hair/beard). Using Blender's *Hair Curves System* (Modifiers, Strand Steps) gave us incredible artistic control, but the Alembic (.abc) export to Unreal proved fatal. The **Groom Binding broke**: during facial animations, the hair roots lost tracking of the underlying vertices, causing the hair to detach, slide, or explode entirely in 3D space. 
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     ![Metahuman Groom Issue](../../assets/tech-art/mh_a2.png)
   </div>
   <div>
-    We experienced heavy physics glitches and clipping during early grooming attempts. The hair curves lacked structural integrity in the simulation.
+    We experienced heavy physics glitches and clipping. Another critical trap was the "Scale Rule": applying the scale in Blender before Alembic export permanently broke Unreal's bi-directional coordinate system.
   </div>
 </div>
 
@@ -31,37 +34,31 @@ The initial attempt to import a custom sculpted face via FaceBuilder and Alembic
   </div>
 </div>
 
-The successful pivot involved using **Reality Scan** combined with the *Mesh to MetaHuman* plugin. This allowed for an accurate topological fit while perfectly preserving the complex rigging, skin shaders, and groom components that make MetaHumans photorealistic.
+### The Reality Scan Pivot
+If we couldn't faithfully recreate other people, we decided to recreate *ourselves*. By using **Reality Scan** combined with the *Mesh to MetaHuman* plugin, we achieved an accurate topological fit while perfectly preserving the complex rigging, skin shaders, and native groom components that make MetaHumans photorealistic. To fix the final groom collision issues, we tweaked the *Strand Size* parameter directly in the Groom settings.
 
 ---
 
 ## 2. Cinematics & Low-Budget Mocap
 
-The cinematic sequence ("Post Mortem") was orchestrated using a modular **Sequencer Hierarchy** (Master Sequence -> Camera Cuts -> Subsequences). This allowed parallel workflows for character animations and global editing.
+The cinematic sequence ("Post Mortem") was orchestrated using a modular **Sequencer Hierarchy** (Master Sequence -> Camera Cuts -> Subsequences). This architecture allowed us to work in parallel on character animations and global editing without causing conflicts.
 
-Instead of expensive suits, we utilized **Cartwheel** for AI-driven body mocap, tweaking the faulty roots and foot sliding via *Additive Tracks* directly in the timeline. 
+The visual storytelling was meticulously planned across **7 precise shots**:
+1. **Establishing Shot (200mm):** Presenting the exterior setting.
+2. **Interior Shot (12mm):** Moving inside to establish the characters' obsession.
+3. **MetaHuman Tease (30mm):** A partial reveal of the scientific subject.
+4. **Shot/Reverse Shot (50mm):** The dialogue and conflict between Dario and Federico.
+5. **The Failed Reveal (85mm):** Showcasing the broken MetaHuman (missing textures, wrong proportions, dead eyes).
+6. **Final Confrontation (30mm):** A dolly-in on the characters deciding to end the argument.
+7. **Skin Masking:** Final composite details.
+
+Instead of expensive suits, we utilized **Cartwheel** for AI-driven body mocap. We corrected the faulty root motions and foot sliding directly in the sequencer timeline using *Additive Tracks*. The facial acting was captured in real-time via iPhone using **Live Link Face**, injecting authentic micro-expressions and life into our digital avatars.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a3_cartwheel.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    ![Dario Acting](../../assets/tech-art/a3_dario_acting.png)
-  </div>
-</div>
-
-The facial acting was captured in real-time via iPhone using **Live Link Face**, injecting authentic micro-expressions and life into the MetaHumans.
-
-<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     ![Facial Mocap Setup](../../assets/tech-art/a3_face.png)
   </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    ![Final Cinematic Frame](../../assets/tech-art/a3_final.png)
-  </div>
-</div>
-
-### Final Cinematic Video
-<div style={{ backgroundColor: '#222', borderRadius: '12px', padding: '15% 0', textAlign: 'center', color: '#666', margin: '2rem 0' }}>
-  [ Final A3 Video Placeholder ]
 </div>
 
 ---

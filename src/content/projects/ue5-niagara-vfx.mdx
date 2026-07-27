@@ -7,13 +7,26 @@ category: 'TechArt'
 rank: 5
 ---
 
-**Niagara VFX: The Magic Comet** highlights the integration of logic-driven particle systems within Unreal Engine 5 to create dynamic and interactive visual effects.
+**Niagara VFX: The Magic Comet** highlights the integration of logic-driven particle systems within Unreal Engine 5 to create dynamic, interactive visual effects. The goal was to take the environment created in the first phase and transform it into a moody, fairy-tale landscape.
 
-To bring a magical feel to the environment, a complex **Niagara System** was engineered. It features a Main Emitter for the core, a Trail Ribbon for the tail, and physics-enabled Sparks upon impact.
+### 1. Anatomy of the Fairy Field
+To inject magic into the environment, we engineered a dedicated Niagara System for the field itself:
+- **Main Emitter:** Generates glowing orbs with a bright head and a trailing tail that changes color and shrinks based on lifespan (managed via Splines).
+- **Light Renderer:** We attached a Light Renderer to the glow particles. This allowed us to dynamically control real-time lighting intensity based directly on the emissive color of the particles.
+- **Wind-swept Petals:** Thousands of pink petals were introduced to drift organically with the procedural wind, completing the magical aesthetic.
+
+### 2. Anatomy of the Meteor
+The core element of the scene is the homing magic comet, split across 4 distinct Emitters for maximum fidelity:
+1. **Main Emitter:** The core of the comet, the central light source from which all other elements derive.
+2. **Trail Ribbon:** A module managing dynamic trails (both luminous and dark) to emphasize the sense of speed as it cuts through the air.
+3. **Impact Flash:** An explosive burst of magical energy triggered exactly on the collision frame.
+4. **Impact Sparks:** Secondary physical particles and sparks that scatter upon impact to give weight and volume to the explosion.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div>
-    The magic lies in the **Blueprint Logic**: the target's World Location is injected into the Niagara System dynamically every frame. The *Point Attraction Force* module reads this parameter, bending the comet's trajectory mid-air to hunt down the target. Modifying the "Strand Size" on the hair groom prevented the mesh from clipping or exploding upon collision with the magic particles.
+    The true magic, however, lies in the **Blueprint Logic**. The Niagara system isn't isolated; we exposed a parameter (`User.TargetPosition`) inside the Emitter. A custom Blueprint calculates the *World Location* of the target Actor and injects it into Niagara every single frame using a `Set Niagara Variable (Vector3)` node. 
+    <br/><br/>
+    Inside the particle framework, a **Point Attraction Force** module reads this updated coordinate, dynamically bending the comet's trajectory mid-air to hunt down the target.
   </div>
   <div>
     <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_final.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>

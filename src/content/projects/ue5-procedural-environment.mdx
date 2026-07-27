@@ -7,9 +7,20 @@ category: 'TechArt'
 rank: 2
 ---
 
-**UE5 Procedural Environments** is a technical exploration demonstrating problem-solving capabilities in Environment Art and non-destructive workflows within Unreal Engine 5.
+**UE5 Procedural Environments** is a technical exploration demonstrating problem-solving capabilities in Environment Art and non-destructive workflows within Unreal Engine 5. The primary challenge was to create a visual hybrid between the dark fantasy of *The Witcher* and the magical, vibrant aesthetic of *Studio Ghibli*.
 
-Instead of hand-placing assets, the environment relies heavily on **Procedural Content Generation (PCG)**. Splines govern the generation of paths and fences, creating a non-destructive pipeline where the layout can change instantly without manual rework.
+### 1. Landscape Auto-Materials & Heightmaps
+To build a realistic topography without manual sculpting, we imported a 16-bit Heightmap (generated via Gaea/Motion Forge) directly into the Unreal Engine Landscape Tool. A critical step was correcting the Z-scale proportions to restore the correct height and majesty to the mountains.
+
+Once the landscape geometry was generated, we applied a custom **Auto-Material** based on three core rules:
+- **Slope Masks (Z-axis Normals):** Instructs the material to spawn grass on flat surfaces and expose raw rock on steep slopes.
+- **Altitude Masks:** A procedural blend that automatically applies snow above a specific Z-height, regardless of the slope.
+- **Micro & Macro Variation:** We utilized Noise textures to break the visual repetition (tiling) typical of vast open worlds, maintaining realism from both macro (kilometers away) and micro distances.
+
+### 2. Procedural Ecosystem & PCG
+Instead of hand-placing assets, the environment is 100% procedural, allowing the layout to change instantly without manual rework. **Splines govern the Procedural Content Generation (PCG)**—paths, fences, and the garden layout are all derived directly from the geometry rather than being hard-coded.
+
+To overcome the performance limits of traditional billboards, the ecosystem utilizes **Nanite-enabled Megaplants**: photogrammetry-scanned trees with actual geometry for leaves. This eliminates LOD pop-in and allows the **Subsurface Scattering (SSS)** to physically transmit light through the leaves, while the **World Position Offset (WPO)** simulates real-time procedural wind.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div>
@@ -20,13 +31,19 @@ Instead of hand-placing assets, the environment relies heavily on **Procedural C
   </div>
 </div>
 
-Using a custom **Landscape Auto-Material**, rock and grass are blended automatically based on the Z-axis (slope normal) and altitude masks. To overcome the performance limits of traditional billboards, the environment utilizes **Nanite-enabled Megaplants**: photogrammetry-scanned trees with actual geometry for leaves. This eliminates LOD pop-in and allows the **Subsurface Scattering (SSS)** to physically transmit light through the leaves, while the **World Position Offset (WPO)** simulates real-time procedural wind.
-
 <div style={{ display: 'grid', gridTemplateColumns: '1fr', margin: '2rem 0' }}>
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     ![Megaplants Setup](../../assets/tech-art/a1_megaplants.png)
   </div>
 </div>
+
+### 3. Dynamic Day/Night Cycle
+The lighting is managed by the **Celestial Night** system, a unified ecosystem controlled by a single "time" variable. It physically calculates the position of the sun, moon phases, and stars natively, driving the *Exponential Height Fog* and *Volumetric Clouds* to generate dynamic God Rays. 
+
+Crucially, the global color temperature (PBR) is recalculated in real-time for fluid transitions from dawn to dusk. To handle artificial lighting, we engineered a custom **Switching Lights Blueprint**: it listens to the time variable and uses a "Tag" system to procedurally turn on the level's streetlights when the sun sets.
+
+### Technical Roadblocks
+Developing this ecosystem came with heavy technical hurdles. Enabling Nanite on the Landscape initially caused severe framerate drops and continuous engine crashes. Integrating the Megaplants required a vastly different PCG instantiation logic compared to standard meshes, and configuring the atmospheric *Mie Scattering* accidentally caused a visual bug that looked like snow.
 
 ---
 
