@@ -1,0 +1,38 @@
+---
+title: 'Niagara VFX: The Magic Comet'
+description: 'Complex Niagara Systems engineered with Blueprint Logic and Point Attraction Forces'
+pubDate: '2026-07-22'
+heroImage: '../../assets/tech-art/niagara_a5.png'
+category: 'TechArt'
+rank: 6
+---
+
+**Niagara VFX: The Magic Comet** highlights the integration of logic-driven particle systems within Unreal Engine 5 to create dynamic and interactive visual effects.
+
+To bring a magical feel to the environment, a complex **Niagara System** was engineered. It features a Main Emitter for the core, a Trail Ribbon for the tail, and physics-enabled Sparks upon impact.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div>
+    The magic lies in the **Blueprint Logic**: the target's World Location is injected into the Niagara System dynamically every frame. The *Point Attraction Force* module reads this parameter, bending the comet's trajectory mid-air to hunt down the target. Modifying the "Strand Size" on the hair groom prevented the mesh from clipping or exploding upon collision with the magic particles.
+  </div>
+  <div>
+    <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_final.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  </div>
+</div>
+
+### Final Result Render
+<div style={{ margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_render.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+</div>
+
+---
+
+## Resources
+
+<iframe style={{ border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', marginTop: '2rem', width: '100%', height: '450px' }} src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdeck%2FY8w4tPcqatEeqzEAsafK9Z" allowFullScreen={true}></iframe>
+
+<div style={{ marginTop: '1rem', textAlign: 'center' }}>
+  <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 'bold', fontSize: '1.2rem', textDecoration: 'none', color: '#ff5c5c' }}>
+    👉 Open the full presentation on Figma
+  </a>
+</div>

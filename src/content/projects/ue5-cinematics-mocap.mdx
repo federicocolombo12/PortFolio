@@ -1,0 +1,49 @@
+---
+title: 'Cinematics & Low-Budget Mocap'
+description: 'Utilizing Cartwheel AI, Live Link Face, and modular Sequencers for UE5 Cinematics'
+pubDate: '2026-07-22'
+heroImage: '../../assets/tech-art/a3_final.png'
+category: 'TechArt'
+rank: 4
+---
+
+**Cinematics & Low-Budget Mocap** demonstrates how to achieve professional-grade cinematic sequences in Unreal Engine 5 using AI and accessible hardware, bypassing the need for expensive motion capture suits.
+
+The cinematic sequence ("Post Mortem") was orchestrated using a modular **Sequencer Hierarchy** (Master Sequence -> Camera Cuts -> Subsequences). This allowed parallel workflows for character animations and global editing.
+
+Instead of expensive suits, we utilized **Cartwheel** for AI-driven body mocap, tweaking the faulty roots and foot sliding via *Additive Tracks* directly in the timeline. 
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a3_cartwheel.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    ![Dario Acting](../../assets/tech-art/a3_dario_acting.png)
+  </div>
+</div>
+
+The facial acting was captured in real-time via iPhone using **Live Link Face**, injecting authentic micro-expressions and life into the MetaHumans.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    ![Facial Mocap Setup](../../assets/tech-art/a3_face.png)
+  </div>
+  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    ![Final Cinematic Frame](../../assets/tech-art/a3_final.png)
+  </div>
+</div>
+
+### Final Cinematic Video
+<div style={{ backgroundColor: '#222', borderRadius: '12px', padding: '15% 0', textAlign: 'center', color: '#666', margin: '2rem 0' }}>
+  [ Final A3 Video Placeholder ]
+</div>
+
+---
+
+## Resources
+
+<iframe style={{ border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', marginTop: '2rem', width: '100%', height: '450px' }} src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdeck%2FY8w4tPcqatEeqzEAsafK9Z" allowFullScreen={true}></iframe>
+
+<div style={{ marginTop: '1rem', textAlign: 'center' }}>
+  <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 'bold', fontSize: '1.2rem', textDecoration: 'none', color: '#ff5c5c' }}>
+    👉 Open the full presentation on Figma
+  </a>
+</div>
