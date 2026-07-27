@@ -1,0 +1,217 @@
+---
+// No global imports
+---
+
+<!doctype html>
+<html lang="it">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Federico Colombo - Curriculum Vitae ATS</title>
+		<style>
+			* { box-sizing: border-box; }
+			body {
+				font-family: 'Times New Roman', Times, serif; /* Standard ATS font */
+				font-size: 11pt;
+				line-height: 1.5;
+				color: #000;
+				background-color: #f5f5f5;
+				margin: 0;
+				padding: 0;
+			}
+			.controls {
+				text-align: center;
+				padding: 20px;
+				background-color: #1a1a1a;
+				color: white;
+				display: flex;
+				justify-content: center;
+				gap: 20px;
+			}
+			.controls button, .controls a {
+				background-color: #0d6b63;
+				color: white;
+				border: none;
+				padding: 10px 20px;
+				font-size: 1rem;
+				font-family: sans-serif;
+				cursor: pointer;
+				text-decoration: none;
+				border-radius: 5px;
+				font-weight: 600;
+			}
+			.controls button:hover, .controls a:hover { opacity: 0.8; }
+			
+			.document {
+				max-width: 210mm; /* A4 */
+				min-height: 297mm;
+				margin: 40px auto;
+				background-color: #fff;
+				padding: 25.4mm; /* 1 inch margin */
+				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+			}
+
+			h1 {
+				text-align: center;
+				font-size: 24pt;
+				margin: 0 0 5px 0;
+				text-transform: uppercase;
+			}
+			.subtitle {
+				text-align: center;
+				font-size: 12pt;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+			.contact {
+				text-align: center;
+				font-size: 10pt;
+				margin-bottom: 20px;
+			}
+			h2 {
+				font-size: 12pt;
+				border-bottom: 1px solid #000;
+				text-transform: uppercase;
+				margin-top: 15px;
+				margin-bottom: 10px;
+				padding-bottom: 2px;
+			}
+			.job-header {
+				display: flex;
+				justify-content: space-between;
+				font-weight: bold;
+			}
+			.job-subtitle {
+				display: flex;
+				justify-content: space-between;
+				font-style: italic;
+				margin-bottom: 5px;
+			}
+			ul {
+				margin-top: 5px;
+				padding-left: 20px;
+				margin-bottom: 15px;
+			}
+			li {
+				margin-bottom: 3px;
+			}
+			p { margin-bottom: 15px; }
+
+			@media print {
+				body { background-color: #fff; }
+				.controls { display: none !important; }
+				.document {
+					margin: 0;
+					padding: 0;
+					box-shadow: none;
+					width: 100%;
+					max-width: 100%;
+				}
+				@page { margin: 1in; size: A4; }
+			}
+		</style>
+	</head>
+	<body>
+		<div class="controls">
+			<button onclick="window.print()">Stampa PDF (Formato ATS)</button>
+			<a href={`${import.meta.env.BASE_URL}/ATS_CV_Federico_Colombo_IT.md`} download="ATS_CV_Federico_Colombo_IT.md">Scarica sorgente .md</a>
+			<a href={`${import.meta.env.BASE_URL}/cv-ats`}>🇬🇧 English Version</a>
+			<a href={`${import.meta.env.BASE_URL}/cv-it`}>Torna al CV Grafico</a>
+		</div>
+
+		<div class="document">
+			<h1>FEDERICO COLOMBO</h1>
+			<div class="subtitle">Technical Artist | Unity Expert | Game Developer</div>
+			<div class="contact">
+				Telefono: +39-3513078191 | Email: colombofederico28@gmail.com | LinkedIn: linkedin.com/in/federico-colombo10 | Sede: Torino, Italia
+			</div>
+
+			<h2>PROFILO PROFESSIONALE</h2>
+			<p>Sviluppatore Game & XR attualmente laureando magistrale in Ingegneria del Cinema e dei Mezzi di Comunicazione. Specializzato in sviluppo VR/XR, Computer Grafica e Gameplay Programming. Il mio obiettivo è fare da ponte tra visione artistica e implementazione tecnica, sfruttando pipeline di rendering e generazione procedurale per innalzare la qualità visiva delle produzioni interattive.</p>
+
+			<h2>FORMAZIONE</h2>
+			
+			<div class="job-header">
+				<span>Laurea Magistrale in Ingegneria del Cinema - Politecnico di Torino</span>
+				<span>2024 - 2026</span>
+			</div>
+			<ul>
+				<li><strong>Voto Stimato / Media:</strong> 106/110</li>
+			</ul>
+
+			<div class="job-header">
+				<span>Laurea Triennale in Ingegneria del Cinema - Politecnico di Torino</span>
+				<span>2021 - 2024</span>
+			</div>
+			<ul>
+				<li><strong>Voto Finale:</strong> 100/110</li>
+			</ul>
+
+			<h2>ESPERIENZA LAVORATIVA</h2>
+
+			<div class="job-header">
+				<span>Lemons In The Room | Firenze, Italia</span>
+				<span>03/2026 - Presente</span>
+			</div>
+			<div class="job-subtitle">
+				<span>Tesi Magistrale XR - R&D Graphics Programmer</span>
+			</div>
+			<ul>
+				<li>Sviluppato un sistema 'context-aware' per Mixed Reality volto a rendere oggetti reali scansionati interattivi e fisicamente plausibili.</li>
+				<li>Implementato una pipeline in real-time per Meta Quest 3 capace di convertire Depth Maps in geometria continua tramite Compute e Mesh Shaders, ottimizzando le performance.</li>
+				<li>Sviluppato analisi topologiche su GPU unite a dati semantici per la generazione real-time di materiali PBR procedurali.</li>
+			</ul>
+
+			<div class="job-header">
+				<span>Level Up Lab | Torino, Italia</span>
+				<span>01/2025 - Presente</span>
+			</div>
+			<div class="job-subtitle">
+				<span>Technical Artist & Gameplay Programmer</span>
+			</div>
+			<ul>
+				<li>Sviluppato e progettato i sistemi di gameplay principali in Unity per un team studentesco del Politecnico di Torino.</li>
+				<li>Gestito la creazione e integrazione di tutti i modelli 3D per il progetto "Line Operator", assicurando la fattibilità tecnica della visione artistica.</li>
+				<li>Sviluppato Shader custom ed effetti di Post-Processing per definire e arricchire l'identità visiva del gioco.</li>
+			</ul>
+
+			<div class="job-header">
+				<span>Politecnico di Torino | Torino, Italia</span>
+				<span>10/2024 - 01/2025</span>
+			</div>
+			<div class="job-subtitle">
+				<span>Assistente alla Didattica (GUI)</span>
+			</div>
+			<ul>
+				<li>Fornito supporto tecnico e tutoring agli studenti durante le lezioni e i laboratori del corso di Interfacce Grafiche (Graphical User Interfaces).</li>
+				<li>Creato materiale didattico di alta qualità per facilitare la comprensione dei principi di UI/UX e della programmazione di base.</li>
+			</ul>
+
+			<div class="job-header">
+				<span>RKH SRL | Torino, Italia</span>
+				<span>09/2023 - 06/2024</span>
+			</div>
+			<div class="job-subtitle">
+				<span>Video Artist</span>
+			</div>
+			<ul>
+				<li>Operato macchine da presa professionali (RED, Blackmagic 4K/6K, Panasonic S1) e assistito alla fotografia per setup di illuminazione complessi.</li>
+				<li>Gestito workflow di montaggio e post-produzione con DaVinci Resolve per videoclip musicali, podcast e contenuti corporate.</li>
+			</ul>
+
+			<h2>COMPETENZE</h2>
+			<ul>
+				<li><strong>Linguaggi:</strong> C#, C++, Python, HLSL/GLSL</li>
+				<li><strong>Motori Grafici:</strong> Unity, Godot, Unreal Engine</li>
+				<li><strong>Software:</strong> Blender, DaVinci Resolve, Jira, Git</li>
+				<li><strong>Management:</strong> Metodologia Agile, Tech Direction, Project Management</li>
+			</ul>
+
+			<h2>PROGETTI PERSONALI</h2>
+			<ul>
+				<li><strong>Awaken Asylum:</strong> Esperienza immersiva VR sviluppata in Unity che esplora la storia degli istituti psichiatrici in Piemonte attraverso una meticolosa ricostruzione storica.</li>
+				<li><strong>Nihil:</strong> Videogioco 2D incentrato su una meccanica chiave di trasformazione che permette al giocatore di cambiare forma per sbloccare nuove abilità, programmato utilizzando architetture software scalabili.</li>
+			</ul>
+		</div>
+	</body>
+</html>
