@@ -36,6 +36,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				padding: 1em;
 				color: rgb(var(--gray-dark));
 			}
+			.prose img {
+				cursor: zoom-in;
+			}
 			.title {
 				margin-bottom: 1em;
 				padding: 1em 0;
@@ -116,5 +119,18 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			</article>
 		</main>
 		<Footer />
+		<script>
+			import mediumZoom from 'medium-zoom';
+			
+			const initZoom = () => {
+				mediumZoom('.prose img', {
+					margin: 24,
+					background: 'rgba(10, 15, 20, 0.95)',
+				});
+			};
+
+			initZoom();
+			document.addEventListener('astro:page-load', initZoom);
+		</script>
 	</body>
 </html>
