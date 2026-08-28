@@ -1,5 +1,5 @@
 ---
-title: 'Graphics Lab: Custom Engine'
+title: 'Graphics Lab: Custom Engine [WIP]'
 description: 'A custom C++ / OpenGL rendering framework built from scratch to study GPU architecture, Deferred Shading, and PBR.'
 pubDate: '2026-08-28'
 heroImage: '../../assets/graphics-lab/hero.jpeg'
@@ -8,47 +8,67 @@ rank: 1
 githubLink: 'https://github.com/federicocolombo12/PBR-Engine-Cpp'
 ---
 
-**Graphics Lab** is a personal research environment built in **C++** and **OpenGL** where I implement modern rendering techniques, geometry processing algorithms, and real-time graphics experiments from scratch. 
+**Graphics Lab** (currently a Work In Progress) is a personal research environment built in **C++** and **OpenGL** where I implement modern rendering techniques, geometry processing algorithms, and real-time graphics experiments entirely from scratch. 
 
-This project is a deliberate departure from commercial engines like Unity and Unreal. The goal is to deeply understand the math, the architecture, and the GPU pipeline behind modern computer graphics by building a custom rendering framework.
+To make the learning process engaging, many of the graphics techniques (from Physically Based Rendering to NPR/Toon Shading, up to Ocean Simulation) are tested and showcased using a stylistic approach inspired by my favorite anime.
 
-### 🛠 Tech Stack
-- **Language:** C++17
-- **Graphics API:** OpenGL 3.3 Core Profile
-- **Window & Input:** GLFW
-- **Math:** GLM (OpenGL Mathematics)
-- **Asset Loading:** Assimp (Open Asset Import Library)
-- **Build System:** CMake
+### 🎯 The Intent: Why Build a Custom Engine?
+This project is a deliberate departure from commercial game engines like Unity and Unreal. While I use those engines daily for production, relying exclusively on high-level tools can abstract away the foundational math and hardware constraints. 
 
-### 1. Advanced Rendering Architecture
-The core of the engine is built around a custom **Deferred Rendering (G-Buffer)** pipeline, establishing the infrastructure to handle complex, multi-light scenarios efficiently. 
+The primary goal of this lab is to **look under the hood**. I want to deeply understand the rendering equation, the memory architecture, and the GPU pipeline behind modern computer graphics by building a custom framework tailored for specific, complex experiments.
+
+> *"Understanding how a rendering pipeline works at the API level is the first step to truly mastering real-time graphics optimization in any engine."*
+
+---
+
+### 🟢 Current Implementation & Features
+The engine currently features a robust foundation, capable of handling modern graphics workflows.
+
+#### 1. Advanced Deferred Rendering (G-Buffer)
+Instead of relying on a traditional Forward Rendering pipeline, I engineered a custom **Deferred Shading** architecture. By decoupling geometry processing from lighting calculations, the engine populates a Geometry Buffer (G-Buffer) with Albedo, Normals, Metallic/Roughness, and Depth. This allows the framework to handle a massive amount of dynamic lights with a minimal performance overhead.
 
 <div style={{ margin: '2rem 0' }}>
   <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/02_Deferred.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
 </div>
 
-Technical implementations include:
-- **Silhouette Parallax Occlusion Mapping (SPOM):** Raymarching in tangent space with *Silhouette Clipping*.
-- **PBR & Lighting:** Physically based rendering using the Cook-Torrance lighting model.
-- **Image Based Lighting (IBL):** Global illumination using HDRI Skyboxes (Irradiance Maps and Pre-Filtered Environment Maps).
+#### 2. Physically Based Rendering (PBR)
+The lighting model utilizes the **Cook-Torrance BRDF** equations to achieve physically accurate materials. It correctly balances the diffuse and specular contributions (energy conservation) based on the material's roughness and metallic values.
 
 <div style={{ margin: '2rem 0' }}>
   <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/PBR_Screen.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
 </div>
 
-### 2. Geometry & Simulation
-Moving beyond standard rasterization, the lab serves as a testbed for mathematical rendering techniques:
-- **SDF (Signed Distance Fields):** Formal integration of 3D Raymarching algorithms.
-- **Compute Shaders:** Utilizing GPU parallel computing for GPGPU tasks.
-- **Water Simulation:** Real-time ocean rendering using Gerstner Waves and FFT math.
+#### 3. 3D Raymarching & SDFs
+Moving beyond standard rasterization, the lab serves as a testbed for mathematical rendering techniques. I integrated a formal **Signed Distance Field (SDF)** system, utilizing Raymarching algorithms to render mathematically defined infinite fractal structures and boolean operations that would be impossible to process purely via polygons.
 
 <div style={{ margin: '2rem 0' }}>
   <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/01_RayMarcher.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
 </div>
 
-### 3. Industry Tooling
-A key focus of this project is adopting industry-standard debugging and profiling practices:
-- **Graphics Debugging:** Using tools like RenderDoc to profile draw calls and inspect the G-Buffer in real-time.
-- **Modern API Architecture:** Structuring the OpenGL pipeline conceptually to prepare for an eventual transition to **Vulkan** or **D3D12**.
+---
 
-> *Understanding how an engine works under the hood is the first step to truly mastering real-time graphics optimization.*
+### 🚧 The Roadmap: Future Implementations
+This lab is an evolving ecosystem. Following my technical roadmap, these are the features currently in active development:
+
+#### Geometry & Shaders
+- **Silhouette Parallax Occlusion Mapping (SPOM):** Implementing Raymarching in tangent space combined with *Silhouette Clipping* to give flat textures true depth (similar to the techniques used in modern AAA titles like *Crimson Desert*).
+- **NPR / Toon Shading:** Modifying the PBR lighting model to achieve a classic Cel Shading effect with dynamic black outlines for an anime-style aesthetic.
+
+#### Lighting & Screen Space Effects
+- **Image Based Lighting (IBL):** Global illumination using HDRI Skyboxes, Irradiance Maps, and Pre-Filtered Environment Maps for hyper-realistic ambient lighting.
+- **Shadow Mapping:** Implementing directional shadows to ground the objects in the scene.
+- **SSAO (Screen Space Ambient Occlusion):** Generating contact shadows purely in screen space to add depth to crevices and corners.
+- **HDR & Tone Mapping:** Handling high dynamic range colors and bloom filters via Gaussian blur.
+
+#### Compute Shaders & GPU Simulation
+- **Water Simulation:** Real-time ocean rendering using Gerstner Waves and Fast Fourier Transform (FFT) math to simulate realistic seas.
+- **GPGPU Particles:** Moving particle calculations (fire, smoke, magical effects) entirely to the GPU via Compute Shaders for massive parallel performance.
+
+---
+
+### 🛠 Industry Tooling & Tech Stack
+A key focus of this project is adopting industry-standard debugging and profiling practices:
+
+- **Core Stack:** C++17, OpenGL 3.3, GLFW, GLM (Math), Assimp (Model Loading), CMake.
+- **Graphics Debugging:** Actively using tools like **RenderDoc** and **PIX** to profile draw calls and inspect the G-Buffer attachments in real-time.
+- **Future-proofing:** Structuring the OpenGL pipeline conceptually to prepare for an eventual transition to modern explicit APIs like **Vulkan** or **D3D12**.
