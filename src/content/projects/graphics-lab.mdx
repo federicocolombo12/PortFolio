@@ -2,7 +2,7 @@
 title: 'Graphics Lab: Custom Engine'
 description: 'A custom C++ / OpenGL rendering framework built from scratch to study GPU architecture, Deferred Shading, and PBR.'
 pubDate: '2026-08-28'
-heroImage: '../../assets/graphics-lab-hero.png'
+heroImage: '../../assets/graphics-lab/hero.jpeg'
 category: 'TechArt'
 rank: 1
 githubLink: 'https://github.com/federicocolombo12/PBR-Engine-Cpp'
@@ -23,16 +23,28 @@ This project is a deliberate departure from commercial engines like Unity and Un
 ### 1. Advanced Rendering Architecture
 The core of the engine is built around a custom **Deferred Rendering (G-Buffer)** pipeline, establishing the infrastructure to handle complex, multi-light scenarios efficiently. 
 
+<div style={{ margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/02_Deferred.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+</div>
+
 Technical implementations include:
 - **Silhouette Parallax Occlusion Mapping (SPOM):** Raymarching in tangent space with *Silhouette Clipping*.
 - **PBR & Lighting:** Physically based rendering using the Cook-Torrance lighting model.
 - **Image Based Lighting (IBL):** Global illumination using HDRI Skyboxes (Irradiance Maps and Pre-Filtered Environment Maps).
+
+<div style={{ margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/PBR_Screen.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+</div>
 
 ### 2. Geometry & Simulation
 Moving beyond standard rasterization, the lab serves as a testbed for mathematical rendering techniques:
 - **SDF (Signed Distance Fields):** Formal integration of 3D Raymarching algorithms.
 - **Compute Shaders:** Utilizing GPU parallel computing for GPGPU tasks.
 - **Water Simulation:** Real-time ocean rendering using Gerstner Waves and FFT math.
+
+<div style={{ margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/01_RayMarcher.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+</div>
 
 ### 3. Industry Tooling
 A key focus of this project is adopting industry-standard debugging and profiling practices:
