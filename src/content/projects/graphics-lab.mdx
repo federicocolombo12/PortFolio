@@ -1,0 +1,42 @@
+---
+title: 'Graphics Lab: Custom Engine'
+description: 'A custom C++ / OpenGL rendering framework built from scratch to study GPU architecture, Deferred Shading, and PBR.'
+pubDate: '2026-08-28'
+heroImage: '../../assets/graphics-lab-hero.png'
+category: 'TechArt'
+rank: 1
+githubLink: 'https://github.com/federicocolombo12/PBR-Engine-Cpp'
+---
+
+**Graphics Lab** is a personal research environment built in **C++** and **OpenGL** where I implement modern rendering techniques, geometry processing algorithms, and real-time graphics experiments from scratch. 
+
+This project is a deliberate departure from commercial engines like Unity and Unreal. The goal is to deeply understand the math, the architecture, and the GPU pipeline behind modern computer graphics by building a custom rendering framework.
+
+### 🛠 Tech Stack
+- **Language:** C++17
+- **Graphics API:** OpenGL 3.3 Core Profile
+- **Window & Input:** GLFW
+- **Math:** GLM (OpenGL Mathematics)
+- **Asset Loading:** Assimp (Open Asset Import Library)
+- **Build System:** CMake
+
+### 1. Advanced Rendering Architecture
+The core of the engine is built around a custom **Deferred Rendering (G-Buffer)** pipeline, establishing the infrastructure to handle complex, multi-light scenarios efficiently. 
+
+Technical implementations include:
+- **Silhouette Parallax Occlusion Mapping (SPOM):** Raymarching in tangent space with *Silhouette Clipping*.
+- **PBR & Lighting:** Physically based rendering using the Cook-Torrance lighting model.
+- **Image Based Lighting (IBL):** Global illumination using HDRI Skyboxes (Irradiance Maps and Pre-Filtered Environment Maps).
+
+### 2. Geometry & Simulation
+Moving beyond standard rasterization, the lab serves as a testbed for mathematical rendering techniques:
+- **SDF (Signed Distance Fields):** Formal integration of 3D Raymarching algorithms.
+- **Compute Shaders:** Utilizing GPU parallel computing for GPGPU tasks.
+- **Water Simulation:** Real-time ocean rendering using Gerstner Waves and FFT math.
+
+### 3. Industry Tooling
+A key focus of this project is adopting industry-standard debugging and profiling practices:
+- **Graphics Debugging:** Using tools like RenderDoc to profile draw calls and inspect the G-Buffer in real-time.
+- **Modern API Architecture:** Structuring the OpenGL pipeline conceptually to prepare for an eventual transition to **Vulkan** or **D3D12**.
+
+> *Understanding how an engine works under the hood is the first step to truly mastering real-time graphics optimization.*
