@@ -37,7 +37,16 @@ I implemented the Cook-Torrance BRDF. The lighting model respects energy conserv
   <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/PBR_Screen.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
 </div>
 
-#### 3. Raymarching & SDFs
+#### 3. Silhouette Parallax Occlusion Mapping (SPOM)
+I implemented N. Tatarchuk's SIGGRAPH 2006 paper to give flat textures extreme depth without using hardware tessellation. The view vector is transformed into Tangent Space via an inverse TBN matrix. From there, I use Raymarching to step through the height map, interpolating the exact sub-pixel hit. 
+
+I also added a dynamic LOD that scales the ray steps based on the view angle, and a Silhouette Clipping pass (`discard` on UV boundaries) to make the flat quad actually look jagged at the edges.
+
+<div style={{ margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/SPOM.mov`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+</div>
+
+#### 4. Raymarching & SDFs
 I integrated a Signed Distance Field (SDF) system directly into the pipeline. I'm using Raymarching to render infinite fractals and boolean operations that would be a nightmare to do with standard polygons.
 
 <div style={{ margin: '2rem 0' }}>
@@ -51,7 +60,6 @@ I integrated a Signed Distance Field (SDF) system directly into the pipeline. I'
 This is very much a work in progress. Here is what is on my immediate to-do list:
 
 **Geometry & Shading:**
-- **Silhouette Parallax Occlusion Mapping (SPOM):** Tangent-space raymarching with silhouette clipping to give textures actual depth (similar to what they did in *Crimson Desert*).
 - **NPR / Toon Shading:** Tweaking the PBR model to get a Cel Shaded look with dynamic outlines.
 
 **Lighting & Screen Space:**
