@@ -304,17 +304,17 @@
 
 		<div class="cv-container">
 			<!-- Left Column -->
-			<div class="left-column">
+						<div class="left-column">
 				<div class="profile-pic-container">
 					<img src={`${import.meta.env.BASE_URL}/profile.jpeg`} alt="Federico Colombo" class="profile-pic" onerror="this.style.display='none'">
 				</div>
 
 				<h2 class="left-section-title">Competenze Core</h2>
 				<ul class="skills-list">
-					<li><strong>Programmazione:</strong> C#, C++, Python</li>
+					<li><strong>Programmazione:</strong> C++, C#, Python</li>
 					<li><strong>Grafica & Shader:</strong> HLSL, GLSL, Compute Shaders, VFX Graph</li>
-					<li><strong>Engine & Tool:</strong> Unity (Expert), Unreal Engine, Godot, Blender</li>
-					<li><strong>Workflow:</strong> Git, Jira, Agile, Project Management</li>
+					<li><strong>Engine & Tool:</strong> Unity (Expert), Unreal Engine 5, Custom OpenGL Frameworks, Blender</li>
+					<li><strong>Workflow:</strong> Git, Jira, Project Management, Agile Product Strategy</li>
 				</ul>
 
 				<h2 class="left-section-title">Formazione</h2>
@@ -331,25 +331,32 @@
 
 				<h2 class="left-section-title">Progetti Personali</h2>
 				<div class="left-item">
-					<h3 class="left-item-title">Harmony VR (Avenue Cove)</h3>
-					<div class="left-item-subtitle">Lead Technical Artist</div>
+					<h3 class="left-item-title">Graphics Lab (Custom C++ Engine)</h3>
+					<div class="left-item-subtitle">Engine Programmer</div>
 					<p class="left-item-desc">
-						Esperienza VR audio-reattiva. Ho sviluppato Sistemi Particellari complessi e Shader tramite VFX Graph guidati dall'analisi audio in tempo reale.
+						Sviluppato da zero un framework di rendering 3D in OpenGL e C++ con Deferred Shading, PBR e SPOM.
 					</p>
 				</div>
 				<div class="left-item">
-					<h3 class="left-item-title">UE5 Tech Art Showcase</h3>
+					<h3 class="left-item-title">Awaken Asylum & Nihil</h3>
+					<div class="left-item-subtitle">Lead Technical Artist</div>
+					<p class="left-item-desc">
+						Sviluppato un'esperienza educativa VR e un Metroidvania 2D. Gestito l'intera produzione tecnica.
+					</p>
+				</div>
+				<div class="left-item">
+					<h3 class="left-item-title">UE5 Tech Art Pipeline</h3>
 					<div class="left-item-subtitle">Tech Art & Procedural Workflows</div>
 					<p class="left-item-desc">
-						Esplorazione tecnica in UE5 focalizzata su PCG, Landscape Auto-Material, effetti VFX con Niagara e integrazione di MetaHuman.
+						Esplorazione tecnica in UE5 con PCG, logiche in Niagara e integrazione di MetaHumans con fisica del groom personalizzata.
 					</p>
 				</div>
 			</div>
 
 			<!-- Right Column -->
-			<div class="right-column">
+						<div class="right-column">
 				<h1 class="header-name" style="white-space: nowrap; font-weight: 600; font-size: 2.4rem; letter-spacing: -1px;">FEDERICO COLOMBO</h1>
-				<div class="header-title">Technical Artist | Unity Expert | Game Developer</div>
+				<div class="header-title">Computer Graphics Engineer | Technical Artist | XR Developer</div>
 				
 				<div class="contact-info">
 					<div class="contact-item"><i class="contact-icon">📞</i> +39-3513078191</div>
@@ -360,7 +367,7 @@
 
 				<h2 class="right-section-title">Profilo Professionale</h2>
 				<p class="profile-text">
-					Technical Artist e Sviluppatore XR in grado di unire un solido background accademico in Ingegneria del Cinema con una programmazione grafica avanzata in real-time. Sono specializzato nel fare da ponte tra visione artistica e performance tecnica. Le mie competenze core includono Unity, sviluppo di Shader (HLSL, Compute Shaders) e pipeline di rendering, con l'obiettivo costante di innalzare la qualità visiva in videogiochi e spatial computing.
+					Computer Graphics Engineer e Technical Artist specializzato in rendering real-time, spatial computing (XR) e sviluppo di tool procedurali. Laureato con lode in Ingegneria del Cinema e dei Mezzi di Comunicazione. Profonda esperienza nello sviluppo di motori di rendering custom in C++, ottimizzazione di architetture GPU (HLSL/GLSL) e project management di team multidisciplinari. Attivamente alla ricerca di opportunità per applicare competenze ingegneristiche e di gestione per costruire architetture software scalabili e produzioni interattive ad alta fedeltà visiva.
 				</p>
 
 				<h2 class="right-section-title">Esperienza Lavorativa</h2>
@@ -375,8 +382,9 @@
 						<span class="experience-location">Firenze, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Sviluppo di un framework bio-adattivo basato su HLSL Raymarching per Meta Quest 3, dedicato al rendering dinamico di Signed Distance Fields (SDFs) guidati da dati fisiologici in tempo reale tramite BLE.</li>
-						<li>Implementazione di ottimizzazioni GPU, tra cui Dynamic Bounding Volumes e Foveated Raymarching, per garantire framerate superiori a 72Hz su hardware XR standalone.</li>
+						<li>Sviluppato una pipeline Mixed Reality real-time per Meta Quest 3 capace di convertire Depth Maps in geometria continua tramite Compute e Mesh Shaders.</li>
+						<li>Progettato un sistema 'context-aware' in grado di eseguire analisi topologica su GPU fusa con dati semantici per la generazione di materiali PBR procedurali.</li>
+						<li>Sviluppato un framework custom HLSL di Raymarching per Signed Distance Fields (SDFs), ottimizzando la memoria e i Dynamic Bounding Volumes per garantire 72Hz su hardware mobile.</li>
 					</ul>
 				</div>
 
@@ -390,9 +398,9 @@
 						<span class="experience-location">Torino, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Guido la pipeline di Technical Art per il progetto "Line Operator" in Unity.</li>
-						<li>Faccio da ponte tra il team di modellazione 3D e i programmatori, assicurando che gli asset siano ottimizzati e tecnicamente validi.</li>
-						<li>Sviluppo Shader custom, effetti di Post-Processing e setup di illuminazione per definire l'identità visiva del gioco.</li>
+						<li>Programmato le meccaniche core di gameplay in C# (Unity) e progettato l'architettura tecnica per il progetto "Line Operator".</li>
+						<li>Operato come Project Manager e Technical Producer, coordinando team multidisciplinari di designer e artisti per supervisionare la visione artistica e la fattibilità tecnica.</li>
+						<li>Sviluppato Shader HLSL custom e pipeline di post-processing per definire l'identità visiva unica del gioco.</li>
 					</ul>
 				</div>
 				
@@ -406,8 +414,8 @@
 						<span class="experience-location">Torino, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Supporto tecnico e tutoring agli studenti durante le lezioni e i laboratori del corso di Interfacce Grafiche (Graphical User Interfaces).</li>
-						<li>Creazione di materiale didattico di alta qualità per facilitare la comprensione dei principi di UI/UX.</li>
+						<li>Fornito supporto e tutoraggio agli studenti sui principi di UI/UX e programmazione frontend durante i laboratori settimanali.</li>
+						<li>Redatto documentazione tecnica e creato materiale didattico di alta qualità per migliorare la comprensione.</li>
 					</ul>
 				</div>
 
@@ -421,8 +429,8 @@
 						<span class="experience-location">Torino, Italia</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Gestione dell'illuminazione su set e operatore di camere da presa cinema (RED, Blackmagic), sviluppando un occhio critico per l'illuminazione PBR e la composizione.</li>
-						<li>Color grading avanzato e post-produzione su DaVinci Resolve, applicando direttamente le competenze acquisite al post-processing in-engine.</li>
+						<li>Operato macchine da presa professionali (RED, Blackmagic 4K/6K) e assistito il DOP in complessi setup di illuminazione.</li>
+						<li>Gestito i flussi di montaggio e post-produzione su DaVinci Resolve per contenuti corporate.</li>
 					</ul>
 				</div>
 
