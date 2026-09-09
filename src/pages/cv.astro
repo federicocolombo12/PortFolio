@@ -61,22 +61,22 @@
 			.cv-container {
 				width: 210mm;
 				min-height: 297mm;
-				background: var(--cv-light);
+				background: linear-gradient(to right, var(--cv-primary) 35%, var(--cv-light) 35%);
 				margin: 40px auto;
 				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 				display: flex;
 				position: relative;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 
 			/* Columns */
 			.left-column {
 				width: 35%;
-				background-color: var(--cv-primary);
+				background-color: transparent;
 				color: var(--cv-light);
 				padding: 40px 30px;
 				z-index: 1;
-				-webkit-print-color-adjust: exact;
-				print-color-adjust: exact;
 			}
 			.right-column {
 				width: 65%;
