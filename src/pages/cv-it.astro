@@ -436,5 +436,16 @@
 
 			</div>
 		</div>
+		<script>
+			// Safari print fix: force left column to be exactly as tall as right column
+			// so the green background spans across all printed pages.
+			window.addEventListener('load', () => {
+				const rightCol = document.querySelector('.right-column');
+				const leftCol = document.querySelector('.left-column');
+				if (rightCol && leftCol && window.innerWidth > 800) {
+					leftCol.style.minHeight = rightCol.offsetHeight + 'px';
+				}
+			});
+		</script>
 	</body>
 </html>
