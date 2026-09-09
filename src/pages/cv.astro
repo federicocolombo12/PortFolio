@@ -61,11 +61,21 @@
 			.cv-container {
 				width: 210mm;
 				min-height: 297mm;
-				background: linear-gradient(to right, var(--cv-primary) 35%, var(--cv-light) 35%);
+				background: var(--cv-light);
 				margin: 40px auto;
 				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 				display: flex;
 				position: relative;
+			}
+			.cv-container::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 35%;
+				background-color: var(--cv-primary);
+				z-index: 0;
 				-webkit-print-color-adjust: exact;
 				print-color-adjust: exact;
 			}
@@ -253,6 +263,14 @@
 					width: 100%;
 					height: 100%;
 					min-height: 100vh;
+				}
+				.cv-container::before {
+					position: fixed;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					width: 35%;
+					height: 100vh;
 				}
 				.left-column {
 					-webkit-print-color-adjust: exact;
