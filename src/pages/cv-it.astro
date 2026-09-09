@@ -58,6 +58,7 @@
 				opacity: 0.8;
 			}
 
+			/* A4 Container */
 			.cv-container {
 				width: 210mm;
 				min-height: 297mm;
@@ -65,6 +66,7 @@
 				margin: 40px auto;
 				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 				display: flex;
+				overflow: hidden;
 				position: relative;
 			}
 			.cv-container::before {
@@ -263,14 +265,6 @@
 					width: 100%;
 					height: 100%;
 					min-height: 100vh;
-				}
-				.cv-container::before {
-					position: fixed;
-					top: 0;
-					bottom: 0;
-					left: 0;
-					width: 35%;
-					height: 100vh;
 				}
 				.left-column {
 					-webkit-print-color-adjust: exact;
