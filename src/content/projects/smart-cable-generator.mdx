@@ -1,0 +1,33 @@
+---
+title: 'Smart Cable Generator (Blender Add-on)'
+description: 'A custom Python add-on for Blender that procedurally generates hanging cables between meshes, designed to speed up Tech Art pipelines.'
+pubDate: '2026-09-18'
+heroImage: '../../assets/covers/Smart Cable Generator.jpg'
+category: 'Tech Art'
+rank: 3
+githubLink: 'https://github.com/federicocolombo12/Smart-Cable-Generator'
+tags: ['Python', 'Blender API', 'Tech Art', 'Procedural Generation']
+---
+
+**Smart Cable Generator** is a Python-based add-on I developed for Blender to automate and speed up the set-dressing process for 3D environments, specifically targeting sci-fi and cyberpunk aesthetics.
+
+### The Problem
+When building complex environments, artists often spend hours manually drawing bezier curves to create hanging cables, power lines, and vines between different modular assets (e.g., connecting a roof antenna to an AC unit). This process is slow, tedious, and destructive if the buildings are moved. 
+
+### The Solution
+I engineered a procedural generation tool using Blender's `bpy` and `bmesh` APIs. The tool allows artists to enter Multi-Object Edit Mode, select any two vertices across entirely different meshes, and instantly generate a fully parameterized 3D cable connecting them.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_3.mov`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+</div>
+
+### Features & Technical Implementation
+
+- **Distance-Based Parabolic Gravity:** Instead of relying on heavy physics simulations, the tool calculates the true 3D distance between the points and applies a mathematical parabolic curve (`4 * sag * t * (1-t)`) to simulate realistic weight and gravity. This ensures that the cable sag scales correctly whether the buildings are 10 meters or 1 kilometer apart.
+- **Multi-Object BMesh Integration:** The script scans `bpy.context.objects_in_mode` to allow selection across different modular assets simultaneously, translating local vertex coordinates into global space via matrix multiplication (`matrix_world @ v.co`).
+- **Custom UI & Presets:** I built a native UI panel in Blender's sidebar that exposes parameters like Thickness, Resolution, and Gravity Sag. It includes predefined presets (e.g., *Thick Power Cable*, *Thin Wire*, *Droopy Vine*) and a material picker to automatically assign shaders to the generated splines upon creation.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_1.mov`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_2.mov`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+</div>
