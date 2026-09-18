@@ -1,14 +1,31 @@
 ---
 title: 'Spicy Mercante'
-description: '3D top view cozy game created for the Fail/Safe game jam'
+description: '3D top-down cozy game featuring procedural water shaders and custom technical art tools.'
 pubDate: '2026-03-05'
 heroImage: '../../assets/covers/Spicy Mercante.jpg'
-category: 'Other Projects'
+category: 'Game Development'
 rank: 10
 itchLink: 'https://federicocolombo12.itch.io/spicy-mercante'
-tags: ['Card Game', 'Game Design']
+tags: ['Unity', 'Blender', 'Procedural Shading', '3D Modeling', 'Game Design']
 ---
 
-**Spicy Mercante** is a 3D top view cozy game. In it, you take on the role of a Middle Eastern merchant, dedicated to growing, grinding, and selling your own spices in a vibrant bazaar.
+**Spicy Mercante** is a 3D top-down cozy game developed for the 2025 Fail/Safe game jam. You take on the role of a Middle Eastern merchant, dedicated to growing, grinding, and selling your own spices in a vibrant bazaar.
 
-In this game I handled the 3D part, writing shaders, developing tools like the cutaway tool that lets you see through buildings and a handy river tool with waves and custom physics, I also created and textured most of the 3D models in it. The game was made in the 2025 Fail/Safe game jam.
+While the game emphasizes a relaxing atmosphere, developing it required a deep integration of **Technical Art** and **Game Development** skills to ensure smooth gameplay and a distinctive visual identity.
+
+### 1. Technical Art & Shaders
+
+I was responsible for the technical 3D pipeline, from asset integration to writing custom shaders in Unity. Key implementations include:
+
+- **Procedural Water Shader & Floating System:** I developed a custom procedural shader for the river that simulates dynamic waves and ripples using vertex displacement. To integrate this into gameplay, I engineered a physics-based floating system that reads the shader's displacement data, allowing objects to bob and react accurately to the water's surface tension in real-time.
+- **Dynamic Cutaway Tool:** To maintain visibility in the top-down perspective without sacrificing environment detail, I developed a custom shader-based cutaway system. It dynamically fades out the roofs and walls of buildings when the player walks behind them, ensuring the merchant is always visible.
+
+### 2. 3D Modeling & Asset Creation
+
+All primary assets—including the merchant character, the marketplace stalls, and the architectural elements—were modeled and textured from scratch in Blender. The goal was to maintain a low-poly but highly expressive aesthetic that matched the game's cozy tone.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/spicy_model.jpg`} alt="3D Model Assets" style={{width: '100%', objectFit: 'cover'}} />
+  </div>
+</div>
