@@ -16,8 +16,9 @@ While the game emphasizes a relaxing atmosphere, developing it required a deep i
 ### 1. Technical Art & Shaders
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
-  <div>
-    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video1.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video2.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video3.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
   </div>
   <div>
     <p><strong>Procedural Water & Floating System:</strong> I developed a custom procedural shader for the river that simulates dynamic waves using vertex displacement. To integrate this into gameplay, I engineered a physics-based floating system that reads the shader's displacement data, allowing objects to bob and react accurately to the water's surface tension.</p>
@@ -29,7 +30,7 @@ While the game emphasizes a relaxing atmosphere, developing it required a deep i
     <p><strong>Dynamic Cutaway Tool:</strong> To maintain visibility in the top-down perspective without sacrificing environment detail, I developed a custom shader-based cutaway system. It dynamically fades out the roofs and walls of buildings when the player walks behind them, ensuring the merchant is always visible without breaking the camera angle.</p>
   </div>
   <div>
-    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video2.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video1.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
   </div>
 </div>
 
@@ -53,8 +54,7 @@ While the game emphasizes a relaxing atmosphere, developing it required a deep i
     <br/>
     <p>This required a massive structural refactoring of the game's architecture. I had to strip out the 3D physics and rendering pipelines, re-engineering the core mechanics, inventory systems, and UI to function seamlessly in a pure 2D environment, ensuring the codebase remained clean and scalable for the rest of the team.</p>
   </div>
-  <div style={{ display: 'grid', gap: '1rem' }}>
-    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video3.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  <div>
     <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image4.jpeg`} alt="Pixel Art Transition" style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}} />
   </div>
 </div>
