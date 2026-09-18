@@ -1,52 +1,60 @@
 ---
 title: 'Spicy Mercante'
-description: '3D top-down cozy game featuring procedural water shaders and custom technical art tools.'
+description: 'Cozy game featuring procedural water shaders, 3D modeling, and a massive refactor into a 2D engine architecture.'
 pubDate: '2026-03-05'
 heroImage: '../../assets/covers/Spicy Mercante.jpg'
 category: 'Game Development'
 rank: 10
 itchLink: 'https://federicocolombo12.itch.io/spicy-mercante'
-tags: ['Unity', 'Blender', 'Procedural Shading', '3D Modeling', 'Game Design']
+tags: ['Unity', 'Blender', 'Procedural Shading', 'C#', 'Lead Programmer']
 ---
 
-**Spicy Mercante** is a 3D top-down cozy game developed for the 2025 Fail/Safe game jam. You take on the role of a Middle Eastern merchant, dedicated to growing, grinding, and selling your own spices in a vibrant bazaar.
+**Spicy Mercante** originated as a 3D top-down cozy game developed for the 2025 Fail/Safe game jam. You take on the role of a Middle Eastern merchant, dedicated to growing, grinding, and selling your own spices in a vibrant bazaar.
 
-While the game emphasizes a relaxing atmosphere, developing it required a deep integration of **Technical Art** and **Game Development** skills to ensure smooth gameplay and a distinctive visual identity.
+While the game emphasizes a relaxing atmosphere, developing it required a deep integration of **Technical Art** and **Game Development** skills, followed by a massive architectural pivot.
 
 ### 1. Technical Art & Shaders
 
-I was responsible for the technical 3D pipeline, from asset integration to writing custom shaders in Unity. Key implementations include:
-
-- **Procedural Water Shader & Floating System:** I developed a custom procedural shader for the river that simulates dynamic waves and ripples using vertex displacement. To integrate this into gameplay, I engineered a physics-based floating system that reads the shader's displacement data, allowing objects to bob and react accurately to the water's surface tension in real-time.
-- **Dynamic Cutaway Tool:** To maintain visibility in the top-down perspective without sacrificing environment detail, I developed a custom shader-based cutaway system. It dynamically fades out the roofs and walls of buildings when the player walks behind them, ensuring the merchant is always visible.
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div>
+    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video1.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  </div>
+  <div>
+    <p><strong>Procedural Water & Floating System:</strong> I developed a custom procedural shader for the river that simulates dynamic waves using vertex displacement. To integrate this into gameplay, I engineered a physics-based floating system that reads the shader's displacement data, allowing objects to bob and react accurately to the water's surface tension.</p>
+  </div>
+</div>
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video1.mp4`} autoPlay loop muted playsInline style={{width: '100%', objectFit: 'cover'}}></video>
+  <div>
+    <p><strong>Dynamic Cutaway Tool:</strong> To maintain visibility in the top-down perspective without sacrificing environment detail, I developed a custom shader-based cutaway system. It dynamically fades out the roofs and walls of buildings when the player walks behind them, ensuring the merchant is always visible without breaking the camera angle.</p>
   </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video2.mp4`} autoPlay loop muted playsInline style={{width: '100%', objectFit: 'cover'}}></video>
-  </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video3.mp4`} autoPlay loop muted playsInline style={{width: '100%', objectFit: 'cover'}}></video>
+  <div>
+    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video2.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
   </div>
 </div>
 
 ### 2. 3D Modeling & Asset Creation
 
-All primary assets—including the merchant character, the marketplace stalls, and the architectural elements—were modeled and textured from scratch in Blender. The goal was to maintain a low-poly but highly expressive aesthetic that matched the game's cozy tone.
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
+  <div style={{ display: 'grid', gap: '1rem' }}>
+    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image1.jpeg`} alt="Merchant Model" style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}} />
+    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image2.jpeg`} alt="House Model" style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}} />
+  </div>
+  <div>
+    <p>All primary assets—including the merchant character, the marketplace stalls, and the architectural elements—were modeled and textured from scratch in Blender. The goal was to maintain a low-poly but highly expressive aesthetic that matched the game's cozy tone before the project changed direction.</p>
+  </div>
+</div>
+
+### 3. The 2D Pivot & Lead Programmer Role
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image1.jpeg`} alt="3D Model Asset" style={{width: '100%', objectFit: 'cover'}} />
+  <div>
+    <p>As the project was adopted by the student team <strong>Level Up Lab</strong>, the artistic direction shifted entirely to a classic 2D Pixel Art style. Since I do not have pixel art drawing skills, I transitioned out of the 3D Technical Artist role and took on the position of <strong>Lead Programmer</strong>.</p>
+    <br/>
+    <p>This required a massive structural refactoring of the game's architecture. I had to strip out the 3D physics and rendering pipelines, re-engineering the core mechanics, inventory systems, and UI to function seamlessly in a pure 2D environment, ensuring the codebase remained clean and scalable for the rest of the team.</p>
   </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image2.jpeg`} alt="3D Model Asset" style={{width: '100%', objectFit: 'cover'}} />
-  </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image3.jpeg`} alt="3D Model Asset" style={{width: '100%', objectFit: 'cover'}} />
-  </div>
-  <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image4.jpeg`} alt="3D Model Asset" style={{width: '100%', objectFit: 'cover'}} />
+  <div style={{ display: 'grid', gap: '1rem' }}>
+    <video src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/video3.mp4`} autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+    <img src={`${import.meta.env.BASE_URL}/projects/spicy-mercante/image4.jpeg`} alt="Pixel Art Transition" style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}} />
   </div>
 </div>
