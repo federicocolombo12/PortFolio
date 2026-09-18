@@ -15,6 +15,7 @@ const projects = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
 			category: z.string().optional(),
+			tags: z.array(z.string()).optional(),
 			rank: z.number().optional(),
 			itchLink: z.string().optional(),
 			githubLink: z.string().optional(),
