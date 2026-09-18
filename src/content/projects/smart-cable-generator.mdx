@@ -33,6 +33,9 @@ To simulate gravity without the immense performance cost of actual physics simul
 During testing, I noticed that a static gravity offset looked great on small props but was invisible on massive skyscrapers. I updated the math to be **proportional to the distance** between the two selected points (`distance = (p1 - p2).length`). Now, a 10% sag looks physically accurate regardless of whether the points are 10 centimeters or 1 kilometer apart.
 
 ### Iteration 3: Making it "Production Ready" (V2.0)
+
+<img src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/ui_screenshot.jpg`} alt="Smart Cable Generator 2.0 UI Panel" style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', margin: '2rem 0'}} />
+
 To transform the script from a neat trick into a production-ready pipeline tool, I built a native UI panel into Blender's sidebar and added features tailored for Game Engine export:
 
 1. **Organic Bundle Generation:** Real cables don't hang perfectly parallel. I added a `Cable Count` slider that uses pseudo-random noise to apply slight X/Y offsets and gravity variations. This instantly generates messy, organic bundles.
