@@ -27,6 +27,7 @@
 				display: flex;
 				justify-content: center;
 				gap: 20px;
+				flex-wrap: wrap;
 			}
 			.controls button, .controls a {
 				background-color: #0d6b63;
@@ -113,7 +114,8 @@
 	</head>
 	<body>
 		<div class="controls">
-			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Resume (Standard).pdf`} download="Federico_Colombo_Resume_Standard.pdf">Download PDF</a>
+			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Resume (Standard).pdf`} download="Federico_Colombo_Resume_Standard.pdf">📥 Download PDF</a>
+			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Resume (Standard).pdf`} target="_blank" rel="noopener noreferrer">🖨️ Print / View PDF</a>
 			<a href={`${import.meta.env.BASE_URL}/cv-ats-it`}>🇮🇹 Versione Italiana</a>
 			<a href={`${import.meta.env.BASE_URL}/cv`}>Back to Full CV</a>
 		</div>
