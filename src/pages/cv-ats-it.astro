@@ -7,7 +7,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Federico Colombo - Curriculum Vitae ATS</title>
+		<title>Federico Colombo - Curriculum Vitae</title>
 		<style>
 			* { box-sizing: border-box; }
 			body {
@@ -113,9 +113,9 @@
 	</head>
 		<body>
 		<div class="controls">
-			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Curriculum Vitae ATS_IT.pdf`} download="Federico_Colombo_ATS_CV.pdf">Scarica PDF</a>
+			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Curriculum Vitae (Standard).pdf`} download="Federico_Colombo_CV_Standard.pdf">Scarica PDF</a>
 			<a href={`${import.meta.env.BASE_URL}/cv-ats`}>🇬🇧 English Version</a>
-			<a href={`${import.meta.env.BASE_URL}/cv-it`}>Torna al CV Grafico</a>
+			<a href={`${import.meta.env.BASE_URL}/cv-it`}>Torna al CV Completo</a>
 		</div>
 
 		<div class="document">
@@ -156,9 +156,9 @@
 				<span>Tesi Magistrale XR - R&D Graphics Programmer</span>
 			</div>
 			<ul>
-				<li>Sviluppato una pipeline Mixed Reality real-time per Meta Quest 3 capace di convertire Depth Maps in geometria continua tramite Compute e Mesh Shaders.</li>
-				<li>Progettato un sistema 'context-aware' in grado di eseguire analisi topologica su GPU fusa con dati semantici per la generazione di materiali PBR procedurali.</li>
-				<li>Sviluppato un framework custom HLSL di Raymarching per Signed Distance Fields (SDFs), ottimizzando la memoria e i Dynamic Bounding Volumes per garantire 72Hz su hardware mobile.</li>
+				<li>Sviluppato un framework real-time di Raymarching HLSL per Signed Distance Fields (SDFs) in Unity (URP), consentendo morphing topologici procedurali continui guidati da dati fisiologici.</li>
+				<li>Progettato un tool di authoring in-engine con nodi custom per Shader Graph e instradamento dinamico dei parametri, permettendo di mappare visivamente flussi biometrici BLE (ECG, HRV, respiro) sulla morfologia delle superfici matematiche.</li>
+				<li>Implementati Dynamic Bounding Volumes e scaling adattivo dello step-size per abbattere il fill-rate della GPU, garantendo un framerate stabile a 72Hz su hardware standalone Meta Quest 3.</li>
 			</ul>
 
 			<div class="job-header">
@@ -208,6 +208,7 @@
 
 			<h2>PROGETTI PERSONALI</h2>
 			<ul>
+				<li><strong>Smart Cable Generator (Tool Blender):</strong> Sviluppato un add-on procedurale in Python per la generazione parametrica di cavi su mesh multiple con fisica catenaria proporzionale alla distanza e conversione automatica delle mesh per i game engine.</li>
 				<li><strong>Graphics Lab (Motore C++ Custom):</strong> Programmato un framework di rendering 3D in OpenGL partendo da zero. Implementata architettura Deferred Shading, Physically Based Rendering (PBR) e Silhouette Parallax Occlusion Mapping (SPOM).</li>
 				<li><strong>UE5 Tech Art Pipeline:</strong> Sviluppati ambienti procedurali utilizzando PCG. Scriptato un sistema di proiettili a ricerca in Niagara e integrati MetaHumans risolvendo collisioni fisiche complesse del groom.</li>
 				<li><strong>Character Rigging & Tooling:</strong> Costruiti rig FK/IK personalizzati per personaggi 3D (Blender), gestendo skin weights e vincoli. Sviluppati script di automazione in Python per ottimizzare le pipeline di esportazione verso i game engine.</li>

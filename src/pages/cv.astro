@@ -301,7 +301,7 @@
 	<body>
 		<div class="cv-controls">
 			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Resume.pdf`} download="Federico_Colombo_Resume.pdf">Download PDF</a>
-			<a href={`${import.meta.env.BASE_URL}/cv-ats`}>📄 ATS Version</a>
+			<a href={`${import.meta.env.BASE_URL}/cv-ats`}>📄 Classic Format</a>
 			<a href={`${import.meta.env.BASE_URL}/cv-it`}>🇮🇹 Versione Italiana</a>
 			<a href={`${import.meta.env.BASE_URL}`}>Back to Portfolio</a>
 		</div>
@@ -325,7 +325,7 @@
 				<div class="left-item">
 					<h3 class="left-item-title">M.Sc. Cinema and Media Engineering</h3>
 					<div class="left-item-subtitle">Politecnico di Torino | 2024 - 2026</div>
-					<p class="left-item-desc">Expected mark: 106/110.</p>
+					<p class="left-item-desc">Expected mark: 110/110 Cum Laude (Dec 2026).</p>
 				</div>
 				<div class="left-item">
 					<h3 class="left-item-title">B.Sc. Cinema and Media Engineering</h3>
@@ -334,6 +334,13 @@
 				</div>
 
 				<h2 class="left-section-title">Personal Projects</h2>
+				<div class="left-item">
+					<h3 class="left-item-title">Smart Cable Gen (Blender Add-on)</h3>
+					<div class="left-item-subtitle">Python / Pipeline Tooling</div>
+					<p class="left-item-desc">
+						Developed a procedural multi-object cable authoring add-on in Python with scale-independent catenary physics and custom UI for game-ready export.
+					</p>
+				</div>
 				<div class="left-item">
 					<h3 class="left-item-title">Graphics Lab (Custom C++ Engine)</h3>
 					<div class="left-item-subtitle">Engine Programmer</div>
@@ -386,9 +393,9 @@
 						<span class="experience-location">Firenze, Italy</span>
 					</div>
 					<ul class="experience-desc">
-						<li>Built a real-time Mixed Reality pipeline for Meta Quest 3 capable of converting Depth Maps into continuous geometry via Compute and Mesh Shaders.</li>
-						<li>Engineered a 'context-aware' system performing GPU-based topological analysis fused with semantic data to generate procedural PBR materials.</li>
-						<li>Developed a custom HLSL Raymarching framework for Signed Distance Fields (SDFs), optimizing memory and dynamic bounding volumes to guarantee 72Hz on mobile hardware.</li>
+						<li>Engineered a real-time HLSL Raymarching framework for Signed Distance Fields (SDFs) in Unity (URP), enabling procedural, infinite-resolution topological morphing driven by biometric data.</li>
+						<li>Developed an in-engine authoring tool with custom Shader Graph nodes and dynamic parameter routing, allowing artists and clinicians to visually compose and map live BLE biometric streams (ECG, HRV, breathing) to SDF morphology.</li>
+						<li>Implemented Dynamic Bounding Volumes and adaptive step-size scaling to cut GPU fill-rate costs, guaranteeing a stable 72Hz framerate on standalone Meta Quest 3 hardware.</li>
 					</ul>
 				</div>
 
