@@ -161,3 +161,41 @@ hr {
 	transform: translateY(-5px);
 	border-color: rgba(0, 229, 255, 0.3);
 }
+
+/* Table Styles for MDX / Markdown */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 2rem 0;
+	font-size: 0.95em;
+	background: rgba(255, 255, 255, 0.02);
+	border-radius: 8px;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+th, td {
+	padding: 0.75rem 1rem;
+	text-align: left;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+th {
+	background: rgba(0, 229, 255, 0.08);
+	color: #ffffff;
+	font-weight: 600;
+}
+
+tr:hover {
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.callout-box {
+	background: rgba(0, 229, 255, 0.05);
+	border: 1px solid rgba(0, 229, 255, 0.2);
+	border-left: 4px solid var(--accent);
+	border-radius: 8px;
+	padding: 1rem 1.25rem;
+	margin: 1.5rem 0;
+}
+
