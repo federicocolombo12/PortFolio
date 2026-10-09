@@ -24,10 +24,13 @@ Politecnico di Torino | 2021 - 2024
 
 ## WORK EXPERIENCE
 
-**Lemons In The Room** | Florence, Italy
-*XR Master Thesis - R&D Graphics Programmer* | 03/2026 - Present
-- Developing a bio-adaptive HLSL Raymarching framework for Meta Quest 3, rendering dynamic Signed Distance Fields (SDFs) driven by real-time physiological data (BLE).
-- Engineering GPU optimizations including Dynamic Bounding Volumes and Foveated Raymarching to maintain 72Hz+ on standalone XR hardware.
+**Lemons In The Room & Politecnico di Torino** | Turin / Florence, Italy
+*XR Master Thesis - R&D Graphics Programmer (PulseEngine)* | 03/2026 - Present
+- Engineered **PulseEngine**, a real-time bio-adaptive telemetry and volumetric CSG framework in Unity 6 for standalone Medical XR on Meta Quest 3.
+- Architected a **Virtual DAW Mixer Console** (`DAWMixerWindow`) in Unity with channel strips, live OLED oscilloscopes, VU meters, and auto-packet sniffing for multi-sensor biometric streams (BLE, OSC, WebSockets, Serial).
+- Developed a GPU-evaluated volumetric CSG pipeline with dynamic blend softness; eliminated the 180° normal inversion symmetry seam bug in triplanar mapping via **Morten Mikkelsen Surface Gradients** (`∇_surf(h) = ∇h - (N · ∇h)N`).
+- Engineered a Compute Shader GPU voxelizer (<0.8ms) powering **Physics-Only Mode**: decoupled fill-rate for VFX Graph particle adhesion, achieving a locked **90 FPS on standalone Quest 3** (2.91ms GPU time, 0B GC alloc) with a 61.3% GPU load reduction.
+- Integrated affective biofeedback along the neurological **Bouba/Kiki spectrum**; modularized the framework to official Unity Package (UPM) standards for the Unity Asset Store.
 
 **Level Up Lab** | Turin, Italy
 *Technical Artist & Gameplay Programmer* | 01/2025 - Present

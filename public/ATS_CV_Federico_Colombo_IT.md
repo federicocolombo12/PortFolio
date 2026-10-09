@@ -24,10 +24,13 @@ Politecnico di Torino | 2021 - 2024
 
 ## ESPERIENZA LAVORATIVA
 
-**Lemons In The Room** | Firenze, Italia
-*Tesi Magistrale XR - R&D Graphics Programmer* | 03/2026 - Presente
-- Sviluppo di un framework bio-adattivo basato su HLSL Raymarching per Meta Quest 3, dedicato al rendering dinamico di Signed Distance Fields (SDFs) guidati da dati fisiologici in tempo reale tramite BLE.
-- Implementazione di ottimizzazioni GPU, tra cui Dynamic Bounding Volumes e Foveated Raymarching, per garantire framerate superiori a 72Hz su hardware XR standalone.
+**Lemons In The Room & Politecnico di Torino** | Torino / Firenze, Italia
+*Tesi Magistrale XR - R&D Graphics Programmer (PulseEngine)* | 03/2026 - Presente
+- Ingegnerizzato **PulseEngine**, framework real-time di telemetria bio-adattiva e rendering volumetrico CSG in Unity 6 per Medical XR su Meta Quest 3.
+- Architettata una console **Virtual DAW Mixer** (`DAWMixerWindow`) in Unity con channel strip, oscilloscopi OLED, VU meter e packet-sniffer per instradare segnali biometrici multi-sensore (BLE, OSC, WebSockets, Seriale).
+- Realizzata una pipeline volumetrica CSG su GPU con blend softness dinamica; risolto il bug delle inversioni normali a 180° su superfici triplanari tramite il **Surface Gradient di Morten Mikkelsen** (`∇_surf(h) = ∇h - (N · ∇h)N`).
+- Ingegnerizzato un voxelizzatore GPU via Compute Shader (<0.8ms) per la **Physics-Only Mode**: disaccoppiato il fill-rate per l'adesione di particelle VFX Graph, garantendo **90 FPS stabili su Quest 3 standalone** (2.91ms tempo GPU, 0B allocazione GC) e riducendo il carico GPU del 61.3%.
+- Implementato biofeedback affettivo mappando lo stress autonomico sullo spettro neurologico **Bouba-Kiki**; modularizzato il framework secondo gli standard ufficiali Unity Package (UPM) per l'Asset Store.
 
 **Level Up Lab** | Torino, Italia
 *Technical Artist & Gameplay Programmer* | 01/2025 - Presente

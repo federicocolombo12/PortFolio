@@ -151,16 +151,18 @@
 			<h2>WORK EXPERIENCE</h2>
 
 			<div class="job-header">
-				<span>Lemons In The Room | Florence, Italy</span>
+				<span>Lemons In The Room & Politecnico di Torino | Turin / Florence, Italy</span>
 				<span>03/2026 - Present</span>
 			</div>
 			<div class="job-subtitle">
-				<span>XR Master Thesis - R&D Graphics Programmer</span>
+				<span>XR Master Thesis - R&D Graphics Programmer (PulseEngine)</span>
 			</div>
 			<ul>
-				<li>Engineered a real-time HLSL Raymarching framework for Signed Distance Fields (SDFs) in Unity (URP), enabling procedural, infinite-resolution topological morphing driven by biometric data.</li>
-				<li>Developed an in-engine authoring tool with custom Shader Graph nodes and dynamic parameter routing, allowing artists and clinicians to visually compose and map live BLE biometric streams (ECG, HRV, breathing) to SDF morphology.</li>
-				<li>Implemented Dynamic Bounding Volumes and adaptive step-size scaling to cut GPU fill-rate costs, guaranteeing a stable 72Hz framerate on standalone Meta Quest 3 hardware.</li>
+				<li>Engineered <strong>PulseEngine</strong>, a real-time bio-adaptive telemetry and volumetric CSG framework in Unity 6 for standalone Medical XR on Meta Quest 3.</li>
+				<li>Architected a <strong>Virtual DAW Mixer Console</strong> (<code>DAWMixerWindow</code>) inside Unity featuring channel strips, live OLED oscilloscopes, VU meters, and automated packet sniffing to route multi-sensor biometric streams (BLE, OSC, WebSockets, Serial).</li>
+				<li>Developed a GPU-evaluated volumetric CSG pipeline with dynamic blend softness; eliminated the 180° normal inversion symmetry seam bug in triplanar mapping using the <strong>Morten Mikkelsen Surface Gradient</strong> formulation (<code>∇_surf(h) = ∇h - (N · ∇h)N</code>), guaranteeing continuous C¹ micro-relief.</li>
+				<li>Engineered a Compute Shader GPU voxelizer baking 128³ distance grids in under 0.8ms, powering <strong>Physics-Only Mode</strong>: decoupled GPU fill-rate for VFX Graph particle adhesion to achieve a locked <strong>90 FPS on standalone Quest 3</strong> (2.91ms GPU time, 0B GC alloc) with a 61.3% GPU load reduction.</li>
+				<li>Integrated affective biofeedback mapping autonomic stress along the neurological <strong>Bouba/Kiki spectrum</strong>; modularized the architecture to official Unity Package (UPM) standards for commercial release on the Unity Asset Store.</li>
 			</ul>
 
 			<div class="job-header">

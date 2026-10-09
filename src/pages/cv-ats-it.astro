@@ -151,16 +151,18 @@
 			<h2>ESPERIENZA LAVORATIVA</h2>
 
 			<div class="job-header">
-				<span>Lemons In The Room | Firenze, Italia</span>
+				<span>Lemons In The Room & Politecnico di Torino | Torino / Firenze, Italia</span>
 				<span>03/2026 - Presente</span>
 			</div>
 			<div class="job-subtitle">
-				<span>Tesi Magistrale XR - R&D Graphics Programmer</span>
+				<span>Tesi Magistrale XR - R&D Graphics Programmer (PulseEngine)</span>
 			</div>
 			<ul>
-				<li>Sviluppato un framework real-time di Raymarching HLSL per Signed Distance Fields (SDFs) in Unity (URP), consentendo morphing topologici procedurali continui guidati da dati fisiologici.</li>
-				<li>Progettato un tool di authoring in-engine con nodi custom per Shader Graph e instradamento dinamico dei parametri, permettendo di mappare visivamente flussi biometrici BLE (ECG, HRV, respiro) sulla morfologia delle superfici matematiche.</li>
-				<li>Implementati Dynamic Bounding Volumes e scaling adattivo dello step-size per abbattere il fill-rate della GPU, garantendo un framerate stabile a 72Hz su hardware standalone Meta Quest 3.</li>
+				<li>Ingegnerizzato <strong>PulseEngine</strong>, framework real-time di telemetria bio-adattiva e rendering volumetrico CSG in Unity 6 per Medical XR su Meta Quest 3.</li>
+				<li>Architettata una console <strong>Virtual DAW Mixer</strong> (<code>DAWMixerWindow</code>) in Unity con channel strip, oscilloscopi OLED, VU meter e packet-sniffer automatico per instradare segnali biometrici multi-sensore (BLE, OSC, WebSockets, Seriale).</li>
+				<li>Realizzata una pipeline volumetrica CSG su GPU con blend softness dinamica; risolto il bug delle inversioni normali a 180° su superfici triplanari tramite il <strong>Surface Gradient di Morten Mikkelsen</strong> (<code>∇_surf(h) = ∇h - (N · ∇h)N</code>), garantendo continuità C¹ senza seam.</li>
+				<li>Ingegnerizzato un voxelizzatore GPU via Compute Shader (<0.8ms) per la <strong>Physics-Only Mode</strong>: disaccoppiato il fill-rate per l'adesione di particelle VFX Graph, garantendo <strong>90 FPS stabili su Quest 3 standalone</strong> (2.91ms tempo GPU, 0B allocazione GC) e riducendo il carico GPU del 61.3%.</li>
+				<li>Implementato biofeedback affettivo mappando lo stress autonomico sullo spettro neurologico <strong>Bouba-Kiki</strong>; modularizzato il framework secondo gli standard ufficiali Unity Package (UPM) per l'Asset Store.</li>
 			</ul>
 
 			<div class="job-header">
