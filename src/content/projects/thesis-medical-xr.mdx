@@ -140,42 +140,44 @@ This architecture unlocked **Physics-Only Mode**: on standalone headsets, the ex
 
 ---
 
-## 🫀 Clinical Biofeedback: Visual Interoception for Trauma Therapy
+## 🧠 Affective Biofeedback & Cross-Modal Perception: The Bouba-Kiki Paradigm
 
 In somatic psychotherapy and trauma therapy, patients often struggle with **interoception**—the ability to perceive and interpret their own internal nervous system state. 
 
-In clinical partnership with **Lemons in the Room**, PulseEngine translates biometric telemetry into visceral visual metaphors across three distinct physiological scenarios:
+To turn invisible autonomic biomarkers into intuitive somatic perception, PulseEngine grounds its biofeedback engine in the cross-modal neurological **Bouba/Kiki effect** (Ramachandran & Hubbard, 2001; Köhler, 1929) and Polyvagal Theory, developed in collaboration with **Politecnico di Torino** and **Lemons in the Room**.
+
+Autonomic nervous system arousal translates directly along the continuous **Bouba ↔ Kiki** affective spectrum:
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_calma.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_calma_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_bouba.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_bouba_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: '#00e5ff', marginTop: '0.5rem', fontWeight: 'bold' }}>1. Calma (High HRV)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>High vagal tone expands CSG blend softness (0.45 → 0.65), melting shapes into harmonic fluid spheres with smooth particle flow.</p>
+    <p style={{ fontSize: '0.85em', color: '#00e5ff', marginTop: '0.5rem', fontWeight: 'bold' }}>Bouba (Parasympathetic Rest)</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>High HRV RMSSD and resting pulse melt geometry into soothing, bulbous, smooth-curved lobes with gentle laminar particle adhesion.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_stress.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_stress_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/bouba_kiki_morph.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: '#ff5252', marginTop: '0.5rem', fontWeight: 'bold' }}>2. Stress (Low HRV)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Acute sympathetic arousal drops blend softness down to 0.05, sharpening boundaries and triggering erratic, chaotic particle turbulence.</p>
+    <p style={{ fontSize: '0.85em', color: '#ffd600', marginTop: '0.5rem', fontWeight: 'bold' }}>Real-Time Morphing</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Asymmetric exponential damping (τ ≈ 2.5s) ensures smooth transitions, preventing startle responses during down-regulation.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_ipossia.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_ipossia_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_kiki.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_kiki_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: '#7c4dff', marginTop: '0.5rem', fontWeight: 'bold' }}>3. Ipossia (Low SpO₂)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Hypoxia shifts coloration toward deep cyanotic indigo, desaturates surface cellular tissue, and dampens kinetic movement.</p>
+    <p style={{ fontSize: '0.85em', color: '#ff5252', marginTop: '0.5rem', fontWeight: 'bold' }}>Kiki (Sympathetic Stress)</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Adrenergic fight-or-flight arousal drops blend softness to 0.05, warping surfaces into acute star protrusions with turbulent particle swarms.</p>
   </div>
 </div>
 
@@ -195,7 +197,7 @@ To validate clinical feasibility, performance profiling was conducted natively o
 | **Physics-Only Mode** | 64³ | **90.0 FPS** | **3.03 ms** | 2.00 MB | **0 Bytes** |
 | **Physics-Only Mode** | 128³ | **89.9 FPS** | **4.12 ms** | 16.00 MB | **0 Bytes** |
 | **Full Solid Raymarch** | 64³ | **72.1 FPS** | **7.84 ms** | 2.00 MB | **0 Bytes** |
-| **Clinical Stress Test** | 64³ | **90.0 FPS** | **3.08 ms** | 2.00 MB | **0 Bytes** |
+| **Bouba-Kiki Stress Test** | 64³ | **90.0 FPS** | **3.08 ms** | 2.00 MB | **0 Bytes** |
 
 Decoupling the fill-rate in Physics-Only Mode delivers a **61.3% reduction in GPU frame time**, providing ample headroom for clinical sessions where preventing motion sickness is paramount.
 
