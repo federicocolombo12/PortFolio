@@ -11,34 +11,44 @@ tags: ['Unity 6', 'HLSL / Compute Shaders', 'Volumetric SDF', 'VFX Graph', 'Medi
 ---
 
 <div class="callout-box">
-  <strong>🔒 Project Status & Repository Access:</strong><br />
-  <strong>PulseEngine</strong> is my ongoing Master's Thesis project at <strong>Politecnico di Torino</strong> in clinical collaboration with <strong>Lemons in the Room</strong>. The core framework has been modularized and decoupled into a standalone commercial Unity Package targeted for the Unity Asset Store. The repositories are currently private during commercial packaging and academic review; full access to code, packages, and technical documentation is available upon request for recruiters, academic reviewers, and clinical partners.
+  <strong>🔒 Project Status & Source Code:</strong><br />
+  <strong>PulseEngine</strong> is my ongoing Master's Thesis project at <strong>Politecnico di Torino</strong>, developed in clinical partnership with medical XR startup <strong>Lemons in the Room</strong>. I modularized the entire framework into a standalone Unity Package intended for the Unity Asset Store. The repositories are currently private during packaging and academic review; full access to code, package files, and documentation is available upon request for recruiters, partners, and reviewers.
 </div>
 
-**PulseEngine** is an advanced real-time rendering and telemetry engine that bridges continuous biometric and sensory data streams with high-end computer graphics in Extended Reality (XR).
+**PulseEngine** is a real-time rendering and telemetry engine that bridges continuous biometric data streams (ECG, blood oxygenation, autonomic stress) with procedural computer graphics in Extended Reality. 
 
-Developed as part of my Master's Thesis in *Cinema and Media Engineering* at **Politecnico di Torino (DAUIN)** under the supervision of **Prof. Francesco Strada**, and in clinical collaboration with the medical XR startup **Lemons in the Room**, PulseEngine brings professional audio production workflows to visual computing through an integrated **Virtual DAW Mixer Console** inside Unity.
+Instead of traditional mesh skinning or static polygonal assets, PulseEngine translates human physiology into **living, mathematical Signed Distance Fields (SDFs)** and **massive GPU particle swarms**. To manage continuous multi-sensor telemetry without messy spaghetti code, I designed a **Virtual DAW Mixer Console** inside Unity, borrowing workflows directly from professional audio workstations like Ableton Live.
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
-    <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/csg_modeling_demo.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
-    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Real-time Procedural CSG Sculpting with Dynamic Blend Softness</p>
+    <video 
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/csg_modeling_demo.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/csg_modeling_demo_poster.jpg`}
+      autoPlay loop muted playsInline preload="auto" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    </video>
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Procedural CSG Sculpting with Dynamic Blend Softness</p>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/vfx_swarm_adhesion.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
-    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Millions of GPU Particles (VFX Graph) Adhering to the Implicit Distance Field</p>
+    <video 
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/vfx_swarm_adhesion.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/vfx_swarm_adhesion_poster.jpg`}
+      autoPlay loop muted playsInline preload="auto" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    </video>
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>GPU Particles (VFX Graph) Adhering to the Implicit Distance Field</p>
   </div>
 </div>
 
 ---
 
-## 🧭 The Research Pivot: From Environmental Reconstruction to Bio-Adaptive Implicit Fields
+## 🧭 The Research Pivot: From Room Scanning to Pure Math
 
-The thesis originally began with an exploration of **Real-time Environmental Mesh Reconstruction** on standalone Mixed Reality hardware (Meta Quest 3). Early prototypes investigated raw depth buffer extraction via Meta's Depth API, camera reprojection, and real-time mesh meshing algorithms.
+My thesis initially started with real-time environmental depth scanning for Mixed Reality on Meta Quest 3, testing raw depth extraction via Meta's Depth API and point cloud reprojection. 
 
-However, during early R&D, open-source frameworks such as `QuestRoomScan` and `UnityGaussianSplatting` matured, offering standardized out-of-the-box environmental scanning solutions. Recognizing that reproducing existing environmental mesh reconstruction pipelines would yield limited research novelty, I made a pivotal strategic decision: **shift the focus to Bio-Adaptive Implicit Representations via Pure Mathematical Signed Distance Fields (SDFs)**.
+Early on, I realized open-source frameworks like `QuestRoomScan` and `UnityGaussianSplatting` already tackled environmental reconstruction effectively. Reinventing that wheel offered little novelty. I decided to pivot the research toward an unsolved problem: **how to represent dynamic, living biological forms in mobile XR without polygon limits or mesh artifacts**.
 
-Instead of capturing static real-world meshes, the project shifted toward creating **living, infinite-resolution procedural geometries driven by continuous human physiology**. As this pipeline expanded to support multi-sensor hardware (BLE ECG, pulse oximeters, serial microcontrollers) and required guaranteed 90 Hz framerates on standalone mobile VR headsets, the architecture crystallized into **PulseEngine**.
+By shifting to **Pure Mathematical Raymarching (HLSL)**, the visual medium gained infinite topological freedom. A heart or cellular organism can morph, divide, swell, and melt seamlessly—all computed mathematically on the GPU.
 
 <div style={{ margin: '2rem 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
   <div style={{ textAlign: 'center' }}>
@@ -53,18 +63,15 @@ Instead of capturing static real-world meshes, the project shifted toward creati
 
 ---
 
-## 🎛️ 1. Virtual DAW Mixer Console (`DAWMixerWindow`)
+## 🎛️ The Virtual DAW Mixer: Audio Paradigms for Visual Telemetry
 
-Handling continuous telemetry streams (OSC, WebSockets, Serial, Bluetooth Low Energy) often results in chaotic spaghetti code across GameObjects. PulseEngine solves this by adopting proven paradigms from Digital Audio Workstations (Ableton Live, Logic Pro):
+Connecting multi-protocol telemetry (OSC, WebSockets, Serial microcontrollers, BLE medical sensors) directly to scene objects usually creates unmaintainable chaos. To solve this, I built the **PulseEngine DAW Mixer** (`DAWMixerWindow`).
 
-* **Hardware-Style Channel Strips:** Each telemetry signal (e.g. `heart_rate`, `spo2`, `hrv_rmssd`, `respiration`) is mapped to a dedicated channel strip with interactive faders, gain calibration, smoothing filters, and real-time OLED oscilloscopes with VU meters.
-* **Engine-Level Mute [M] & Solo [S]:** Allows clinicians and technical artists to isolate specific physiological drivers or mute erratic sensor readings, gracefully restoring restful baselines without terminating the network socket.
-* **Inbound Signal Sniffer & Auto-Discovery:** Automatically scans incoming telemetry packets, identifies unmapped keys, and provisions pre-configured channel strips in a single click.
-* **1-Click Preset Snapshots:** Serializes complete session configurations (channels, faders, node hierarchies, materials, gradients) into ScriptableObjects for instant recall during clinical trials.
+Inspired by professional digital audio workstations, every biosignal has its own hardware-style channel strip with interactive faders, real-time OLED oscilloscopes, and VU meters. Clinicians or technical artists can hit **Solo [S]** or **Mute [M]** to isolate a specific biomarker or silence an erratic sensor without dropping network packets. An integrated signal sniffer auto-detects incoming packet keys and maps them in one click, while complete states serialize into ScriptableObject snapshots for immediate clinical recall.
 
 <div style={{ margin: '2rem 0', textAlign: 'center' }}>
   <img src={`${import.meta.env.BASE_URL}/projects/pulse-engine/daw_mixer_full.png`} alt="PulseEngine Virtual DAW Mixer Console" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }} />
-  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>PulseEngine Virtual DAW Mixer Console with real-time OLED oscilloscopes, VU meters, and channel faders.</p>
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>PulseEngine Virtual DAW Mixer with real-time OLED oscilloscopes, VU meters, and channel faders.</p>
 </div>
 
 <div style={{ margin: '1.5rem 0', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
@@ -73,21 +80,23 @@ Handling continuous telemetry streams (OSC, WebSockets, Serial, Bluetooth Low En
 
 ---
 
-## 🧬 2. Volumetric SDF Engine & CSG Architecture
+## 🧬 Procedural CSG & Solving the 180° Symmetry Seam Bug
 
-Signed Distance Fields are evaluated entirely on the GPU without polygonal meshes, delivering infinite surface resolution and continuous topological deformations:
-
-* **Order-Independent CSG Hierarchy (MudBun-Inspired):** Sequential top-to-bottom accumulation via Unity sibling index. Supports Smooth Union, Smooth Subtraction, and Smooth Intersection with per-node `blendSoftness` modulation.
-* **Standalone Modifier Volumes (`SdfModifierVolume`):** Autonomous force-field deformers (Twist, Bend, Bounded 3D Noise) featuring double-wireframe bounds (inner core and smooth falloff margins) that deform overlapping geometric nodes in metric space.
-* **Object-Space Triplanar Mapping:** Because mathematical distance fields lack polygonal UVs, surface textures are projected seamlessly along local Cartesian axes ($X, Y, Z$) with exponential weight normalization: `w_i = max(0.0, |N_i| - 0.2)⁴` where `ŵ_i = w_i / (w_x + w_y + w_z)`.
-* **Morten Mikkelsen Surface Gradients:** Standard triplanar normal maps produce jarring 180° seams and C¹ discontinuities along symmetry planes ($X=0, Y=0, Z=0$). PulseEngine implements Morten Mikkelsen's surface gradient formulation: `∇_surf(h) = ∇h - (N · ∇h)N`, ensuring continuous, seam-free micro-relief across dynamic organic surfaces.
-* **View-Space MatCap Shading & URP Lighting:** Real-time cellular, bone, and flesh shading modes with direct binding to Unity Universal Render Pipeline (URP) main light directional vectors.
-* **Live Scene View Sculpting:** Full `[ExecuteAlways]` support allowing real-time editing with native Unity transform gizmos without entering Play Mode.
+The volumetric engine evaluates Constructive Solid Geometry (CSG) entirely on the GPU. Taking cues from tools like MudBun, shapes are organized hierarchically via Unity sibling indices: Smooth Union, Smooth Subtraction, and Smooth Intersection are accumulated top-to-bottom with per-node blend softness. Standalone modifier volumes (`SdfModifierVolume`) apply localized field distortions—like twists, bends, and bounded 3D noise—with double-wireframe gizmos indicating the inner core and falloff margin.
 
 <div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/sdf_editing_recording.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/pulse-engine/sdf_editing_recording.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/sdf_editing_recording_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" 
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+  </video>
   <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Live Scene View CSG manipulation, modifier volume interaction, and inspector parameter tuning.</p>
 </div>
+
+Because implicit surfaces don't have traditional UVs, texturing required an object-space triplanar projection pipeline. A major technical hurdle here was normal mapping: standard triplanar implementations use Cartesian sign flips, which causes glaring 180° normal inversions and ugly seams across symmetry planes (X=0, Y=0, Z=0). 
+
+To fix this, I implemented the **Morten Mikkelsen Surface Gradient** formulation (`∇_surf(h) = ∇h - (N · ∇h)N`). Because the surface gradient is strictly tangent to the implicit normal, it guarantees continuous C¹ micro-relief across organic morphing shapes with zero symmetry seams. Paired with view-space MatCap shading and dynamic URP directional lighting, this gives clinical organic surfaces the look of living tissue or anatomical bone.
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div>
@@ -110,14 +119,11 @@ Signed Distance Fields are evaluated entirely on the GPU without polygonal meshe
 
 ---
 
-## ⚡ 3. GPU Voxelizer & VFX Graph Pipeline
+## ⚡ The 90 FPS VR Optimization: Physics-Only Mode
 
-Evaluating full-screen solid raymarching in VR at $2064 \times 2208$ pixels per eye creates severe GPU fill-rate bottlenecks. To solve this, PulseEngine integrates a high-performance **GPU Voxelizer** (`SdfVolumeVoxelizer`) acting as a bridge to **Unity Visual Effect Graph**:
+Full-screen raymarching at standalone VR resolutions (2064 × 2208 per eye on Meta Quest 3) is notorious for destroying GPU fill-rates. To achieve guaranteed 90 Hz framerates for clinical safety, I engineered a high-performance **GPU Voxelizer** (`SdfVolumeVoxelizer`) paired with Unity Visual Effect Graph.
 
-* **Sub-Millisecond 3D Texture Generation:** A Compute Shader evaluates the entire CSG hierarchy and modifier stack over a 3D thread group grid ($8 \times 8 \times 8$ threads per group), writing an `RGBAHalf` 3D RenderTexture at $128^3$ resolution in under **0.8 ms**.
-  * **Red (R) Channel:** Signed distance value in normalized metric units, consumed by VFX Graph for surface attraction, conformity, and collision.
-  * **Green, Blue, Alpha (GBA) Channels:** Interpolated RGB surface color for dynamic cellular tinting.
-* **Physics-Only Mode (Fill-Rate Decoupling):** On mobile XR hardware (Meta Quest 3), the solid fragment raymarching pass can be disabled entirely. The SDF continues to be voxelized into the 3D texture, allowing millions of particles to adhere, collide, and dance across the invisible mathematical surface with **zero screen fragment raymarching cost**.
+Every frame, a Compute Shader evaluates the entire CSG hierarchy and modifier stack over an 8×8×8 thread grid, baking a 128³ RGBAHalf 3D RenderTexture in under **0.8 milliseconds**. The red channel holds metric signed distance for particle adhesion, while the green, blue, and alpha channels store interpolated surface colors for dynamic cellular tinting.
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div>
@@ -130,47 +136,60 @@ Evaluating full-screen solid raymarching in VR at $2064 \times 2208$ pixels per 
   </div>
 </div>
 
+This architecture unlocked **Physics-Only Mode**: on standalone headsets, the expensive fragment raymarching pass can be completely turned off. The SDF continues to voxelize into the 3D texture, allowing millions of particles to adhere, swirl, and collide against the invisible mathematical surface with **zero screen fragment raymarching overhead**.
+
 ---
 
-## 🫀 4. Clinical Biofeedback Suite (Flagship Showcase)
+## 🫀 Clinical Biofeedback: Visual Interoception for Trauma Therapy
 
-In psychotherapy and trauma therapy, patients frequently struggle with **interoception**—the ability to perceive and interpret internal autonomic states. 
+In somatic psychotherapy and trauma therapy, patients often struggle with **interoception**—the ability to perceive and interpret their own internal nervous system state. 
 
-PulseEngine provides a visceral perceptual feedback medium by translating live physiological biomarkers into the morphology, texture, and particle physics of a responsive virtual organism across 3 calibrated clinical states:
-
-* **Heart Rate (BPM):** Drives the rhythm of the `DataStreamMetronome`, triggering physical systolic pulse contractions on each cardiac cycle.
-* **Blood Oxygenation (SpO₂):** Modulates cellular saturation; hypoxia induces cyanotic deep-indigo hues and cellular desaturation.
-* **Autonomic Balance (HRV RMSSD):** Gold standard indicator of parasympathetic vagal tone. High RMSSD (calm) increases CSG blend softness (0.45 → 0.65), melting shapes into harmonic fluid spheres. Suppressed RMSSD (acute stress) reduces blend softness (0.05), sharpens geometry, and triggers chaotic particle turbulence.
+In clinical partnership with **Lemons in the Room**, PulseEngine translates biometric telemetry into visceral visual metaphors across three distinct physiological scenarios:
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
-    <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_calma.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+    <video 
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_calma.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_calma_poster.jpg`}
+      autoPlay loop muted playsInline preload="auto" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    </video>
     <p style={{ fontSize: '0.85em', color: '#00e5ff', marginTop: '0.5rem', fontWeight: 'bold' }}>1. Calma (High HRV)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Soft melting morphology, deep respiration rhythms, smooth particle adhesion.</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>High vagal tone expands CSG blend softness (0.45 → 0.65), melting shapes into harmonic fluid spheres with smooth particle flow.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_stress.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+    <video 
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_stress.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_stress_poster.jpg`}
+      autoPlay loop muted playsInline preload="auto" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    </video>
     <p style={{ fontSize: '0.85em', color: '#ff5252', marginTop: '0.5rem', fontWeight: 'bold' }}>2. Stress (Low HRV)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Contracted angular CSG cuts, erratic systolic twitching, high-frequency turbulence.</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Acute sympathetic arousal drops blend softness down to 0.05, sharpening boundaries and triggering erratic, chaotic particle turbulence.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_ipossia.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
-    <p style={{ fontSize: '0.85em', color: '#7c4dff', marginTop: '0.5rem', fontWeight: 'bold' }}>3. Ipossia (Low SpO2)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Cyanotic indigo coloration, sluggish particle kinematics, cellular desaturation.</p>
+    <video 
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_ipossia.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_ipossia_poster.jpg`}
+      autoPlay loop muted playsInline preload="auto" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+    </video>
+    <p style={{ fontSize: '0.85em', color: '#7c4dff', marginTop: '0.5rem', fontWeight: 'bold' }}>3. Ipossia (Low SpO₂)</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Hypoxia shifts coloration toward deep cyanotic indigo, desaturates surface cellular tissue, and dampens kinetic movement.</p>
   </div>
 </div>
 
 ---
 
-## 📊 5. Standalone VR Benchmarks (Meta Quest 3 OpenXR)
+## 📊 Meta Quest 3 Profiling & Standalone Benchmarks
 
-Performance profiling was conducted natively on **Meta Quest 3 (Standalone Android OpenXR)** using the automated `MedicalXRBenchmarkRunner` across varying volumetric resolutions and rendering modes:
+To validate clinical feasibility, performance profiling was conducted natively on **Meta Quest 3 (Standalone Android OpenXR)** using an automated test harness (`MedicalXRBenchmarkRunner`).
 
 <div style={{ margin: '2rem 0', textAlign: 'center' }}>
   <img src={`${import.meta.env.BASE_URL}/projects/pulse-engine/daw_benchmark_results_table.png`} alt="DAW Benchmark Results Table" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }} />
 </div>
 
-| Rendering Condition / Mode | Volume Resolution | Average Framerate | GPU Frame Time | VRAM Footprint | GC Alloc / Frame |
+| Mode / Condition | Grid Resolution | Framerate | GPU Frame Time | VRAM Footprint | GC Alloc / Frame |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Physics-Only Mode** | 32³ | **90.0 FPS** | **2.91 ms** | 0.25 MB | **0 Bytes** |
 | **Physics-Only Mode** | 64³ | **90.0 FPS** | **3.03 ms** | 2.00 MB | **0 Bytes** |
@@ -178,22 +197,27 @@ Performance profiling was conducted natively on **Meta Quest 3 (Standalone Andro
 | **Full Solid Raymarch** | 64³ | **72.1 FPS** | **7.84 ms** | 2.00 MB | **0 Bytes** |
 | **Clinical Stress Test** | 64³ | **90.0 FPS** | **3.08 ms** | 2.00 MB | **0 Bytes** |
 
-> **Key Performance Finding:** *Physics-Only Mode* achieves a **61.3% reduction in GPU frame time** compared to full-screen solid raymarching, guaranteeing a steady 90 Hz headroom on Quest 3 to eliminate motion sickness during clinical psychotherapy sessions.
+Decoupling the fill-rate in Physics-Only Mode delivers a **61.3% reduction in GPU frame time**, providing ample headroom for clinical sessions where preventing motion sickness is paramount.
 
 <div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/pulse-engine/profiling_hud_recording.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/pulse-engine/profiling_hud_recording.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/profiling_hud_recording_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" 
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+  </video>
   <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Standalone Quest 3 On-Screen Profiling HUD recording real-time frame times and memory allocations.</p>
 </div>
 
 ---
 
-## 🎓 Academic Research & Commercial Productization
+## 🎓 Academic Thesis & Asset Store Packaging
 
 PulseEngine represents the intersection of technical art, academic computer graphics research, and medical innovation:
 
-* **Academic Thesis:** Master's Degree in Cinema and Media Engineering at **Politecnico di Torino** (DAUIN), under the supervision of **Prof. Francesco Strada**.
-* **Clinical Partner:** **Lemons in the Room** (Trauma therapy in Extended Reality).
-* **Commercialization:** The engine is packaged according to official Unity Package Manual standards (`Documentation~/toc.yml`, manual guides, quickstarts) and prepared for the **Unity Asset Store**.
+* **Institution:** Master's Degree in Cinema and Media Engineering at **Politecnico di Torino (DAUIN)**, supervised by **Prof. Francesco Strada**.
+* **Clinical Partner:** **Lemons in the Room** (Extended Reality trauma therapy).
+* **Package Standards:** Built to official Unity Package Manual standards (`Documentation~/toc.yml`, manual guides, quickstarts) in preparation for commercial release on the **Unity Asset Store**.
 
 ```bibtex
 @mastersthesis{colombo2026pulseengine,
