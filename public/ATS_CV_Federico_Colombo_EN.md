@@ -32,9 +32,10 @@ Politecnico di Torino | 2021 - 2024
 - Architected a **Virtual DAW Mixer Console** (`DAWMixerWindow`) inside Unity with live OLED oscilloscopes to route multi-sensor biometric streams (BLE, OSC, WebSockets, Serial); mapped autonomic biofeedback along the **Bouba/Kiki spectrum** and modularized to official Unity Package (UPM) standards.
 
 **LEVEL UP LAB (PoliTo Student Team)** | Turin, Italy
-*Lead Technical Artist & Graphic Programmer* | 11/2024 - 07/2026
-- Authored custom shaders in HLSL (retro CRT curvature, post-processing distortions) and programmed core gameplay systems in C# for *Line Operator*.
-- Directed multidisciplinary student team of 15+ artists, sound designers, and engineers, enforcing Git LFS versioning and milestone sprints.
+*Technical Artist, Gameplay Programmer & Project Manager* | 11/2024 - 07/2026
+- Developed custom shaders in HLSL (retro CRT curvature, procedural water vertex displacement, cutaway systems) and core C# gameplay systems across team productions including *Line Operator* and *Spicy Mercante*.
+- Modeled 3D assets in Blender and engineered full architectural refactorings (3D-to-2D engine transition, buoyancy physics, inventory systems).
+- Coordinated multidisciplinary student pods of 6–7 developers as technical producer and project manager, enforcing Git LFS versioning and milestone sprints.
 
 **Politecnico di Torino** | Turin, Italy
 *Teaching Assistant (GUI)* | 10/2024 - 01/2025

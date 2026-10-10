@@ -32,9 +32,10 @@ Politecnico di Torino | 2021 - 2024
 - Architettata una console **Virtual DAW Mixer** (`DAWMixerWindow`) in Unity con oscilloscopi OLED per instradare segnali biometrici (BLE, OSC, WebSockets, Seriale); mappato il biofeedback sullo spettro neurologico **Bouba-Kiki** e modularizzato secondo standard Unity Package (UPM).
 
 **LEVEL UP LAB (Team Studentesco Politecnico di Torino)** | Torino, Italia
-*Lead Technical Artist & Graphic Programmer* | 11/2024 - 07/2026
-- Scritto shader HLSL personalizzati (curvatura retro CRT, distorsioni lente) e programmato i sistemi di gameplay in C# per *Line Operator*.
-- Coordinato il team multidisciplinare di 15+ studenti tra artisti, sound designer e programmatori, gestendo pipeline Git LFS e scadenze di produzione.
+*Technical Artist, Gameplay Programmer & Project Manager* | 11/2024 - 07/2026
+- Sviluppato shader HLSL personalizzati (curvatura retro CRT, acqua procedurale con vertex displacement, cutaway dinamico) e sistemi di gameplay in C# per *Line Operator* e *Spicy Mercante*.
+- Modellazione 3D di asset in Blender ed esecuzione di refactoring architetturali completi (transizione 3D-2D, fisica di galleggiamento, sistemi di inventario).
+- Coordinato team multidisciplinari da 6–7 sviluppatori come Technical Producer e Project Manager, impostando pipeline Git LFS e milestone di produzione.
 
 **Politecnico di Torino** | Torino, Italia
 *Assistente alla Didattica (GUI)* | 10/2024 - 01/2025
