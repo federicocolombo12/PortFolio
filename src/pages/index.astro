@@ -1,155 +1,531 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const allProjects = await getCollection('projects');
+
+// Featured project IDs in priority order
+const featuredIds = [
+	'thesis-medical-xr',
+	'graphics-lab',
+	'smart-cable-generator',
+	'ue5-procedural-environment',
+];
+
+const featuredProjects = featuredIds
+	.map((id) => allProjects.find((p) => p.id === id))
+	.filter(Boolean);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`${SITE_TITLE} | Computer Graphics Engineer & Tech Artist`} description={SITE_DESCRIPTION} />
 		<style>
+			/* Hero Section */
 			.hero {
-				padding: 4rem 0;
-				text-align: left;
+				padding: 3rem 0 4.5rem;
+				display: grid;
+				grid-template-columns: 1.15fr 0.85fr;
+				gap: 3.5rem;
+				align-items: center;
 			}
-			.hero h1 {
-				font-size: 3.5rem;
-				margin-bottom: 0.5rem;
+			.hero-left {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+			}
+			.hero-status {
+				margin-bottom: 1.25rem;
+			}
+			.hero-title {
+				font-size: 3.4rem;
+				font-weight: 800;
+				letter-spacing: -0.03em;
+				line-height: 1.1;
+				margin-bottom: 0.6rem;
 				color: #ffffff;
 			}
-			.hero h2 {
-				font-size: 1.5rem;
-				color: #38bdf8; /* Softer Sky Blue */
-				margin-bottom: 2.5rem;
+			.hero-role {
+				font-size: 1.45rem;
 				font-weight: 500;
+				color: #38bdf8;
+				margin-bottom: 1.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				flex-wrap: wrap;
 			}
-			.bio {
-				font-size: 1.15rem;
-				line-height: 1.9;
-				margin-bottom: 3rem;
-				color: #e2e8f0; /* Brighter slate for better contrast */
+			.hero-role .accent-pipe {
+				color: rgba(255, 255, 255, 0.25);
+				font-weight: 300;
 			}
-			.skills-grid {
+			.hero-bio {
+				font-size: 1.08rem;
+				line-height: 1.8;
+				color: #cbd5e1;
+				margin-bottom: 2rem;
+				max-width: 580px;
+			}
+			.hero-actions {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			
+			/* Viewport Reel Card */
+			.hero-viewport-card {
+				position: relative;
+				border-radius: 18px;
+				background: rgba(13, 19, 32, 0.8);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(var(--accent-rgb), 0.1);
+				overflow: hidden;
+				backdrop-filter: blur(16px);
+			}
+			.viewport-hud-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0.75rem 1rem;
+				background: rgba(0, 0, 0, 0.4);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+				font-family: var(--font-mono);
+				font-size: 0.75rem;
+				color: #94a3b8;
+			}
+			.terminal-dots {
+				display: flex;
+				gap: 0.35rem;
+			}
+			.terminal-dot {
+				width: 9px;
+				height: 9px;
+				border-radius: 50%;
+			}
+			.dot-red { background: #ef4444; }
+			.dot-yellow { background: #eab308; }
+			.dot-green { background: #22c55e; }
+			
+			.viewport-screen {
+				position: relative;
+				width: 100%;
+				aspect-ratio: 16/10;
+				background: #000;
+				overflow: hidden;
+			}
+			.viewport-screen video {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				display: block;
+			}
+			.viewport-hud-footer {
+				padding: 0.85rem 1rem;
+				background: rgba(8, 12, 20, 0.95);
+				border-top: 1px solid rgba(255, 255, 255, 0.06);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.viewport-meta {
+				display: flex;
+				flex-direction: column;
+				gap: 0.2rem;
+			}
+			.viewport-meta-title {
+				font-size: 0.85rem;
+				font-weight: 700;
+				color: #f8fafc;
+			}
+			.viewport-meta-sub {
+				font-family: var(--font-mono);
+				font-size: 0.72rem;
+				color: var(--accent);
+			}
+			.viewport-stat {
+				font-family: var(--font-mono);
+				font-size: 0.75rem;
+				font-weight: 600;
+				color: var(--accent-emerald);
+				background: rgba(var(--accent-emerald-rgb), 0.1);
+				border: 1px solid rgba(var(--accent-emerald-rgb), 0.25);
+				padding: 0.25rem 0.55rem;
+				border-radius: 6px;
+			}
+
+			/* Section Titles */
+			.section-header {
+				margin-bottom: 2.5rem;
+			}
+			.section-tag {
+				font-family: var(--font-mono);
+				font-size: 0.8rem;
+				font-weight: 600;
+				color: var(--accent);
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				display: block;
+				margin-bottom: 0.4rem;
+			}
+			.section-title {
+				font-size: 2.2rem;
+				font-weight: 700;
+				letter-spacing: -0.02em;
+				color: #ffffff;
+				margin-bottom: 0.5rem;
+			}
+			.section-subtitle {
+				font-size: 1.05rem;
+				color: #94a3b8;
+				margin: 0;
+			}
+
+			/* Featured Grid */
+			.featured-section {
+				padding: 3rem 0;
+				border-top: 1px solid rgba(255, 255, 255, 0.06);
+			}
+			.featured-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-				gap: 1.5rem;
-				margin-top: 2rem;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 2rem;
+				margin-bottom: 3rem;
 			}
-			.skill-category h3 {
-				font-size: 1.2rem;
-				margin-bottom: 1rem;
-				color: #fff;
+			.featured-card {
+				background: var(--bg-card);
+				border: 1px solid var(--border-subtle);
+				border-radius: 16px;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+				text-decoration: none;
+				color: inherit;
 			}
-			.skill-tags {
+			.featured-card:hover {
+				transform: translateY(-5px);
+				border-color: var(--border-glow);
+				box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(var(--accent-rgb), 0.12);
+			}
+			.card-thumb-wrapper {
+				position: relative;
+				width: 100%;
+				aspect-ratio: 16/9;
+				overflow: hidden;
+				background: #000;
+			}
+			.card-thumb-wrapper img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 0;
+				box-shadow: none;
+				transition: transform 0.4s ease;
+			}
+			.featured-card:hover .card-thumb-wrapper img {
+				transform: scale(1.04);
+			}
+			.card-overlay-badge {
+				position: absolute;
+				top: 0.85rem;
+				left: 0.85rem;
+				background: rgba(7, 9, 14, 0.85);
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				backdrop-filter: blur(8px);
+				padding: 0.25rem 0.65rem;
+				border-radius: 6px;
+				font-family: var(--font-mono);
+				font-size: 0.72rem;
+				color: var(--accent);
+				font-weight: 600;
+			}
+			.card-body {
+				padding: 1.5rem;
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+			}
+			.card-title {
+				font-size: 1.35rem;
+				font-weight: 700;
+				margin-bottom: 0.6rem;
+				color: #ffffff;
+				line-height: 1.3;
+			}
+			.featured-card:hover .card-title {
+				color: var(--accent);
+			}
+			.card-desc {
+				font-size: 0.95rem;
+				line-height: 1.6;
+				color: #94a3b8;
+				margin-bottom: 1.25rem;
+				flex-grow: 1;
+			}
+			.card-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.45rem;
+			}
+			.featured-cta-bar {
+				text-align: center;
+			}
+
+			/* Skills Matrix Section */
+			.skills-section {
+				padding: 3rem 0;
+				border-top: 1px solid rgba(255, 255, 255, 0.06);
+			}
+			.skills-matrix {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1.75rem;
+			}
+			.matrix-card {
+				padding: 1.6rem;
+			}
+			.matrix-header {
+				display: flex;
+				align-items: center;
+				gap: 0.65rem;
+				margin-bottom: 1.15rem;
+			}
+			.matrix-icon {
+				font-size: 1.25rem;
+			}
+			.matrix-title {
+				font-size: 1.15rem;
+				font-weight: 700;
+				color: #f8fafc;
+				margin: 0;
+			}
+			.matrix-chips {
 				display: flex;
 				flex-wrap: wrap;
 				gap: 0.5rem;
 			}
-			.skill-tag {
-				background: rgba(0, 229, 255, 0.1);
-				border: 1px solid rgba(0, 229, 255, 0.2);
-				color: var(--accent);
-				padding: 0.3rem 0.8rem;
-				border-radius: 20px;
-				font-size: 0.9rem;
+			.matrix-chip {
+				background: rgba(255, 255, 255, 0.04);
+				border: 1px solid rgba(255, 255, 255, 0.09);
+				color: #e2e8f0;
+				font-size: 0.85rem;
+				padding: 0.35rem 0.75rem;
+				border-radius: 8px;
 				font-weight: 500;
+				transition: border-color 0.2s, background 0.2s;
 			}
-			.hero-header {
-				position: relative;
-				margin-top: 1rem;
-				margin-bottom: 4rem;
+			.matrix-chip:hover {
+				background: rgba(var(--accent-rgb), 0.08);
+				border-color: rgba(var(--accent-rgb), 0.3);
+				color: var(--accent);
 			}
-			.hero-banner {
-				width: 100%;
-				height: 200px;
-				border-radius: 12px;
-				overflow: hidden;
-				background: linear-gradient(90deg, var(--accent), #1f2937);
+			.matrix-chip.highlight {
+				background: rgba(var(--accent-rgb), 0.1);
+				border-color: rgba(var(--accent-rgb), 0.25);
+				color: var(--accent);
+				font-weight: 600;
 			}
-			.hero-banner img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-			.hero-profile-pic {
-				position: absolute;
-				bottom: -60px;
-				left: 2rem;
-				width: 140px;
-				height: 140px;
-				border-radius: 50%;
-				border: 6px solid #0a0f14;
-				background: #1f2937;
-				overflow: hidden;
-			}
-			.hero-profile-pic img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
+
+			/* Responsive */
+			@media (max-width: 900px) {
+				.hero {
+					grid-template-columns: 1fr;
+					gap: 2.5rem;
+					padding: 2rem 0 3rem;
+				}
+				.hero-title {
+					font-size: 2.6rem;
+				}
+				.featured-grid {
+					grid-template-columns: 1fr;
+				}
+				.skills-matrix {
+					grid-template-columns: 1fr;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<div class="hero-header">
-				<div class="hero-banner">
-					<img src={`${import.meta.env.BASE_URL}/banner.jpeg`} alt="Background Banner" onerror="this.style.display='none'" />
-				</div>
-				<div class="hero-profile-pic">
-					<img src={`${import.meta.env.BASE_URL}/profile.jpeg`} alt="Federico Colombo" />
-				</div>
-			</div>
+			<!-- Split Hero Section -->
 			<section class="hero">
-				<h1>Federico Colombo</h1>
-				<h2>Computer Graphics Engineer</h2>
-				<p class="bio">
-					<strong>Computer Graphics Engineer</strong> passionate about building <strong>real-time graphics systems</strong>, interactive simulations, and <strong>developer tools</strong>.<br/><br/>
-					I am currently completing my Master's Degree in Cinema and Media Engineering at Politecnico di Torino, where I am developing a real-time <strong>Signed Distance Field (SDF) editor</strong> for medical applications. My work combines computer graphics, geometry processing, <strong>software engineering</strong>, and interactive visualization to create tools that solve real-world problems.<br/><br/>
-					My background spans game development, XR, and interactive media, but my interests have naturally evolved toward <strong>graphics programming</strong>, rendering, simulation, and technical tool development. I enjoy understanding how systems work internally, implementing graphics techniques from first principles, and transforming research ideas into practical software.<br/><br/>
-					Throughout my Bachelor's and Master's degrees, I have frequently taken on the role of <strong>Project Manager and Producer</strong> in group projects, ensuring seamless coordination across multidisciplinary teams. I act as the <strong>bridge between disciplines</strong>—collaborating with programmers, artists, and designers—while remaining deeply involved in the technical implementation. I enjoy designing technical pipelines, developing robust <strong>software architectures</strong>, and creating tools that improve the overall workflow and delivery of complex projects.<br/><br/>
-					I am currently expanding my expertise in <strong>modern rendering, GPU programming</strong>, geometry processing, and <strong>AI-assisted graphics</strong> through personal research projects, with the long-term goal of contributing to research and development in computer graphics and interactive technologies.
-				</p>
+				<div class="hero-left">
+					<div class="hero-status">
+						<div class="status-pill">
+							<span class="pulse-dot"></span>
+							<span>Open to Graphics & Tech Art Roles</span>
+						</div>
+					</div>
+					<h1 class="hero-name">Federico Colombo</h1>
+					<h2 class="hero-role">
+						<span>Computer Graphics Engineer</span>
+						<span class="accent-pipe">/</span>
+						<span>Technical Artist</span>
+					</h2>
+					<p class="hero-bio">
+						Specialized in <strong>real-time rendering</strong>, low-level <strong>engine architecture (C++)</strong>, and <strong>procedural pipelines</strong>. Graduating with honors (110L) in Cinema & Media Engineering from Politecnico di Torino with active R&D in bio-adaptive volumetric SDFs and mobile XR optimization.
+					</p>
+					<div class="hero-actions">
+						<a href="#featured" class="btn-primary">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+							<span>Featured Projects</span>
+						</a>
+						<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/cv`} class="btn-secondary">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+							<span>Curriculum Vitae</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="hero-right">
+					<div class="hero-viewport-card">
+						<div class="viewport-hud-header">
+							<div class="terminal-dots">
+								<span class="terminal-dot dot-red"></span>
+								<span class="terminal-dot dot-yellow"></span>
+								<span class="terminal-dot dot-green"></span>
+							</div>
+							<span>VIEWPORT // ENGINE RUNTIME</span>
+						</div>
+						<div class="viewport-screen">
+							<video 
+								src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/videos/pulse-engine/bouba_kiki_morph.mp4`} 
+								poster={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`}
+								autoplay 
+								loop 
+								muted 
+								playsinline
+							></video>
+						</div>
+						<div class="viewport-hud-footer">
+							<div class="viewport-meta">
+								<span class="viewport-meta-title">PulseEngine :: Volumetric Raymarching</span>
+								<span class="viewport-meta-sub">Unity 6 • HLSL Compute • CSG Morphing</span>
+							</div>
+							<span class="viewport-stat">90 FPS QUEST 3</span>
+						</div>
+					</div>
+				</div>
 			</section>
 
-			<section class="skills">
-				<h2>Technical Skills</h2>
-				<div class="skills-grid">
-					<div class="glass-card skill-category">
-						<h3>Languages</h3>
-						<div class="skill-tags">
-							<span class="skill-tag">C#</span>
-							<span class="skill-tag">C++</span>
-							<span class="skill-tag">Python</span>
-							<span class="skill-tag">HLSL/GLSL</span>
+			<!-- Featured Projects Section -->
+			<section class="featured-section" id="featured">
+				<div class="section-header">
+					<span class="section-tag">// SELECTED WORK</span>
+					<h2 class="section-title">Flagship Engineering Projects</h2>
+					<p class="section-subtitle">Real-time rendering systems, low-level graphics engines, and procedural pipeline tooling.</p>
+				</div>
+
+				<div class="featured-grid">
+					{
+						featuredProjects.map((post) => (
+							<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/projects/${post.id}/`} class="featured-card">
+								<div class="card-thumb-wrapper">
+									{post.data.heroImage && (
+										<Image width={720} height={405} src={post.data.heroImage} alt={post.data.title} />
+									)}
+									<span class="card-overlay-badge">{post.data.category}</span>
+								</div>
+								<div class="card-body">
+									<h3 class="card-title">{post.data.title}</h3>
+									<p class="card-desc">{post.data.description}</p>
+									<div class="card-tags">
+										{(post.data.tags || []).slice(0, 4).map((tag) => (
+											<span class="tech-badge">{tag}</span>
+										))}
+									</div>
+								</div>
+							</a>
+						))
+					}
+				</div>
+
+				<div class="featured-cta-bar">
+					<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/projects`} class="btn-secondary">
+						<span>Browse All 15+ Projects</span>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+					</a>
+				</div>
+			</section>
+
+			<!-- Technical Capabilities Matrix -->
+			<section class="skills-section">
+				<div class="section-header">
+					<span class="section-tag">// ARCHITECTURE & TOOLING</span>
+					<h2 class="section-title">Technical Capabilities</h2>
+					<p class="section-subtitle">Proven proficiencies across graphics programming, pipeline automation, and production.</p>
+				</div>
+
+				<div class="skills-matrix">
+					<div class="glass-card matrix-card">
+						<div class="matrix-header">
+							<span class="matrix-icon">⚡</span>
+							<h3 class="matrix-title">Graphics & Shader Development</h3>
+						</div>
+						<div class="matrix-chips">
+							<span class="matrix-chip highlight">HLSL / GLSL</span>
+							<span class="matrix-chip highlight">Compute Shaders</span>
+							<span class="matrix-chip highlight">Raymarching & SDFs</span>
+							<span class="matrix-chip">Physically Based Rendering (PBR)</span>
+							<span class="matrix-chip">Deferred Shading</span>
+							<span class="matrix-chip">VFX Graph</span>
+							<span class="matrix-chip">Silhouette POM (SPOM)</span>
+							<span class="matrix-chip">Surface Gradients</span>
 						</div>
 					</div>
-					<div class="glass-card skill-category">
-						<h3>Engines</h3>
-						<div class="skill-tags">
-							<span class="skill-tag">Unity</span>
-							<span class="skill-tag">Godot</span>
-							<span class="skill-tag">Unreal Engine</span>
+
+					<div class="glass-card matrix-card">
+						<div class="matrix-header">
+							<span class="matrix-icon">⚙️</span>
+							<h3 class="matrix-title">Languages & Core Systems</h3>
+						</div>
+						<div class="matrix-chips">
+							<span class="matrix-chip highlight">C++ (Modern C++17/20)</span>
+							<span class="matrix-chip highlight">C# (Unity Engine)</span>
+							<span class="matrix-chip highlight">Python (Pipeline & Tooling)</span>
+							<span class="matrix-chip">Linear Algebra & Quaternions</span>
+							<span class="matrix-chip">GPU Memory Layout</span>
+							<span class="matrix-chip">Draw Call Batching</span>
+							<span class="matrix-chip">Multi-threading</span>
 						</div>
 					</div>
-					<div class="glass-card skill-category">
-						<h3>Software & Tools</h3>
-						<div class="skill-tags">
-							<span class="skill-tag">Blender</span>
-							<span class="skill-tag">DaVinci Resolve</span>
-							<span class="skill-tag">Jira</span>
-							<span class="skill-tag">Git</span>
+
+					<div class="glass-card matrix-card">
+						<div class="matrix-header">
+							<span class="matrix-icon">🎮</span>
+							<h3 class="matrix-title">Engines & DCC Pipelines</h3>
+						</div>
+						<div class="matrix-chips">
+							<span class="matrix-chip highlight">Unity 6 (Expert)</span>
+							<span class="matrix-chip highlight">Custom OpenGL Engine</span>
+							<span class="matrix-chip">Unreal Engine 5 (Niagara, PCG)</span>
+							<span class="matrix-chip highlight">Blender API (Python Add-ons)</span>
+							<span class="matrix-chip">Meta Quest 3 (Standalone XR)</span>
+							<span class="matrix-chip">Universal Render Pipeline (URP)</span>
+							<span class="matrix-chip">DaVinci Resolve</span>
 						</div>
 					</div>
-					<div class="glass-card skill-category">
-						<h3>Management & Roles</h3>
-						<div class="skill-tags">
-							<span class="skill-tag">Project Management</span>
-							<span class="skill-tag">Tech Direction</span>
-							<span class="skill-tag">Tech Art</span>
-							<span class="skill-tag">Agile</span>
+
+					<div class="glass-card matrix-card">
+						<div class="matrix-header">
+							<span class="matrix-icon">📊</span>
+							<h3 class="matrix-title">Profiling, QA & Production</h3>
+						</div>
+						<div class="matrix-chips">
+							<span class="matrix-chip highlight">RenderDoc</span>
+							<span class="matrix-chip highlight">NVIDIA Nsight</span>
+							<span class="matrix-chip">Unity Frame Debugger / Profiler</span>
+							<span class="matrix-chip">Git / Git LFS</span>
+							<span class="matrix-chip">Jira / Agile Production</span>
+							<span class="matrix-chip">Technical Direction</span>
+							<span class="matrix-chip">Cross-Disciplinary Producer</span>
 						</div>
 					</div>
 				</div>
