@@ -267,7 +267,7 @@ const showreelSlides = [
 				width: 100%;
 				height: 100%;
 				opacity: 0;
-				transition: opacity 0.8s ease-in-out;
+				transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 				pointer-events: none;
 			}
 			.showreel-slide-media.active {
@@ -410,7 +410,7 @@ const showreelSlides = [
 				overflow: hidden;
 				display: flex;
 				flex-direction: column;
-				transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+				transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease, box-shadow 0.45s ease;
 				cursor: pointer;
 				text-align: left;
 				padding: 0;
@@ -420,6 +420,15 @@ const showreelSlides = [
 				transform: translateY(-5px);
 				border-color: var(--border-glow);
 				box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(var(--accent-rgb), 0.15);
+			}
+			.project-card.hidden-card {
+				opacity: 0;
+				transform: translateY(22px);
+				transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease, box-shadow 0.45s ease;
+			}
+			.project-card.hidden-card.revealed {
+				opacity: 1;
+				transform: translateY(0);
 			}
 			.card-thumb-wrapper {
 				position: relative;
@@ -434,7 +443,7 @@ const showreelSlides = [
 				object-fit: cover;
 				border-radius: 0;
 				box-shadow: none;
-				transition: transform 0.4s ease;
+				transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 			}
 			.project-card:hover .card-thumb-wrapper img {
 				transform: scale(1.04);
@@ -533,7 +542,7 @@ const showreelSlides = [
 				align-items: center;
 				justify-content: center;
 				cursor: pointer;
-				transition: all 0.25s ease;
+				transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 			}
 			.expand-chevron-btn:hover {
@@ -544,7 +553,7 @@ const showreelSlides = [
 				box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4);
 			}
 			.expand-chevron-btn svg {
-				transition: transform 0.3s ease;
+				transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 			}
 			.expand-chevron-btn.expanded svg {
 				transform: rotate(180deg);
@@ -566,7 +575,7 @@ const showreelSlides = [
 				padding: 2rem 1.5rem;
 				opacity: 0;
 				pointer-events: none;
-				transition: opacity 0.3s ease;
+				transition: opacity 0.5s ease;
 			}
 			.modal-overlay.open {
 				opacity: 1;
@@ -582,8 +591,8 @@ const showreelSlides = [
 				max-height: 90vh;
 				overflow-y: auto;
 				position: relative;
-				transform: translateY(20px) scale(0.98);
-				transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+				transform: translateY(30px) scale(0.97);
+				transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 				display: flex;
 				flex-direction: column;
 			}
@@ -1794,6 +1803,31 @@ const showreelSlides = [
 			const mediaDataEl = document.getElementById('projectMediaData');
 			const projectMediaMap = mediaDataEl ? JSON.parse(mediaDataEl.textContent || '{}') : {};
 
+			// Custom gradual smooth scroll with easeInOutCubic (slower for premium tactile UX)
+			function smoothScrollTo(targetY: number, duration = 1000) {
+				const startY = window.pageYOffset;
+				const distance = targetY - startY;
+				if (Math.abs(distance) < 2) return;
+				const startTime = performance.now();
+
+				function easeInOutCubic(t: number) {
+					return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+				}
+
+				function step(currentTime: number) {
+					const elapsed = currentTime - startTime;
+					const progress = Math.min(elapsed / duration, 1);
+					const ease = easeInOutCubic(progress);
+					window.scrollTo(0, startY + distance * ease);
+
+					if (progress < 1) {
+						requestAnimationFrame(step);
+					}
+				}
+
+				requestAnimationFrame(step);
+			}
+
 			// 1. Smooth Navigation Anchors
 			document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
 				const href = anchor.getAttribute('href');
@@ -1808,10 +1842,7 @@ const showreelSlides = [
 						const elementPosition = target.getBoundingClientRect().top;
 						const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-						window.scrollTo({
-							top: offsetPosition,
-							behavior: 'smooth'
-						});
+						smoothScrollTo(offsetPosition, 1000);
 						try {
 							history.pushState(null, '', '#' + hash);
 						} catch (err) {}
@@ -1829,7 +1860,7 @@ const showreelSlides = [
 				}
 			});
 			backToTopBtn?.addEventListener('click', () => {
-				window.scrollTo({ top: 0, behavior: 'smooth' });
+				smoothScrollTo(0, 1000);
 			});
 
 			// 2. Hero Showreel Slideshow
@@ -1864,7 +1895,7 @@ const showreelSlides = [
 			function startSlideshow() {
 				slideInterval = setInterval(() => {
 					goToSlide(currentSlide + 1);
-				}, 3500);
+				}, 4800);
 			}
 
 			function stopSlideshow() {
@@ -1899,14 +1930,23 @@ const showreelSlides = [
 			expandChevronBtn?.addEventListener('click', () => {
 				isExpanded = !isExpanded;
 				const hiddenCards = document.querySelectorAll('.project-card.hidden-card');
-				hiddenCards.forEach((c) => {
-					const cardEl = c as HTMLElement;
-					if (isExpanded) {
+				if (isExpanded) {
+					hiddenCards.forEach((c, idx) => {
+						const cardEl = c as HTMLElement;
 						cardEl.style.display = 'flex';
-					} else {
-						cardEl.style.display = 'none';
-					}
-				});
+						setTimeout(() => {
+							cardEl.classList.add('revealed');
+						}, 35 * idx + 20);
+					});
+				} else {
+					hiddenCards.forEach((c) => {
+						const cardEl = c as HTMLElement;
+						cardEl.classList.remove('revealed');
+						setTimeout(() => {
+							if (!isExpanded) cardEl.style.display = 'none';
+						}, 450);
+					});
+				}
 				expandChevronBtn.classList.toggle('expanded', isExpanded);
 			});
 
@@ -1931,11 +1971,14 @@ const showreelSlides = [
 							if (cat === 'all') {
 								if (isExpanded || count < 3) {
 									cardEl.style.display = 'flex';
+									if (isExpanded) cardEl.classList.add('revealed');
 								} else {
 									cardEl.style.display = 'none';
+									cardEl.classList.remove('revealed');
 								}
 							} else {
 								cardEl.style.display = 'flex';
+								cardEl.classList.add('revealed');
 							}
 							count++;
 						} else {
