@@ -24,19 +24,17 @@ Politecnico di Torino | 2021 - 2024
 
 ## ESPERIENZA LAVORATIVA
 
-**Lemons In The Room & Politecnico di Torino** | Torino / Firenze, Italia
-*Tesi Magistrale XR - R&D Graphics Programmer (PulseEngine)* | 03/2026 - Presente
-- Ingegnerizzato **PulseEngine**, framework real-time di telemetria bio-adattiva e rendering volumetrico CSG in Unity 6 per Medical XR su Meta Quest 3.
-- Architettata una console **Virtual DAW Mixer** (`DAWMixerWindow`) in Unity con channel strip, oscilloscopi OLED, VU meter e packet-sniffer per instradare segnali biometrici multi-sensore (BLE, OSC, WebSockets, Seriale).
-- Realizzata una pipeline volumetrica CSG su GPU con blend softness dinamica; risolto il bug delle inversioni normali a 180° su superfici triplanari tramite il **Surface Gradient di Morten Mikkelsen** (`∇_surf(h) = ∇h - (N · ∇h)N`).
-- Ingegnerizzato un voxelizzatore GPU via Compute Shader (<0.8ms) per la **Physics-Only Mode**: disaccoppiato il fill-rate per l'adesione di particelle VFX Graph, garantendo **90 FPS stabili su Quest 3 standalone** (2.91ms tempo GPU, 0B allocazione GC) e riducendo il carico GPU del 61.3%.
-- Implementato biofeedback affettivo mappando lo stress autonomico sullo spettro neurologico **Bouba-Kiki**; modularizzato il framework secondo gli standard ufficiali Unity Package (UPM) per l'Asset Store.
+**Lemons in the Room & Politecnico di Torino** | Firenze / Remoto
+*Technical Artist & Producer (R&D Tesi Magistrale XR)* | 03/2026 - Presente
+- Sviluppato un framework di raymarching volumetrico bio-adattivo real-time in HLSL per Meta Quest 3, renderizzando Signed Distance Fields (SDF) dinamici guidati da telemetria biometrica BLE (**PulseEngine**).
+- Implementato ottimizzazioni GPU mobile (Dynamic Bounding Volumes, ray stepping adattivo) bloccando **90 FPS stabili su visore standalone** (riduzione del 61.3% del tempo GPU, 2.91ms tempo GPU, 0B allocazione GC).
+- Integrato shading a Surface Gradients di Morten Mikkelsen (`∇_surf(h) = ∇h - (N · ∇h)N`) su volumi procedurali per azzerare le cuciture UV triplanari, e un voxelizzatore GPU via Compute Shader (<0.8ms) per sciami di particelle VFX Graph.
+- Architettata una console **Virtual DAW Mixer** (`DAWMixerWindow`) in Unity con oscilloscopi OLED per instradare segnali biometrici (BLE, OSC, WebSockets, Seriale); mappato il biofeedback sullo spettro neurologico **Bouba-Kiki** e modularizzato secondo standard Unity Package (UPM).
 
-**Level Up Lab** | Torino, Italia
-*Technical Artist & Gameplay Programmer* | 01/2025 - Presente
-- Sviluppato e progettato i sistemi di gameplay principali in Unity per un team studentesco del Politecnico di Torino.
-- Gestito la creazione e integrazione di tutti i modelli 3D per il progetto "Line Operator", assicurando la fattibilità tecnica della visione artistica.
-- Sviluppato Shader custom ed effetti di Post-Processing per definire e arricchire l'identità visiva del gioco.
+**LEVEL UP LAB (Team Studentesco Politecnico di Torino)** | Torino, Italia
+*Lead Technical Artist & Graphic Programmer* | 11/2024 - 07/2026
+- Scritto shader HLSL personalizzati (curvatura retro CRT, distorsioni lente) e programmato i sistemi di gameplay in C# per *Line Operator*.
+- Coordinato il team multidisciplinare di 15+ studenti tra artisti, sound designer e programmatori, gestendo pipeline Git LFS e scadenze di produzione.
 
 **Politecnico di Torino** | Torino, Italia
 *Assistente alla Didattica (GUI)* | 10/2024 - 01/2025

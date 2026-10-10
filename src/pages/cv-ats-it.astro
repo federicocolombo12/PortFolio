@@ -151,31 +151,29 @@
 			<h2>ESPERIENZA LAVORATIVA</h2>
 
 			<div class="job-header">
-				<span>Lemons In The Room & Politecnico di Torino | Torino / Firenze, Italia</span>
+				<span>Lemons in the Room & Politecnico di Torino | Firenze / Remoto</span>
 				<span>03/2026 - Presente</span>
 			</div>
 			<div class="job-subtitle">
-				<span>Tesi Magistrale XR - R&D Graphics Programmer (PulseEngine)</span>
+				<span>Technical Artist & Producer (R&D Tesi Magistrale XR)</span>
 			</div>
 			<ul>
-				<li>Ingegnerizzato <strong>PulseEngine</strong>, framework real-time di telemetria bio-adattiva e rendering volumetrico CSG in Unity 6 per Medical XR su Meta Quest 3.</li>
-				<li>Architettata una console <strong>Virtual DAW Mixer</strong> (<code>DAWMixerWindow</code>) in Unity con channel strip, oscilloscopi OLED, VU meter e packet-sniffer automatico per instradare segnali biometrici multi-sensore (BLE, OSC, WebSockets, Seriale).</li>
-				<li>Realizzata una pipeline volumetrica CSG su GPU con blend softness dinamica; risolto il bug delle inversioni normali a 180° su superfici triplanari tramite il <strong>Surface Gradient di Morten Mikkelsen</strong> (<code>∇_surf(h) = ∇h - (N · ∇h)N</code>), garantendo continuità C¹ senza seam.</li>
-				<li>Ingegnerizzato un voxelizzatore GPU via Compute Shader (<0.8ms) per la <strong>Physics-Only Mode</strong>: disaccoppiato il fill-rate per l'adesione di particelle VFX Graph, garantendo <strong>90 FPS stabili su Quest 3 standalone</strong> (2.91ms tempo GPU, 0B allocazione GC) e riducendo il carico GPU del 61.3%.</li>
-				<li>Implementato biofeedback affettivo mappando lo stress autonomico sullo spettro neurologico <strong>Bouba-Kiki</strong>; modularizzato il framework secondo gli standard ufficiali Unity Package (UPM) per l'Asset Store.</li>
+				<li>Ingegnerizzato un framework di raymarching volumetrico bio-adattivo real-time in HLSL per Meta Quest 3, renderizzando Signed Distance Fields (SDF) dinamici guidati da telemetria biometrica BLE (<strong>PulseEngine</strong>).</li>
+				<li>Implementato ottimizzazioni GPU mobile (Dynamic Bounding Volumes, ray stepping adattivo) bloccando <strong>90 FPS stabili su visore standalone</strong> (riduzione del 61.3% del tempo GPU, 2.91ms tempo GPU, 0B allocazione GC).</li>
+				<li>Integrato shading a Surface Gradients di Morten Mikkelsen (<code>∇_surf(h) = ∇h - (N · ∇h)N</code>) su volumi procedurali per azzerare le cuciture UV triplanari, e un voxelizzatore GPU via Compute Shader (&lt;0.8ms) per sciami di particelle VFX Graph.</li>
+				<li>Architettata una console <strong>Virtual DAW Mixer</strong> (<code>DAWMixerWindow</code>) in Unity con oscilloscopi OLED e packet-sniffer per instradare segnali biometrici (BLE, OSC, WebSockets, Seriale); mappato il biofeedback sullo spettro neurologico <strong>Bouba-Kiki</strong> e modularizzato secondo standard Unity Package (UPM).</li>
 			</ul>
 
 			<div class="job-header">
-				<span>Level Up Lab (Team Studentesco Politecnico di Torino) | Torino, Italia</span>
-				<span>01/2025 - 07/2026</span>
+				<span>LEVEL UP LAB (Team Studentesco Politecnico di Torino) | Torino, Italia</span>
+				<span>11/2024 - 07/2026</span>
 			</div>
 			<div class="job-subtitle">
-				<span>Technical Artist & Project Manager</span>
+				<span>Lead Technical Artist & Graphic Programmer</span>
 			</div>
 			<ul>
-				<li>Programmato le meccaniche core di gameplay in C# (Unity) e progettato l'architettura tecnica per il progetto "Line Operator".</li>
-				<li>Operato come Project Manager e Technical Producer, coordinando team multidisciplinari di designer e artisti per supervisionare la visione artistica e la fattibilità tecnica.</li>
-				<li>Sviluppato Shader HLSL custom e pipeline di post-processing per definire l'identità visiva unica del gioco.</li>
+				<li>Scritto shader HLSL personalizzati (curvatura retro CRT, distorsioni lente) e programmato i sistemi di gameplay in C# per <em>Line Operator</em>.</li>
+				<li>Coordinato il team multidisciplinare di 15+ studenti tra artisti, sound designer e programmatori, gestendo pipeline Git LFS e scadenze di produzione.</li>
 			</ul>
 
 			<div class="job-header">
