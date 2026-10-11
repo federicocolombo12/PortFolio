@@ -426,6 +426,10 @@ const showreelSlides = [
 				border-color: var(--border-glow);
 				box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(var(--accent-rgb), 0.15);
 			}
+			.project-card:active {
+				transform: translateY(-2px) scale(0.985);
+				transition: transform 0.15s ease;
+			}
 			.project-card.hidden-card {
 				opacity: 0;
 				transform: translateY(22px);
@@ -565,44 +569,78 @@ const showreelSlides = [
 			}
 
 			/* ----------------------------------------------------
-			   IN-PAGE MODAL (IMAGE 2 MATCH)
+			   IN-PAGE MODAL (IMAGE 2 / REFERENCE MATCH)
 			   ---------------------------------------------------- */
 			.modal-overlay {
 				position: fixed;
 				inset: 0;
 				z-index: 1000;
 				background: rgba(7, 10, 16, 0.88);
-				backdrop-filter: blur(14px);
-				-webkit-backdrop-filter: blur(14px);
+				backdrop-filter: blur(16px);
+				-webkit-backdrop-filter: blur(16px);
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				padding: 2rem 1.5rem;
 				opacity: 0;
+				visibility: hidden;
 				pointer-events: none;
-				transition: opacity 0.5s ease;
+				transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
 			}
 			.modal-overlay.open {
 				opacity: 1;
+				visibility: visible;
 				pointer-events: auto;
+			}
+			.modal-overlay.closing {
+				opacity: 0;
+				pointer-events: none;
 			}
 			.modal-box {
 				background: #0f1422;
 				border: 1px solid rgba(255, 255, 255, 0.12);
-				box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(59, 130, 246, 0.15);
+				box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 50px rgba(59, 130, 246, 0.18);
 				border-radius: 20px;
 				width: 100%;
 				max-width: 920px;
 				max-height: 90vh;
 				overflow-y: auto;
 				position: relative;
-				transform: translateY(30px) scale(0.97);
-				transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+				opacity: 0;
+				transform: scale(0.72) translateY(24px);
+				transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 				display: flex;
 				flex-direction: column;
+				will-change: transform, opacity;
 			}
 			.modal-overlay.open .modal-box {
-				transform: translateY(0) scale(1);
+				opacity: 1;
+				transform: scale(1) translateY(0);
+			}
+			.modal-overlay.closing .modal-box {
+				opacity: 0;
+				transform: scale(0.78) translateY(18px);
+				transition: transform 0.32s ease-in, opacity 0.28s ease-in;
+			}
+
+			/* Staggered entrance for modal content elements */
+			@keyframes modalContentReveal {
+				from {
+					opacity: 0;
+					transform: translateY(16px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			.modal-overlay.open .modal-viewer-container {
+				animation: modalContentReveal 0.48s 0.08s cubic-bezier(0.16, 1, 0.3, 1) both;
+			}
+
+			.modal-overlay.open .modal-details-body {
+				animation: modalContentReveal 0.5s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
 			}
 			.modal-close-btn {
 				position: absolute;
@@ -2044,24 +2082,34 @@ const showreelSlides = [
 				}
 			}
 
+			let isModalClosing = false;
 			function closeModal() {
-				if (!modal) return;
-				modal.classList.remove('open');
+				if (!modal || isModalClosing) return;
+				isModalClosing = true;
+				modal.classList.add('closing');
 				modal.setAttribute('aria-hidden', 'true');
 				document.body.style.overflow = '';
-				if (modalVideo) {
-					modalVideo.pause();
-					modalVideo.src = '';
-					modalVideo.style.display = 'none';
-				}
-				if (modalImage) {
-					modalImage.src = '';
-					modalImage.style.display = 'none';
-				}
+				
+				setTimeout(() => {
+					modal.classList.remove('open');
+					modal.classList.remove('closing');
+					isModalClosing = false;
+					if (modalVideo) {
+						modalVideo.pause();
+						modalVideo.src = '';
+						modalVideo.style.display = 'none';
+					}
+					if (modalImage) {
+						modalImage.src = '';
+						modalImage.style.display = 'none';
+					}
+				}, 340);
 			}
 
 			function openModal(card: HTMLElement) {
 				if (!modal) return;
+				isModalClosing = false;
+				modal.classList.remove('closing');
 				const id = card.getAttribute('data-id') || '';
 				const title = card.getAttribute('data-title') || '';
 				const category = card.getAttribute('data-category') || '';

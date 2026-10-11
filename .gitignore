@@ -26,3 +26,6 @@ pnpm-debug.log*
 # private application documents
 applications/
 
+# agent skills
+.agents/
+skills-lock.json
