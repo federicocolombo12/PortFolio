@@ -10,7 +10,9 @@
     "build": "astro build && node scripts/generate-pdf.mjs",
     "generate-pdf": "node scripts/generate-pdf.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "ctx:index": "context-mode index src --ext .astro,.ts,.js,.mjs,.md,.mdx,.json --source portfolio-src",
+    "ctx:doctor": "context-mode doctor"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.3",
