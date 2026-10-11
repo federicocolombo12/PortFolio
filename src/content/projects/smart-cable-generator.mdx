@@ -10,7 +10,7 @@ tags: ['Python', 'Blender API', 'Tech Art', 'Procedural Generation']
 ---
 
 <div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_3.mov`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_3.mp4`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
 </div>
 
 As a Technical Artist, one of my main goals is removing friction from the environment art pipeline. When building sci-fi or cyberpunk environments, artists spend hours manually placing bezier curves to simulate hanging cables and power lines. This process is tedious and highly destructive if the environment layout changes.
@@ -23,8 +23,8 @@ Initially, I designed the script using a custom **Dijkstra shortest-path algorit
 However, after testing it in a real production scenario, I realized a critical flaw: environments are built using modular, disconnected meshes. If an artist wants to connect an antenna on Building A to an AC unit on Building B, a topology-based algorithm fails. I pivoted to a **Mid-Air Mathematical approach**, relying on global coordinate matrices (`matrix_world @ v.co`) to draw curves freely through 3D space, independent of the underlying geometry.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_1.mov`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
-  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_2.mov`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_1.mp4`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
+  <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_2.mp4`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
 </div>
 
 ### Iteration 2: Scale-Independent Parabolic Gravity

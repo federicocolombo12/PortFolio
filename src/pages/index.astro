@@ -34,14 +34,14 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 		{ type: 'image', url: `${baseUrl}/projects/pulse-engine/biosignal_sdf_material_inspector.png`, thumb: `${baseUrl}/projects/pulse-engine/biosignal_sdf_material_inspector.png`, title: 'Shader Material Inspector' },
 	],
 	'graphics-lab': [
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/PBR_Screen.mov`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Cook-Torrance PBR Engine' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/02_Deferred.mov`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Deferred Shading G-Buffer Pipeline' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/SPOM.mov`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Silhouette Parallax Occlusion Mapping' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/01_RayMarcher.mov`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'SDF Raymarching Sandbox' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Cook-Torrance PBR Engine' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/02_Deferred.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Deferred Shading G-Buffer Pipeline' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/SPOM.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Silhouette Parallax Occlusion Mapping' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/01_RayMarcher.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'SDF Raymarching Sandbox' },
 	],
 	'smart-cable-generator': [
-		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mov`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Real-Time Catenary Cable Physics' },
-		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_1.mov`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Multi-Object Surface Snapping' },
+		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Real-Time Catenary Cable Physics' },
+		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_1.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Multi-Object Surface Snapping' },
 		{ type: 'image', url: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Blender Add-on Custom UI Panel' },
 	],
 	'ue5-procedural-environment': [
@@ -82,7 +82,7 @@ const showreelSlides = [
 		sub: 'C++17 • OpenGL 3.3 Core • Deferred Shading • Cook-Torrance PBR',
 		tag: 'ENGINE DEV',
 		image: `${baseUrl}/projects/graphics-lab/hero.png`,
-		video: `${baseUrl}/videos/graphics-lab/PBR_Screen.mov`,
+		video: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`,
 		projectId: 'graphics-lab'
 	},
 	{
@@ -90,7 +90,7 @@ const showreelSlides = [
 		sub: 'Python 3 • Catenary Physics • Procedural Curve Authoring',
 		tag: 'TOOLING',
 		image: `${baseUrl}/covers/Smart Cable Generator.jpg`,
-		video: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mov`,
+		video: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`,
 		projectId: 'smart-cable-generator'
 	},
 	{
@@ -607,20 +607,22 @@ const showreelSlides = [
 				overflow-y: auto;
 				position: relative;
 				opacity: 0;
-				transform: scale(0.72) translateY(24px);
-				transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+				transform: translate3d(0, 24px, 0) scale(0.72);
+				transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 				display: flex;
 				flex-direction: column;
 				will-change: transform, opacity;
+				backface-visibility: hidden;
+				-webkit-backface-visibility: hidden;
 			}
 			.modal-overlay.open .modal-box {
 				opacity: 1;
-				transform: scale(1) translateY(0);
+				transform: translate3d(0, 0, 0) scale(1);
 			}
 			.modal-overlay.closing .modal-box {
 				opacity: 0;
-				transform: scale(0.78) translateY(18px);
-				transition: transform 0.32s ease-in, opacity 0.28s ease-in;
+				transform: translate3d(0, 18px, 0) scale(0.78);
+				transition: transform 0.28s ease-in, opacity 0.24s ease-in;
 			}
 
 			/* Staggered entrance for modal content elements */
@@ -1293,7 +1295,8 @@ const showreelSlides = [
 											<video 
 												src={slide.video} 
 												poster={slide.image} 
-												autoplay 
+												autoplay={idx === 0}
+												preload={idx === 0 ? "auto" : "none"}
 												loop 
 												muted 
 												playsinline
@@ -1846,32 +1849,7 @@ const showreelSlides = [
 			const mediaDataEl = document.getElementById('projectMediaData');
 			const projectMediaMap = mediaDataEl ? JSON.parse(mediaDataEl.textContent || '{}') : {};
 
-			// Custom gradual smooth scroll with easeInOutCubic (slower for premium tactile UX)
-			function smoothScrollTo(targetY: number, duration = 1000) {
-				const startY = window.pageYOffset;
-				const distance = targetY - startY;
-				if (Math.abs(distance) < 2) return;
-				const startTime = performance.now();
-
-				function easeInOutCubic(t: number) {
-					return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-				}
-
-				function step(currentTime: number) {
-					const elapsed = currentTime - startTime;
-					const progress = Math.min(elapsed / duration, 1);
-					const ease = easeInOutCubic(progress);
-					window.scrollTo(0, startY + distance * ease);
-
-					if (progress < 1) {
-						requestAnimationFrame(step);
-					}
-				}
-
-				requestAnimationFrame(step);
-			}
-
-			// 1. Smooth Navigation Anchors
+			// 1. Hardware-Accelerated Smooth Navigation Anchors
 			document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
 				const href = anchor.getAttribute('href');
 				if (!href || href === '#' || (href.startsWith('http') && !href.includes(window.location.hostname))) return;
@@ -1885,7 +1863,10 @@ const showreelSlides = [
 						const elementPosition = target.getBoundingClientRect().top;
 						const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-						smoothScrollTo(offsetPosition, 1000);
+						window.scrollTo({
+							top: offsetPosition,
+							behavior: 'smooth'
+						});
 						try {
 							history.pushState(null, '', '#' + hash);
 						} catch (err) {}
@@ -1901,9 +1882,9 @@ const showreelSlides = [
 				} else {
 					backToTopBtn?.classList.remove('visible');
 				}
-			});
+			}, { passive: true });
 			backToTopBtn?.addEventListener('click', () => {
-				smoothScrollTo(0, 1000);
+				window.scrollTo({ top: 0, behavior: 'smooth' });
 			});
 
 			// 2. Hero Showreel Slideshow
@@ -1916,7 +1897,13 @@ const showreelSlides = [
 			let slideInterval: any = null;
 
 			function goToSlide(index: number) {
-				slides.forEach((s) => s.classList.remove('active'));
+				slides.forEach((s) => {
+					s.classList.remove('active');
+					const v = s.querySelector('video') as HTMLVideoElement;
+					if (v && !v.paused) {
+						v.pause();
+					}
+				});
 				dots.forEach((d) => d.classList.remove('active'));
 
 				currentSlide = (index + slides.length) % slides.length;
@@ -2083,6 +2070,8 @@ const showreelSlides = [
 			}
 
 			let isModalClosing = false;
+			let closeTimer: any = null;
+
 			function closeModal() {
 				if (!modal || isModalClosing) return;
 				isModalClosing = true;
@@ -2090,10 +2079,12 @@ const showreelSlides = [
 				modal.setAttribute('aria-hidden', 'true');
 				document.body.style.overflow = '';
 				
-				setTimeout(() => {
+				if (closeTimer) clearTimeout(closeTimer);
+				closeTimer = setTimeout(() => {
 					modal.classList.remove('open');
 					modal.classList.remove('closing');
 					isModalClosing = false;
+					closeTimer = null;
 					if (modalVideo) {
 						modalVideo.pause();
 						modalVideo.src = '';
@@ -2103,11 +2094,15 @@ const showreelSlides = [
 						modalImage.src = '';
 						modalImage.style.display = 'none';
 					}
-				}, 340);
+				}, 320);
 			}
 
 			function openModal(card: HTMLElement) {
 				if (!modal) return;
+				if (closeTimer) {
+					clearTimeout(closeTimer);
+					closeTimer = null;
+				}
 				isModalClosing = false;
 				modal.classList.remove('closing');
 				const id = card.getAttribute('data-id') || '';
@@ -2157,8 +2152,6 @@ const showreelSlides = [
 						if (modalArrowRight) modalArrowRight.style.display = 'none';
 					}
 				}
-
-				renderMediaItem(0);
 
 				// Tags Handling
 				if (modalTags) {
@@ -2222,9 +2215,15 @@ const showreelSlides = [
 					}
 				}
 
+				// Launch modal opening transition immediately
 				modal.classList.add('open');
 				modal.setAttribute('aria-hidden', 'false');
 				document.body.style.overflow = 'hidden';
+
+				// Defer media load to the next animation frame so opening is instantly responsive
+				requestAnimationFrame(() => {
+					renderMediaItem(0);
+				});
 			}
 
 			// Modal Arrow Clicks
