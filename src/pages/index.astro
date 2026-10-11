@@ -23,6 +23,32 @@ const renderedProjects = await Promise.all(
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+const getProjectBadge = (p: any): string => {
+	const id = p.id;
+	if (id === 'graphics-lab') return 'C++ / OpenGL';
+	if (id === 'thesis-medical-xr') return 'Unity 6 / HLSL';
+	if (id === 'ue5-procedural-environment') return 'Unreal Engine 5';
+	if (id === 'ue5-niagara-vfx') return 'UE5 Niagara';
+	if (id === 'ue5-metahuman-cinematics') return 'UE5 MetaHuman';
+	if (id === 'ue5-reality-capture') return 'Photogrammetry';
+	if (id === 'smart-cable-generator') return 'Blender / Python';
+	if (id === 'line-operator') return 'Unity C# / HLSL';
+	if (id === 'spicy-mercante') return 'Unity C#';
+	if (id === 'harmony') return 'Unity 6 / VR';
+	if (id === 'awaken-asylum') return 'Unity VR';
+	if (id === 'nihil') return 'Unity 2D';
+	if (id === 'blender-renders') return 'Blender 3D';
+	if (id === 'froglet') return 'Blender Rigging';
+	if (id === 'corto-in-3d') return 'Blender Animation';
+	if (id === 'ziva') return 'VR 360° Film';
+	if (id === 'chiavi-ombra') return 'VR 360° Film';
+	if (id === 'visual-effects') return 'VFX / Tracking';
+	if (id === 'easycooking') return 'DaVinci / Editing';
+	if (id === 'video-shooting-and-editing') return 'Cinematography';
+	if (id === 'phygital-smart-locker') return 'ESP32 / IoT';
+	return p.data?.category || 'Graphics';
+};
+
 // Rich media galleries for key projects
 const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: string, thumb: string, title?: string }>> = {
 	'thesis-medical-xr': [
@@ -34,23 +60,23 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 		{ type: 'image', url: `${baseUrl}/projects/pulse-engine/biosignal_sdf_material_inspector.png`, thumb: `${baseUrl}/projects/pulse-engine/biosignal_sdf_material_inspector.png`, title: 'Shader Material Inspector' },
 	],
 	'graphics-lab': [
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Cook-Torrance PBR Engine' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/02_Deferred.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Deferred Shading G-Buffer Pipeline' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/SPOM.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'Silhouette Parallax Occlusion Mapping' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/01_RayMarcher.mp4`, thumb: `${baseUrl}/projects/graphics-lab/hero.png`, title: 'SDF Raymarching Sandbox' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`, thumb: `${baseUrl}/videos/graphics-lab/PBR_Screen_poster.jpg`, title: 'Cook-Torrance PBR Engine' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/02_Deferred.mp4`, thumb: `${baseUrl}/videos/graphics-lab/02_Deferred_poster.jpg`, title: 'Deferred Shading G-Buffer Pipeline' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/SPOM.mp4`, thumb: `${baseUrl}/videos/graphics-lab/SPOM_poster.jpg`, title: 'Silhouette Parallax Occlusion Mapping' },
+		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/01_RayMarcher.mp4`, thumb: `${baseUrl}/videos/graphics-lab/01_RayMarcher_poster.jpg`, title: 'SDF Raymarching Sandbox' },
 	],
 	'smart-cable-generator': [
-		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Real-Time Catenary Cable Physics' },
-		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_1.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Multi-Object Surface Snapping' },
+		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/cable_demo_3_poster.jpg`, title: 'Real-Time Catenary Cable Physics' },
+		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_1.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/cable_demo_1_poster.jpg`, title: 'Multi-Object Surface Snapping' },
 		{ type: 'image', url: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Blender Add-on Custom UI Panel' },
 	],
 	'ue5-procedural-environment': [
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a1_pcg.mp4`, thumb: `${baseUrl}/covers/UE5 Tech Art Showcase.png`, title: 'Procedural Content Generation (PCG)' },
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/env_a1.mp4`, thumb: `${baseUrl}/covers/UE5 Tech Art Showcase.png`, title: 'Dynamic Weather & Lighting Pipeline' },
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/a1_pcg.mp4`, thumb: `${baseUrl}/videos/tech-art/a1_pcg_poster.jpg`, title: 'Procedural Content Generation (PCG)' },
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/env_a1.mp4`, thumb: `${baseUrl}/videos/tech-art/env_a1_poster.jpg`, title: 'Dynamic Weather & Lighting Pipeline' },
 	],
 	'ue5-niagara-vfx': [
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_render.mp4`, thumb: `${baseUrl}/covers/UE5 Tech Art Showcase.png`, title: 'Niagara GPU Comet Particle System' },
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_final.mp4`, thumb: `${baseUrl}/covers/UE5 Tech Art Showcase.png`, title: 'Final Cinematics Composite' },
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_render.mp4`, thumb: `${baseUrl}/videos/tech-art/a5_render_poster.jpg`, title: 'Niagara GPU Comet Particle System' },
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_final.mp4`, thumb: `${baseUrl}/videos/tech-art/a5_final_poster.jpg`, title: 'Final Cinematics Composite' },
 	],
 	'spicy-mercante': [
 		{ type: 'video', url: `${baseUrl}/projects/spicy-mercante/video2.mp4`, thumb: `${baseUrl}/projects/spicy-mercante/image1.jpeg`, title: 'Multiplayer Card Game Mechanics' },
@@ -1347,7 +1373,7 @@ const showreelSlides = [
 					<button class="filter-btn active" data-category="all">All Projects</button>
 					<button class="filter-btn" data-category="Tech Art">Graphics & Engine</button>
 					<button class="filter-btn" data-category="Game Development">Game Development</button>
-					<button class="filter-btn" data-category="3D Animation">3D Animation</button>
+					<button class="filter-btn" data-category="3D Animation">3D Art & Animation</button>
 					<button class="filter-btn" data-category="Filmmaking">Filmmaking & VFX</button>
 				</div>
 
@@ -1358,12 +1384,14 @@ const showreelSlides = [
 							const mediaList = projectMediaMap[post.id] || [];
 							const imgSrc = post.data.heroImage ? post.data.heroImage.src : '';
 							const isInitiallyVisible = idx < 3; // Initially show top 3 projects matching user image 1
+							const badgeText = getProjectBadge(post);
 							return (
 								<article 
 									class={`project-card ${!isInitiallyVisible ? 'hidden-card' : ''}`}
 									data-id={post.id}
 									data-index={idx}
 									data-category={post.data.category || 'Tech Art'}
+									data-badge={badgeText}
 									data-title={post.data.title}
 									data-desc={post.data.description}
 									data-image={imgSrc}
@@ -1378,7 +1406,7 @@ const showreelSlides = [
 										{post.data.heroImage && (
 											<Image width={720} height={405} src={post.data.heroImage} alt={post.data.title} />
 										)}
-										<span class="card-overlay-badge">{post.data.category}</span>
+										<span class="card-overlay-badge">{badgeText}</span>
 										{mediaList.some(m => m.type === 'video') && (
 											<span class="card-media-indicator">
 												<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -2053,7 +2081,13 @@ const showreelSlides = [
 				if (item.type === 'video') {
 					if (modalImage) modalImage.style.display = 'none';
 					if (modalVideo) {
-						modalVideo.src = item.url;
+						if (item.thumb) {
+							modalVideo.poster = item.thumb;
+						}
+						modalVideo.preload = 'auto';
+						if (modalVideo.src !== item.url) {
+							modalVideo.src = item.url;
+						}
 						modalVideo.style.display = 'block';
 						modalVideo.play().catch(() => {});
 					}
@@ -2061,6 +2095,7 @@ const showreelSlides = [
 					if (modalVideo) {
 						modalVideo.pause();
 						modalVideo.style.display = 'none';
+						modalVideo.poster = '';
 					}
 					if (modalImage) {
 						modalImage.src = item.url;
@@ -2115,8 +2150,9 @@ const showreelSlides = [
 				const raicinema = card.getAttribute('data-raicinema') || '';
 				const youtube = card.getAttribute('data-youtube') || '';
 
+				const badge = card.getAttribute('data-badge') || category;
 				if (modalTitle) modalTitle.textContent = title;
-				if (modalCategory) modalCategory.textContent = category;
+				if (modalCategory) modalCategory.textContent = badge;
 
 				// Setup Media Gallery
 				const explicitMedia = projectMediaMap[id] || [];
