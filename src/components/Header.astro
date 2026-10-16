@@ -329,19 +329,14 @@ import HeaderLink from './HeaderLink.astro';
 
 		/* Drawer Overlay & Panel */
 		.mobile-drawer {
-			display: block;
+			display: none;
 			position: fixed;
 			inset: 0;
 			z-index: 1000;
-			visibility: hidden;
-			opacity: 0;
-			pointer-events: none;
-			transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+			overflow: hidden;
 		}
 		.mobile-drawer.open {
-			visibility: visible;
-			opacity: 1;
-			pointer-events: auto;
+			display: block;
 		}
 		.drawer-backdrop {
 			position: absolute;

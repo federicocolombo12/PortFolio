@@ -822,7 +822,7 @@ const showreelSlides = [
 				border-top: 1px solid rgba(255, 255, 255, 0.06);
 				overflow-x: auto;
 			}
-			.modal-thumb-item {
+			:global(.modal-thumb-item) {
 				width: 74px;
 				height: 44px;
 				border-radius: 6px;
@@ -833,23 +833,25 @@ const showreelSlides = [
 				flex-shrink: 0;
 				position: relative;
 				transition: all 0.2s;
+				box-sizing: border-box;
+				display: block;
 			}
-			.modal-thumb-item:hover {
+			:global(.modal-thumb-item:hover) {
 				opacity: 0.9;
 				transform: translateY(-1px);
 			}
-			.modal-thumb-item.active {
+			:global(.modal-thumb-item.active) {
 				opacity: 1;
 				border-color: var(--accent);
 				box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
 			}
-			.modal-thumb-item img {
+			:global(.modal-thumb-item img) {
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
 				display: block;
 			}
-			.thumb-video-icon {
+			:global(.thumb-video-icon) {
 				position: absolute;
 				bottom: 3px;
 				right: 3px;
@@ -1493,25 +1495,41 @@ const showreelSlides = [
 			/* Mobile Tablet & Phone Ergonomics (max-width: 768px) */
 			@media (max-width: 768px) {
 				.hero {
-					gap: 2rem;
-					padding: 1.5rem 0 3rem;
+					grid-template-columns: 1fr;
+					min-width: 0;
+					width: 100%;
+					max-width: 100%;
+					gap: 1.75rem;
+					padding: 1.25rem 0 2.5rem;
+				}
+				.hero-left, .hero-right {
+					min-width: 0;
+					width: 100%;
+					max-width: 100%;
 				}
 				.hero-title {
-					font-size: clamp(2.1rem, 7.5vw, 2.9rem);
-					line-height: 1.12;
+					font-size: clamp(2rem, 7.5vw, 2.6rem);
+					line-height: 1.15;
+					word-break: break-word;
 				}
 				.hero-role {
-					font-size: 1.2rem;
+					font-size: 1.05rem;
+					line-height: 1.45;
+					white-space: normal;
+					flex-wrap: wrap;
+					margin-bottom: 1.25rem;
 				}
 				.hero-bio {
-					font-size: 1.02rem;
-					line-height: 1.7;
-					margin-bottom: 1.75rem;
+					font-size: 0.98rem;
+					line-height: 1.68;
+					margin-bottom: 1.5rem;
+					max-width: 100%;
 				}
 
 				/* Showreel Card Mobile */
 				.hero-showreel-card {
 					border-radius: 14px;
+					max-width: 100%;
 				}
 				.showreel-hud-header {
 					padding: 0.6rem 0.85rem;
@@ -1543,9 +1561,11 @@ const showreelSlides = [
 					-webkit-overflow-scrolling: touch;
 					scrollbar-width: none;
 					-ms-overflow-style: none;
-					padding: 0.5rem 1rem;
-					margin: 0 -1rem 2rem -1rem;
+					padding: 0.35rem 0.25rem;
+					margin: 0 0 2rem 0;
 					gap: 0.5rem;
+					max-width: 100%;
+					box-sizing: border-box;
 				}
 				.filter-bar::-webkit-scrollbar {
 					display: none;
@@ -1613,7 +1633,7 @@ const showreelSlides = [
 				.modal-thumb-strip::-webkit-scrollbar {
 					display: none;
 				}
-				.modal-thumb-item {
+				:global(.modal-thumb-item) {
 					width: 64px;
 					height: 38px;
 				}
@@ -2887,140 +2907,9 @@ const showreelSlides = [
 				}
 			});
 
-			// Slide Deck Captions Map & Interactive Navigation Handler
-			const slideCaptions: Record<number, string> = {
-				1: 'Environment Art & World Building (Cover)',
-				2: 'Overview & Artistic Direction',
-				3: 'Tool Breakdown (Heightmaps, Auto-Material, PCG)',
-				4: 'Ecosistema Procedurale: Slope & Altitude Auto-Materials',
-				5: 'Confronto Grayboxing vs Risultato Finale',
-				6: 'Topografia Realistica: Flusso Heightmap (Gaea to Landscape)',
-				7: 'Sistema dei Fiori Procedurale & Modular Kit Esterno',
-				8: 'House Decals, Roof Materials & Texturing',
-				9: 'Decisioni Tecniche: Workflow Spline 100% Procedurale',
-				10: 'PCG & Spline: Path Generation, Grass Volume & Megaplants',
-				11: 'La Sfida Principale: Bilanciamento Fantasy & Ghibli',
-				12: 'Ciclo Giorno/Notte: Sistema Celestial & Switching Lights',
-				13: 'Problemi Risolti: Nanite Landscape & Mie Scattering',
-				14: 'MetaHumans & AI Cinematics (Cover)',
-				15: 'Premesse Narrative: Expedition 33 Homage',
-				16: 'Primo Tentativo: FaceBuilder in Blender & Bottlenecks',
-				17: 'Limiti di Adattamento dello Skeleton MetaHuman Identity',
-				18: 'Turning Point: RealityScan dei Nostri Volti',
-				19: 'Layout di Produzione & Pipeline End-to-End',
-				20: 'Confronto A/B dei Due MetaHumans',
-				21: 'Hair Sculpting: Divario tra Scalp e Trasformazioni',
-				22: 'Preparazione dello Scalp in Blender',
-				23: 'Hair Sculpting con Modifiers & Strand Steps',
-				24: 'Pipeline Completa Hair Grooming: Blender to UE5',
-				25: 'Risoluzione Groom Binding & Strand Size Tuning',
-				26: 'Integrazione Shading e Dinamiche Fisiche Capelli',
-				27: 'Cinematics & Sequencer Setup (Cover)',
-				28: 'Establishing Shot: Framing Esterno 200mm',
-				29: 'Shot 2: Moving In & Atmosphere Interna',
-				30: 'Shot 3: Dettaglio del MetaHuman nel Laboratorio',
-				31: 'Struttura Master Sequencer & Subsequences Modulari',
-				32: 'Shot 4: Campo/Controcampo Dialogo',
-				33: 'Face MoCap in Tempo Reale via Live Link Face (iPhone)',
-				34: 'Shot Breakdown: Le 7 Inquadrature Registiche',
-				35: 'Cartwheel AI Mocap Corporeo & Correzione Root Motion',
-				36: 'Shot 6 & 7: Confronto Finale e Composite',
-				37: 'Reality Capture & 3D Gaussian Splatting (Cover)',
-				38: 'Regole di Acquisizione Fotografica: Golden Rules',
-				39: 'Dettagli di Ripresa (Chest Height, Crab Walk, No Stabilization)',
-				40: 'Pipeline Completa Fotogrammetria - RealityCapture',
-				41: "Cos'è COLMAP: Structure from Motion",
-				42: 'Parametri e Matching Geometrico in COLMAP',
-				43: 'Benchmark Tempi COLMAP: Algoritmo Non Convergente',
-				44: 'Frame Sampling con FFmpeg (1 frame ogni 7)',
-				45: 'Risoluzione Density Cloud e Nuvola Sparsa',
-				46: 'Inferno delle DLL: Risoluzione Dipendenze Windows/Linux',
-				47: 'COLMAP & Nerfstudio: Limiti dei Floaters',
-				48: 'Post-Mortem NeRF: Artefatti "Melted Wax"',
-				49: 'Introduzione al 3D Gaussian Splatting',
-				50: 'Densificazione e Pruning dei Gaussiani',
-				51: 'Pipeline di Training 3D Gaussian Splatting',
-				52: 'Sperimentazione in Locale con XScene (Plugin UE5)',
-				53: 'Configurazione XVaDTools e Runtime Locale',
-				54: 'Benchmark XScene: Limiti della Mesh su RTX 4070',
-				55: 'Cloud AI Tools (Luma, Vid2Scene) Post-Mortem & PLY',
-				56: 'Dataset Finale e Integrazione NanoGS in UE5',
-				57: 'Niagara VFX: The Magic Comet (Cover)',
-				58: 'Visione Artistica: Trasformare l\'Ambiente in Fiaba',
-				59: 'Setup dell\'Ambiente e Illuminazione della Scena',
-				60: 'I 3 Sistemi Particellari Realizzati',
-				61: 'Integrazione Fairy Field e Petali al Vento',
-				62: 'Anatomia Niagara: Campo di Forze e Curl Noise',
-				63: 'Anatomia Meteor System: I 4 Emitter Combinati',
-				64: 'Homing Meteor Logic: Point Attraction Force & Blueprint Target Vector',
-				65: 'References, Tutorial e Crediti',
-			};
-
-			modalArticleBody?.addEventListener('click', (e) => {
-				const target = e.target as HTMLElement;
-				const btn = target.closest('.deck-nav-btn');
-				if (!btn) return;
-				const container = btn.closest('.deck-viewer-container') as HTMLElement;
-				if (!container) return;
-				
-				const start = parseInt(container.getAttribute('data-start') || '1', 10);
-				const end = parseInt(container.getAttribute('data-end') || '13', 10);
-				const total = end - start + 1;
-				let current = parseInt(container.getAttribute('data-current') || '1', 10);
-				
-				if (btn.classList.contains('deck-next')) {
-					current = current >= total ? 1 : current + 1;
-				} else {
-					current = current <= 1 ? total : current - 1;
-				}
-				
-				container.setAttribute('data-current', String(current));
-				const globalSlideNum = start + current - 1;
-				const padded = String(globalSlideNum).padStart(2, '0');
-				
-				const imgEl = container.querySelector('.deck-slide-img') as HTMLImageElement;
-				const counterEl = container.querySelector('.deck-counter-current') as HTMLElement;
-				const captionEl = container.querySelector('.deck-caption') as HTMLElement;
-				
-				if (imgEl) {
-					imgEl.src = `${baseUrl}/figma-slides/slide_${padded}.webp`;
-					imgEl.alt = `Slide ${globalSlideNum}`;
-				}
-				if (counterEl) {
-					counterEl.textContent = String(current);
-				}
-				if (captionEl) {
-					const text = slideCaptions[globalSlideNum] || `Slide ${globalSlideNum}`;
-					captionEl.textContent = `Slide ${current}: ${text}`;
-				}
-			});
-
-			// Slide Deck Touch Swiping
-			let deckTouchStartX = 0;
-			let deckTouchStartY = 0;
-
-			modalArticleBody?.addEventListener('touchstart', (e: any) => {
-				const frame = e.target.closest('.deck-main-frame');
-				if (frame && e.touches && e.touches.length === 1) {
-					deckTouchStartX = e.touches[0].clientX;
-					deckTouchStartY = e.touches[0].clientY;
-				}
-			}, { passive: true });
-
-			modalArticleBody?.addEventListener('touchend', (e: any) => {
-				const frame = e.target.closest('.deck-main-frame');
-				if (frame && e.changedTouches && e.changedTouches.length === 1) {
-					const deltaX = e.changedTouches[0].clientX - deckTouchStartX;
-					const deltaY = e.changedTouches[0].clientY - deckTouchStartY;
-					if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
-						const container = frame.closest('.deck-viewer-container') as HTMLElement;
-						if (container) {
-							const nextBtn = container.querySelector(deltaX < 0 ? '.deck-next' : '.deck-prev') as HTMLElement;
-							nextBtn?.click();
-						}
-					}
-				}
-			}, { passive: true });
+			// Slide Deck Interactive Navigation (Universal)
+			import { initDeckViewer } from '../scripts/deck-viewer';
+			initDeckViewer();
 
 			// 5. Experience vs Education Toggle Handler
 			const tabExpBtn = document.getElementById('tabExpBtn');

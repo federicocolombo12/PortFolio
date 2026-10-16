@@ -149,16 +149,22 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<Footer />
 		<script>
 			import mediumZoom from 'https://esm.sh/medium-zoom@1.1.0';
+			import { initDeckViewer } from '../scripts/deck-viewer';
 			
 			const initZoom = () => {
-				mediumZoom('.prose img', {
+				mediumZoom('.prose img:not(.deck-slide-img)', {
 					margin: 24,
 					background: 'rgba(10, 15, 20, 0.95)',
 				});
 			};
 
 			initZoom();
-			document.addEventListener('astro:page-load', initZoom);
+			initDeckViewer();
+
+			document.addEventListener('astro:page-load', () => {
+				initZoom();
+				initDeckViewer();
+			});
 		</script>
 	</body>
 </html>

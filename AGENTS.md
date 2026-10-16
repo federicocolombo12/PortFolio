@@ -52,3 +52,15 @@ The canonical five-role triage vocabulary is used (`needs-triage`, `needs-info`,
 
 Single-context layout (`GLOSSARY.md` and `docs/adr/` at repo root). See `docs/agents/domain.md`.
 
+
+
+## Antigravity Multi-Device Logging Rule
+Alla fine di ogni task, piano di implementazione o refactoring significativo:
+1. Genera o aggiorna una sintesi di massimo 5 righe in:
+   `/Users/federicocolombo/Library/CloudStorage/GoogleDrive-chiccoclub5@gmail.com/Il mio Drive/Antigravity_Connectors/mac/status_latest.md`
+2. Formato obbligatorio:
+   - Device: MacBook M4
+   - Progetto attivo: Portfolio
+   - Cosa è stato fatto oggi: [1-2 frasi]
+   - Blocco/Problema tecnico attuale: [es. issue layout, bug transizioni o "Nessuno"]
+   - Prossimo passo pianificato: [cosa farai dopo]
