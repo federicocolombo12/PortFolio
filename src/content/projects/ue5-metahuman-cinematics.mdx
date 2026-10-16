@@ -64,12 +64,67 @@ Instead of expensive suits, we utilized **Cartwheel** for AI-driven body mocap. 
 
 ---
 
-## Resources
+## 📐 MetaHuman & Cinematics Pipeline Architecture
 
-<iframe style={{ border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', marginTop: '2rem', width: '100%', height: '450px' }} src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdeck%2FY8w4tPcqatEeqzEAsafK9Z" allowFullScreen={true}></iframe>
+<div class="pipeline-diagram">
+  <div class="diagram-title">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+    <span>End-to-End MetaHuman & MoCap Architecture</span>
+  </div>
+  <div class="diagram-grid">
+    <div class="diagram-step">
+      <div class="step-num">STAGE 01</div>
+      <div class="step-name">Scan & Identity</div>
+      <p class="step-desc">RealityScan photogrammetry of real actors to Mesh-to-MetaHuman fitting, preserving skin and facial bone structures.</p>
+    </div>
+    <div class="diagram-step">
+      <div class="step-num">STAGE 02</div>
+      <div class="step-name">Blender Hair Groom</div>
+      <p class="step-desc">Hair curves sculpting, modifiers & strand steps. Alembic (.abc) export with strictly unapplied scale.</p>
+    </div>
+    <div class="diagram-step">
+      <div class="step-num">STAGE 03</div>
+      <div class="step-name">Groom Binding & Physics</div>
+      <p class="step-desc">UE5 Groom Binding to skeletal mesh. Custom strand size tuning to prevent vertex decoupling during extreme facial deformation.</p>
+    </div>
+    <div class="diagram-step">
+      <div class="step-num">STAGE 04</div>
+      <div class="step-name">Sequencer & MoCap</div>
+      <p class="step-desc">Live Link Face (iPhone) real-time micro-acting blended with Cartwheel AI body mocap across 7 directed camera cuts.</p>
+    </div>
+  </div>
+</div>
 
-<div style={{ marginTop: '1rem', textAlign: 'center' }}>
-  <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 'bold', fontSize: '1.2rem', textDecoration: 'none', color: '#ff5c5c' }}>
-    👉 Open the full presentation on Figma
-  </a>
+---
+
+## 🎨 Dedicated Presentation Slides (Slides 14 – 36)
+
+<div class="deck-viewer-container" data-start="14" data-end="36" data-current="1" data-deck-id="ue5-metahumans">
+  <div class="deck-header">
+    <div class="deck-title-wrap">
+      <span class="deck-badge">Figma Deck · Group 05</span>
+      <h4 class="deck-heading">MetaHumans & Cinematics Pipeline</h4>
+    </div>
+    <div class="deck-counter-badge">
+      <span class="deck-counter-current">1</span> / <span class="deck-counter-total">23</span>
+    </div>
+  </div>
+
+  <div class="deck-main-frame">
+    <button class="deck-nav-btn deck-prev" aria-label="Previous Slide">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <img class="deck-slide-img" src={`${import.meta.env.BASE_URL}/figma-slides/slide_14.webp`} alt="Slide 14" />
+    <button class="deck-nav-btn deck-next" aria-label="Next Slide">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </div>
+
+  <div class="deck-footer">
+    <p class="deck-caption">Slide 1: MetaHumans & AI Cinematics (Cover)</p>
+    <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" class="deck-figma-link">
+      <span>Open Full Deck on Figma</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    </a>
+  </div>
 </div>

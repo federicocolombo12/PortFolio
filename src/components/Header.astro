@@ -23,18 +23,132 @@ import HeaderLink from './HeaderLink.astro';
 				</a>
 			</div>
 			<div class="social-links">
-				<a href="https://www.linkedin.com/in/federico-colombo10" target="_blank" title="LinkedIn">
+				<a href="https://www.linkedin.com/in/federico-colombo10" target="_blank" rel="noopener noreferrer" title="LinkedIn">
 					<span class="sr-only">LinkedIn</span>
 					<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
 				</a>
-				<a href="https://github.com/federicocolombo12" target="_blank" title="GitHub">
+				<a href="https://github.com/federicocolombo12" target="_blank" rel="noopener noreferrer" title="GitHub">
 					<span class="sr-only">GitHub</span>
 					<svg viewBox="0 0 16 16" width="22" height="22" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
 				</a>
 			</div>
+			<!-- Mobile Actions (Visible only on <= 768px) -->
+			<div class="mobile-actions">
+				<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/cv`} class="nav-cv-pill mobile-cv-btn" title="View Curriculum Vitae">
+					<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+					<span>CV</span>
+				</a>
+				<button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+					<span class="hamburger-line"></span>
+					<span class="hamburger-line"></span>
+					<span class="hamburger-line"></span>
+				</button>
+			</div>
 		</div>
 	</nav>
 </header>
+
+<!-- Mobile Drawer Navigation -->
+<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+	<div class="drawer-backdrop" id="drawerBackdrop"></div>
+	<div class="drawer-panel">
+		<div class="drawer-header">
+			<span class="drawer-title">Navigation</span>
+			<button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+			</button>
+		</div>
+		<nav class="drawer-nav">
+			<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/#projects`} class="drawer-link">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+				<span>Projects</span>
+			</a>
+			<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/#experience`} class="drawer-link">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+				<span>Experience</span>
+			</a>
+			<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/#about`} class="drawer-link">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+				<span>About</span>
+			</a>
+			<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/#contact`} class="drawer-link">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+				<span>Contact</span>
+			</a>
+			<a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/cv`} class="drawer-link drawer-link-highlight">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+				<span>Curriculum Vitae / Resume</span>
+			</a>
+		</nav>
+		<div class="drawer-footer">
+			<span class="drawer-footer-title">Connect</span>
+			<div class="drawer-socials">
+				<a href="https://www.linkedin.com/in/federico-colombo10" target="_blank" rel="noopener noreferrer" class="drawer-social-btn">
+					<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+					<span>LinkedIn</span>
+				</a>
+				<a href="https://github.com/federicocolombo12" target="_blank" rel="noopener noreferrer" class="drawer-social-btn">
+					<svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+					<span>GitHub</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	const initMobileDrawer = () => {
+		const hamburger = document.getElementById('hamburgerBtn');
+		const drawer = document.getElementById('mobileDrawer');
+		const drawerClose = document.getElementById('drawerCloseBtn');
+		const drawerBackdrop = document.getElementById('drawerBackdrop');
+		const drawerLinks = drawer?.querySelectorAll('.drawer-link, .drawer-social-btn');
+
+		if (!hamburger || !drawer) return;
+
+		const openDrawer = () => {
+			drawer.classList.add('open');
+			drawer.setAttribute('aria-hidden', 'false');
+			hamburger.setAttribute('aria-expanded', 'true');
+			hamburger.classList.add('active');
+			document.body.style.overflow = 'hidden';
+		};
+
+		const closeDrawer = () => {
+			drawer.classList.remove('open');
+			drawer.setAttribute('aria-hidden', 'true');
+			hamburger.setAttribute('aria-expanded', 'false');
+			hamburger.classList.remove('active');
+			document.body.style.overflow = '';
+		};
+
+		hamburger.addEventListener('click', (e) => {
+			e.stopPropagation();
+			if (drawer.classList.contains('open')) {
+				closeDrawer();
+			} else {
+				openDrawer();
+			}
+		});
+
+		drawerClose?.addEventListener('click', closeDrawer);
+		drawerBackdrop?.addEventListener('click', closeDrawer);
+
+		drawerLinks?.forEach((link) => {
+			link.addEventListener('click', closeDrawer);
+		});
+
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && drawer.classList.contains('open')) {
+				closeDrawer();
+			}
+		});
+	};
+
+	initMobileDrawer();
+	document.addEventListener('astro:page-load', initMobileDrawer);
+</script>
+
 <style>
 	header {
 		position: sticky;
@@ -139,8 +253,24 @@ import HeaderLink from './HeaderLink.astro';
 		transform: translateY(-1px);
 		text-shadow: none;
 	}
+
+	/* Hidden by default on desktop */
+	.mobile-actions {
+		display: none;
+	}
+	.mobile-drawer {
+		display: none;
+	}
+
+	/* Mobile responsive styles */
 	@media (max-width: 768px) {
+		header {
+			padding: 0 1rem;
+		}
 		.brand-tag {
+			display: none;
+		}
+		.internal-links {
 			display: none;
 		}
 		.social-links {
@@ -148,6 +278,201 @@ import HeaderLink from './HeaderLink.astro';
 		}
 		nav {
 			padding: 0;
+			height: 58px;
+		}
+		.mobile-actions {
+			display: flex;
+			align-items: center;
+			gap: 0.65rem;
+		}
+		.mobile-cv-btn {
+			margin-left: 0;
+			padding: 0.35rem 0.65rem;
+			font-size: 0.8rem;
+			gap: 0.3rem;
+		}
+		.hamburger-btn {
+			width: 40px;
+			height: 40px;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			border-radius: 8px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 5px;
+			cursor: pointer;
+			padding: 0;
+			transition: background 0.2s, border-color 0.2s;
+		}
+		.hamburger-btn:hover {
+			background: rgba(255, 255, 255, 0.1);
+			border-color: rgba(var(--accent-rgb), 0.4);
+		}
+		.hamburger-line {
+			width: 18px;
+			height: 2px;
+			background-color: #ffffff;
+			border-radius: 2px;
+			transition: transform 0.25s ease, opacity 0.25s ease;
+		}
+		.hamburger-btn.active .hamburger-line:nth-child(1) {
+			transform: translateY(7px) rotate(45deg);
+		}
+		.hamburger-btn.active .hamburger-line:nth-child(2) {
+			opacity: 0;
+		}
+		.hamburger-btn.active .hamburger-line:nth-child(3) {
+			transform: translateY(-7px) rotate(-45deg);
+		}
+
+		/* Drawer Overlay & Panel */
+		.mobile-drawer {
+			display: block;
+			position: fixed;
+			inset: 0;
+			z-index: 1000;
+			visibility: hidden;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+		}
+		.mobile-drawer.open {
+			visibility: visible;
+			opacity: 1;
+			pointer-events: auto;
+		}
+		.drawer-backdrop {
+			position: absolute;
+			inset: 0;
+			background: rgba(4, 7, 12, 0.75);
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+		}
+		.drawer-panel {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			width: min(320px, 85vw);
+			background: rgba(11, 15, 25, 0.96);
+			backdrop-filter: blur(24px);
+			-webkit-backdrop-filter: blur(24px);
+			border-left: 1px solid rgba(255, 255, 255, 0.1);
+			box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+			display: flex;
+			flex-direction: column;
+			transform: translateX(100%);
+			transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+			padding: calc(env(safe-area-inset-top) + 1.25rem) 1.25rem calc(env(safe-area-inset-bottom) + 1.25rem);
+		}
+		.mobile-drawer.open .drawer-panel {
+			transform: translateX(0);
+		}
+		.drawer-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-bottom: 1.25rem;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			margin-bottom: 1rem;
+		}
+		.drawer-title {
+			font-family: var(--font-mono);
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: #94a3b8;
+		}
+		.drawer-close-btn {
+			width: 36px;
+			height: 36px;
+			border-radius: 8px;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			color: #ffffff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+		}
+		.drawer-nav {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			flex: 1;
+			overflow-y: auto;
+		}
+		.drawer-link {
+			display: flex;
+			align-items: center;
+			gap: 0.85rem;
+			padding: 0.85rem 1rem;
+			color: #cbd5e1;
+			text-decoration: none;
+			font-size: 1.05rem;
+			font-weight: 500;
+			border-radius: 10px;
+			transition: background 0.2s, color 0.2s;
+			min-height: 48px;
+		}
+		.drawer-link:hover, .drawer-link:active {
+			background: rgba(255, 255, 255, 0.06);
+			color: #ffffff;
+		}
+		.drawer-link svg {
+			color: var(--accent);
+			flex-shrink: 0;
+		}
+		.drawer-link-highlight {
+			background: rgba(var(--accent-rgb), 0.1);
+			border: 1px solid rgba(var(--accent-rgb), 0.3);
+			color: var(--accent);
+			margin-top: 0.5rem;
+			font-weight: 600;
+		}
+		.drawer-link-highlight:hover, .drawer-link-highlight:active {
+			background: rgba(var(--accent-rgb), 0.2);
+			color: #ffffff;
+		}
+		.drawer-footer {
+			padding-top: 1.25rem;
+			border-top: 1px solid rgba(255, 255, 255, 0.08);
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+		}
+		.drawer-footer-title {
+			font-family: var(--font-mono);
+			font-size: 0.72rem;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: #64748b;
+		}
+		.drawer-socials {
+			display: flex;
+			gap: 0.75rem;
+		}
+		.drawer-social-btn {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 0.65rem;
+			border-radius: 8px;
+			background: rgba(255, 255, 255, 0.04);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			color: #cbd5e1;
+			text-decoration: none;
+			font-size: 0.9rem;
+			font-weight: 500;
+			min-height: 44px;
+		}
+		.drawer-social-btn:hover, .drawer-social-btn:active {
+			background: rgba(255, 255, 255, 0.08);
+			color: var(--accent);
 		}
 	}
 </style>

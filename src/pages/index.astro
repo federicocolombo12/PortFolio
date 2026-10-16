@@ -73,10 +73,45 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 	'ue5-procedural-environment': [
 		{ type: 'video', url: `${baseUrl}/videos/tech-art/a1_pcg.mp4`, thumb: `${baseUrl}/videos/tech-art/a1_pcg_poster.jpg`, title: 'Procedural Content Generation (PCG)' },
 		{ type: 'video', url: `${baseUrl}/videos/tech-art/env_a1.mp4`, thumb: `${baseUrl}/videos/tech-art/env_a1_poster.jpg`, title: 'Dynamic Weather & Lighting Pipeline' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_03.webp`, thumb: `${baseUrl}/figma-slides/slide_03.webp`, title: 'Slide 03 · Tool Breakdown & Architecture' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_04.webp`, thumb: `${baseUrl}/figma-slides/slide_04.webp`, title: 'Slide 04 · Ecosistema Auto-Materials' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_06.webp`, thumb: `${baseUrl}/figma-slides/slide_06.webp`, title: 'Slide 06 · Flusso Heightmap & Topografia' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_10.webp`, thumb: `${baseUrl}/figma-slides/slide_10.webp`, title: 'Slide 10 · PCG Spline Grass & Megaplants' },
+	],
+	'ue5-metahuman-cinematics': [
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/a2_hair.mp4`, thumb: `${baseUrl}/videos/tech-art/a2_hair_poster.jpg`, title: 'MetaHuman Grooming & Hair Simulation' },
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/a3_cartwheel.mp4`, thumb: `${baseUrl}/videos/tech-art/a3_cartwheel_poster.jpg`, title: 'Full-Body Motion Capture & Sequencer' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_18.webp`, thumb: `${baseUrl}/figma-slides/slide_18.webp`, title: 'Slide 18 · RealityScan to MetaHuman Pipeline' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_20.webp`, thumb: `${baseUrl}/figma-slides/slide_20.webp`, title: 'Slide 20 · Confronto A/B MetaHumans' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_24.webp`, thumb: `${baseUrl}/figma-slides/slide_24.webp`, title: 'Slide 24 · Hair Grooming Blender to UE5' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_31.webp`, thumb: `${baseUrl}/figma-slides/slide_31.webp`, title: 'Slide 31 · Sequencer Camera Shots' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_34.webp`, thumb: `${baseUrl}/figma-slides/slide_34.webp`, title: 'Slide 34 · Shot Breakdown Regia' },
+	],
+	'ue5-reality-capture': [
+		{ type: 'video', url: `${baseUrl}/videos/tech-art/a4_house.mp4`, thumb: `${baseUrl}/videos/tech-art/a4_house_poster.jpg`, title: 'RealityCapture Photogrammetry Dataset' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_40.webp`, thumb: `${baseUrl}/figma-slides/slide_40.webp`, title: 'Slide 40 · Pipeline RealityCapture' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_42.webp`, thumb: `${baseUrl}/figma-slides/slide_42.webp`, title: 'Slide 42 · COLMAP Structure from Motion' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_46.webp`, thumb: `${baseUrl}/figma-slides/slide_46.webp`, title: 'Slide 46 · Dependency & DLL Analysis' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_51.webp`, thumb: `${baseUrl}/figma-slides/slide_51.webp`, title: 'Slide 51 · 3D Gaussian Splatting Training' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_55.webp`, thumb: `${baseUrl}/figma-slides/slide_55.webp`, title: 'Slide 55 · Cloud AI Tools Post-Mortem' },
 	],
 	'ue5-niagara-vfx': [
 		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_render.mp4`, thumb: `${baseUrl}/videos/tech-art/a5_render_poster.jpg`, title: 'Niagara GPU Comet Particle System' },
 		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_final.mp4`, thumb: `${baseUrl}/videos/tech-art/a5_final_poster.jpg`, title: 'Final Cinematics Composite' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_59.webp`, thumb: `${baseUrl}/figma-slides/slide_59.webp`, title: 'Slide 59 · Environment Lighting & VFX Setup' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_62.webp`, thumb: `${baseUrl}/figma-slides/slide_62.webp`, title: 'Slide 62 · Anatomia Niagara System' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_63.webp`, thumb: `${baseUrl}/figma-slides/slide_63.webp`, title: 'Slide 63 · Meteor System: 4 Emitters' },
+		{ type: 'image', url: `${baseUrl}/figma-slides/slide_64.webp`, thumb: `${baseUrl}/figma-slides/slide_64.webp`, title: 'Slide 64 · Homing Logic & Dynamic Lighting' },
+	],
+	'blender-renders': [
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/SIMULATORI%20FRONT%20VIEW/SIMULATORI_FRONT_VIEW.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/SIMULATORI%20FRONT%20VIEW/SIMULATORI_FRONT_VIEW.jpg`, title: 'Simulator Front View' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Panoramica%20arcade/Panoramica_arcade.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Panoramica%20arcade/Panoramica_arcade.jpg`, title: 'Arcade Panoramic View' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Close%20Up%20pokeball/Close_Up_pokeball.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Close%20Up%20pokeball/Close_Up_pokeball.jpg`, title: 'Pokeball Close-Up Detail' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Fisheye%20Arcade/Fisheye_Arcade.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Fisheye%20Arcade/Fisheye_Arcade.jpg`, title: 'Fisheye Arcade View' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Close_Up_Arcade_2/Close_Up_Arcade_2.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Close_Up_Arcade_2/Close_Up_Arcade_2.jpg`, title: 'Arcade Cabinet Close-Up' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Led%20View/Led_View.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Led%20View/Led_View.jpg`, title: 'Neon LED Atmosphere' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Bar-View/Bar-View.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Bar-View/Bar-View.jpg`, title: 'Bar Lounge Environment' },
+		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Simulatore/Simulatore.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Simulatore/Simulatore.jpg`, title: 'Racing Simulator Rig' },
 	],
 	'spicy-mercante': [
 		{ type: 'video', url: `${baseUrl}/projects/spicy-mercante/video2.mp4`, thumb: `${baseUrl}/projects/spicy-mercante/image1.jpeg`, title: 'Multiplayer Card Game Mechanics' },
@@ -85,11 +120,47 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 	'visual-effects': [
 		{ type: 'video', url: `${baseUrl}/projects/visual-effects/tech_art_video.mp4`, thumb: `${baseUrl}/projects/visual-effects/set_photo1.jpg`, title: 'VFX Breakdown & Tracking' },
 		{ type: 'image', url: `${baseUrl}/projects/visual-effects/set_photo1.jpg`, thumb: `${baseUrl}/projects/visual-effects/set_photo1.jpg`, title: 'On-Set Camera Tracking Markers' },
+		{ type: 'image', url: `${baseUrl}/projects/visual-effects/set_photo2.jpg`, thumb: `${baseUrl}/projects/visual-effects/set_photo2.jpg`, title: 'Camera Operation & Lens Setup' },
+		{ type: 'image', url: `${baseUrl}/projects/visual-effects/set_photo3.jpg`, thumb: `${baseUrl}/projects/visual-effects/set_photo3.jpg`, title: 'Close-Up Matte & Plate Capture' },
+		{ type: 'video', url: `${baseUrl}/projects/visual-effects/cloth_video.mp4`, thumb: `${baseUrl}/projects/visual-effects/cloth_photo1.jpg`, title: 'Digital Cloth Simulation' },
+		{ type: 'image', url: `${baseUrl}/projects/visual-effects/cloth_photo1.jpg`, thumb: `${baseUrl}/projects/visual-effects/cloth_photo1.jpg`, title: 'Cloth Solver Wireframe & Mesh' },
+		{ type: 'image', url: `${baseUrl}/projects/visual-effects/cloth_photo2.jpg`, thumb: `${baseUrl}/projects/visual-effects/cloth_photo2.jpg`, title: 'Cloth Material Shading' },
+	],
+	'froglet': [
+		{ type: 'video', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/EspressioniFacciali.mp4`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/First_Shot_Def0001-0055.mp40004.png`, title: 'Facial Rigging & Shape Keys' },
+		{ type: 'video', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/DisplacementAndTexture.mp4`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/ScreenNodi_Texture.png`, title: 'Procedural Texture & Displacement' },
+		{ type: 'image', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/First_Shot_Def0001-0055.mp40004.png`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/First_Shot_Def0001-0055.mp40004.png`, title: 'Froglet Final Frame Render' },
+		{ type: 'image', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/ScreenNodi_Texture.png`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/ScreenNodi_Texture.png`, title: 'Blender Shader Nodes' },
+	],
+	'phygital-smart-locker': [
+		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5505.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Locking Actuator & Servo Test' },
+		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5506.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'RFID Sensor & Card Read' },
+		{ type: 'image', url: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Smart Locker Prototype Hardware' },
 	],
 	'harmony': [
 		{ type: 'video', url: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo.mp4`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo_poster.jpg`, title: 'Real-Time Vocal Cymatics & Meta Quest Live Interaction' },
 		{ type: 'image', url: `${baseUrl}/covers/Harmony.png`, thumb: `${baseUrl}/covers/Harmony.png`, title: 'Harmony VR Key Visual' },
 		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_logo.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_logo.png`, title: 'Harmony VR Logo' },
+	],
+	'awaken-asylum': [
+		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_145331.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_145331.png`, title: 'Asylum Interior Shading & Architecture' },
+		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_144349.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_144349.png`, title: 'Volumetric Fog & Atmospheric Lighting' },
+	],
+	'easycooking': [
+		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-8e21/Screenshot_2024-06-22_alle_21.00.22.png`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-8e21/Screenshot_2024-06-22_alle_21.00.22.png`, title: 'Production Set & Lighting' },
+		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-0bbe/Screenshot_2024-09-29_alle_15.54.39.png`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-0bbe/Screenshot_2024-09-29_alle_15.54.39.png`, title: 'Color Grade & DaVinci Timeline' },
+	],
+	'line-operator': [
+		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/KxDAsD.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/KxDAsD.png`, title: 'Core Gameplay & Level Layout' },
+		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/HIc0z.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/HIc0z.png`, title: 'Circuit Routing & Mechanics' },
+	],
+	'nihil': [
+		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/IXYPN-.gif`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/IXYPN-.gif`, title: 'Combat Mechanics & Animations' },
+		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/sssOhB.gif`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/sssOhB.gif`, title: 'Character Transformation Sequence' },
+	],
+	'ziva': [
+		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/canvas_moodboard-ci-250221_1201.png`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/canvas_moodboard-ci-250221_1201.png`, title: 'VR 360° Moodboard & Visual Research' },
+		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/gifCI.gif`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/gifCI.gif`, title: '360° Spherical Production Sequence' },
 	],
 };
 
@@ -864,6 +935,179 @@ const showreelSlides = [
 				color: #ffffff;
 			}
 
+			/* Interactive In-Article Slide Deck Viewer */
+			.deck-viewer-container {
+				background: rgba(10, 15, 26, 0.95);
+				border: 1px solid rgba(255, 255, 255, 0.12);
+				border-radius: 14px;
+				overflow: hidden;
+				margin: 2.25rem 0;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+			}
+			.deck-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0.9rem 1.25rem;
+				background: rgba(14, 20, 32, 0.9);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			}
+			.deck-title-wrap {
+				display: flex;
+				flex-direction: column;
+				gap: 0.15rem;
+			}
+			.deck-badge {
+				font-family: var(--font-mono);
+				font-size: 0.68rem;
+				color: var(--accent);
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+			}
+			.deck-heading {
+				margin: 0;
+				font-size: 0.95rem;
+				font-weight: 600;
+				color: #fff;
+			}
+			.deck-counter-badge {
+				font-family: var(--font-mono);
+				font-size: 0.8rem;
+				font-weight: 600;
+				color: #94a3b8;
+				background: rgba(255, 255, 255, 0.06);
+				padding: 0.25rem 0.65rem;
+				border-radius: 20px;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+			}
+			.deck-counter-current {
+				color: var(--accent);
+				font-weight: 700;
+			}
+			.deck-main-frame {
+				position: relative;
+				width: 100%;
+				aspect-ratio: 16 / 9;
+				background: #000;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.deck-slide-img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				display: block;
+			}
+			.deck-nav-btn {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 44px;
+				height: 44px;
+				border-radius: 50%;
+				background: rgba(10, 14, 22, 0.85);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				color: #fff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				transition: all 0.2s;
+				backdrop-filter: blur(8px);
+				z-index: 10;
+			}
+			.deck-nav-btn:hover {
+				background: var(--accent);
+				color: #000;
+				border-color: var(--accent);
+				transform: translateY(-50%) scale(1.08);
+			}
+			.deck-prev { left: 14px; }
+			.deck-next { right: 14px; }
+			.deck-footer {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0.85rem 1.25rem;
+				background: rgba(14, 20, 32, 0.9);
+				border-top: 1px solid rgba(255, 255, 255, 0.08);
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			.deck-caption {
+				margin: 0;
+				font-size: 0.85rem;
+				color: #94a3b8;
+			}
+			.deck-figma-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4rem;
+				font-family: var(--font-mono);
+				font-size: 0.75rem;
+				color: var(--accent);
+				text-decoration: none;
+				padding: 0.35rem 0.75rem;
+				border-radius: 6px;
+				background: rgba(var(--accent-rgb), 0.08);
+				border: 1px solid rgba(var(--accent-rgb), 0.25);
+				transition: all 0.2s;
+			}
+			.deck-figma-link:hover {
+				background: rgba(var(--accent-rgb), 0.2);
+				transform: translateY(-1px);
+			}
+
+			/* Architecture / Pipeline Diagram */
+			.pipeline-diagram {
+				background: rgba(14, 20, 32, 0.85);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 12px;
+				padding: 1.5rem;
+				margin: 2rem 0;
+			}
+			.diagram-title {
+				font-family: var(--font-mono);
+				font-size: 0.75rem;
+				color: var(--accent);
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				margin-bottom: 1.25rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+			.diagram-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 1rem;
+			}
+			.diagram-step {
+				background: rgba(20, 28, 44, 0.8);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 8px;
+				padding: 1rem;
+			}
+			.step-num {
+				font-family: var(--font-mono);
+				font-size: 0.7rem;
+				color: var(--accent);
+				margin-bottom: 0.3rem;
+			}
+			.step-name {
+				font-size: 0.88rem;
+				font-weight: 600;
+				color: #fff;
+				margin-bottom: 0.3rem;
+			}
+			.step-desc {
+				font-size: 0.78rem;
+				color: #94a3b8;
+				line-height: 1.4;
+				margin: 0;
+			}
+
 			/* ----------------------------------------------------
 			   3. EXPERIENCE & EDUCATION WITH REAL LOGOS
 			   ---------------------------------------------------- */
@@ -1245,15 +1489,283 @@ const showreelSlides = [
 					padding: 2rem;
 				}
 			}
+
+			/* Mobile Tablet & Phone Ergonomics (max-width: 768px) */
+			@media (max-width: 768px) {
+				.hero {
+					gap: 2rem;
+					padding: 1.5rem 0 3rem;
+				}
+				.hero-title {
+					font-size: clamp(2.1rem, 7.5vw, 2.9rem);
+					line-height: 1.12;
+				}
+				.hero-role {
+					font-size: 1.2rem;
+				}
+				.hero-bio {
+					font-size: 1.02rem;
+					line-height: 1.7;
+					margin-bottom: 1.75rem;
+				}
+
+				/* Showreel Card Mobile */
+				.hero-showreel-card {
+					border-radius: 14px;
+				}
+				.showreel-hud-header {
+					padding: 0.6rem 0.85rem;
+					font-size: 0.7rem;
+				}
+				.showreel-screen {
+					aspect-ratio: 16/9;
+				}
+				.showreel-hud-footer {
+					padding: 0.7rem 0.85rem;
+				}
+				.showreel-meta-title {
+					font-size: 0.82rem;
+				}
+				.showreel-meta-sub {
+					font-size: 0.68rem;
+				}
+				.showreel-inspect-badge {
+					font-size: 0.78rem;
+					padding: 0.4rem 0.85rem;
+				}
+
+				/* Swipeable Chip Bar */
+				.filter-bar {
+					display: flex;
+					flex-wrap: nowrap;
+					overflow-x: auto;
+					justify-content: flex-start;
+					-webkit-overflow-scrolling: touch;
+					scrollbar-width: none;
+					-ms-overflow-style: none;
+					padding: 0.5rem 1rem;
+					margin: 0 -1rem 2rem -1rem;
+					gap: 0.5rem;
+				}
+				.filter-bar::-webkit-scrollbar {
+					display: none;
+				}
+				.filter-btn {
+					flex-shrink: 0;
+					white-space: nowrap;
+					font-size: 0.84rem;
+					padding: 0.45rem 1rem;
+					min-height: 42px;
+					box-sizing: border-box;
+				}
+
+				/* Full-Screen Sheet Modal */
+				.modal-overlay {
+					padding: 0;
+					align-items: stretch;
+					justify-content: stretch;
+				}
+				.modal-box {
+					width: 100%;
+					max-width: 100%;
+					height: 100vh;
+					height: 100dvh;
+					max-height: 100dvh;
+					border-radius: 0;
+					border: none;
+					transform: translate3d(0, 100%, 0) scale(1);
+					transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+				}
+				.modal-overlay.open .modal-box {
+					transform: translate3d(0, 0, 0) scale(1);
+				}
+				.modal-overlay.closing .modal-box {
+					transform: translate3d(0, 100%, 0) scale(1);
+					transition: transform 0.28s cubic-bezier(0.4, 0, 1, 1);
+				}
+				.modal-close-btn {
+					top: calc(env(safe-area-inset-top, 0px) + 0.85rem);
+					right: 0.85rem;
+					width: 42px;
+					height: 42px;
+					font-size: 1.15rem;
+					z-index: 60;
+					background: rgba(10, 14, 24, 0.88);
+					backdrop-filter: blur(12px);
+					-webkit-backdrop-filter: blur(12px);
+					border: 1px solid rgba(255, 255, 255, 0.2);
+				}
+				.modal-viewer-container {
+					position: sticky;
+					top: 0;
+					z-index: 25;
+					border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				}
+				.modal-main-display {
+					aspect-ratio: 16/9;
+				}
+				.modal-thumb-strip {
+					padding: 0.6rem 0.85rem;
+					gap: 0.5rem;
+					scrollbar-width: none;
+					-webkit-overflow-scrolling: touch;
+				}
+				.modal-thumb-strip::-webkit-scrollbar {
+					display: none;
+				}
+				.modal-thumb-item {
+					width: 64px;
+					height: 38px;
+				}
+				.viewer-arrow-btn {
+					width: 40px;
+					height: 40px;
+				}
+				.arrow-left { left: 0.5rem; }
+				.arrow-right { right: 0.5rem; }
+				.modal-content {
+					padding: 1.5rem 1.15rem calc(env(safe-area-inset-bottom, 0px) + 3rem);
+				}
+				.modal-title {
+					font-size: 1.65rem;
+					line-height: 1.22;
+				}
+				.modal-subtitle {
+					font-size: 1.05rem;
+				}
+				.modal-actions {
+					flex-direction: column;
+					gap: 0.75rem;
+				}
+				.modal-actions a,
+				.modal-actions button {
+					width: 100%;
+					justify-content: center;
+					min-height: 46px;
+					box-sizing: border-box;
+				}
+				.modal-body-prose {
+					font-size: 0.98rem;
+					line-height: 1.75;
+				}
+
+				.back-to-top-btn {
+					bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+					right: 1.25rem;
+					width: 42px;
+					height: 42px;
+				}
+			}
+
+			/* Mobile Small Phones Ergonomics (max-width: 640px) */
 			@media (max-width: 640px) {
+				.hero-title {
+					font-size: clamp(2rem, 7.5vw, 2.75rem);
+					line-height: 1.14;
+				}
+				.hero-role {
+					font-size: 1.1rem;
+					gap: 0.35rem;
+				}
+				.hero-actions {
+					flex-direction: column;
+					width: 100%;
+					gap: 0.75rem;
+				}
+				.hero-actions .btn-primary,
+				.hero-actions .btn-secondary {
+					width: 100%;
+					justify-content: center;
+					min-height: 48px;
+					box-sizing: border-box;
+				}
 				.projects-grid {
 					grid-template-columns: 1fr;
+					gap: 1.35rem;
+				}
+				.about-avatar-frame {
+					width: 180px;
+					height: 180px;
+				}
+				.about-cta-row {
+					flex-direction: column;
+					width: 100%;
+					gap: 0.75rem;
+				}
+				.about-cta-row a {
+					width: 100%;
+					justify-content: center;
+					min-height: 48px;
+					box-sizing: border-box;
+				}
+				.capabilities-grid-split {
+					padding-top: 2rem;
+					gap: 2rem;
 				}
 				.cap-items-grid {
 					grid-template-columns: 1fr;
+					gap: 0.75rem;
+				}
+				.contact-card {
+					padding: 1.75rem 1.25rem;
+					gap: 2rem;
+					border-radius: 16px;
+				}
+				.contact-left h3 {
+					font-size: 1.5rem;
+				}
+				.contact-right {
+					padding: 1.25rem 1rem;
 				}
 				.cv-buttons-grid {
 					grid-template-columns: 1fr;
+					gap: 0.65rem;
+				}
+				.cv-buttons-grid a {
+					min-height: 46px;
+				}
+				.deck-viewer-container {
+					margin: 1.5rem -0.5rem;
+					border-radius: 10px;
+				}
+				.deck-header {
+					padding: 0.75rem 0.85rem;
+				}
+				.deck-heading {
+					font-size: 0.88rem;
+				}
+				.deck-counter-badge {
+					font-size: 0.72rem;
+					padding: 0.2rem 0.5rem;
+				}
+				.deck-nav-btn {
+					width: 38px;
+					height: 38px;
+				}
+				.deck-prev { left: 8px; }
+				.deck-next { right: 8px; }
+				.deck-footer {
+					padding: 0.75rem 0.85rem;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 0.65rem;
+				}
+				.deck-caption {
+					font-size: 0.8rem;
+				}
+				.deck-figma-link {
+					width: 100%;
+					justify-content: center;
+					min-height: 42px;
+					box-sizing: border-box;
+				}
+				.pipeline-diagram {
+					padding: 1.15rem 1rem;
+					margin: 1.5rem 0;
+				}
+				.diagram-grid {
+					grid-template-columns: 1fr;
+					gap: 0.75rem;
 				}
 			}
 		</style>
@@ -1828,7 +2340,7 @@ const showreelSlides = [
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"></polyline></svg>
 						</button>
 
-						<video id="modalVideo" controls loop playsinline style="display: none;"></video>
+						<video id="modalVideo" controls loop playsinline muted style="display: none;"></video>
 						<img id="modalImage" alt="Project preview" style="display: none;" />
 					</div>
 
@@ -1970,7 +2482,54 @@ const showreelSlides = [
 
 			showreelScreen?.addEventListener('mouseenter', stopSlideshow);
 			showreelScreen?.addEventListener('mouseleave', startSlideshow);
+
+			// Touch swipe gestures for mobile
+			let touchStartX = 0;
+			let touchStartY = 0;
+			let isSwiping = false;
+
+			showreelScreen?.addEventListener('touchstart', (e: TouchEvent) => {
+				if (e.touches.length === 1) {
+					touchStartX = e.touches[0].clientX;
+					touchStartY = e.touches[0].clientY;
+					isSwiping = false;
+					stopSlideshow();
+				}
+			}, { passive: true });
+
+			showreelScreen?.addEventListener('touchmove', (e: TouchEvent) => {
+				if (e.touches.length === 1) {
+					const deltaX = e.touches[0].clientX - touchStartX;
+					const deltaY = e.touches[0].clientY - touchStartY;
+					if (Math.abs(deltaX) > 15 && Math.abs(deltaX) > Math.abs(deltaY)) {
+						isSwiping = true;
+					}
+				}
+			}, { passive: true });
+
+			showreelScreen?.addEventListener('touchend', (e: TouchEvent) => {
+				if (e.changedTouches.length === 1) {
+					const touchEndX = e.changedTouches[0].clientX;
+					const touchEndY = e.changedTouches[0].clientY;
+					const deltaX = touchEndX - touchStartX;
+					const deltaY = touchEndY - touchStartY;
+
+					if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+						if (deltaX < 0) {
+							goToSlide(currentSlide + 1);
+						} else {
+							goToSlide(currentSlide - 1);
+						}
+					}
+					startSlideshow();
+				}
+			}, { passive: true });
+
 			showreelScreen?.addEventListener('click', () => {
+				if (isSwiping) {
+					isSwiping = false;
+					return;
+				}
 				const activeSlide = slides[currentSlide] as HTMLElement;
 				const projectId = activeSlide.getAttribute('data-project-id');
 				if (projectId) {
@@ -2075,7 +2634,11 @@ const showreelSlides = [
 
 				// Update Thumbnails
 				document.querySelectorAll('.modal-thumb-item').forEach((th, i) => {
-					th.classList.toggle('active', i === activeMediaIdx);
+					const isActive = i === activeMediaIdx;
+					th.classList.toggle('active', isActive);
+					if (isActive && modalThumbStrip) {
+						th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+					}
 				});
 
 				if (item.type === 'video') {
@@ -2085,6 +2648,7 @@ const showreelSlides = [
 							modalVideo.poster = item.thumb;
 						}
 						modalVideo.preload = 'auto';
+						modalVideo.muted = true;
 						if (modalVideo.src !== item.url) {
 							modalVideo.src = item.url;
 						}
@@ -2272,6 +2836,32 @@ const showreelSlides = [
 				renderMediaItem(activeMediaIdx + 1);
 			});
 
+			// Modal Main Media Touch Swipe
+			const modalMainDisplay = document.querySelector('.modal-main-display');
+			let modalTouchStartX = 0;
+			let modalTouchStartY = 0;
+
+			modalMainDisplay?.addEventListener('touchstart', (e: any) => {
+				if (e.touches && e.touches.length === 1) {
+					modalTouchStartX = e.touches[0].clientX;
+					modalTouchStartY = e.touches[0].clientY;
+				}
+			}, { passive: true });
+
+			modalMainDisplay?.addEventListener('touchend', (e: any) => {
+				if (e.changedTouches && e.changedTouches.length === 1) {
+					const deltaX = e.changedTouches[0].clientX - modalTouchStartX;
+					const deltaY = e.changedTouches[0].clientY - modalTouchStartY;
+					if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+						if (deltaX < 0) {
+							renderMediaItem(activeMediaIdx + 1);
+						} else {
+							renderMediaItem(activeMediaIdx - 1);
+						}
+					}
+				}
+			}, { passive: true });
+
 			// Attach project card clicks
 			document.querySelectorAll('.project-card').forEach((card) => {
 				card.addEventListener('click', () => {
@@ -2296,6 +2886,141 @@ const showreelSlides = [
 					if (e.key === 'ArrowRight') renderMediaItem(activeMediaIdx + 1);
 				}
 			});
+
+			// Slide Deck Captions Map & Interactive Navigation Handler
+			const slideCaptions: Record<number, string> = {
+				1: 'Environment Art & World Building (Cover)',
+				2: 'Overview & Artistic Direction',
+				3: 'Tool Breakdown (Heightmaps, Auto-Material, PCG)',
+				4: 'Ecosistema Procedurale: Slope & Altitude Auto-Materials',
+				5: 'Confronto Grayboxing vs Risultato Finale',
+				6: 'Topografia Realistica: Flusso Heightmap (Gaea to Landscape)',
+				7: 'Sistema dei Fiori Procedurale & Modular Kit Esterno',
+				8: 'House Decals, Roof Materials & Texturing',
+				9: 'Decisioni Tecniche: Workflow Spline 100% Procedurale',
+				10: 'PCG & Spline: Path Generation, Grass Volume & Megaplants',
+				11: 'La Sfida Principale: Bilanciamento Fantasy & Ghibli',
+				12: 'Ciclo Giorno/Notte: Sistema Celestial & Switching Lights',
+				13: 'Problemi Risolti: Nanite Landscape & Mie Scattering',
+				14: 'MetaHumans & AI Cinematics (Cover)',
+				15: 'Premesse Narrative: Expedition 33 Homage',
+				16: 'Primo Tentativo: FaceBuilder in Blender & Bottlenecks',
+				17: 'Limiti di Adattamento dello Skeleton MetaHuman Identity',
+				18: 'Turning Point: RealityScan dei Nostri Volti',
+				19: 'Layout di Produzione & Pipeline End-to-End',
+				20: 'Confronto A/B dei Due MetaHumans',
+				21: 'Hair Sculpting: Divario tra Scalp e Trasformazioni',
+				22: 'Preparazione dello Scalp in Blender',
+				23: 'Hair Sculpting con Modifiers & Strand Steps',
+				24: 'Pipeline Completa Hair Grooming: Blender to UE5',
+				25: 'Risoluzione Groom Binding & Strand Size Tuning',
+				26: 'Integrazione Shading e Dinamiche Fisiche Capelli',
+				27: 'Cinematics & Sequencer Setup (Cover)',
+				28: 'Establishing Shot: Framing Esterno 200mm',
+				29: 'Shot 2: Moving In & Atmosphere Interna',
+				30: 'Shot 3: Dettaglio del MetaHuman nel Laboratorio',
+				31: 'Struttura Master Sequencer & Subsequences Modulari',
+				32: 'Shot 4: Campo/Controcampo Dialogo',
+				33: 'Face MoCap in Tempo Reale via Live Link Face (iPhone)',
+				34: 'Shot Breakdown: Le 7 Inquadrature Registiche',
+				35: 'Cartwheel AI Mocap Corporeo & Correzione Root Motion',
+				36: 'Shot 6 & 7: Confronto Finale e Composite',
+				37: 'Reality Capture & 3D Gaussian Splatting (Cover)',
+				38: 'Regole di Acquisizione Fotografica: Golden Rules',
+				39: 'Dettagli di Ripresa (Chest Height, Crab Walk, No Stabilization)',
+				40: 'Pipeline Completa Fotogrammetria - RealityCapture',
+				41: "Cos'è COLMAP: Structure from Motion",
+				42: 'Parametri e Matching Geometrico in COLMAP',
+				43: 'Benchmark Tempi COLMAP: Algoritmo Non Convergente',
+				44: 'Frame Sampling con FFmpeg (1 frame ogni 7)',
+				45: 'Risoluzione Density Cloud e Nuvola Sparsa',
+				46: 'Inferno delle DLL: Risoluzione Dipendenze Windows/Linux',
+				47: 'COLMAP & Nerfstudio: Limiti dei Floaters',
+				48: 'Post-Mortem NeRF: Artefatti "Melted Wax"',
+				49: 'Introduzione al 3D Gaussian Splatting',
+				50: 'Densificazione e Pruning dei Gaussiani',
+				51: 'Pipeline di Training 3D Gaussian Splatting',
+				52: 'Sperimentazione in Locale con XScene (Plugin UE5)',
+				53: 'Configurazione XVaDTools e Runtime Locale',
+				54: 'Benchmark XScene: Limiti della Mesh su RTX 4070',
+				55: 'Cloud AI Tools (Luma, Vid2Scene) Post-Mortem & PLY',
+				56: 'Dataset Finale e Integrazione NanoGS in UE5',
+				57: 'Niagara VFX: The Magic Comet (Cover)',
+				58: 'Visione Artistica: Trasformare l\'Ambiente in Fiaba',
+				59: 'Setup dell\'Ambiente e Illuminazione della Scena',
+				60: 'I 3 Sistemi Particellari Realizzati',
+				61: 'Integrazione Fairy Field e Petali al Vento',
+				62: 'Anatomia Niagara: Campo di Forze e Curl Noise',
+				63: 'Anatomia Meteor System: I 4 Emitter Combinati',
+				64: 'Homing Meteor Logic: Point Attraction Force & Blueprint Target Vector',
+				65: 'References, Tutorial e Crediti',
+			};
+
+			modalArticleBody?.addEventListener('click', (e) => {
+				const target = e.target as HTMLElement;
+				const btn = target.closest('.deck-nav-btn');
+				if (!btn) return;
+				const container = btn.closest('.deck-viewer-container') as HTMLElement;
+				if (!container) return;
+				
+				const start = parseInt(container.getAttribute('data-start') || '1', 10);
+				const end = parseInt(container.getAttribute('data-end') || '13', 10);
+				const total = end - start + 1;
+				let current = parseInt(container.getAttribute('data-current') || '1', 10);
+				
+				if (btn.classList.contains('deck-next')) {
+					current = current >= total ? 1 : current + 1;
+				} else {
+					current = current <= 1 ? total : current - 1;
+				}
+				
+				container.setAttribute('data-current', String(current));
+				const globalSlideNum = start + current - 1;
+				const padded = String(globalSlideNum).padStart(2, '0');
+				
+				const imgEl = container.querySelector('.deck-slide-img') as HTMLImageElement;
+				const counterEl = container.querySelector('.deck-counter-current') as HTMLElement;
+				const captionEl = container.querySelector('.deck-caption') as HTMLElement;
+				
+				if (imgEl) {
+					imgEl.src = `${baseUrl}/figma-slides/slide_${padded}.webp`;
+					imgEl.alt = `Slide ${globalSlideNum}`;
+				}
+				if (counterEl) {
+					counterEl.textContent = String(current);
+				}
+				if (captionEl) {
+					const text = slideCaptions[globalSlideNum] || `Slide ${globalSlideNum}`;
+					captionEl.textContent = `Slide ${current}: ${text}`;
+				}
+			});
+
+			// Slide Deck Touch Swiping
+			let deckTouchStartX = 0;
+			let deckTouchStartY = 0;
+
+			modalArticleBody?.addEventListener('touchstart', (e: any) => {
+				const frame = e.target.closest('.deck-main-frame');
+				if (frame && e.touches && e.touches.length === 1) {
+					deckTouchStartX = e.touches[0].clientX;
+					deckTouchStartY = e.touches[0].clientY;
+				}
+			}, { passive: true });
+
+			modalArticleBody?.addEventListener('touchend', (e: any) => {
+				const frame = e.target.closest('.deck-main-frame');
+				if (frame && e.changedTouches && e.changedTouches.length === 1) {
+					const deltaX = e.changedTouches[0].clientX - deckTouchStartX;
+					const deltaY = e.changedTouches[0].clientY - deckTouchStartY;
+					if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+						const container = frame.closest('.deck-viewer-container') as HTMLElement;
+						if (container) {
+							const nextBtn = container.querySelector(deltaX < 0 ? '.deck-next' : '.deck-prev') as HTMLElement;
+							nextBtn?.click();
+						}
+					}
+				}
+			}, { passive: true });
 
 			// 5. Experience vs Education Toggle Handler
 			const tabExpBtn = document.getElementById('tabExpBtn');

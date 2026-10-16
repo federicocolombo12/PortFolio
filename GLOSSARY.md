@@ -27,3 +27,16 @@ _Avoid_: Placeholder, thumbnail fallback
 **Vector PDF Generation**:
 The automated Playwright Chromium build step that renders exact 100% design fidelity vector PDFs of Curriculum Vitae and Resume variants into `public/`.
 _Avoid_: Print page, PDF export, HTML to PDF
+
+**Mobile Drawer Navigation**:
+The off-canvas overlay menu for mobile viewports (< 768px) with glassmorphism blur and 48px touch targets, replacing crowded desktop nav links while keeping the CV quick-access pill prominent.
+_Avoid_: Hamburger dropdown, mobile header menu
+
+**Full-Screen Sheet**:
+The edge-to-edge modal display mode on mobile devices for inspecting project technical breakdowns with swipe-down dismissal, 16:9 media anchor, and streamlined safe-area margins.
+_Avoid_: Mobile popup, mobile dialog
+
+**Swipeable Chip Bar**:
+A single-row horizontally scrollable category filter bar with edge-fade indicators, replacing multiline wrapped buttons on mobile viewports.
+_Avoid_: Horizontal pill bar, wrapped filter list
+

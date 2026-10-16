@@ -42,12 +42,67 @@ As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**
 
 ---
 
-## Resources
+## 📐 Photogrammetry & 3DGS Reconstruction Pipeline
 
-<iframe style={{ border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', marginTop: '2rem', width: '100%', height: '450px' }} src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdeck%2FY8w4tPcqatEeqzEAsafK9Z" allowFullScreen={true}></iframe>
+<div class="pipeline-diagram">
+  <div class="diagram-title">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+    <span>Spatial Reconstruction Architecture</span>
+  </div>
+  <div class="diagram-grid">
+    <div class="diagram-step">
+      <div class="step-num">STAGE 01</div>
+      <div class="step-name">Video Capture Rules</div>
+      <p class="step-desc">Chest height, forward-facing, zero EIS stabilization, outer crab walk + triple 360° inner core pans.</p>
+    </div>
+    <div class="diagram-step">
+      <div class="step-num">STAGE 02</div>
+      <div class="step-name">Frame Sampling & SfM</div>
+      <p class="step-desc">FFmpeg 1-in-7 frame downsampling. COLMAP CLI structure-from-motion sparse point cloud solving.</p>
+    </div>
+    <div class="diagram-step">
+      <div class="step-num">STAGE 03</div>
+      <div class="step-name">NeRF vs 3DGS</div>
+      <p class="step-desc">Tested NeRF (melted wax artifacts) vs 3D Gaussian Splatting with progressive ellipsoid densification.</p>
+    </div>
+    <div class="diagram-step">
+      <div class="step-num">STAGE 04</div>
+      <div class="step-name">UE5 Runtime</div>
+      <p class="step-desc">Post-mortem pivot from local XScene to Cloud AI (Luma/Vid2Scene) delivering clean .ply point clouds via NanoGS.</p>
+    </div>
+  </div>
+</div>
 
-<div style={{ marginTop: '1rem', textAlign: 'center' }}>
-  <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 'bold', fontSize: '1.2rem', textDecoration: 'none', color: '#ff5c5c' }}>
-    👉 Open the full presentation on Figma
-  </a>
+---
+
+## 🎨 Dedicated Presentation Slides (Slides 37 – 56)
+
+<div class="deck-viewer-container" data-start="37" data-end="56" data-current="1" data-deck-id="ue5-reality">
+  <div class="deck-header">
+    <div class="deck-title-wrap">
+      <span class="deck-badge">Figma Deck · Group 05</span>
+      <h4 class="deck-heading">Reality Capture & Gaussian Splatting</h4>
+    </div>
+    <div class="deck-counter-badge">
+      <span class="deck-counter-current">1</span> / <span class="deck-counter-total">20</span>
+    </div>
+  </div>
+
+  <div class="deck-main-frame">
+    <button class="deck-nav-btn deck-prev" aria-label="Previous Slide">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <img class="deck-slide-img" src={`${import.meta.env.BASE_URL}/figma-slides/slide_37.webp`} alt="Slide 37" />
+    <button class="deck-nav-btn deck-next" aria-label="Next Slide">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </div>
+
+  <div class="deck-footer">
+    <p class="deck-caption">Slide 1: Reality Capture & 3D Gaussian Splatting (Cover)</p>
+    <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" class="deck-figma-link">
+      <span>Open Full Deck on Figma</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    </a>
+  </div>
 </div>
