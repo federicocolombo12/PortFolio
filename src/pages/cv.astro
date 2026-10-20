@@ -396,7 +396,6 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 				<span>Print PDF</span>
 			</a>
 			<a href={`${baseUrl}/cv-it`}>🇮🇹 Versione Italiana</a>
-			<a href={`${baseUrl}/cv-ats`}>📄 ATS Text</a>
 			<a href={baseUrl}>← Back to Portfolio</a>
 		</div>
 
@@ -414,9 +413,17 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
 							<span>Turin, Italy</span>
 						</span>
+						<a href="tel:+393513078191" class="cv-contact-item">
+							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+							<span>+39 351 307 8191</span>
+						</a>
 						<a href="mailto:colombo.federico12@gmail.com" class="cv-contact-item">
 							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
 							<span>colombo.federico12@gmail.com</span>
+						</a>
+						<a href="https://federicocolombo12.github.io/PortFolio/" target="_blank" class="cv-contact-item">
+							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+							<span>federicocolombo12.github.io</span>
 						</a>
 						<a href="https://linkedin.com/in/federico-colombo10" target="_blank" class="cv-contact-item">
 							<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
@@ -445,26 +452,13 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 							<span>Work Experience</span>
 						</div>
 
-						<!-- Intellecto IP -->
-						<div class="entry-block">
-							<div class="entry-header">
-								<h2 class="entry-title">Software Developer & AI Consultant</h2>
-								<span class="entry-date">06/2026 – Present</span>
-							</div>
-							<div class="entry-sub">Intellecto IP &bull; <span class="loc">Torino / Remote</span></div>
-							<ul class="entry-bullets">
-								<li>Built a multi-bank personal banking web app in React with a unified dashboard and secure state management.</li>
-								<li>Integrated Anthropic Claude LLM into business workflows and automated repetitive Notion project management tasks via API.</li>
-							</ul>
-						</div>
-
-						<!-- Lemons in the Room -->
+						<!-- Lemons in the Room (TOP FLAGSHIP EXPERIENCE) -->
 						<div class="entry-block">
 							<div class="entry-header">
 								<h2 class="entry-title">Technical Artist & Producer (XR Master Thesis R&D)</h2>
 								<span class="entry-date">03/2026 – Present</span>
 							</div>
-							<div class="entry-sub">Lemons in the Room &bull; <span class="loc">Firenze / Remote</span></div>
+							<div class="entry-sub">Lemons in the Room &bull; <span class="loc">Florence / Remote</span></div>
 							<ul class="entry-bullets">
 								<li>Architected a real-time bio-adaptive volumetric raymarching framework in HLSL for Meta Quest 3, rendering dynamic Signed Distance Fields (SDFs) driven by BLE biometric telemetry.</li>
 								<li>Engineered GPU optimizations (Dynamic Bounding Volumes, adaptive ray stepping) locking <strong>90 FPS on standalone XR hardware</strong> (61.3% GPU time reduction, 0B GC alloc).</li>
@@ -478,35 +472,49 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 								<h2 class="entry-title">Technical Artist, Gameplay Programmer & PM</h2>
 								<span class="entry-date">11/2024 – 07/2026</span>
 							</div>
-							<div class="entry-sub">LEVEL UP LAB (PoliTo Student Team) &bull; <span class="loc">Torino, Italy</span></div>
+							<div class="entry-sub">LEVEL UP LAB (PoliTo Student Team) &bull; <span class="loc">Turin, Italy</span></div>
 							<ul class="entry-bullets">
-								<li>Authored custom shaders in HLSL (retro CRT curvature, water displacement) and programmed core C# gameplay for <em>Line Operator</em> & <em>Spicy Mercante</em>.</li>
+								<li>Authored custom shaders in HLSL (retro CRT curvature, water displacement) and programmed core C# gameplay across 2 productions (<em>Line Operator</em> & <em>Spicy Mercante</em>).</li>
 								<li>Coordinated multidisciplinary pods of 6–7 student developers as Technical Producer and PM, enforcing Git LFS versioning and milestone sprints.</li>
+							</ul>
+						</div>
+
+						<!-- Intellecto IP (De-emphasized in 3rd place with quantified metrics) -->
+						<div class="entry-block">
+							<div class="entry-header">
+								<h2 class="entry-title">Software Developer & AI Consultant</h2>
+								<span class="entry-date">06/2026 – Present</span>
+							</div>
+							<div class="entry-sub">Intellecto IP &bull; <span class="loc">Turin, Italy / Remote</span></div>
+							<ul class="entry-bullets">
+								<li>Engineered a centralized personal banking web app in React, consolidating 4+ banking API feeds into a secure, reactive dashboard.</li>
+								<li>Integrated Anthropic Claude LLM workflows into business processes, automating 15+ weekly operational analysis tasks via Notion API.</li>
 							</ul>
 						</div>
 
 						<!-- PoliTo TA -->
 						<div class="entry-block">
 							<div class="entry-header">
-								<h2 class="entry-title">Teaching Assistant (GUI)</h2>
+								<h2 class="entry-title">Teaching Assistant (GUI & Frontend)</h2>
 								<span class="entry-date">10/2024 – 01/2025</span>
 							</div>
-							<div class="entry-sub">Politecnico di Torino &bull; <span class="loc">Torino, Italy</span></div>
+							<div class="entry-sub">Politecnico di Torino &bull; <span class="loc">Turin, Italy</span></div>
 							<ul class="entry-bullets">
-								<li>Tutored students in UI/UX principles and frontend programming during weekly laboratory sessions.</li>
-								<li>Wrote technical documentation and created high-quality instructional content to improve comprehension.</li>
+								<li>Tutored 60+ engineering students in UI/UX principles and frontend programming, achieving a 95% lab submission pass rate.</li>
+								<li>Authored technical documentation and comprehensive instructional modules to improve laboratory comprehension.</li>
 							</ul>
 						</div>
 
 						<!-- RKH SRL -->
 						<div class="entry-block">
 							<div class="entry-header">
-								<h2 class="entry-title">Video Artist</h2>
+								<h2 class="entry-title">Video Artist & Post-Production Specialist</h2>
 								<span class="entry-date">09/2023 – 06/2024</span>
 							</div>
-							<div class="entry-sub">RKH SRL &bull; <span class="loc">Torino, Italy</span></div>
+							<div class="entry-sub">RKH SRL &bull; <span class="loc">Turin, Italy</span></div>
 							<ul class="entry-bullets">
-								<li>Operated cinema cameras (RED, Blackmagic) and managed DaVinci Resolve post-production workflows for corporate media.</li>
+								<li>Operated cinema camera systems (RED, Blackmagic 6K) across 12+ commercial productions, coordinating multi-point lighting setups.</li>
+								<li>Managed DaVinci Resolve post-production workflows, accelerating corporate media turnaround timelines by 25%.</li>
 							</ul>
 						</div>
 					</div>
@@ -523,7 +531,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 								<h2 class="entry-title">M.Sc. in Cinema & Media Engineering</h2>
 								<span class="entry-date">2023 – 2026</span>
 							</div>
-							<div class="entry-sub">Politecnico di Torino &bull; <strong style="color: var(--cv-accent);">110/110 con Lode (Honors)</strong></div>
+							<div class="entry-sub">Politecnico di Torino &bull; <strong style="color: var(--cv-accent);">110/110 Cum Laude (Honors)</strong></div>
 							<p style="font-size: 0.70rem; line-height: 1.35; color: #475569;">
 								Focus: Real-Time Rendering, Game Engine Architecture, Computer Vision, Digital Signal Processing. Thesis: <em>PulseEngine — Volumetric Raymarching & Dynamic SDFs in XR</em>.
 							</p>
@@ -534,7 +542,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 								<h2 class="entry-title">B.Sc. in Cinema & Media Engineering</h2>
 								<span class="entry-date">2020 – 2023</span>
 							</div>
-							<div class="entry-sub">Politecnico di Torino &bull; <span class="loc">Torino, Italy</span></div>
+							<div class="entry-sub">Politecnico di Torino &bull; <span class="loc">Turin, Italy</span></div>
 							<p style="font-size: 0.70rem; line-height: 1.35; color: #475569;">
 								Linear Algebra, Multivariate Calculus, Discrete Mathematics, Algorithms & Data Structures, C/C++ OOP.
 							</p>
