@@ -25,6 +25,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const getProjectBadge = (p: any): string => {
 	const id = p.id;
+	if (id === 'stylized-gaussian-splats') return 'Blender 5.3 / Geometry Nodes';
 	if (id === 'graphics-lab') return 'C++ / OpenGL';
 	if (id === 'thesis-medical-xr') return 'Unity 6 / HLSL';
 	if (id === 'ue5-procedural-environment') return 'Unreal Engine 5';
@@ -51,6 +52,16 @@ const getProjectBadge = (p: any): string => {
 
 // Rich media galleries for key projects
 const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: string, thumb: string, title?: string }>> = {
+	'stylized-gaussian-splats': [
+		{ type: 'video', url: `${baseUrl}/videos/stylized-gaussian/demonstration.mp4`, thumb: `${baseUrl}/videos/stylized-gaussian/demonstration_poster.jpg`, title: 'Stylized 3DGS Viewport Demo (60 FPS)' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/01_pixar_watercolor_final.png`, thumb: `${baseUrl}/projects/stylized-gaussian/01_pixar_watercolor_final.png`, title: 'Watercolor Master Render' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/02_pixar_heavy_impasto.png`, thumb: `${baseUrl}/projects/stylized-gaussian/02_pixar_heavy_impasto.png`, title: 'Heavy Impasto Stroke Detail' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/03_brush_tangent_flow_field.png`, thumb: `${baseUrl}/projects/stylized-gaussian/03_brush_tangent_flow_field.png`, title: 'Tangent Flow Field Vectors' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/04_delighting_rd_experiment.png`, thumb: `${baseUrl}/projects/stylized-gaussian/04_delighting_rd_experiment.png`, title: 'Delighting R&D Luminance Pass' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/05_pixar_raw_capture_reference.png`, thumb: `${baseUrl}/projects/stylized-gaussian/05_pixar_raw_capture_reference.png`, title: 'Raw 3DGS Capture Reference' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/geonodes_flow_graph.jpg`, thumb: `${baseUrl}/projects/stylized-gaussian/geonodes_flow_graph.jpg`, title: 'Geometry Nodes Deformation Graph' },
+		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/blender_ui_panel.jpg`, thumb: `${baseUrl}/projects/stylized-gaussian/blender_ui_panel.jpg`, title: 'Blender N-Panel Extension UI' },
+	],
 	'thesis-medical-xr': [
 		{ type: 'video', url: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph.mp4`, thumb: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`, title: 'Bouba/Kiki SDF Morphing (Quest 3 90FPS)' },
 		{ type: 'video', url: `${baseUrl}/videos/pulse-engine/csg_modeling_demo.mp4`, thumb: `${baseUrl}/videos/pulse-engine/csg_modeling_demo_poster.jpg`, title: 'Real-Time CSG Boolean Modeling' },
@@ -173,6 +184,14 @@ const showreelSlides = [
 		image: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`,
 		video: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph.mp4`,
 		projectId: 'thesis-medical-xr'
+	},
+	{
+		title: 'Stylized 3D Gaussian Splats :: NPR Toolchain',
+		sub: 'Blender 5.3 Beta • Geometry Nodes • Vector Flow Fields • EEVEE-Next 60 FPS',
+		tag: '3DGS // NPR',
+		image: `${baseUrl}/videos/stylized-gaussian/demonstration_poster.jpg`,
+		video: `${baseUrl}/videos/stylized-gaussian/demonstration.mp4`,
+		projectId: 'stylized-gaussian-splats'
 	},
 	{
 		title: 'Graphics Lab :: Custom C++ Engine',

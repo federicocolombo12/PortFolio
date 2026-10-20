@@ -1,0 +1,200 @@
+---
+title: 'Stylized 3D Gaussian Splats'
+description: 'Real-time painterly NPR toolchain in Blender 5.3 Beta using native OpenUSD PointClouds, Geometry Nodes vector fields, and Viewport Kuwahara compositing.'
+pubDate: '2026-10-20'
+heroImage: '../../assets/covers/Stylized_Gaussian.png'
+category: 'Tech Art'
+rank: 2
+githubLink: 'https://github.com/federicocolombo12/StylizedGaussianSplats-Blender'
+tags: ['Blender 5.3', 'EEVEE-Next', 'Geometry Nodes', '3DGS', 'NPR', 'OpenUSD', 'Python']
+---
+
+<div style={{ margin: '2rem 0' }}>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/stylized-gaussian/demonstration.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/stylized-gaussian/demonstration_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" controls
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}>
+  </video>
+</div>
+
+<div class="callout-box">
+  <strong>🎨 Research Origin & Authorship:</strong><br />
+  Raw 3D Gaussian Splatting (3DGS) yields photorealistic radiance fields, but photorealism is rarely the artistic target for stylized productions, feature animation, or indie games. Inspired by Dylan Sisson's (Pixar / RenderMan) experimental Houdini setup, I designed and implemented a <strong>fully native, open-source Blender toolchain</strong> that brings painterly Non-Photorealistic Rendering (NPR) directly into the Blender 5.3 viewport at a sustained 60 FPS in EEVEE-Next.
+</div>
+
+---
+
+### Act 1: The Raw 3DGS Bottleneck & The Vision
+
+3D Gaussian Splatting represents captured 3D scenes as millions of overlapping, ellipsoidal Gaussians defined by 3D position vectors, covariance scaling matrices, rotation quaternions, opacities, and spherical harmonic (SH) radiance coefficients. While this reconstructs real-world lighting faithfully, raw captures suffer from characteristic high-frequency "needle-cloud" artifacts and resist artistic stylization.
+
+In high-end film pipelines, non-photorealistic treatments traditionally require complex offline Houdini SOP networks or custom custom C++ rasterizers. My goal was to create an artist-friendly, real-time environment within **Blender 5.3 Beta** where artists can manipulate Gaussian geometry and radiance parameters interactively:
+
+1. Transform discrete mathematical ellipsoids into **directional, tactile brushstrokes** (Watercolor, Impasto, Gouache).
+2. Compute **surface-conforming tangent flow fields** that align strokes naturally along organic contours.
+3. Apply real-time edge-preserving **Kuwahara filtration and paper fiber textures** via the EEVEE-Next Viewport Compositor.
+4. Package the mathematics into an **ergonomic Blender Python Add-on (`stylized_splats_addon`)** with 1-click artistic presets.
+
+---
+
+### Act 2: Native OpenUSD PointCloud Ingestion
+
+Previous attempts to ingest 3DGS data into Blender relied on crude workarounds: spawning millions of instanced quad meshes or point cloud hacks that saturated the CPU-GPU bus and crippled viewport framerates below 10 FPS.
+
+```
+       [Raw 3DGS Capture (.ply / .splat)]
+                       │
+                       ▼
+         [OpenUSD Converter Toolchain]
+                       │
+                       ▼
+       [Blender 5.3 Native PointCloud (.usdc)]
+     (ParticleField3DGaussianSplat Schemas)
+                       │
+                       ▼
+        [StylizedSplatModifier (GeoNodes)]
+    ├── Covariance Anisotropic Scaling
+    ├── Tangent & Curl Vector Deformation
+    └── Radiance Base Delighting Pass
+                       │
+                       ▼
+       [Real-Time EEVEE-Next Viewport]
+     (Anisotropic Kuwahara Compositing @ 60 FPS)
+```
+
+Blender 5.3 Beta introduced first-class support for native **OpenUSD PointCloud primitives** via the `ParticleField3DGaussianSplat` schema. Instead of generating polygon instances, Blender retains the raw point cloud memory buffer directly on the GPU.
+
+By binding our custom modifier stack (`StylizedSplatModifier`) directly to this native point cloud primitive, we gain direct, zero-overhead access to per-point covariance attributes (`scale`, `rotation`, `color`, `opacity`) through Geometry Nodes fields without CPU readback bottlenecks.
+
+---
+
+### Act 3: Geometry Nodes Tangent Flow & Anisotropic Math
+
+To achieve a convincing painterly look, strokes cannot simply be random billboards; they must flow across surfaces like an artist's brush following form.
+
+<div style={{ margin: '2rem 0' }}>
+  <img 
+    src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/geonodes_flow_graph.jpg`} 
+    alt="Blender 5.3 Geometry Nodes Tangent Flow Field and Covariance Deformation Graph" 
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+  />
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem', textAlign: 'center' }}>
+    Internal Geometry Nodes modifier tree: Normal extraction, vector projection, curl noise injection, and covariance matrix scaling.
+  </p>
+</div>
+
+#### Tangent Vector Field Formulation
+Given surface normal vectors `N` extracted from the Gaussian covariance orientation, we project a 3D procedural curl noise field `V_curl` onto the tangent plane:
+
+```glsl
+T = normalize(V_curl - dot(V_curl, N) * N);
+```
+
+#### Anisotropic Covariance Scaling
+We then reshape the isotropic Gaussian ellipsoids into elongated brush stroke stamps. By multiplying the primary scale axis along `T` while flattening the orthogonal cross-section:
+
+```glsl
+S_prime = vec3(sx * lambda_stretch, sy * lambda_width, sz * lambda_depth);
+```
+
+Where `lambda_stretch` ranges from `2.5x` to `8.0x` depending on stroke velocity and brush wetness. A dynamic curl noise vector offset modulates point positions over time to create organic kinetic vibration and hand-painted stroke dispersion.
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', margin: '2rem 0' }}>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/03_brush_tangent_flow_field.png`} 
+      alt="Tangent Flow Field Vector Visualization" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Visualized Tangent Vector Field: Flow lines conform to surface curvature</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/04_delighting_rd_experiment.png`} 
+      alt="Delighting R&D Experiment" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Delighting R&D Pass: Normalizing baked ambient luminance for relighting</p>
+  </div>
+</div>
+
+---
+
+### Act 4: Viewport Compositing & Kuwahara Filtration
+
+While Geometry Nodes re-engineers Gaussian geometry, the painterly cohesion is completed in the **EEVEE-Next Viewport Compositor**:
+
+1. **Edge-Preserving Anisotropic Kuwahara Filter:** Divides the sampling window into 8 directional sectors, calculating the mean and variance of each sector. Choosing the color from the sector with the lowest variance flattens high-frequency splat noise while preserving crisp boundary contours.
+2. **Sobel Ink Contours:** A luminance gradient pass detects sharp silhouette edges and overlays fine graphic pencil/ink outlines.
+3. **Paper Grain & Tactile Normal Interaction:** A high-frequency uncompressed watercolor cold-press paper normal map modulates the final luminance, grounding the virtual rendering in physical paper texture.
+
+---
+
+### Act 5: Add-on Architecture & Preset Matrix
+
+To make the system immediately usable by artists, I developed **`stylized_splats_addon`**, a custom Python extension for Blender with an intuitive N-Panel interface:
+
+<div style={{ margin: '2rem 0' }}>
+  <img 
+    src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/blender_ui_panel.jpg`} 
+    alt="Blender N-Panel Stylized Splats Extension UI" 
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+  />
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem', textAlign: 'center' }}>
+    Blender N-Panel Extension UI: Stylization mode selector, brush stroke geometry parameters, and viewport compositor toggles.
+  </p>
+</div>
+
+| Preset Style | Stretch Factor (`lambda`) | Curl Dispersion | Opacity Falloff | Viewport Kuwahara Window | Ink Outline |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Watercolor** | `3.5x` | High (`0.45`) | Feathered (`0.65`) | Large (`9x9`) | Soft Edge Bleed |
+| **Heavy Impasto** | `7.2x` | Low (`0.12`) | Opaque (`1.0`) | Medium (`5x5`) | Embossed Normal Relief |
+| **Gouache** | `2.0x` | Zero | Solid Posterized | Small (`3x3`) | Sharp Graphic Ink |
+
+---
+
+### Act 6: Visual Breakdown & Experimental Results
+
+The test suite was run on the canonical **Pixar Lamp & Luxo Ball** capture dataset, comparing the progression from raw volumetric splats to fully articulated watercolor and impasto master renders:
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', margin: '2rem 0' }}>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/05_pixar_raw_capture_reference.png`} 
+      alt="Pixar Lamp Raw 3DGS Capture Reference" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}><strong>Step 1:</strong> Raw 3DGS Capture Reference</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/02_pixar_heavy_impasto.png`} 
+      alt="Pixar Lamp Heavy Impasto Viewport Render" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}><strong>Step 2:</strong> Heavy Impasto Preset (Tactile Directional Strokes)</p>
+  </div>
+  <div style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/01_pixar_watercolor_final.png`} 
+      alt="Pixar Lamp Final Watercolor Viewport Render" 
+      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}><strong>Final Master:</strong> Expressive Watercolor Style with Edge Bleed & Paper Grain</p>
+  </div>
+</div>
+
+---
+
+### Act 7: Current Status & Future Roadmap
+
+<div class="callout-box">
+  <strong>🚀 Proof of Concept & Next Steps:</strong><br />
+  This toolchain currently stands as a verified <strong>research and development proof-of-concept</strong> developed on the Pixar test scene. Future iterations are planned to validate and scale the tool across:
+  <ul style={{ margin: '0.5rem 0 0 1.2rem' }}>
+    <li><strong>Varied Production Environments:</strong> Stress-testing on large-scale architectural exteriors, dense foliage, and mixed-lighting interior captures.</li>
+    <li><strong>Dynamic & Deforming Splats:</strong> Extending tangent flow calculations to 4D Gaussian Splatting captures with skeletal deformation skinning.</li>
+    <li><strong>Automated Spherical Harmonics Delighting:</strong> Machine-assisted shadow extraction to allow arbitrary dynamic light sources in EEVEE-Next.</li>
+  </ul>
+</div>

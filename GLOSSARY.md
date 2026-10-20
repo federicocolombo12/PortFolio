@@ -40,3 +40,19 @@ _Avoid_: Mobile popup, mobile dialog
 A single-row horizontally scrollable category filter bar with edge-fade indicators, replacing multiline wrapped buttons on mobile viewports.
 _Avoid_: Horizontal pill bar, wrapped filter list
 
+**Gaussian Splatting NPR**:
+A real-time non-photorealistic rendering technique transforming photographic 3D Gaussian Splats into painterly brush strokes (watercolor, gouache, impasto) natively inside Blender 5.3 Beta.
+_Avoid_: Splat filter, stylize plugin, post-process splats
+
+**Tangent Flow Field**:
+A procedural vector field computed per-point in Geometry Nodes that aligns splat brush elongation tangentially along surface contours and curls with 3D noise.
+_Avoid_: Guide curve, stroke direction, point velocity
+
+**Viewport Kuwahara Filter**:
+A real-time non-linear edge-preserving filter in Blender's Viewport Compositor that pools colors and softens gradients while preserving high-contrast silhouette edges.
+_Avoid_: Oil paint filter, blur mask
+
+**Radiance Base**:
+The raw unshaded photometric color and opacity of native 3D Gaussian Splats preserved directly from the capture without destructive artificial shadow removal.
+_Avoid_: Point diffuse, base color
+

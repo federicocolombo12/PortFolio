@@ -198,11 +198,11 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			.left-col {
 				display: flex;
 				flex-direction: column;
-				gap: 12px;
+				gap: 9px;
 			}
 
 			.entry-block {
-				margin-bottom: 6px;
+				margin-bottom: 4px;
 			}
 			.entry-header {
 				display: flex;
@@ -211,23 +211,23 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 				gap: 8px;
 			}
 			.entry-title {
-				font-size: 0.81rem;
+				font-size: 0.80rem;
 				font-weight: 700;
 				color: #0f172a;
 				line-height: 1.25;
 			}
 			.entry-date {
 				font-family: var(--font-mono);
-				font-size: 0.68rem;
+				font-size: 0.67rem;
 				color: var(--cv-accent);
 				font-weight: 600;
 				white-space: nowrap;
 			}
 			.entry-sub {
-				font-size: 0.73rem;
+				font-size: 0.72rem;
 				font-weight: 600;
 				color: #475569;
-				margin-bottom: 3px;
+				margin-bottom: 2px;
 			}
 			.entry-sub span.loc {
 				color: #94a3b8;
@@ -241,10 +241,10 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			.entry-bullets li {
 				position: relative;
 				padding-left: 10px;
-				font-size: 0.72rem;
-				line-height: 1.34;
+				font-size: 0.71rem;
+				line-height: 1.30;
 				color: #334155;
-				margin-bottom: 2px;
+				margin-bottom: 1.5px;
 			}
 			.entry-bullets li::before {
 				content: '•';
@@ -445,6 +445,19 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 							<span>Esperienza Lavorativa</span>
 						</div>
 
+						<!-- Intellecto IP -->
+						<div class="entry-block">
+							<div class="entry-header">
+								<h2 class="entry-title">Software Developer & Consulente AI</h2>
+								<span class="entry-date">06/2026 – Presente</span>
+							</div>
+							<div class="entry-sub">Intellecto IP &bull; <span class="loc">Torino / Remoto</span></div>
+							<ul class="entry-bullets">
+								<li>Sviluppata una web app di personal banking in React con dashboard centralizzata multi-banca e gestione sicura dello stato.</li>
+								<li>Integrato Claude LLM nei processi aziendali e automatizzati task ripetitivi di project management su Notion via API.</li>
+							</ul>
+						</div>
+
 						<!-- Lemons in the Room -->
 						<div class="entry-block">
 							<div class="entry-header">
@@ -493,8 +506,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 							</div>
 							<div class="entry-sub">RKH SRL &bull; <span class="loc">Torino</span></div>
 							<ul class="entry-bullets">
-								<li>Operato macchine da presa professionali (RED, Blackmagic 4K/6K) e assistito il DOP in complessi setup di illuminazione.</li>
-								<li>Gestito i flussi di montaggio e post-produzione su DaVinci Resolve per contenuti aziendali.</li>
+								<li>Operato macchine da presa cinema (RED, Blackmagic 4K/6K) e gestiti i flussi di post-produzione su DaVinci Resolve.</li>
 							</ul>
 						</div>
 					</div>
@@ -555,8 +567,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 						</div>
 
 						<div class="skills-group">
-							<div class="skills-group-title">Pipeline Procedurali DCC</div>
-							<div class="skills-group-desc">Tooling Python per Blender API, Unreal PCG & Niagara, automazione pipeline asset.</div>
+							<div class="skills-group-title">Pipeline DCC & Integrazione AI</div>
+							<div class="skills-group-desc">Tooling Python per Blender API, integrazione Claude LLM, Unreal PCG, flussi di asset automatizzati.</div>
 						</div>
 					</div>
 
