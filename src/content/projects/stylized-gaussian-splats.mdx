@@ -42,26 +42,16 @@ In high-end film pipelines, non-photorealistic treatments traditionally require 
 
 Previous attempts to ingest 3DGS data into Blender relied on crude workarounds: spawning millions of instanced quad meshes or point cloud hacks that saturated the CPU-GPU bus and crippled viewport framerates below 10 FPS.
 
-```
-       [Raw 3DGS Capture (.ply / .splat)]
-                       │
-                       ▼
-         [OpenUSD Converter Toolchain]
-                       │
-                       ▼
-       [Blender 5.3 Native PointCloud (.usdc)]
-     (ParticleField3DGaussianSplat Schemas)
-                       │
-                       ▼
-        [StylizedSplatModifier (GeoNodes)]
-    ├── Covariance Anisotropic Scaling
-    ├── Tangent & Curl Vector Deformation
-    └── Radiance Base Delighting Pass
-                       │
-                       ▼
-       [Real-Time EEVEE-Next Viewport]
-     (Anisotropic Kuwahara Compositing @ 60 FPS)
-```
+<div style={{ margin: '2rem 0', width: '100%' }}>
+  <img 
+    src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/pipeline_architecture_diagram.svg`} 
+    alt="Blender 5.3 Stylized 3D Gaussian Splats Pipeline Architecture Diagram" 
+    style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }} 
+  />
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.6rem', textAlign: 'center' }}>
+    End-to-end pipeline: from raw radiance field capture to native OpenUSD GPU buffers, Geometry Nodes vector fields, and EEVEE-Next viewport compositing.
+  </p>
+</div>
 
 Blender 5.3 Beta introduced first-class support for native **OpenUSD PointCloud primitives** via the `ParticleField3DGaussianSplat` schema. Instead of generating polygon instances, Blender retains the raw point cloud memory buffer directly on the GPU.
 
@@ -104,10 +94,10 @@ Where `lambda_stretch` ranges from `2.5x` to `8.0x` depending on stroke velocity
   <div style={{ textAlign: 'center' }}>
     <img 
       src={`${import.meta.env.BASE_URL}/projects/stylized-gaussian/03_brush_tangent_flow_field.png`} 
-      alt="Tangent Flow Field Vector Visualization" 
+      alt="Soft Watercolor & Anisotropic Flow" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
     />
-    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Visualized Tangent Vector Field: Flow lines conform to surface curvature</p>
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Soft Watercolor Preset: Curvature-aligned anisotropic strokes with fine paper bleed</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <img 
