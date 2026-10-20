@@ -48,6 +48,18 @@ _Avoid_: Splat filter, stylize plugin, post-process splats
 A procedural vector field computed per-point in Geometry Nodes that aligns splat brush elongation tangentially along surface contours and curls with 3D noise.
 _Avoid_: Guide curve, stroke direction, point velocity
 
+**ATS Canonical Structure**:
+A single-column document architecture adhering to strict Applicant Tracking System parsing rules: standardized section titles (`PROFESSIONAL SUMMARY`, `WORK EXPERIENCE`, `EDUCATION`, `TECHNICAL SKILLS`, `PROJECTS`), semantic heading tags (`h1`, `h2`, `h3`), and zero-split entry blocks.
+_Avoid_: Freeform layout, multi-column ATS, graphic table
+
+**Orphan Experience Entry**:
+A critical document formatting error where an experience header (company/job title) is severed from its associated bullet points across a physical page boundary.
+_Avoid_: Split entry, broken block, trailing bullet
+
+**ATS Text Layer**:
+The direct, extractable string content extracted from a PDF stream via standard PDF text extractors, strictly devoid of math symbols, ligatures, or unencoded characters.
+_Avoid_: OCR text, graphic layer, print raster
+
 **Viewport Kuwahara Filter**:
 A real-time non-linear edge-preserving filter in Blender's Viewport Compositor that pools colors and softens gradients while preserving high-contrast silhouette edges.
 _Avoid_: Oil paint filter, blur mask

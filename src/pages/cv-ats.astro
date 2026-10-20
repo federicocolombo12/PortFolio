@@ -1,20 +1,19 @@
 ---
-// No global imports
+// Standard ATS-friendly CV (English)
+import BaseHead from '../components/BaseHead.astro';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Federico Colombo - Resume</title>
+		<BaseHead title="Federico Colombo - Resume (Standard ATS)" description="Standard ATS-optimized resume for Federico Colombo - Computer Graphics Engineer & Technical Artist" />
 		<style>
 			* { box-sizing: border-box; }
 			body {
 				font-family: 'Times New Roman', Times, serif; /* Standard ATS font */
 				font-size: 10.5pt;
-				line-height: 1.38;
-				color: #000;
+				line-height: 1.36;
+				color: #111;
 				background-color: #f5f5f5;
 				margin: 0;
 				padding: 0;
@@ -57,46 +56,88 @@
 				font-size: 22pt;
 				margin: 0 0 4px 0;
 				text-transform: uppercase;
+				letter-spacing: 0.5px;
 			}
 			.subtitle {
 				text-align: center;
-				font-size: 11.5pt;
+				font-size: 11pt;
 				font-weight: bold;
 				margin-bottom: 4px;
+				color: #222;
 			}
 			.contact {
 				text-align: center;
 				font-size: 9.5pt;
-				margin-bottom: 14px;
+				margin-bottom: 12px;
+				line-height: 1.4;
 			}
+			.contact a {
+				color: #111;
+				text-decoration: none;
+			}
+			.contact a:hover {
+				text-decoration: underline;
+			}
+
 			h2 {
 				font-size: 11.5pt;
-				border-bottom: 1px solid #000;
+				border-bottom: 1.5px solid #111;
 				text-transform: uppercase;
 				margin-top: 10px;
-				margin-bottom: 4px;
+				margin-bottom: 5px;
 				padding-bottom: 2px;
+				letter-spacing: 0.5px;
+				break-after: avoid;
+				page-break-after: avoid;
 			}
-			.job-header {
-				display: flex;
-				justify-content: space-between;
-				font-weight: bold;
-			}
-			.job-subtitle {
-				display: flex;
-				justify-content: space-between;
-				font-style: italic;
-				margin-bottom: 3px;
-			}
-			ul {
-				margin-top: 3px;
-				padding-left: 18px;
+
+			/* Atomic entries that MUST NEVER be broken across pages */
+			.job-entry, .education-entry, .project-entry, .summary-section, .skills-section {
+				break-inside: avoid;
+				page-break-inside: avoid;
 				margin-bottom: 6px;
+			}
+
+			.job-title-row, .education-title-row {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				margin-bottom: 1px;
+			}
+
+			h3.job-title, h3.education-title {
+				font-size: 10.5pt;
+				font-weight: bold;
+				margin: 0;
+				color: #000;
+			}
+
+			.job-date, .education-date {
+				font-size: 9.5pt;
+				font-style: italic;
+				white-space: nowrap;
+			}
+
+			.job-company, .education-school {
+				font-size: 10pt;
+				font-style: italic;
+				margin-bottom: 2px;
+				color: #222;
+			}
+
+			ul {
+				margin-top: 2px;
+				padding-left: 18px;
+				margin-bottom: 4px;
 			}
 			li {
 				margin-bottom: 1.5px;
+				text-align: justify;
 			}
-			p { margin-bottom: 6px; }
+			p {
+				margin: 0 0 6px 0;
+				text-align: justify;
+			}
 
 			@media print {
 				body { background-color: #fff; }
@@ -108,7 +149,7 @@
 					width: 100%;
 					max-width: 100%;
 				}
-				@page { margin: 13mm 16mm; size: A4; }
+				@page { margin: 13.5mm 16mm; size: A4; }
 			}
 		</style>
 	</head>
@@ -121,116 +162,138 @@
 		</div>
 
 		<div class="document">
-			<h1>FEDERICO COLOMBO</h1>
-			<div class="subtitle">Computer Graphics Engineer | Technical Artist | XR Developer</div>
-			<div class="contact">
-				Phone: +39-3513078191 | Email: colombofederico28@gmail.com | LinkedIn: linkedin.com/in/federico-colombo10 | Location: Turin, Italy
-			</div>
+			<header class="resume-header">
+				<h1>FEDERICO COLOMBO</h1>
+				<div class="subtitle">Computer Graphics Engineer | Technical Artist | XR Developer</div>
+				<div class="contact">
+					<span>Turin, Italy</span> &bull; 
+					<span>+39 351 307 8191</span> &bull; 
+					<a href="mailto:colombo.federico12@gmail.com">colombo.federico12@gmail.com</a> &bull; 
+					<a href="https://linkedin.com/in/federico-colombo10" target="_blank">linkedin.com/in/federico-colombo10</a> &bull; 
+					<a href="https://federicocolombo12.github.io/PortFolio/" target="_blank">federicocolombo12.github.io/PortFolio</a>
+				</div>
+			</header>
 
-			<h2>PROFESSIONAL PROFILE</h2>
-			<p>Computer Graphics Engineer and Technical Artist specialized in real-time rendering, spatial computing (XR), and procedural tool development. Graduated with honors in Cinema and Media Engineering. Deep expertise in writing custom C++ rendering engines, optimizing GPU architectures (HLSL/GLSL), and leading multidisciplinary teams. Actively seeking to leverage hardcore engineering and project management skills to build scalable software architectures and high-fidelity interactive productions.</p>
+			<section class="summary-section">
+				<h2>PROFESSIONAL SUMMARY</h2>
+				<p>Computer Graphics Engineer and Technical Artist specialized in real-time rendering, spatial computing (XR), and procedural tool development. Graduated with honors in Cinema and Media Engineering. Deep expertise in writing custom C++ rendering engines, optimizing GPU architectures (HLSL/GLSL), and leading multidisciplinary teams. Actively seeking to leverage hardcore engineering and project management skills to build scalable software architectures and high-fidelity interactive productions.</p>
+			</section>
 
-			<h2>EDUCATION</h2>
-			
-			<div class="job-header">
-				<span>M.Sc. Cinema and Media Engineering - Politecnico di Torino</span>
-				<span>2024 - 2026</span>
-			</div>
-			<ul>
-				<li><strong>Expected Grade:</strong> 110/110 Cum Laude (Graduating Dec 2026)</li>
-			</ul>
+			<section class="education-section">
+				<h2>EDUCATION</h2>
+				
+				<article class="education-entry">
+					<div class="education-title-row">
+						<h3 class="education-title">M.Sc. Cinema and Media Engineering</h3>
+						<span class="education-date">2024 – 2026</span>
+					</div>
+					<div class="education-school">Politecnico di Torino &bull; Turin, Italy</div>
+					<ul>
+						<li><strong>Expected Grade:</strong> 110/110 Cum Laude (Graduating Dec 2026)</li>
+					</ul>
+				</article>
 
-			<div class="job-header">
-				<span>B.Sc. Cinema and Media Engineering - Politecnico di Torino</span>
-				<span>2021 - 2024</span>
-			</div>
-			<ul>
-				<li><strong>Final Grade:</strong> 100/110</li>
-			</ul>
+				<article class="education-entry">
+					<div class="education-title-row">
+						<h3 class="education-title">B.Sc. Cinema and Media Engineering</h3>
+						<span class="education-date">2021 – 2024</span>
+					</div>
+					<div class="education-school">Politecnico di Torino &bull; Turin, Italy</div>
+					<ul>
+						<li><strong>Final Grade:</strong> 100/110</li>
+					</ul>
+				</article>
+			</section>
 
-			<h2>WORK EXPERIENCE</h2>
+			<section class="experience-section">
+				<h2>WORK EXPERIENCE</h2>
 
-			<div class="job-header">
-				<span>Intellecto IP | Turin, Italy / Remote</span>
-				<span>06/2026 - Present</span>
-			</div>
-			<div class="job-subtitle">
-				<span>Software Developer & AI Solutions Consultant</span>
-			</div>
-			<ul>
-				<li>Engineered a centralized personal banking aggregator in React, uniting multi-bank account feeds and financial data into a single, high-security reactive dashboard with modular state management.</li>
-				<li>Provided strategic advisory on enterprise AI adoption; deployed Anthropic Claude LLM workflows into business processes to automate document analysis and operational decision-making.</li>
-				<li>Automated repetitive internal workflows and project management pipelines across the Notion ecosystem via custom API integrations and scripts, eliminating manual overhead.</li>
-			</ul>
+				<article class="job-entry">
+					<div class="job-title-row">
+						<h3 class="job-title">Software Developer & AI Solutions Consultant</h3>
+						<span class="job-date">06/2026 – Present</span>
+					</div>
+					<div class="job-company">Intellecto IP &bull; Turin, Italy / Remote</div>
+					<ul>
+						<li>Engineered a centralized personal banking aggregator in React, uniting multi-bank account feeds and financial data into a single, high-security reactive dashboard with modular state management.</li>
+						<li>Provided strategic advisory on enterprise AI adoption; deployed Anthropic Claude LLM workflows into business processes to automate document analysis and operational decision-making.</li>
+						<li>Automated repetitive internal workflows and project management pipelines across the Notion ecosystem via custom API integrations and scripts, eliminating manual overhead.</li>
+					</ul>
+				</article>
 
-			<div class="job-header">
-				<span>Lemons in the Room & Politecnico di Torino | Firenze / Remote</span>
-				<span>03/2026 - Present</span>
-			</div>
-			<div class="job-subtitle">
-				<span>Technical Artist & Producer (XR Master Thesis R&D)</span>
-			</div>
-			<ul>
-				<li>Architected a real-time bio-adaptive volumetric raymarching framework in HLSL for Meta Quest 3, rendering dynamic Signed Distance Fields (SDFs) driven by BLE biometric telemetry (<strong>PulseEngine</strong>).</li>
-				<li>Engineered low-level GPU optimizations (Dynamic Bounding Volumes, adaptive ray stepping) locking <strong>90 FPS on standalone XR hardware</strong> (61.3% GPU time reduction, 2.91ms GPU time, 0B GC alloc).</li>
-				<li>Authored <strong>Morten Mikkelsen Surface Gradient</strong> shading on procedural volumes (<code>∇_surf(h) = ∇h - (N · ∇h)N</code>) to eliminate triplanar UV seams, plus a sub-millisecond GPU Voxelizer (&lt;0.8ms) for particle swarms.</li>
-				<li>Architected a <strong>Virtual DAW Mixer Console</strong> (<code>DAWMixerWindow</code>) inside Unity with live OLED oscilloscopes and auto-packet sniffing for multi-sensor streams (BLE, OSC, WebSockets, Serial); mapped autonomic biofeedback along the <strong>Bouba/Kiki spectrum</strong> and modularized to official Unity Package (UPM) standards.</li>
-			</ul>
+				<article class="job-entry">
+					<div class="job-title-row">
+						<h3 class="job-title">Technical Artist & Producer (XR Master Thesis R&D)</h3>
+						<span class="job-date">03/2026 – Present</span>
+					</div>
+					<div class="job-company">Lemons in the Room & Politecnico di Torino &bull; Florence / Remote</div>
+					<ul>
+						<li>Architected a real-time bio-adaptive volumetric raymarching framework in HLSL for Meta Quest 3, rendering dynamic Signed Distance Fields (SDFs) driven by BLE biometric telemetry (<strong>PulseEngine</strong>).</li>
+						<li>Engineered low-level GPU optimizations (Dynamic Bounding Volumes, adaptive ray stepping) locking <strong>90 FPS on standalone XR hardware</strong> (61.3% GPU time reduction, 2.91ms GPU time, 0B GC alloc).</li>
+						<li>Authored <strong>Morten Mikkelsen Surface Gradient</strong> shading on procedural volumes to eliminate triplanar UV seams, plus a sub-millisecond GPU Voxelizer (&lt;0.8ms) for particle swarms.</li>
+						<li>Architected a <strong>Virtual DAW Mixer Console</strong> (<code>DAWMixerWindow</code>) inside Unity with live OLED oscilloscopes and auto-packet sniffing for multi-sensor streams (BLE, OSC, WebSockets, Serial); mapped autonomic biofeedback along the <strong>Bouba/Kiki spectrum</strong> and modularized to official Unity Package (UPM) standards.</li>
+					</ul>
+				</article>
 
-			<div class="job-header">
-				<span>LEVEL UP LAB (PoliTo Student Team) | Torino, Italy</span>
-				<span>11/2024 - 07/2026</span>
-			</div>
-			<div class="job-subtitle">
-				<span>Technical Artist, Gameplay Programmer & Project Manager</span>
-			</div>
-			<ul>
-				<li>Developed custom shaders in HLSL (retro CRT curvature, procedural water vertex displacement, cutaway systems) and core C# gameplay systems across team productions including <em>Line Operator</em> and <em>Spicy Mercante</em>.</li>
-				<li>Modeled 3D assets in Blender and engineered full architectural refactorings (3D-to-2D engine transition, buoyancy physics, inventory systems).</li>
-				<li>Coordinated multidisciplinary student pods of 6–7 developers as technical producer and project manager, enforcing Git LFS versioning and milestone sprints.</li>
-			</ul>
+				<article class="job-entry">
+					<div class="job-title-row">
+						<h3 class="job-title">Technical Artist, Gameplay Programmer & Project Manager</h3>
+						<span class="job-date">11/2024 – 07/2026</span>
+					</div>
+					<div class="job-company">LEVEL UP LAB (PoliTo Student Team) &bull; Turin, Italy</div>
+					<ul>
+						<li>Developed custom shaders in HLSL (retro CRT curvature, procedural water vertex displacement, cutaway systems) and core C# gameplay systems across team productions including <em>Line Operator</em> and <em>Spicy Mercante</em>.</li>
+						<li>Modeled 3D assets in Blender and engineered full architectural refactorings (3D-to-2D engine transition, buoyancy physics, inventory systems).</li>
+						<li>Coordinated multidisciplinary student pods of 6–7 developers as technical producer and project manager, enforcing Git LFS versioning and milestone sprints.</li>
+					</ul>
+				</article>
 
-			<div class="job-header">
-				<span>Politecnico di Torino | Turin, Italy</span>
-				<span>10/2024 - 01/2025</span>
-			</div>
-			<div class="job-subtitle">
-				<span>Teaching Assistant (GUI)</span>
-			</div>
-			<ul>
-				<li>Tutored students in UI/UX principles and frontend programming during weekly laboratory sessions.</li>
-				<li>Wrote technical documentation and created high-quality instructional content to improve comprehension.</li>
-			</ul>
+				<article class="job-entry">
+					<div class="job-title-row">
+						<h3 class="job-title">Teaching Assistant (GUI & Frontend Development)</h3>
+						<span class="job-date">10/2024 – 01/2025</span>
+					</div>
+					<div class="job-company">Politecnico di Torino &bull; Turin, Italy</div>
+					<ul>
+						<li>Tutored students in UI/UX principles and frontend programming during weekly laboratory sessions.</li>
+						<li>Wrote technical documentation and created high-quality instructional content to improve comprehension.</li>
+					</ul>
+				</article>
 
-			<div class="job-header">
-				<span>RKH SRL | Turin, Italy</span>
-				<span>09/2023 - 06/2024</span>
-			</div>
-			<div class="job-subtitle">
-				<span>Video Artist</span>
-			</div>
-			<ul>
-				<li>Operated professional cameras (RED, Blackmagic 4K/6K) and assisted DOP with complex lighting setups.</li>
-				<li>Handled editing and post-production workflows using DaVinci Resolve for corporate content.</li>
-			</ul>
+				<article class="job-entry">
+					<div class="job-title-row">
+						<h3 class="job-title">Video Artist & Post-Production Specialist</h3>
+						<span class="job-date">09/2023 – 06/2024</span>
+					</div>
+					<div class="job-company">RKH SRL &bull; Turin, Italy</div>
+					<ul>
+						<li>Operated professional cameras (RED, Blackmagic 4K/6K) and assisted DOP with complex lighting setups.</li>
+						<li>Handled editing and post-production workflows using DaVinci Resolve for corporate content.</li>
+					</ul>
+				</article>
+			</section>
 
-			<h2>SKILLS</h2>
-			<ul>
-				<li><strong>Languages:</strong> C++, C#, Python, HLSL/GLSL, JavaScript/TypeScript</li>
-				<li><strong>Engines & Web:</strong> Unity, Unreal Engine 5, Custom OpenGL Frameworks, React</li>
-				<li><strong>AI & Automation:</strong> Anthropic Claude (LLM Integration), Notion API, Workflow Automation</li>
-				<li><strong>Software:</strong> Blender, DaVinci Resolve, Jira, Git</li>
-				<li><strong>Management:</strong> Project Management, Technical Direction, Agile Product Strategy</li>
-			</ul>
+			<section class="skills-section">
+				<h2>TECHNICAL SKILLS</h2>
+				<ul>
+					<li><strong>Languages:</strong> C++, C#, Python, HLSL/GLSL, JavaScript/TypeScript</li>
+					<li><strong>Engines & Web:</strong> Unity, Unreal Engine 5, Custom OpenGL Frameworks, React</li>
+					<li><strong>AI & Automation:</strong> Anthropic Claude (LLM Integration), Notion API, Workflow Automation</li>
+					<li><strong>Software & DCC:</strong> Blender, DaVinci Resolve, Jira, Git</li>
+					<li><strong>Management:</strong> Technical Direction, Project Management, Agile Milestone Sprints</li>
+				</ul>
+			</section>
 
-			<h2>PERSONAL PROJECTS</h2>
-			<ul>
-				<li><strong>Smart Cable Generator (Blender Tool):</strong> Engineered a Python add-on for Blender to procedurally generate parametric hanging cables across multi-object modular assets with scale-independent catenary physics and automated mesh conversion for game engines.</li>
-				<li><strong>Graphics Lab (Custom C++ Engine):</strong> Engineered a custom OpenGL 3D rendering framework from scratch. Implemented Deferred Shading, Physically Based Rendering (PBR), and Silhouette Parallax Occlusion Mapping (SPOM) to study low-level GPU pipelines.</li>
-				<li><strong>UE5 Tech Art Pipeline:</strong> Developed procedural environments using PCG. Scripted a homing projectile system in Niagara and integrated MetaHumans with custom groom collision physics.</li>
-				<li><strong>Character Rigging & Tooling:</strong> Built complete custom FK/IK character rigs (Blender), painting skin weights and setting up constraint networks. Developed Python automation scripts to streamline 3D asset export pipelines into game engines.</li>
-				<li><strong>Awaken Asylum & Nihil:</strong> Developed an immersive VR educational experience (Unity) and a 2D Metroidvania prototype emphasizing complex transformation mechanics. Managed end-to-end technical production.</li>
-			</ul>
+			<section class="projects-section">
+				<h2>TECHNICAL PROJECTS</h2>
+				<ul class="project-list">
+					<li class="project-entry"><strong>Smart Cable Generator (Blender Tool):</strong> Engineered a Python add-on for Blender to procedurally generate parametric hanging cables across multi-object modular assets with scale-independent catenary physics and automated mesh conversion for game engines.</li>
+					<li class="project-entry"><strong>Graphics Lab (Custom C++ Engine):</strong> Engineered a custom OpenGL 3D rendering framework from scratch. Implemented Deferred Shading, Physically Based Rendering (PBR), and Silhouette Parallax Occlusion Mapping (SPOM) to study low-level GPU pipelines.</li>
+					<li class="project-entry"><strong>Stylized 3D Gaussian Splats:</strong> Implemented a real-time painterly NPR pipeline in Blender 5.3 Beta and EEVEE-Next via OpenUSD PointClouds, Geometry Nodes vector flow fields, and Kuwahara filtering.</li>
+					<li class="project-entry"><strong>UE5 Tech Art Pipeline:</strong> Developed procedural environments using PCG. Scripted a homing projectile system in Niagara and integrated MetaHumans with custom groom collision physics.</li>
+					<li class="project-entry"><strong>Awaken Asylum & Nihil:</strong> Developed an immersive VR educational experience (Unity) and a 2D Metroidvania prototype emphasizing complex transformation mechanics. Managed end-to-end technical production.</li>
+				</ul>
+			</section>
 		</div>
 	</body>
 </html>
