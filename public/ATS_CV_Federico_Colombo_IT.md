@@ -13,8 +13,8 @@ Sviluppatore Game & XR attualmente laureando magistrale in Ingegneria del Cinema
 ## FORMAZIONE
 
 **Laurea Magistrale in Ingegneria del Cinema e dei Mezzi di Comunicazione**
-Politecnico di Torino | 2024 - 2026
-- **Voto Stimato / Media:** 106/110
+Politecnico di Torino | 2023 - Laurea Prevista Dic 2026
+- **Voto Previsto:** 110/110 e Lode (Prevista Dicembre 2026)
 
 **Laurea Triennale in Ingegneria del Cinema e dei Mezzi di Comunicazione**
 Politecnico di Torino | 2021 - 2024

@@ -13,8 +13,8 @@ Game & XR Developer actively pursuing a Master's Degree in Cinema and Media Engi
 ## EDUCATION
 
 **M.Sc. Cinema and Media Engineering**
-Politecnico di Torino | 2024 - 2026
-- **Current GPA / Expected Mark:** 106/110
+Politecnico di Torino | 2023 - Expected Dec 2026
+- **Current GPA / Expected Mark:** 110/110 Cum Laude (Expected Dec 2026)
 
 **B.Sc. Cinema and Media Engineering**
 Politecnico di Torino | 2021 - 2024
