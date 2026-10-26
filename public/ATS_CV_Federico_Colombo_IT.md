@@ -1,6 +1,6 @@
 # FEDERICO COLOMBO
 **Computer Graphics Engineer | Technical Artist | XR Developer**
-Telefono: +39 351 307 8191 | Email: colombo.federico12@gmail.com
+Telefono: +39 351 307 8191 | Email: colombofederico28@gmail.com
 LinkedIn: linkedin.com/in/federico-colombo10 | Portfolio: https://federicocolombo12.github.io/PortFolio/ | Sede: Torino, Italia
 
 ---
