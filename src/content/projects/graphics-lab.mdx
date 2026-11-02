@@ -19,8 +19,9 @@ tags: ['C++', 'OpenGL', 'Deferred Shading', 'PBR', 'GLSL', 'SPOM', 'RenderDoc']
 </div>
 
 <div class="callout-box">
-  <strong>🔬 Engineering Motivation & First Principles:</strong><br />
-  Commercial game engines like Unreal Engine and Unity provide incredible rendering quality, but their deep abstractions often treat the GPU as a black box. I engineered this <strong>C++17 / OpenGL rendering engine from scratch</strong> to dismantle that black box: to manually manage GPU memory buffers, configure framebuffer Multi-Render Targets (MRT), implement the physics of the rendering equation (Cook-Torrance BRDF), and solve real-world memory bandwidth bottlenecks at the driver level.
+  <strong>🔬 Engineering Motivation: Bridging the Engine Gap:</strong><br />
+  As a Technical Artist and Graphics Programmer who works extensively with production engines like <strong>Unreal Engine 5 and Unity</strong>—building procedural PCG worlds, MetaHuman grooming pipelines, and real-time shader networks—I didn't want to simply rely on high-level abstractions without mastering the low-level machinery underneath.<br /><br />
+  I built this <strong>C++17 / OpenGL rendering engine from scratch</strong> as a personal playground to literally <em>play with graphics at the bare metal level</em>. My goal was to sharpen my skills from first principles and deeply understand the exact systems that power modern commercial engines: manual GPU memory buffer management, Multi-Render Target (MRT) G-Buffer packing, Cook-Torrance microfacet physics, and driver-level state machines without an engine safety net.
 </div>
 
 ---
