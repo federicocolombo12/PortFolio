@@ -1,0 +1,8 @@
+{
+  "name": "Tech Art Slides Studio (Translator, Align & HUD)",
+  "id": "tech-art-slides-studio",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["slides", "figma"]
+}

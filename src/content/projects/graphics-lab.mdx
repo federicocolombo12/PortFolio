@@ -1,78 +1,332 @@
 ---
-title: 'Graphics Lab: Custom C++ Engine [WIP]'
-description: 'A custom C++ / OpenGL rendering framework built from scratch to study GPU architecture, Deferred Shading, and PBR.'
+title: 'Graphics Lab: Custom C++ / OpenGL Engine'
+description: 'A modular C++17 / OpenGL 4.6 rendering framework built from first principles to study GPU hardware dispatch, Deferred Shading, Cook-Torrance PBR, and Silhouette POM.'
 pubDate: '2026-08-28'
 heroImage: '../../assets/graphics-lab/hero.jpeg'
 category: 'Tech Art'
 rank: 1
 githubLink: 'https://github.com/federicocolombo12/PBR-Engine-Cpp'
-tags: ['C++', 'OpenGL', 'Deferred Shading', 'PBR']
+tags: ['C++', 'OpenGL', 'Deferred Shading', 'PBR', 'GLSL', 'SPOM', 'RenderDoc']
 ---
 
-This is my personal sandbox. I built this **C++ / OpenGL** rendering framework from scratch because I wanted to step away from commercial engines (Unity/Unreal) for a bit and actually understand what happens under the hood. 
-
-The goal isn't to build the next Unreal Engine, but to get my hands dirty with the rendering equation, memory architecture, and the GPU pipeline. I test everything using a stylistic approach inspired by my favorite anime just to keep things fun.
-
-### Tech Stack
-- **C++17** & **OpenGL 3.3 Core**
-- **GLFW** (Window/Input)
-- **GLM** (Math)
-- **Assimp** (Model Loading)
-- **CMake**
-
----
-
-### What's working so far
-
-#### 1. Deferred Rendering (G-Buffer)
-I skipped Forward Rendering entirely and went straight for a Deferred Shading pipeline. The engine populates a G-Buffer (Albedo, Normals, Metallic/Roughness, Depth) first, then processes lighting. This lets me throw a ton of dynamic lights into the scene without tanking the framerate.
-
 <div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/02_Deferred.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/graphics-lab/PBR_Screen.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/graphics-lab/PBR_Screen_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" controls
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}>
+  </video>
 </div>
 
-#### 2. Physically Based Rendering (PBR)
-I implemented the Cook-Torrance BRDF. The lighting model respects energy conservation based on roughness and metallic maps. 
-
-<div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/PBR_Screen.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
-</div>
-
-#### 3. Silhouette Parallax Occlusion Mapping (SPOM)
-I implemented N. Tatarchuk's SIGGRAPH 2006 paper to give flat textures extreme depth without using hardware tessellation. The view vector is transformed into Tangent Space via an inverse TBN matrix. From there, I use Raymarching to step through the height map, interpolating the exact sub-pixel hit. 
-
-I also added a dynamic LOD that scales the ray steps based on the view angle, and a Silhouette Clipping pass (`discard` on UV boundaries) to make the flat quad actually look jagged at the edges.
-
-<div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/SPOM.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
-</div>
-
-#### 4. Raymarching & SDFs
-I integrated a Signed Distance Field (SDF) system directly into the pipeline. I'm using Raymarching to render infinite fractals and boolean operations that would be a nightmare to do with standard polygons.
-
-<div style={{ margin: '2rem 0' }}>
-  <video src={`${import.meta.env.BASE_URL}/videos/graphics-lab/01_RayMarcher.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
+<div class="callout-box">
+  <strong>🔬 Engineering Motivation & First Principles:</strong><br />
+  Commercial game engines like Unreal Engine and Unity provide incredible rendering quality, but their deep abstractions often treat the GPU as a black box. I engineered this <strong>C++17 / OpenGL rendering engine from scratch</strong> to dismantle that black box: to manually manage GPU memory buffers, configure framebuffer Multi-Render Targets (MRT), implement the physics of the rendering equation (Cook-Torrance BRDF), and solve real-world memory bandwidth bottlenecks at the driver level.
 </div>
 
 ---
 
-### Roadmap (What I'm building next)
+### Pipeline Architecture Overview
 
-This is very much a work in progress. Here is what is on my immediate to-do list:
+The engine separates scene rasterization into an asynchronous, two-pass deferred pipeline decoupled from asset ingestion and camera transform logic:
 
-**Geometry & Shading:**
-- **NPR / Toon Shading:** Tweaking the PBR model to get a Cel Shaded look with dynamic outlines.
+<div style={{ margin: '2rem 0', width: '100%' }}>
+  <img 
+    src={`${import.meta.env.BASE_URL}/projects/graphics-lab/engine_architecture_diagram.svg`} 
+    alt="Graphics Lab: C++ OpenGL Two-Pass Deferred & PBR Engine Architecture Diagram" 
+    style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }} 
+  />
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.6rem', textAlign: 'center' }}>
+    End-to-end rendering pipeline: from Assimp model parsing and Tangent Space calculation, through Multi-Render Target G-Buffer Packing, to Cook-Torrance lighting evaluation on a fullscreen screen-space quad.
+  </p>
+</div>
 
-**Lighting & Screen Space:**
-- **Image Based Lighting (IBL):** Setting up HDRI Skyboxes with Irradiance and Pre-Filtered Environment Maps.
-- **Shadow Mapping:** Directional shadows are next on the list.
-- **SSAO & HDR/Bloom:** Screen space contact shadows and Gaussian blur for emissive materials.
+### Tech Stack & Core Libraries
 
-**Compute Shaders:**
-- **Water Simulation:** I want to move ocean rendering (Gerstner Waves/FFT) to the GPU via Compute Shaders.
-- **GPGPU Particles:** GPU-driven particle systems for smoke and magical effects.
+- **Language & Standard:** C++17
+- **Graphics API:** OpenGL 3.3 / 4.6 Core Profile
+- **Window Management & Input:** GLFW (Raw mouse offset polling, frame delta-time scaling)
+- **Math Library:** GLM (OpenGL Mathematics — vectors, matrices, quaternions)
+- **Asset Ingestion:** Assimp (Open Asset Import Library via CMake `FetchContent`)
+- **Image Loading:** `stb_image` (sRGB to linear space normalization)
+- **Build System:** Cross-platform CMake
+- **GPU Profiler:** RenderDoc (Draw call inspection, VRAM texture attachment validation)
 
 ---
 
-### Debugging & Future-proofing
-I rely heavily on **RenderDoc** to profile draw calls and inspect the G-Buffer attachments frame by frame. Right now the architecture is tied to OpenGL, but I'm structuring the codebase so I can eventually port the rendering backend to **Vulkan** or **D3D12**.
+### Deep Dive 1: Two-Pass Deferred Shading & G-Buffer VRAM Packing
+
+In traditional Forward Rendering, lighting is evaluated inside the geometry vertex/fragment shader. If `N` geometry fragments overlap on screen across `M` dynamic point lights, the computational complexity scales to `O(N * M)`, resulting in severe GPU overdraw penalties.
+
+To eliminate overdraw, the engine splits rendering into two separate passes:
+1. **Geometry Pass:** Rasterizes scene geometry without evaluating lighting, populating geometric attributes into a Multi-Render Target (**MRT**) Framebuffer known as the **G-Buffer**. Complexity: `O(N)`.
+2. **Lighting Pass:** Binds a fullscreen 2D quad and evaluates lighting once per visible screen pixel using the sampled G-Buffer textures. Complexity: `O(M)`.
+
+<div style={{ margin: '2rem 0' }}>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/graphics-lab/02_Deferred.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/graphics-lab/02_Deferred_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" controls
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+  </video>
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem', textAlign: 'center' }}>
+    Deferred G-Buffer inspection: separating World Position, Surface Normals, and Material Albedo into isolated render target streams.
+  </p>
+</div>
+
+#### The Alpha-Channel Packing Optimization
+
+A naive G-Buffer implementation allocates independent texture render targets for every surface attribute (Position, Normal, Albedo, Roughness, Metallic, Ambient Occlusion), requiring 5 to 6 full-screen float textures and creating massive VRAM bandwidth bottlenecks.
+
+I engineered a **Channel Packing Scheme** that stores all 6 physical properties into just **3 high-precision `GL_RGBA16F` textures**, saving ~33% memory bandwidth per frame:
+
+| Render Target | Format | RGB Channels | Alpha Channel (`.a`) | Purpose |
+| :--- | :--- | :--- | :--- | :--- |
+| **`gPositionAO`** (`GL_COLOR_ATTACHMENT0`) | `GL_RGBA16F` | World Position (`vec3 FragPos`) | **Ambient Occlusion (`ao`)** | Surface position & pre-baked cavity shadowing |
+| **`gNormalRoughness`** (`GL_COLOR_ATTACHMENT1`) | `GL_RGBA16F` | Surface Normal (`vec3 N`) | **Roughness (`roughness`)** | Microfacet orientation & specular blur factor |
+| **`gAlbedoMetallic`** (`GL_COLOR_ATTACHMENT2`) | `GL_RGBA16F` | Linear Albedo (`vec3 albedo`) | **Metallic (`metallic`)** | Base reflectivity & dielectric/conductor balance |
+
+#### In-Shader Unpacking Snippet (`pbr_light.frag`)
+
+```glsl
+// Unpacking the 6 physical parameters from only 3 sampler streams
+vec4 posAO = texture(gPositionAO, TexCoords);
+vec3 FragPos = posAO.rgb;
+float ao     = posAO.a;
+
+vec4 normRough  = texture(gNormalRoughness, TexCoords);
+vec3 N          = normalize(normRough.rgb);
+float roughness = normRough.a;
+
+vec4 albedoMetal = texture(gAlbedoMetallic, TexCoords);
+// Diffuse maps are authored in non-linear sRGB space; convert to linear space for physically accurate math
+vec3 albedo    = pow(albedoMetal.rgb, vec3(2.2));
+float metallic = albedoMetal.a;
+```
+
+---
+
+### Deep Dive 2: Physically Based Rendering (Cook-Torrance BRDF)
+
+Instead of empirical approximations like Blinn-Phong, the engine solves the physical **Cook-Torrance microfacet specular BRDF** combined with Lambertian diffuse reflection:
+
+```glsl
+// Cook-Torrance Rendering Formulation:
+// f_r = kd * (albedo / PI) + ks * ((D * F * G) / (4.0 * (N·V) * (N·L)))
+```
+
+Where:
+1. **`D` — Normal Distribution Function (Trowbridge-Reitz GGX):** Evaluates the statistical concentration of microfacets aligned with the halfway vector `H = normalize(V + L)`. Using Disney's squaring trick (`alpha = roughness * roughness`), microfacet falloff appears smooth and physically natural.
+2. **`G` — Geometric Shadowing & Masking (Smith's Schlick-GGX):** Computes micro-occlusion where neighboring microfacets shadow incoming light rays or mask outgoing view rays at grazing angles.
+3. **`F` — Fresnel-Schlick Equation:** Simulates how surface reflectivity increases dramatically at grazing incidence angles. For dielectrics, base reflectivity `F0` is set to `0.04`; for conductors/metals, `F0` is tinted directly by the material's albedo color (`F0 = mix(vec3(0.04), albedo, metallic)`).
+4. **Energy Conservation:** Reflected specular light (`ks = F`) and refracted diffuse light (`kd = 1.0 - ks`) must sum to &le; 1. Pure metals absorb all refracted light inside their conduction band:
+
+```glsl
+vec3 kS = F;
+vec3 kD = vec3(1.0) - kS;
+kD *= 1.0 - metallic; // Pure metals have zero diffuse reflection
+```
+
+#### Production GLSL BRDF Implementation (`pbr_light.frag`)
+
+```glsl
+// 1. Normal Distribution Function (Trowbridge-Reitz GGX)
+float DistributionGGX(vec3 N, vec3 H, float roughness) {
+    float a = roughness * roughness;
+    float a2 = a * a;
+    float NdotH = max(dot(N, H), 0.0);
+    float NdotH2 = NdotH * NdotH;
+
+    float nom = a2;
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    denom = PI * denom * denom;
+    return nom / max(denom, 0.0000001); // Guard against divide-by-zero
+}
+
+// 2. Geometry Occlusion Function (Schlick-GGX & Smith)
+float GeometrySchlickGGX(float NdotV, float roughness) {
+    float r = (roughness + 1.0);
+    float k = (r * r) / 8.0; // Formulation for direct point/spot lights
+    float nom = NdotV;
+    float denom = NdotV * (1.0 - k) + k;
+    return nom / denom;
+}
+
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness) {
+    float NdotV = max(dot(N, V), 0.0);
+    float NdotL = max(dot(N, L), 0.0);
+    float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+    float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+    return ggx1 * ggx2;
+}
+
+// 3. Fresnel Reflectivity (Schlick Approximation)
+vec3 FresnelSchlick(float cosTheta, vec3 F0) {
+    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+}
+
+// 4. Per-Light Radiance & Integration
+vec3 L = normalize(lightPos - FragPos);
+vec3 H = normalize(V + L);
+float distance = length(lightPos - FragPos);
+float attenuation = 1.0 / (distance * distance); // Physical inverse-square falloff
+vec3 radiance = lightColor * attenuation;
+
+float NDF = DistributionGGX(N, H, roughness);
+float G   = GeometrySmith(N, V, L, roughness);
+vec3 F    = FresnelSchlick(max(dot(H, V), 0.0), F0);
+
+vec3 numerator = NDF * G * F;
+float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+vec3 specular = numerator / denominator;
+
+// Final outgoing radiance contribution
+vec3 Lo = (kD * albedo / PI + specular) * radiance * max(dot(N, L), 0.0);
+```
+
+---
+
+### Deep Dive 3: Silhouette Parallax Occlusion Mapping (SPOM)
+
+To achieve extreme micro-geometric depth on surfaces (such as rocky terrain, cobblestone, and deep brick grooves) without consuming millions of triangles via hardware tessellation, I implemented **Natalya Tatarchuk’s landmark SIGGRAPH 2006 paper** (*Dynamic Parallax Occlusion Mapping with Silhouette Approximations*).
+
+<div style={{ margin: '2rem 0' }}>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/graphics-lab/SPOM.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/graphics-lab/SPOM_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" controls
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+  </video>
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem', textAlign: 'center' }}>
+    Silhouette Parallax Occlusion Mapping on a low-poly quad: raymarching depth through the height map with dynamic LOD and silhouette edge clipping.
+  </p>
+</div>
+
+#### Algorithmic Formulation
+
+1. **Tangent Space Transformation:** The vertex shader computes the orthonormal **TBN matrix** from mesh tangents and bitangents (`aiProcess_CalcTangentSpace`). The view vector is transformed into Tangent Space via the inverse TBN matrix.
+2. **Dynamic LOD Raymarching:** The fragment shader steps through the height map along the projected view vector `P = (viewDir.xy / viewDir.z) * scale`. To maximize performance, ray sample steps dynamically adapt between `8` (viewed head-on) and `32` (viewed at grazing angles) based on `abs(dot(vec3(0, 0, 1), viewDir))`.
+3. **Sub-Pixel Linear Interpolation:** Once the ray intersects the height profile, linear interpolation between the pre-collision and post-collision samples pinpoints the exact sub-pixel intersection coordinate.
+4. **Silhouette Edge Discard:** If the displaced texture coordinate travels outside the `[0.0, 1.0]` boundary, the fragment is discarded (`discard`), giving flat geometry genuine jagged 3D silhouettes.
+
+#### Core Shader Routine (`g_buffer_pom.frag`)
+
+```glsl
+vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir) {
+    float heightScale = 0.1; 
+
+    // Dynamic LOD: allocate more ray steps at grazing view angles
+    const float minLayers = 8.0;
+    const float maxLayers = 32.0;
+    float numLayers = mix(maxLayers, minLayers, abs(dot(vec3(0.0, 0.0, 1.0), viewDir)));  
+
+    float layerDepth = 1.0 / numLayers;
+    float currentLayerDepth = 0.0;
+
+    // Projected UV displacement step vector
+    vec2 P = viewDir.xy / viewDir.z * heightScale; 
+    vec2 deltaTexCoords = P / numLayers;
+
+    vec2 currentTexCoords = texCoords;
+    float currentDepthMapValue = texture(texture_height1, currentTexCoords).r;
+
+    // Discrete raymarching search
+    while(currentLayerDepth < currentDepthMapValue) {
+        currentTexCoords -= deltaTexCoords;
+        currentLayerDepth += layerDepth;  
+        currentDepthMapValue = texture(texture_height1, currentTexCoords).r;  
+    }
+
+    // Sub-pixel linear depth refinement
+    vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
+    float afterDepth  = currentDepthMapValue - currentLayerDepth;
+    float beforeDepth = texture(texture_height1, prevTexCoords).r - currentLayerDepth + layerDepth;
+    
+    float weight = afterDepth / (afterDepth - beforeDepth);
+    return prevTexCoords * weight + currentTexCoords * (1.0 - weight);
+}
+
+void main() {
+    vec3 viewDir = normalize(TangentViewPos - TangentFragPos);
+    vec2 finalTexCoords = ParallaxMapping(TexCoords, viewDir);
+
+    // Silhouette Clipping: discard fragments that step outside polygon bounds
+    if (finalTexCoords.x > 1.0 || finalTexCoords.y > 1.0 || 
+        finalTexCoords.x < 0.0 || finalTexCoords.y < 0.0) {
+        discard;
+    }
+
+    // Populate G-Buffer using displaced coordinates
+    gAlbedoMetallic   = vec4(texture(texture_diffuse1, finalTexCoords).rgb, texture(texture_metallic1, finalTexCoords).r);
+    gNormalRoughness  = vec4(normalize(TBN * (texture(texture_normal1, finalTexCoords).rgb * 2.0 - 1.0)), texture(texture_roughness1, finalTexCoords).r);
+    gPositionAO       = vec4(FragPos, texture(texture_ao1, finalTexCoords).r);
+}
+```
+
+---
+
+### Deep Dive 4: Analytical Raymarching & Signed Distance Fields (SDFs)
+
+Beyond standard polygon rasterization, the engine includes a dedicated mathematical raymarcher target (`01_Raymarcher`). Instead of submitting vertex arrays, a screen-space quad casts primary rays through an analytical scene volume.
+
+<div style={{ margin: '2rem 0' }}>
+  <video 
+    src={`${import.meta.env.BASE_URL}/videos/graphics-lab/01_RayMarcher.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/graphics-lab/01_RayMarcher_poster.jpg`}
+    autoPlay loop muted playsInline preload="auto" controls
+    style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+  </video>
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem', textAlign: 'center' }}>
+    Analytical raymarcher: evaluating procedural Signed Distance Fields and geometric boolean operations in real-time.
+  </p>
+</div>
+
+- **Sphere Tracing:** Rays step through 3D space by the exact distance returned by the scene's global Signed Distance Field `d = f(p)`, guaranteeing safe convergence without overshooting geometry.
+- **Constructive Solid Geometry (CSG):** Procedural primitives (Spheres, Cubes, Tori) are combined analytically using continuous min/max operators:
+  - `Union = min(d1, d2)`
+  - `Intersection = max(d1, d2)`
+  - `Difference = max(d1, -d2)`
+- **Analytical Normals:** Surface gradients are extracted directly at the point of ray convergence using the central tetrahedron technique (`N = normalize(vec3(f(p + eps.xyy) - f(p - eps.xyy), ...))`), enabling accurate Phong and PBR specular highlights without stored vertex topology.
+
+---
+
+### Deep Dive 5: Low-Level C++ Architecture & Bug Post-Mortems
+
+Developing a custom engine from scratch exposed subtle architectural pitfalls that commercial engines normally shield from view. Documenting and resolving these formed the backbone of the engine's internal devlog (`PROJECT_MEMORY.md`):
+
+#### 1. Preventing Camera Gimbal Lock Singularity
+In a 6DOF Euler-angle camera, if the pitch angle reaches exactly `±90.0°`, the camera's local forward vector aligns parallel with the world up vector `Y = (0, 1, 0)`. In standard linear algebra, the cross product `R = cross(Front, Up)` degenerates into `(0, 0, 0)`, collapsing the View Matrix and freezing user input.
+- **Fix:** In `Camera.cpp`, I enforced a strict hardware clamp on mouse offset integration:
+  ```cpp
+  if (Pitch > 89.0f)  Pitch = 89.0f;
+  if (Pitch < -89.0f) Pitch = -89.0f;
+  ```
+
+#### 2. Resolving Missing Vertex Normals (NaN Black Meshes)
+When loading real-world game assets (e.g. Cerberus gun FBX or custom OBJ models), certain multi-material sub-meshes lacked explicit normal attributes. In GLSL, uninitialized vertex attributes evaluate to `vec3(0.0)`, and calling `normalize(vec3(0.0))` produces `NaN`, turning surfaces pitch black in the G-Buffer.
+- **Fix:** Configured the Assimp importer with topology recalculation flags:
+  ```cpp
+  unsigned int flags = aiProcess_Triangulate | 
+                       aiProcess_GenSmoothNormals | 
+                       aiProcess_FlipUVs | 
+                       aiProcess_CalcTangentSpace;
+  ```
+
+#### 3. Eliminating OpenGL Texture Unit State Leakage
+During multi-mesh asset rendering, sub-meshes without diffuse textures left texture unit `GL_TEXTURE0` bound to the residual framebuffer attachment from the previous frame (e.g. the G-Buffer World Position buffer). The untextured mesh sampled its own 3D world coordinates as RGB colors, producing chaotic psychedelic rainbow artifacts.
+- **Fix:** Implemented strict state boundary management in `Model.cpp`, unbinding all active samplers post-draw call, and introduced a shader branch uniform (`hasTexture`) that falls back to a clean default albedo constant when texture paths are absent.
+
+#### 4. FBX Absolute Path Sanitizer
+Production FBX files often store hardcoded absolute Windows paths from the 3D artist’s local workstation (e.g., `D:\Projects\Art\Textures\Cerberus_A.tga`). On macOS and Linux systems, attempting to open these paths caused immediate file I/O crashes.
+- **Fix:** Wrote a cross-platform path sanitizer in `Model.cpp` that strips path prefixes, normalizes directory separators (`\` to `/`), and resolves asset dependencies relative to the local executable directory.
+
+---
+
+### Technical Roadmap & Future Backends
+
+Development continues systematically following the milestones outlined in `ROADMAP_GRAPHICS_LAB.md`:
+
+- [ ] **Image-Based Lighting (IBL):** Convolving HDRI cubemaps into Diffuse Irradiance and Pre-filtered Specular Environment maps with a 2D Split-Sum BRDF LUT.
+- [ ] **Cascaded Shadow Maps (CSM):** Directional light frustum slicing with depth bias tuning to eliminate shadow acne.
+- [ ] **Screen-Space Ambient Occlusion (SSAO):** Hemispherical sample kernel in view space with depth-aware bilateral blur.
+- [ ] **Compute Shader Simulations:** Moving ocean wave FFT generation and particle swarm physics to GPGPU Compute passes.
+- [ ] **Vulkan / D3D12 Backend Abstraction:** Refactoring the `Renderer` interface to swap out the OpenGL backend for explicit modern low-level APIs.

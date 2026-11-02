@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tech Art Slides Studio</title>
+  <style>
+    :root {
+      --bg: #141416;
+      --bg-card: #202024;
+      --bg-input: #18181c;
+      --border: #2f2f35;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --accent: #00e5ff;
+      --accent-glow: rgba(0, 229, 255, 0.2);
+      --purple: #a855f7;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --emerald: #10b981;
+      --btn-bg: #2d2d34;
+      --btn-hover: #3b3b44;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-size: 11.5px;
+      line-height: 1.4;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 4 TABS NAVIGATION */
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: #0d0d0f;
+      padding: 3px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 7px 4px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      text-align: center;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-card);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text);
+    }
+
+    /* STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 8px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-lbl {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* CARDS & FORMS */
+    .actions-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .field-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    select, input[type="text"], input[type="number"] {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-size: 11.5px;
+      color: #fff;
+      outline: none;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--accent);
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: #ddd;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-label input {
+      accent-color: var(--accent);
+      width: 13px;
+      height: 13px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--btn-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--btn-hover);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .row-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    /* THEME CHIPS */
+    .theme-chips {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      margin-bottom: 2px;
+    }
+
+    .theme-chip {
+      background: #18181c;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 4px 2px;
+      text-align: center;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    /* PROGRESS */
+    .progress-wrap {
+      margin-top: 4px;
+      display: none;
+    }
+
+    .progress-bar-bg {
+      height: 4px;
+      background: #121214;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00e5ff, #10b981);
+      width: 0%;
+      transition: width 0.2s ease;
+    }
+
+    .progress-status {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      color: var(--text-muted);
+    }
+
+    /* LOG SECTION */
+    .log-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #141416;
+      overflow: hidden;
+    }
+
+    .log-header {
+      padding: 6px 10px;
+      background: #1a1a1e;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .log-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .log-entry {
+      padding: 5px 8px;
+      border-radius: 4px;
+      background: #1c1c20;
+      border-left: 3px solid var(--accent);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .log-entry.success { border-left-color: var(--emerald); }
+    .log-entry.purple { border-left-color: var(--purple); }
+    .log-entry.amber { border-left-color: var(--amber); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    footer {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 9px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION TABS -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" id="tabTranslateBtn">
+      <span>🌐</span>
+      <span>Translate</span>
+    </button>
+    <button class="tab-btn" id="tabDesignBtn">
+      <span>🎨</span>
+      <span>Typography</span>
+    </button>
+    <button class="tab-btn" id="tabAlignBtn">
+      <span>📐</span>
+      <span>Align Grid</span>
+    </button>
+    <button class="tab-btn" id="tabTechBtn">
+      <span>⚡</span>
+      <span>Tech Art FX</span>
+    </button>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-val" id="statSlides">—</div>
+      <div class="stat-lbl">Slides</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statTexts">—</div>
+      <div class="stat-lbl">Texts</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statFonts">—</div>
+      <div class="stat-lbl">Active Fonts</div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 1: TRANSLATE                               -->
+  <!-- ============================================== -->
+  <div class="tab-content active" id="tabTranslate">
+    <div class="actions-card">
+      <div class="row-btns">
+        <button class="btn btn-secondary" id="btnScanAll">
+          <span>🔍</span>
+          <span>Scan Full Deck</span>
+        </button>
+        <button class="btn btn-secondary" id="btnScanSel">
+          <span>🎯</span>
+          <span>Scan Selection</span>
+        </button>
+      </div>
+
+      <button class="btn btn-primary" id="btnTranslate" disabled>
+        <span>⚡</span>
+        <span>Translate Texts to English</span>
+      </button>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-status">
+          <span id="progressTxt">Translating...</span>
+          <span id="progressPct">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 2: TYPOGRAPHY HARMONIZER                   -->
+  <!-- ============================================== -->
+  <div class="tab-content" id="tabDesign">
+    <div class="actions-card">
+      <div class="field-group">
+        <span class="field-label">Headline Font (Titles & H1/H2)</span>
+        <select id="selHeadlineFont">
+          <option value="Chakra Petch" selected>Chakra Petch (Tech Art Cut Display)</option>
+          <option value="Space Grotesk">Space Grotesk (Clean Tech)</option>
+          <option value="Inter">Inter (Universal Neutral)</option>
+          <option value="Roboto">Roboto</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Body Font (Bullets & Paragraphs)</span>
+        <select id="selBodyFont">
+          <option value="Inter" selected>Inter (High Readability)</option>
+          <option value="Space Grotesk">Space Grotesk</option>
+          <option value="Roboto">Roboto</option>
+        </select>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 5px; margin: 3px 0;">
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkSnapSizes" checked>
+          <span>Snap Font Sizes (H1: 36px, H2: 20px, Body: 14px, Tag: 11px)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkBoostContrast" checked>
+          <span>Harmonize Contrast (White / Silver-Slate, preserve accents)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkRoundCards" checked>
+          <span>Unify Cards (Standard 8px Radius & 1px Borders)</span>
+        </label>
+      </div>
+
+      <div class="row-btns">
+        <button class="btn btn-primary" id="btnHarmonizeAll">
+          <span>✨</span>
+          <span>Harmonize Full Deck</span>
+        </button>
+        <button class="btn btn-secondary" id="btnHarmonizeSel">
+          <span>🎯</span>
+          <span>Selection</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 3: AUTO-ALIGN & GRID SNAP                  -->
+  <!-- ============================================== -->
+  <div class="tab-content" id="tabAlign">
+    <div class="actions-card">
+      <div class="field-group">
+        <span class="field-label">Standard Slide Left Margin (px)</span>
+        <input type="number" id="numLeftMargin" value="120" min="60" max="240" step="10">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 5px; margin: 3px 0;">
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkAlignHeaders" checked>
+          <span>Align Slide Titles & Kickers to Left Margin</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkHeaderRhythm" checked>
+          <span>Normalize Header Vertical Flow (Tag ➔ Title ➔ Subtitle)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkAlignRows" checked>
+          <span>Snap Card & Image Row Tops (Equalize Y for sibling cards)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkAlignCols" checked>
+          <span>Snap Column Stacks (Align captions/cards under images)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkFixAutoResize" checked>
+          <span>Auto-Fit Text Bounding Boxes (Prevent text cutoffs)</span>
+        </label>
+      </div>
+
+      <div class="row-btns">
+        <button class="btn btn-primary" id="btnAlignAll">
+          <span>📐</span>
+          <span>Align Full Deck</span>
+        </button>
+        <button class="btn btn-secondary" id="btnAlignSel">
+          <span>🎯</span>
+          <span>Align Selection</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 4: TECH ART HUD & DECOR                    -->
+  <!-- ============================================== -->
+  <div class="tab-content" id="tabTech">
+    <div class="actions-card">
+      <span class="field-label">Assignment Themes & Palette</span>
+      <div class="theme-chips">
+        <div class="theme-chip" style="color: #00E5FF; border-color: rgba(0,229,255,0.4);">01 ENV</div>
+        <div class="theme-chip" style="color: #A855F7; border-color: rgba(168,85,247,0.4);">02 MH</div>
+        <div class="theme-chip" style="color: #F59E0B; border-color: rgba(245,158,11,0.4);">03 CINE</div>
+        <div class="theme-chip" style="color: #EF4444; border-color: rgba(239,68,68,0.4);">04 GS</div>
+        <div class="theme-chip" style="color: #10B981; border-color: rgba(16,185,129,0.4);">05 VFX</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 5px; margin: 4px 0;">
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkTopHud" checked>
+          <span><strong>Slide Top HUD Bar</strong> (● CH.0X // Pipeline Specs // Frame #)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkDivider" checked>
+          <span><strong>Technical Hairline Divider</strong> (1px line under title with accent notch)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkCorners" checked>
+          <span><strong>Card Corner Crosshairs (+)</strong> (Precision CAD markers)</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkGlassCards" checked>
+          <span><strong>Dark Glass Finish</strong> (Translucent #16161A + 1px slate border)</span>
+        </label>
+      </div>
+
+      <div class="row-btns">
+        <button class="btn btn-primary" id="btnInjectTechAll">
+          <span>⚡</span>
+          <span>Inject Tech Art HUD</span>
+        </button>
+        <button class="btn btn-secondary" id="btnInjectTechSel">
+          <span>🎯</span>
+          <span>To Selection</span>
+        </button>
+      </div>
+
+      <button class="btn btn-danger" id="btnCleanTech" style="margin-top: 2px;">
+        <span>🧹</span>
+        <span>Clean / Remove Tech Decor</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LIVE LOG SECTION -->
+  <div class="log-section">
+    <div class="log-header">
+      <span>Activity Stream</span>
+      <span id="logCounter">Ready</span>
+    </div>
+    <div class="log-list" id="logList">
+      <div style="color: #666; text-align: center; margin-top: 25px;">
+        Click <strong>Scan Full Deck</strong> to start.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Politecnico di Torino · Tech Art Studio</span>
+    <span id="statusIndicator">Idle</span>
+  </footer>
+
+  <script>
+    // Tech Art Glossary Dictionary
+    const TECH_ART_DICTIONARY = {
+      "TECH ART": "TECH ART",
+      "PER IL CINEMA E I VIDEOGIOCHI": "FOR CINEMA & VIDEO GAMES",
+      "CINEMA E DEI MEZZI DI COMUNICAZIONE": "CINEMA AND MEDIA ENGINEERING",
+      "POLITECNICO DI TORINO": "POLITECNICO DI TORINO",
+      "GRUPPO 05:": "GROUP 05:",
+      "LA SFIDA:": "THE CHALLENGE:",
+      "LA SFIDA": "THE CHALLENGE",
+      "REFERENCE": "REFERENCES",
+      "OVERVIEW": "OVERVIEW",
+      "TOOL BREAKDOWN": "TOOL BREAKDOWN",
+      "CONFRONTO GRAYBOXING / RISULTATO FINALE": "GRAYBOXING VS. FINAL RESULT COMPARISON",
+      "RISULTATO FINALE": "FINAL RESULT",
+      "COSA HA FUNZIONATO": "WHAT WORKED",
+      "COSA NON HA FUNZIONATO": "WHAT DIDN'T WORK",
+      "POST-MORTEM": "POST-MORTEM",
+      "TURNING POINT": "TURNING POINT",
+      "PRIMO TENTATIVO": "FIRST ATTEMPT",
+      "I PROBLEMI": "TECHNICAL HURDLES",
+      "LE PREMESSE": "NARRATIVE PREMISES",
+      "LE REGOLE D'ORO": "GOLDEN RULES",
+      "ENVIRONMENT ART & WORLD BUILDING": "ENVIRONMENT ART & WORLD BUILDING",
+      "TOPOGRAFIA REALISTICA: IL FLUSSO HEIGHTMAP": "REALISTIC TOPOGRAPHY: THE HEIGHTMAP WORKFLOW",
+      "IL FLUSSO HEIGHTMAP": "THE HEIGHTMAP WORKFLOW",
+      "IL DATO 16-BIT": "16-BIT HEIGHTMAP DATA",
+      "LANDSCAPE TOOL": "LANDSCAPE TOOL",
+      "CALCOLO DELLE PROPORZIONI": "SCALE & PROPORTION CALCULATION",
+      "UNIONE CON L'AUTO-MATERIAL": "INTEGRATION WITH AUTO-MATERIAL",
+      "MASCHERE DI PENDENZA": "SLOPE MASKS",
+      "MASCHERE DI ALTITUDINE": "ALTITUDE MASKS",
+      "MICRO & MACRO VARIATION": "MICRO & MACRO VARIATION",
+      "SISTEMA DEI FIORI PROCEDURALE": "PROCEDURAL FLOWER SYSTEM",
+      "MODULAR KIT ESTERNO": "EXTERIOR MODULAR KIT",
+      "INTERNI REWORKED": "REWORKED INTERIORS",
+      "HOUSE DECALS AND TEXTURING": "HOUSE DECALS AND TEXTURING",
+      "100% PROCEDURALE": "100% PROCEDURAL",
+      "SPLINE WORKFLOW": "SPLINE WORKFLOW",
+      "STRUTTURA COSTRUITA A MANO": "HAND-CRAFTED STRUCTURE",
+      "SPLINE — PATH GENERATION": "SPLINE — PATH GENERATION",
+      "PCG GRASS VOLUME": "PCG GRASS VOLUME",
+      "TREES - MEGAPLANTS": "TREES — MEGAPLANTS",
+      "VEGETAZIONE NEXT-GEN: LE MEGAPLANTS": "NEXT-GEN FOLIAGE: MEGAPLANTS",
+      "CICLO GIORNO/NOTTE: IL SISTEMA CELESTIAL": "DAY/NIGHT CYCLE: THE CELESTIAL SYSTEM",
+      "NANITE LANDSCAPE": "NANITE LANDSCAPE",
+      "MIE SCATTERING": "MIE SCATTERING",
+      "METAHUMANS": "METAHUMANS",
+      "METAHUMANS & AI CINEMATICS": "METAHUMANS & AI CINEMATICS",
+      "I DUE MH + CONFRONTO A / B": "THE TWO METAHUMANS + A/B COMPARISON",
+      "CONFRONTO A / B": "A/B COMPARISON",
+      "HAIR SCULPTING: DIVARIO TRA SCALP E TRASFORMAZIONI": "HAIR SCULPTING: SCALP VS. TRANSFORM DISCREPANCY",
+      "PREPARAZIONE DELLO SCALP IN BLENDER": "SCALP PREPARATION IN BLENDER",
+      "HAIR SCULPTING CON MODIFIERS & STRAND STEPS": "HAIR SCULPTING WITH MODIFIERS & STRAND STEPS",
+      "PIPELINE COMPLETA HAIR GROOMING: BLENDER TO UE5": "FULL HAIR GROOMING PIPELINE: BLENDER TO UE5",
+      "RISOLUZIONE GROOM BINDING & STRAND SIZE TUNING": "GROOM BINDING RESOLUTION & STRAND SIZE TUNING",
+      "INTEGRAZIONE SHADING E DINAMICHE FISICHE CAPELLI": "HAIR SHADING INTEGRATION & PHYSICAL DYNAMICS",
+      "REALITYSCAN DEI NOSTRI VOLTI": "REALITYSCAN OF OUR OWN FACES",
+      "CINEMATICS": "CINEMATICS",
+      "CINEMATICS & SEQUENCER SETUP": "CINEMATICS & SEQUENCER SETUP",
+      "ESTABLISHING SHOT: FRAMING ESTERNO 200MM": "ESTABLISHING SHOT: EXTERIOR 200MM FRAMING",
+      "ESTABLISHING SHOT ESTERNO": "EXTERIOR ESTABLISHING SHOT",
+      "SHOT 2: MOVING IN & ATMOSPHERE INTERNA": "SHOT 2: MOVING IN & INTERIOR ATMOSPHERE",
+      "SHOT 3: DETTAGLIO DEL METAHUMAN NEL LABORATORIO": "SHOT 3: METAHUMAN LAB CLOSE-UP DETAIL",
+      "STRUTTURA MASTER SEQUENCER & SUBSEQUENCES MODULARI": "MASTER SEQUENCER STRUCTURE & MODULAR SUBSEQUENCES",
+      "SHOT 4: CAMPO/CONTROCAMPO DIALOGO": "SHOT 4: DIALOGUE SHOT / REVERSE SHOT",
+      "FACE MOCAP IN TEMPO REALE VIA LIVE LINK FACE (IPHONE)": "REAL-TIME FACE MOCAP VIA LIVE LINK FACE (IPHONE)",
+      "SHOT BREAKDOWN: LE 7 INQUADRATURE REGISTICHE": "SHOT BREAKDOWN: THE 7 DIRECTORIAL CAMERA SHOTS",
+      "CARTWHEEL AI MOCAP CORPOREO & CORREZIONE ROOT MOTION": "CARTWHEEL AI BODY MOCAP & ROOT MOTION CORRECTION",
+      "SHOT 6 & 7: CONFRONTO FINALE E COMPOSITE": "SHOTS 6 & 7: FINAL COMPOSITE & SCENE GAG",
+      "REALITY CAPTURE & GAUSSIANS": "REALITY CAPTURE & GAUSSIANS",
+      "REALITY CAPTURE & GAUSSIAN SPLATTING": "REALITY CAPTURE & GAUSSIAN SPLATTING",
+      "REGOLE DI ACQUISIZIONE FOTOGRAFICA: GOLDEN RULES": "PHOTOGRAPHIC ACQUISITION: GOLDEN RULES",
+      "PIPELINE COMPLETA FOTOGRAMMETRIA - REALITYCAPTURE": "COMPLETE PHOTOGRAMMETRY PIPELINE — REALITYCAPTURE",
+      "COS'E COLMAP: STRUCTURE FROM MOTION": "WHAT IS COLMAP: STRUCTURE FROM MOTION",
+      "PARAMETRI E MATCHING GEOMETRICO IN COLMAP": "GEOMETRIC PARAMETERS & MATCHING IN COLMAP",
+      "COLMAP ELABORATION TIME": "COLMAP PROCESSING TIME & BENCHMARKS",
+      "COLMAP NEL 2026: LO STEP 0": "COLMAP IN 2026: STEP 0 FRAME SAMPLING",
+      "RISOLUZIONE DENSITY CLOUD E NUVOLA SPARSA": "SPARSE POINT CLOUD & DENSITY RESOLUTION",
+      "INFERNO DELLE DLL: RISOLUZIONE DIPENDENZE WINDOWS/LINUX": "DLL HELL: WINDOWS/LINUX DEPENDENCY RESOLUTION",
+      "COLMAP & NERFSTUDIO: LIMITI DEI FLOATERS": "COLMAP & NERFSTUDIO: FLOATER LIMITATIONS",
+      "POST-MORTEM NERF: ARTEFATTI 'MELTED WAX'": "NERF POST-MORTEM: 'MELTED WAX' ARTIFACTS",
+      "INTRODUZIONE AL 3D GAUSSIAN SPLATTING": "INTRODUCTION TO 3D GAUSSIAN SPLATTING",
+      "GAUSSIAN SPLATTING": "GAUSSIAN SPLATTING",
+      "COSA È IL GAUSSIAN SPLATTING": "WHAT IS 3D GAUSSIAN SPLATTING",
+      "DENSIFICAZIONE E PRUNING DEI GAUSSIANI": "GAUSSIAN DENSIFICATION & PRUNING",
+      "PIPELINE DI TRAINING 3D GAUSSIAN SPLATTING": "3D GAUSSIAN SPLATTING TRAINING PIPELINE",
+      "SPERIMENTAZIONE IN LOCALE CON XSCENE (PLUGIN UE5)": "LOCAL EXPERIMENTATION WITH XSCENE (UE5 PLUGIN)",
+      "CONFIGURAZIONE XVADTOOLS E RUNTIME LOCALE": "XVADTOOLS CONFIGURATION & LOCAL RUNTIME",
+      "BENCHMARK XSCENE: LIMITI DELLA MESH SU RTX 4070": "XSCENE BENCHMARK: MESH LIMITS ON RTX 4070",
+      "CLOUD AI TOOLS (LUMA, VID2SCENE) POST-MORTEM & PLY": "CLOUD AI TOOLS (LUMA, VID2SCENE) POST-MORTEM & PLY",
+      "DATASET FINALE E INTEGRAZIONE NANOGS IN UE5": "FINAL DATASET & NANOGS INTEGRATION IN UE5",
+      "VFX E NIAGARA": "VFX & NIAGARA",
+      "NIAGARA VFX: THE MAGIC COMET": "NIAGARA VFX: THE MAGIC COMET",
+      "VISIONE ARTISTICA: TRASFORMARE L'AMBIENTE IN FIABA": "ARTISTIC VISION: TURNING THE ENVIRONMENT INTO A FAIRYTALE",
+      "SETUP DELL'AMBIENTE E ILLUMINAZIONE DELLA SCENA": "ENVIRONMENT SETUP & SCENE LIGHTING",
+      "I 3 SISTEMI PARTICELLARI REALIZZATI": "THE 3 PARTICLE SYSTEMS CREATED",
+      "INTEGRAZIONE FAIRY FIELD E PETALI AL VENTO": "FAIRY FIELD & WIND PETALS INTEGRATION",
+      "ANATOMIA DEL NIAGARA SYSTEM: IL CAMPO DI FORZE E CURL NOISE": "NIAGARA SYSTEM ANATOMY: FORCE FIELDS & CURL NOISE",
+      "ANATOMIA METEOR SYSTEM: I 4 EMITTER COMBINATI": "METEOR SYSTEM ANATOMY: THE 4 COMBINED EMITTERS",
+      "BLUEPRINT LOGIC: ATTRARRE LA COMETA": "BLUEPRINT LOGIC: HOMING COMET POINT ATTRACTION",
+      "REFERENCE & LINK UTILI": "REFERENCES & USEFUL LINKS"
+    };
+
+    let scannedItems = [];
+    let isTranslating = false;
+
+    // Tabs
+    const tabs = [
+      { btn: document.getElementById('tabTranslateBtn'), pane: document.getElementById('tabTranslate') },
+      { btn: document.getElementById('tabDesignBtn'), pane: document.getElementById('tabDesign') },
+      { btn: document.getElementById('tabAlignBtn'), pane: document.getElementById('tabAlign') },
+      { btn: document.getElementById('tabTechBtn'), pane: document.getElementById('tabTech') }
+    ];
+
+    tabs.forEach(({ btn, pane }) => {
+      btn.onclick = () => {
+        tabs.forEach(t => {
+          t.btn.classList.remove('active');
+          t.pane.classList.remove('active');
+        });
+        btn.classList.add('active');
+        pane.classList.add('active');
+      };
+    });
+
+    // Elements
+    const statSlides = document.getElementById('statSlides');
+    const statTexts = document.getElementById('statTexts');
+    const statFonts = document.getElementById('statFonts');
+
+    const btnScanAll = document.getElementById('btnScanAll');
+    const btnScanSel = document.getElementById('btnScanSel');
+    const btnTranslate = document.getElementById('btnTranslate');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressFill = document.getElementById('progressFill');
+    const progressTxt = document.getElementById('progressTxt');
+    const progressPct = document.getElementById('progressPct');
+
+    const selHeadlineFont = document.getElementById('selHeadlineFont');
+    const selBodyFont = document.getElementById('selBodyFont');
+    const chkSnapSizes = document.getElementById('chkSnapSizes');
+    const chkBoostContrast = document.getElementById('chkBoostContrast');
+    const chkRoundCards = document.getElementById('chkRoundCards');
+    const btnHarmonizeAll = document.getElementById('btnHarmonizeAll');
+    const btnHarmonizeSel = document.getElementById('btnHarmonizeSel');
+
+    const numLeftMargin = document.getElementById('numLeftMargin');
+    const chkAlignHeaders = document.getElementById('chkAlignHeaders');
+    const chkHeaderRhythm = document.getElementById('chkHeaderRhythm');
+    const chkAlignRows = document.getElementById('chkAlignRows');
+    const chkAlignCols = document.getElementById('chkAlignCols');
+    const chkFixAutoResize = document.getElementById('chkFixAutoResize');
+    const btnAlignAll = document.getElementById('btnAlignAll');
+    const btnAlignSel = document.getElementById('btnAlignSel');
+
+    const chkTopHud = document.getElementById('chkTopHud');
+    const chkDivider = document.getElementById('chkDivider');
+    const chkCorners = document.getElementById('chkCorners');
+    const chkGlassCards = document.getElementById('chkGlassCards');
+    const btnInjectTechAll = document.getElementById('btnInjectTechAll');
+    const btnInjectTechSel = document.getElementById('btnInjectTechSel');
+    const btnCleanTech = document.getElementById('btnCleanTech');
+
+    const logList = document.getElementById('logList');
+    const logCounter = document.getElementById('logCounter');
+    const statusIndicator = document.getElementById('statusIndicator');
+
+    // Online fallback
+    async function translateOnline(text) {
+      if (!text || text.trim().length <= 1) return text;
+      if (/^[\d\s\-_.,:;/()%$€]+$/.test(text)) return text;
+      try {
+        const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=it&tl=en&dt=t&q=' + encodeURIComponent(text);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('API: ' + res.status);
+        const data = await res.json();
+        if (data && data[0]) {
+          let translated = '';
+          for (const chunk of data[0]) {
+            if (chunk[0]) translated += chunk[0];
+          }
+          return translated || text;
+        }
+      } catch (err) {}
+      return text;
+    }
+
+    function getDictionaryMatch(text) {
+      const clean = text.trim();
+      const upper = clean.toUpperCase();
+      if (TECH_ART_DICTIONARY[clean]) return TECH_ART_DICTIONARY[clean];
+      if (TECH_ART_DICTIONARY[upper]) return TECH_ART_DICTIONARY[upper];
+      const norm = upper.replace(/\s+/g, ' ');
+      for (const [it, en] of Object.entries(TECH_ART_DICTIONARY)) {
+        if (it.toUpperCase() === norm) return en;
+      }
+      return null;
+    }
+
+    async function translateString(original) {
+      const trimmed = original.trim();
+      if (!trimmed || trimmed.length <= 1) return { text: original, source: 'ignored' };
+      const dictMatch = getDictionaryMatch(trimmed);
+      const leadingSpace = original.match(/^\s*/)[0];
+      const trailingSpace = original.match(/\s*$/)[0];
+      if (dictMatch) {
+        return { text: leadingSpace + dictMatch + trailingSpace, source: 'dictionary' };
+      }
+      const onlineResult = await translateOnline(trimmed);
+      return { text: leadingSpace + onlineResult + trailingSpace, source: 'online' };
+    }
+
+    function appendLog(orig, trans, tagText, source) {
+      const entry = document.createElement('div');
+      entry.className = 'log-entry ' + (source === 'dictionary' ? 'success' : '');
+      entry.innerHTML = `<div style="font-size:8.5px;color:var(--accent);text-transform:uppercase;font-weight:600;margin-bottom:2px;">[${tagText}] · ${source.toUpperCase()}</div>
+        <div style="color:#888;text-decoration:line-through;margin-bottom:2px;">${orig.length > 70 ? orig.slice(0, 67) + '...' : orig}</div>
+        <div style="color:#fff;font-weight:500;">${trans.length > 70 ? trans.slice(0, 67) + '...' : trans}</div>`;
+      logList.prepend(entry);
+    }
+
+    // Scan
+    btnScanAll.onclick = () => {
+      statusIndicator.textContent = 'Scanning deck...';
+      parent.postMessage({ pluginMessage: { type: 'scan', scope: 'all' } }, '*');
+    };
+
+    btnScanSel.onclick = () => {
+      statusIndicator.textContent = 'Scanning selection...';
+      parent.postMessage({ pluginMessage: { type: 'scan', scope: 'selection' } }, '*');
+    };
+
+    // Translate
+    btnTranslate.onclick = async () => {
+      if (isTranslating || scannedItems.length === 0) return;
+      isTranslating = true;
+      btnTranslate.disabled = true;
+      progressWrap.style.display = 'block';
+      logList.innerHTML = '';
+      let count = 0;
+      const total = scannedItems.length;
+
+      for (let i = 0; i < total; i++) {
+        const item = scannedItems[i];
+        progressTxt.textContent = `Slide ${item.slideIndex} (${i + 1}/${total})`;
+        const pct = Math.round(((i + 1) / total) * 100);
+        progressFill.style.width = pct + '%';
+        progressPct.textContent = pct + '%';
+
+        const res = await translateString(item.text);
+        if (res.text !== item.text) {
+          await new Promise((resolve) => {
+            const handler = (event) => {
+              const msg = event.data.pluginMessage;
+              if (msg && msg.type === 'item-done' && msg.id === item.id) {
+                window.removeEventListener('message', handler);
+                resolve();
+              }
+            };
+            window.addEventListener('message', handler);
+            parent.postMessage({
+              pluginMessage: { type: 'apply-translation', id: item.id, newText: res.text }
+            }, '*');
+            setTimeout(resolve, 800);
+          });
+          count++;
+          appendLog(item.text, res.text, `Slide ${item.slideIndex}`, res.source);
+        }
+        await new Promise(r => setTimeout(r, 40));
+      }
+
+      isTranslating = false;
+      btnTranslate.disabled = false;
+      progressTxt.textContent = `Done! Translated ${count} texts.`;
+      parent.postMessage({
+        pluginMessage: { type: 'notify', message: `🎉 Translated ${count} layers into English.` }
+      }, '*');
+    };
+
+    // Typography
+    function runHarmonize(scope) {
+      logList.innerHTML = '';
+      statusIndicator.textContent = 'Harmonizing typography...';
+      parent.postMessage({
+        pluginMessage: {
+          type: 'unify-styles',
+          headlineFamily: selHeadlineFont.value,
+          bodyFamily: selBodyFont.value,
+          snapSizes: chkSnapSizes.checked,
+          boostContrast: chkBoostContrast.checked,
+          roundCards: chkRoundCards.checked,
+          scope: scope
+        }
+      }, '*');
+    }
+
+    btnHarmonizeAll.onclick = () => runHarmonize('all');
+    btnHarmonizeSel.onclick = () => runHarmonize('selection');
+
+    // Align Layout
+    function runAlign(scope) {
+      logList.innerHTML = '';
+      statusIndicator.textContent = 'Aligning layout...';
+      parent.postMessage({
+        pluginMessage: {
+          type: 'align-layout',
+          standardLeftMargin: parseInt(numLeftMargin.value, 10) || 120,
+          alignHeaders: chkAlignHeaders.checked,
+          normalizeHeaderGap: chkHeaderRhythm.checked,
+          alignRowTops: chkAlignRows.checked,
+          alignColumns: chkAlignCols.checked,
+          fixAutoResize: chkFixAutoResize.checked,
+          scope: scope
+        }
+      }, '*');
+    }
+
+    btnAlignAll.onclick = () => runAlign('all');
+    btnAlignSel.onclick = () => runAlign('selection');
+
+    // Tech Art FX
+    function runTechDecor(scope) {
+      logList.innerHTML = '';
+      statusIndicator.textContent = 'Injecting Tech Art HUD...';
+      parent.postMessage({
+        pluginMessage: {
+          type: 'inject-tech-decor',
+          addTopHud: chkTopHud.checked,
+          addDivider: chkDivider.checked,
+          addCorners: chkCorners.checked,
+          polishCards: chkGlassCards.checked,
+          scope: scope
+        }
+      }, '*');
+    }
+
+    btnInjectTechAll.onclick = () => runTechDecor('all');
+    btnInjectTechSel.onclick = () => runTechDecor('selection');
+
+    btnCleanTech.onclick = () => {
+      statusIndicator.textContent = 'Cleaning tech decor...';
+      parent.postMessage({ pluginMessage: { type: 'clean-tech-decor', scope: 'all' } }, '*');
+    };
+
+    // Incoming messages from Figma Plugin Backend
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      if (msg.type === 'scan-result') {
+        scannedItems = msg.items || [];
+        statSlides.textContent = String(msg.totalSlides || '65');
+        statTexts.textContent = String(scannedItems.length);
+        statFonts.textContent = String((msg.detectedFonts || []).length);
+        btnTranslate.disabled = scannedItems.length === 0;
+
+        logList.innerHTML = '';
+        logCounter.textContent = `${scannedItems.length} nodes ready`;
+        statusIndicator.textContent = 'Scan ready';
+
+        const info = document.createElement('div');
+        info.className = 'log-entry';
+        info.innerHTML = `<strong>📊 Deck Audit:</strong><br/>
+          • Found ${msg.totalSlides} slides & ${scannedItems.length} text elements.<br/>
+          • Fonts active: ${msg.detectedFonts.slice(0, 4).join(', ')}...<br/>
+          • Font sizes: ${msg.detectedSizes.slice(0, 8).join('px, ')}px...`;
+        logList.appendChild(info);
+      }
+
+      else if (msg.type === 'unify-done') {
+        statusIndicator.textContent = 'Typography unified!';
+        const entry = document.createElement('div');
+        entry.className = 'log-entry success';
+        entry.innerHTML = `<strong>✨ Typography Harmonized!</strong><br/>
+          • Unified typography on <strong>${msg.modifiedTexts}</strong> text layers.<br/>
+          • Polished borders & corners on <strong>${msg.modifiedCards}</strong> cards.<br/>
+          • Headlines: <em>${selHeadlineFont.value}</em> | Body: <em>${selBodyFont.value}</em>.`;
+        logList.prepend(entry);
+      }
+
+      else if (msg.type === 'align-done') {
+        statusIndicator.textContent = 'Layout aligned!';
+        const entry = document.createElement('div');
+        entry.className = 'log-entry success';
+        entry.innerHTML = `<strong>📐 Layout Auto-Aligned!</strong><br/>
+          • Aligned <strong>${msg.alignedHeadersCount}</strong> titles & kickers to margin (${numLeftMargin.value}px).<br/>
+          • Equalized Y tops on <strong>${msg.alignedRowsCount}</strong> cards & images in sibling rows.<br/>
+          • Snapped <strong>${msg.alignedColsCount}</strong> stacked elements/captions to column edges.<br/>
+          • Processed across <strong>${msg.totalSlides}</strong> slides.`;
+        logList.prepend(entry);
+      }
+
+      else if (msg.type === 'tech-decor-done') {
+        statusIndicator.textContent = 'Tech Art FX Injected!';
+        const entry = document.createElement('div');
+        entry.className = 'log-entry purple';
+        entry.innerHTML = `<strong>⚡ Tech Art HUD & Decor Injected!</strong><br/>
+          • Created <strong>${msg.injectedHudCount}</strong> Top-Right Monospace HUD Bars.<br/>
+          • Drawn <strong>${msg.injectedDividerCount}</strong> 1px Technical Hairline Dividers.<br/>
+          • Generated <strong>${msg.injectedCornerCount}</strong> Precision CAD Crosshairs (+).<br/>
+          • Polished <strong>${msg.polishedCardCount}</strong> containers to Dark Translucent Glass.`;
+        logList.prepend(entry);
+      }
+
+      else if (msg.type === 'clean-done') {
+        statusIndicator.textContent = 'Tech decor cleaned!';
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `<strong>🧹 Cleaned Tech Decor:</strong><br/>
+          • Removed ${msg.removedCount} plugin-generated HUD & crosshair layers.`;
+        logList.prepend(entry);
+      }
+    };
+
+    window.onload = () => {
+      parent.postMessage({ pluginMessage: { type: 'scan', scope: 'all' } }, '*');
+    };
+  </script>
+</body>
+</html>
