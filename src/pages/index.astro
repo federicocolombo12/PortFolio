@@ -48,6 +48,7 @@ const getProjectBadge = (p: any): string => {
 	if (id === 'video-shooting-and-editing') return 'Cinematography';
 	if (id === 'phygital-smart-locker') return 'ESP32 / IoT';
 	if (id === 'mathify') return 'React Native / UXD';
+	if (id === 'elo-ping-pong') return 'React Native / PWA';
 	return p.data?.category || 'Graphics';
 };
 
@@ -149,6 +150,17 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5505.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Locking Actuator & Servo Test' },
 		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5506.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'RFID Sensor & Card Read' },
 		{ type: 'image', url: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Smart Locker Prototype Hardware' },
+	],
+	'elo-ping-pong': [
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/hero_showcase.png`, thumb: `${baseUrl}/projects/elo-ping-pong/hero_showcase.png`, title: 'EloPingPong Arena Mobile Showcase' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/architecture_diagram.svg`, thumb: `${baseUrl}/projects/elo-ping-pong/architecture_diagram.svg`, title: 'UX Gamification Loop & Real-Time Firebase Architecture' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/01_match_setup.png`, thumb: `${baseUrl}/projects/elo-ping-pong/01_match_setup.png`, title: 'Match Setup & Contextual Elo Modifiers' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/02_leaderboard_podium.png`, thumb: `${baseUrl}/projects/elo-ping-pong/02_leaderboard_podium.png`, title: 'Podium, Dual Elo/ATP Race & Wooden Spoon' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/03_live_referee.png`, thumb: `${baseUrl}/projects/elo-ping-pong/03_live_referee.png`, title: 'Full-Screen Table-Side Live Referee' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/04_live_betting.png`, thumb: `${baseUrl}/projects/elo-ping-pong/04_live_betting.png`, title: 'Multi-Market Live Betting & DP Odds' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/05_stats_coach_analytics.png`, thumb: `${baseUrl}/projects/elo-ping-pong/05_stats_coach_analytics.png`, title: 'AI Tactical Coach & Telemetry Stats' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/06_bazar_lucky_wheel.png`, thumb: `${baseUrl}/projects/elo-ping-pong/06_bazar_lucky_wheel.png`, title: 'Meritocratic Bazar & 24h Lucky Wheel' },
+		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/07_profile_wanted_bounty.png`, thumb: `${baseUrl}/projects/elo-ping-pong/07_profile_wanted_bounty.png`, title: 'Agent Profile & WANTED Bounties' },
 	],
 	'mathify': [
 		{ type: 'image', url: `${baseUrl}/projects/mathify/hero_cover.png`, thumb: `${baseUrl}/projects/mathify/hero_cover.png`, title: 'Mathify Mobile App Showcase' },
