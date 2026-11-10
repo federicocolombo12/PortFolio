@@ -47,6 +47,7 @@ const getProjectBadge = (p: any): string => {
 	if (id === 'easycooking') return 'DaVinci / Editing';
 	if (id === 'video-shooting-and-editing') return 'Cinematography';
 	if (id === 'phygital-smart-locker') return 'ESP32 / IoT';
+	if (id === 'mathify') return 'React Native / UXD';
 	return p.data?.category || 'Graphics';
 };
 
@@ -148,6 +149,16 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5505.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Locking Actuator & Servo Test' },
 		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5506.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'RFID Sensor & Card Read' },
 		{ type: 'image', url: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Smart Locker Prototype Hardware' },
+	],
+	'mathify': [
+		{ type: 'image', url: `${baseUrl}/projects/mathify/hero_cover.png`, thumb: `${baseUrl}/projects/mathify/hero_cover.png`, title: 'Mathify Mobile App Showcase' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/architecture_diagram.svg`, thumb: `${baseUrl}/projects/mathify/architecture_diagram.svg`, title: 'UXD Process & React Native / Firebase Architecture' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/app_home_sfide.png`, thumb: `${baseUrl}/projects/mathify/app_home_sfide.png`, title: 'Home Challenges Explore Screen' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/app_play_quiz.png`, thumb: `${baseUrl}/projects/mathify/app_play_quiz.png`, title: 'Timed Quiz Arena & Power-Ups' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/app_summary_results.png`, thumb: `${baseUrl}/projects/mathify/app_summary_results.png`, title: 'Post-Challenge Accuracy Breakdown' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/app_report_modal.png`, thumb: `${baseUrl}/projects/mathify/app_report_modal.png`, title: 'Inline Error Reporting Modal' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/lowfi_flow_diagram.png`, thumb: `${baseUrl}/projects/mathify/lowfi_flow_diagram.png`, title: 'Complete Mobile Navigation Flowchart' },
+		{ type: 'image', url: `${baseUrl}/projects/mathify/storyboard.png`, thumb: `${baseUrl}/projects/mathify/storyboard.png`, title: 'User Needfinding Comic Storyboard' },
 	],
 	'harmony': [
 		{ type: 'video', url: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo.mp4`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo_poster.jpg`, title: 'Real-Time Vocal Cymatics & Meta Quest Live Interaction' },
@@ -1927,6 +1938,7 @@ const showreelSlides = [
 					<button class="filter-btn" data-category="Game Development">Game Development</button>
 					<button class="filter-btn" data-category="3D Animation">3D Art & Animation</button>
 					<button class="filter-btn" data-category="Filmmaking">Filmmaking & VFX</button>
+					<button class="filter-btn" data-category="UX / Mobile Dev">UX / Mobile Dev</button>
 				</div>
 
 				<!-- Projects Grid (3 columns matching Francisco reference) -->

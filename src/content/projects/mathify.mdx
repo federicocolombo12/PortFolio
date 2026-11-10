@@ -1,0 +1,189 @@
+---
+title: 'Mathify: Gamified Math Learning App & UXD Case Study'
+description: 'End-to-end User-Centered Design case study and cross-platform React Native / TypeScript / Firebase mobile application achieving a 79.4/100 SUS usability score.'
+pubDate: '2025-01-28'
+heroImage: '../../assets/covers/Mathify.png'
+category: 'UX / Mobile Dev'
+rank: 9
+githubLink: 'https://github.com/polito-uxd-2024/mathify'
+tags: ['React Native', 'TypeScript', 'Firebase', 'UX/UI Design', 'Expo', 'Figma']
+---
+
+<div class="callout-box">
+  <strong>📱 Role & Scope — Group SmartLearn (Politecnico di Torino · UXD 2024/2025):</strong><br />
+  Built within a 4-person M.Sc. team, I served as <strong>Lead React Native & Firebase Developer</strong> (authoring <strong>181 of 302 commits</strong> on <code>main</code> across state architecture, Firebase Realtime DB synchronization, timed quiz mechanics, navigation, and UI components) and co-authored the full <strong>User-Centered Design (UCD)</strong> lifecycle—from needfinding interviews and Nielsen heuristic evaluations to Figma prototyping and cooperative usability testing.
+</div>
+
+---
+
+### Act 1: Problem Space & Needfinding Research
+
+Mathematics is frequently perceived by middle and high school students as abstract and intimidating—an attitude reflected in **INVALSI 2024** proficiency gaps, **ISTAT** educational disparity metrics, and **PNRR** digital-learning analyses.
+
+To ground our product decisions in real user behavior rather than assumptions, we combined secondary pedagogical research with **5 semi-structured interviews** across both **immediate/lead users** (3 students aged 12, 15, and 18 across middle school, *liceo scientifico*, and technical institute) and **extreme users** (2 math teachers aged 30 and 50).
+
+From thematic affinity mapping, **4 core user needs** drove every subsequent design and engineering choice:
+1. **Mitigate Study Distractions:** Students lose focus during unstructured home practice (often stalling within ~20 minutes); short, timed quiz sprints create clear concentration boundaries.
+2. **Gamified Motivation & Engagement:** Turning problem solving into collectible XP, milestone badges, and peer classroom competition transforms anxiety into positive reinforcement.
+3. **Structured Progress Visibility:** Learners need granular topic-by-topic error reviews and explanations—not just a final pass/fail score.
+4. **Curated Study Repository:** Teachers and advanced peers need a trustworthy way to share study materials directly linked to curriculum topics.
+
+---
+
+### Act 2: Storyboarding, Low-Fi Prototyping & Heuristic Evaluations
+
+Before writing code, we defined 3 graded user tasks (Simple, Moderate, Complex), illustrated a narrative storyboard framing home study vs. long-term academic growth, and built parallel **paper prototypes** and full navigation flow diagrams for both **Mobile** and **Desktop** form factors.
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', margin: '2rem 0' }}>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/storyboard.png`} 
+      alt="Mathify Narrative Comic Storyboard" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Illustrated Storyboard: bridging daily mobile challenge notifications with structured exam preparation.</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/lowfi_paper_mobile.jpg`} 
+      alt="Low-Fidelity Mobile Paper Prototypes" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }} 
+    />
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Low-Fi Paper Prototypes: early mobile screens for challenge exploration, profile badges, and leaderboard views.</p>
+  </div>
+</div>
+
+We subjected both versions to **5 independent peer Heuristic Evaluations** (3 Mobile, 2 Desktop) based on **Jakob Nielsen's 10 Usability Heuristics**, followed by a full navigation flow audit:
+
+<div style={{ margin: '2rem 0', width: '100%', textAlign: 'center' }}>
+  <img 
+    src={`${import.meta.env.BASE_URL}/projects/mathify/lowfi_flow_diagram.png`} 
+    alt="Mathify Low-Fi Mobile User Flow Diagram" 
+    style={{ width: '100%', maxHeight: '780px', objectFit: 'contain', borderRadius: '12px', background: '#fff', padding: '12px', boxShadow: '0 8px 30px rgba(0,0,0,0.4)' }} 
+  />
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.6rem' }}>Complete smartphone interaction flowchart mapping Home, Quiz Loops, Error Reporting, Study Materials, Classroom, and Verification Gates.</p>
+</div>
+
+#### Strategic Pivot & Heuristic Resolutions
+Based on heuristic feedback and target audience portability habits, we committed to a **Mobile-First Architecture** and resolved key usability violations prior to high-fidelity implementation:
+* **Timer & Progress Clarity (H1):** Added an explicit per-question countdown indicator alongside an overall question progress bar (`1/10`).
+* **Direct Affordances over Hidden Menus (H2/H4):** Replaced hidden three-dot overflow menus inside active quizzes with explicit action buttons and confirmation dialogs when exiting or uploading.
+* **Level-Gated Trust System:** Replaced arbitrary locked/unlocked states with a transparent **Level &ge; 10 Verification Gate** empowering proven learners to contribute community study notes.
+
+Before writing production TypeScript, we validated the refined interactions in **interactive Mid-Fi Figma prototypes**:
+* 👉 [**Figma Mid-Fi Prototype — Challenge Flow (`Pagina Sfida`)**](https://www.figma.com/proto/UDJMeTzzTuGo86RtADNy18/Pagina-Sfida?node-id=2-615&node-type=canvas&t=lE3R2y6LwT4AhbOo-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A615)
+* 👉 [**Figma Mid-Fi Prototype — Profile & Verification Flow (`Pagina Profilo`)**](https://www.figma.com/proto/FKMP5JMc0gD6bJ407JDYRf/Pagina-Profilo?node-id=1-2&starting-point-node-id=1%3A2&t=00hHRhxwoHHTi9tf-1)
+
+---
+
+### Act 3: React Native Architecture & Real-Time Firebase Engineering
+
+Translating the design system into a cross-platform mobile application required building a responsive **React Native + Expo (`~52.0`)** client backed by **TypeScript (`5.3`)**, **Material Design 3 (React Native Paper)**, and **Firebase Realtime Database**.
+
+<div style={{ margin: '2rem 0', width: '100%' }}>
+  <img 
+    src={`${import.meta.env.BASE_URL}/projects/mathify/architecture_diagram.svg`} 
+    alt="Mathify UXD Pipeline and React Native Firebase Architecture Diagram" 
+    style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }} 
+  />
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.6rem', textAlign: 'center' }}>
+    End-to-end UX-to-Engineering workflow: connecting UCD validation phases with React Native Context/Reducer state and Firebase RTDB synchronization.
+  </p>
+</div>
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/app_home_sfide.png`} 
+      alt="Mathify Home Screen Explore Challenges" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
+    />
+    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Home (`Sfide`)</strong> — Topic filter chips, difficulty badges & live challenge search.</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/app_play_quiz.png`} 
+      alt="Mathify Timed Quiz Gameplay" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
+    />
+    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Quiz Arena (`Play`)</strong> — Per-question pie countdown & 3 tactical power-ups.</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/app_summary_results.png`} 
+      alt="Mathify Challenge Completion Summary" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
+    />
+    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Post-Quiz Review</strong> — Correctness badges & inline error flagging trigger.</p>
+  </div>
+</div>
+
+#### 1. Unidirectional State & Nested Stack Navigation
+The client architecture uses `useReducer` paired with React `StateContext` (`Reducer.ts` / `Action.ts`) and `PreferencesContext` (MD3 Light/Dark theme toggling), decoupled from a clean nested navigator (`RootStack` -> `BottomTabNavigator` with independent `HomeStack`, `MaterialeStack`, `ProfileStack`, and modal fullscreen `Play` gameplay).
+
+#### 2. Timed Quiz Engine, Tactical Bonuses & XP Calculation
+Inside `PlayScreen.tsx`, each question tracks elapsed response time against `timerDuration`, supports math rendering via `react-native-math-view` and `MathJax`, and grants three single-use power-ups per challenge: **`+30 secondi`** (resets timer progress by 50%), **`Doppio tentativo`** (grants a second attempt on a wrong answer without advancing), and **`Mostra Grafico`** (reveals visual function plots from `GraficList`).
+
+Upon completion, XP scales dynamically by challenge difficulty, accuracy, and speed bonus, rolling over every **5,000 XP**:
+
+```ts
+// Speed-weighted XP scoring & atomic Firebase RTDB persistence (Mathify/pages/PlayScreen.tsx)
+const correctAnswers = risposte.filter((risposta) => risposta === true).length;
+const xpCorretto = 10 * correctAnswers;
+
+const tempoTotXP = listaTempoDomande.reduce((sum, num, index) => {
+    const numArrotondato = Math.round(timerDuration - num);
+    return sum + (numArrotondato * (risposte[index] ? 1 : 0));
+}, 0);
+
+const totaleXP = state.selectedChallenge.difficolta * 50 + xpCorretto + tempoTotXP;
+registraSfidaCompletata(sfidaCompletata, state.selectedChallenge);
+aggiornaLivello(sfidaCompletata.xpGuadagnati);
+```
+
+#### 3. Crowd-Sourced QA & Level-Gated Community Materials
+Students can flag ambiguous wording or incorrect solutions inline (`registraSegnalazione()`), writing structured `DomandaSegnalata` records directly to Firebase so contributors can inspect unresolved reports in `Segnalazioni.tsx`. Meanwhile, reaching **Level 10** unlocks account verification (`registraVerifica()`), allowing verified students to publish custom math sheets into the `Materiale` hub.
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/app_report_modal.png`} 
+      alt="Mathify Question Reporting Modal" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
+    />
+    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Inline Bug Reporting</strong> — Fast radio taxonomy for typos, duplicates, or wrong solutions.</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/app_reports_list.png`} 
+      alt="Mathify Reports Audit List" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
+    />
+    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Reports Tracker</strong> — Firebase-synced status tags for flagged questions.</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img 
+      src={`${import.meta.env.BASE_URL}/projects/mathify/app_upload_material.jpg`} 
+      alt="Mathify Upload Study Material Modal" 
+      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
+    />
+    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Study Hub Upload</strong> — Verified-user modal for creating custom formula sheets.</p>
+  </div>
+</div>
+
+---
+
+### Act 4: Cooperative Usability Testing & Quantitative Results
+
+We conducted **cooperative usability testing sessions** with **4 target-age participants** (11–19 years old across middle school, *liceo scientifico*, and vocational high school). Each student performed **10 end-to-end tasks** (running timed quizzes with bonuses, reviewing wrong explanations, flagging a buggy question, checking level status, completing account verification, uploading materials, and checking the classroom podium) followed by the **System Usability Scale (SUS)** questionnaire.
+
+| Participant | Profile | Tasks Completed | SUS Score | Actionable Finding |
+| :--- | :--- | :---: | :---: | :--- |
+| **Test 1 — Silvia** | 18 · *Liceo Scientifico* | 10 / 10 | **90.0 / 100** | Rated quiz flow highly intuitive; suggested making Verification easier to locate. |
+| **Test 2 — Alessandro** | 19 · *Istituto Alberghiero* | 10 / 10 | **72.5 / 100** | Appreciated profile graphics; recommended larger leaderboard podium & richer colors. |
+| **Test 3 — Giada** | 19 · *Istituto Alberghiero* | 10 / 10 | **82.5 / 100** | Navigated independently across all 10 tasks; suggested clearer podium chart styling. |
+| **Test 4 — Abkari** | 11 · *Scuola Media* | 10 / 10 | **72.5 / 100** | Grasped quiz gameplay immediately; asked for higher color contrast on key controls. |
+| **Aggregate** | **4 Target Students** | **40 / 40 (100%)** | **79.4 / 100 Avg** | **Zero critical failures**; guided final color variety, podium hierarchy & save toast fixes. |
+
+#### Prototype Scope & Transparent Limitations
+As an academic functional prototype, **3 core challenges**, XP/level rollover (`5,000 XP/level`), completed challenge history, earned badges, question reports (`Segnalazioni`), and account verification sync dynamically with Firebase Realtime Database, while peripheral explore cards, the mock classroom leaderboard (`Classe.tsx`), scheduled challenges (`SfideProgrammate.tsx`), and non-verification settings items use local placeholder data. *(Note: the mobile app UI and quiz bank are written in Italian.)*

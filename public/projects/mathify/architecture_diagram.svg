@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 660" width="100%" height="100%" style="background: #0b0e14; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#A855F7"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  </pattern>
+  <rect width="100%" height="100%" fill="url(#grid)" />
+
+  <!-- Title -->
+  <text x="45" y="42" fill="#FFFFFF" font-size="20" font-weight="700" letter-spacing="0.5">MATHIFY: UXD ITERATIVE LIFECYCLE &amp; REACT NATIVE ARCHITECTURE</text>
+  <text x="45" y="65" fill="#94A3B8" font-size="12" font-weight="500">Group SmartLearn (PoliTo UXD 2024/2025) • Expo ~52 • React Native 0.76 • TypeScript • Firebase Realtime DB</text>
+
+  <!-- COLUMN 1: UXD PROCESS -->
+  <g transform="translate(45, 92)" filter="url(#shadow)">
+    <rect width="360" height="525" rx="10" fill="#131722" stroke="#252B3B" stroke-width="1.5"/>
+    <rect width="360" height="36" rx="10" fill="rgba(168, 85, 247, 0.12)"/>
+    <path d="M 0 36 L 360 36" stroke="rgba(168, 85, 247, 0.35)" stroke-width="1"/>
+    <text x="16" y="23" fill="#C084FC" font-size="12" font-weight="700" letter-spacing="0.8">1. USER-CENTERED DESIGN PIPELINE</text>
+
+    <rect x="16" y="50" width="328" height="96" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="70" fill="#F8FAFC" font-size="12" font-weight="600">Phase A — Needfinding &amp; Context</text>
+    <text x="26" y="88" fill="#94A3B8" font-size="10">• Desk Research: INVALSI 2024, ISTAT &amp; PNRR data</text>
+    <text x="26" y="103" fill="#94A3B8" font-size="10">• 5 Interviews: 3 Students (12–18) &amp; 2 Math Teachers</text>
+    <text x="26" y="118" fill="#38BDF8" font-size="10">• Core Needs: Focus timers, Gamification, Progress, Study Hub</text>
+    <text x="26" y="133" fill="#64748B" font-size="9.5">Brainstorming -&gt; 3 Graded Tasks + Illustrated Storyboard</text>
+
+    <rect x="16" y="158" width="328" height="104" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="178" fill="#F8FAFC" font-size="12" font-weight="600">Phase B — Low-Fi Paper &amp; Heuristics</text>
+    <text x="26" y="196" fill="#94A3B8" font-size="10">• Parallel Paper Prototypes (Mobile vs Desktop Flows)</text>
+    <text x="26" y="211" fill="#94A3B8" font-size="10">• 5 Peer Heuristic Evaluations (Nielsen's 10 Heuristics)</text>
+    <text x="26" y="226" fill="#A855F7" font-size="10">• Decision: Pivoted to Mobile-First for daily accessibility</text>
+    <text x="26" y="241" fill="#10B981" font-size="9.5">Resolved: Clearer timer scope, progress bars, level gates</text>
+
+    <rect x="16" y="274" width="328" height="96" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="294" fill="#F8FAFC" font-size="12" font-weight="600">Phase C — Figma Mid-Fi &amp; High-Fi Build</text>
+    <text x="26" y="312" fill="#94A3B8" font-size="10">• Interactive Figma prototypes (Sfida &amp; Profilo flows)</text>
+    <text x="26" y="327" fill="#94A3B8" font-size="10">• Translated into React Native (Expo 52 + TypeScript + MD3)</text>
+    <text x="26" y="342" fill="#38BDF8" font-size="10">• 302 Git Commits across 4 teammates (181 authored by Lead)</text>
+    <text x="26" y="357" fill="#64748B" font-size="9.5">Iterative refinement driven directly by heuristic checklist</text>
+
+    <rect x="16" y="382" width="328" height="126" rx="6" fill="rgba(16, 185, 129, 0.08)" stroke="rgba(16, 185, 129, 0.4)" stroke-width="1"/>
+    <text x="26" y="403" fill="#34D399" font-size="11.5" font-weight="700">Phase D — Cooperative Usability Validation</text>
+    <text x="26" y="422" fill="#E2E8F0" font-size="10.5">• 4 Target Students (11–19 yrs, Middle/Liceo/Technical)</text>
+    <text x="26" y="438" fill="#E2E8F0" font-size="10.5">• 10 Tasks per Session -&gt; <tspan fill="#34D399" font-weight="700">40 / 40 (100% Completion)</tspan></text>
+    <text x="26" y="456" fill="#E2E8F0" font-size="10.5">• System Usability Scale (SUS): <tspan fill="#34D399" font-weight="700">79.4 / 100 Average</tspan></text>
+    <text x="26" y="472" fill="#94A3B8" font-size="9.5">  Scores: 90.0 (Silvia), 82.5 (Giada), 72.5 (Alessandro), 72.5 (Abkari)</text>
+    <text x="26" y="490" fill="#F59E0B" font-size="9.5">Post-test fixes: podium hierarchy, palette variety, save feedback</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="405" y1="350" x2="452" y2="350" stroke="#A855F7" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowPurple)"/>
+  <text x="410" y="340" fill="#C084FC" font-size="9" font-weight="700">UI SPECS</text>
+
+  <!-- COLUMN 2: REACT NATIVE CLIENT -->
+  <g transform="translate(458, 92)" filter="url(#shadow)">
+    <rect width="380" height="525" rx="10" fill="#131722" stroke="#252B3B" stroke-width="1.5"/>
+    <rect width="380" height="36" rx="10" fill="rgba(56, 189, 248, 0.12)"/>
+    <path d="M 0 36 L 380 36" stroke="rgba(56, 189, 248, 0.35)" stroke-width="1"/>
+    <text x="16" y="23" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="0.8">2. REACT NATIVE / TYPESCRIPT ARCHITECTURE</text>
+
+    <rect x="16" y="50" width="348" height="86" rx="6" fill="#1A202E" stroke="#38BDF8" stroke-width="1"/>
+    <text x="26" y="70" fill="#FFFFFF" font-size="12" font-weight="600">App.tsx — Context &amp; State Management</text>
+    <text x="26" y="88" fill="#94A3B8" font-size="10">• StateContext + useReducer(Reducer, InitialState)</text>
+    <text x="26" y="103" fill="#94A3B8" font-size="10">  Slices: selectedChallenge | utente | challengeList</text>
+    <text x="26" y="118" fill="#38BDF8" font-size="10">• PreferencesContext (MD3 Light / Dark Theme toggle)</text>
+
+    <rect x="16" y="148" width="348" height="106" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="168" fill="#FFFFFF" font-size="12" font-weight="600">Nested Navigation Hierarchy (navigation.tsx)</text>
+    <text x="26" y="186" fill="#94A3B8" font-size="10">RootStack: Main TabNavigator &lt;-&gt; Play Fullscreen Quiz</text>
+    <text x="26" y="201" fill="#CBD5E1" font-size="10">  ├── HomeStack: Sfide (Explore/Done/Scheduled) &amp; Detail</text>
+    <text x="26" y="216" fill="#CBD5E1" font-size="10">  ├── MaterialeStack: Study Cards + Level-Gated Upload</text>
+    <text x="26" y="231" fill="#CBD5E1" font-size="10">  ├── ProfileStack: Badges, Settings, Verifica, Segnalazioni</text>
+    <text x="26" y="246" fill="#CBD5E1" font-size="10">  └── Classe: Peer Leaderboard &amp; Specialties</text>
+
+    <rect x="16" y="266" width="348" height="122" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="286" fill="#FFFFFF" font-size="12" font-weight="600">PlayScreen.tsx — Timed Quiz &amp; Power-Up Engine</text>
+    <text x="26" y="304" fill="#94A3B8" font-size="10">• Per-question Countdown Timer (Progress.Circle + cleanup)</text>
+    <text x="26" y="319" fill="#94A3B8" font-size="10">• Math Equations: react-native-math-view / MathJax</text>
+    <text x="26" y="334" fill="#38BDF8" font-size="10">• 3 Single-Use Tactical Power-Ups:</text>
+    <text x="26" y="349" fill="#CBD5E1" font-size="9.5">  [+30s Time Reset]  [Double Attempt]  [Plot / Graph Hint]</text>
+    <text x="26" y="366" fill="#F59E0B" font-size="9.5">• Inline Error Reporting Modal -&gt; Crowd-QA Pipeline</text>
+
+    <rect x="16" y="400" width="348" height="108" rx="6" fill="rgba(56, 189, 248, 0.08)" stroke="rgba(56, 189, 248, 0.35)" stroke-width="1"/>
+    <text x="26" y="420" fill="#38BDF8" font-size="11.5" font-weight="700">Gamification &amp; Leveling Math</text>
+    <text x="26" y="439" fill="#E2E8F0" font-size="10" font-family="monospace">XP = diff * 50 + correct * 10 + speedBonus</text>
+    <text x="26" y="456" fill="#94A3B8" font-size="10">• aggiornaLivello.tsx: 5,000 XP threshold rollover</text>
+    <text x="26" y="472" fill="#94A3B8" font-size="10">• Badges: Speedrunner, Stakanovista, Perfectionist, etc.</text>
+    <text x="26" y="488" fill="#10B981" font-size="10">• Verifica Gate: Lv &gt;= 10 unlocks Community Material Upload</text>
+  </g>
+
+  <!-- Arrow 2 <-> 3 -->
+  <line x1="838" y1="260" x2="885" y2="260" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowAmber)"/>
+  <line x1="885" y1="300" x2="838" y2="300" stroke="#38BDF8" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrowCyan)"/>
+  <text x="842" y="250" fill="#F59E0B" font-size="8.5" font-weight="700">SYNC</text>
+
+  <!-- COLUMN 3: FIREBASE RTDB -->
+  <g transform="translate(890, 92)" filter="url(#shadow)">
+    <rect width="305" height="525" rx="10" fill="#131722" stroke="#252B3B" stroke-width="1.5"/>
+    <rect width="305" height="36" rx="10" fill="rgba(245, 158, 11, 0.12)"/>
+    <path d="M 0 36 L 305 36" stroke="rgba(245, 158, 11, 0.35)" stroke-width="1"/>
+    <text x="16" y="23" fill="#FBBF24" font-size="12" font-weight="700" letter-spacing="0.8">3. FIREBASE REALTIME DB</text>
+
+    <rect x="16" y="50" width="273" height="120" rx="6" fill="#1A202E" stroke="#F59E0B" stroke-width="1"/>
+    <text x="26" y="70" fill="#FFFFFF" font-size="12" font-weight="600">/Sfide/{challengeId}</text>
+    <text x="26" y="88" fill="#94A3B8" font-size="10">• Argomento &amp; Difficoltà (1..3 stars)</text>
+    <text x="26" y="103" fill="#94A3B8" font-size="10">• Questions[]: Testo, Soluzione, 4 Risposte</text>
+    <text x="26" y="118" fill="#94A3B8" font-size="10">• Step-by-step Spiegazione (post-quiz review)</text>
+    <text x="26" y="133" fill="#FBBF24" font-size="10">• GraficList[]: dynamic visual plot URLs</text>
+    <text x="26" y="152" fill="#64748B" font-size="9.5">Fetched via useSetChallengeList() hook</text>
+
+    <rect x="16" y="182" width="273" height="164" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="202" fill="#FFFFFF" font-size="12" font-weight="600">/Utenti/Utente1/</text>
+    <text x="26" y="220" fill="#94A3B8" font-size="10">├── Livello: { Numero, XpLivello }</text>
+    <text x="26" y="236" fill="#94A3B8" font-size="10">├── Verifica: boolean (gated by Lv &gt;= 10)</text>
+    <text x="26" y="252" fill="#94A3B8" font-size="10">└── SfideCompletate/{id}:</text>
+    <text x="26" y="268" fill="#CBD5E1" font-size="9.5">     • Punteggio &amp; XP earned</text>
+    <text x="26" y="283" fill="#CBD5E1" font-size="9.5">     • Per-question TempoImpiegato</text>
+    <text x="26" y="298" fill="#CBD5E1" font-size="9.5">     • Domande[] full review snapshot</text>
+    <text x="26" y="313" fill="#F59E0B" font-size="9.5">     • Segnalazioni[] bug/typo reports</text>
+    <text x="26" y="334" fill="#64748B" font-size="9.5">Persisted via writeOnDb.tsx &amp; fetch.ts</text>
+
+    <rect x="16" y="358" width="273" height="150" rx="6" fill="#1A202E" stroke="#2E364B" stroke-width="1"/>
+    <text x="26" y="378" fill="#FFFFFF" font-size="12" font-weight="600">Core Curriculum Topics</text>
+    <text x="26" y="398" fill="#CBD5E1" font-size="10">• Equazioni &amp; Disequazioni (Algebra)</text>
+    <text x="26" y="414" fill="#CBD5E1" font-size="10">• Esponenziali &amp; Logaritmi</text>
+    <text x="26" y="430" fill="#CBD5E1" font-size="10">• Circonferenza &amp; Solidi Euclidei</text>
+    <text x="26" y="446" fill="#CBD5E1" font-size="10">• Dominio &amp; Derivate (Funzioni)</text>
+    <text x="26" y="462" fill="#CBD5E1" font-size="10">• Funzioni Sinusoidali (Trigonometria)</text>
+    <text x="26" y="478" fill="#CBD5E1" font-size="10">• Probabilità Condizionata &amp; Pitagora</text>
+    <text x="26" y="496" fill="#10B981" font-size="9.5">Multi-platform: iOS, Android &amp; Web (Expo)</text>
+  </g>
+</svg>
