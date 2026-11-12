@@ -19,6 +19,7 @@ const projects = defineCollection({
 			rank: z.number().optional(),
 			itchLink: z.string().optional(),
 			githubLink: z.string().optional(),
+			demoLink: z.string().optional(),
 			raiCinemaLink: z.string().optional(),
 			youtubeLink: z.string().optional(),
 		}),

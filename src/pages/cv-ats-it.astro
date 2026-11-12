@@ -276,7 +276,7 @@ import BaseHead from '../components/BaseHead.astro';
 			<section class="skills-section">
 				<h2>COMPETENZE TECNICHE</h2>
 				<ul>
-					<li><strong>Linguaggi:</strong> C++, C#, Python, HLSL/GLSL, JavaScript/TypeScript</li>
+					<li><strong>Linguaggi:</strong> C++, C#, Python, HLSL / GLSL / WGSL (WebGPU), JavaScript/TypeScript</li>
 					<li><strong>Motori Grafici & Web:</strong> Unity, Unreal Engine 5, Custom OpenGL Frameworks, React</li>
 					<li><strong>AI & Automazione:</strong> Anthropic Claude (Integrazione LLM), Notion API, Automazione Workflow</li>
 					<li><strong>Software & DCC:</strong> Blender, DaVinci Resolve, Jira, Git</li>
@@ -289,6 +289,7 @@ import BaseHead from '../components/BaseHead.astro';
 				<ul class="project-list">
 					<li class="project-entry"><strong>Smart Cable Generator (Tool Blender):</strong> Sviluppato un add-on procedurale in Python per la generazione parametrica di cavi su mesh multiple con fisica catenaria proporzionale alla distanza e conversione automatica delle mesh per i game engine.</li>
 					<li class="project-entry"><strong>Graphics Lab (Motore C++ Custom):</strong> Programmato un framework di rendering 3D in OpenGL partendo da zero. Implementata architettura Deferred Shading, Physically Based Rendering (PBR) e Silhouette Parallax Occlusion Mapping (SPOM).</li>
+					<li class="project-entry"><strong>WebGPU 2D Global Illumination (Compute Shader Lab):</strong> Scritti a mano 8 shader WGSL su una pipeline compute da 15 dispatch/frame (Ping-Pong 512×512 <code>rgba16float</code>): Jump Flooding SDF, Monte Carlo sphere tracing a 16 raggi con rimbalzo indiretto, EMA temporale, Bloom in memoria condivisa (<code>var&lt;workgroup&gt;</code>) e Pass Inspector con tone mapping AgX.</li>
 					<li class="project-entry"><strong>Stylized 3D Gaussian Splats:</strong> Implementata pipeline NPR pittorica in tempo reale su Blender 5.3 Beta ed EEVEE-Next via OpenUSD PointClouds, campi vettoriali in Geometry Nodes e filtro Kuwahara.</li>
 					<li class="project-entry"><strong>UE5 Tech Art Pipeline:</strong> Sviluppati ambienti procedurali utilizzando PCG. Scriptato un sistema di proiettili a ricerca in Niagara e integrati MetaHumans con collisioni fisiche complesse del groom.</li>
 					<li class="project-entry"><strong>Awaken Asylum & Nihil:</strong> Sviluppata un'esperienza VR immersiva (Unity) e un prototipo Metroidvania 2D basato su meccaniche di trasformazione complesse. Gestita la produzione tecnica end-to-end.</li>

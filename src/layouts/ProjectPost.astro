@@ -110,8 +110,13 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					</div>
 
 					{/* External Links Section */}
-					{(Astro.props.itchLink || Astro.props.githubLink || Astro.props.raiCinemaLink) && (
+					{(Astro.props.demoLink || Astro.props.itchLink || Astro.props.githubLink || Astro.props.raiCinemaLink) && (
 						<div class="external-links" style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+							{Astro.props.demoLink && (
+								<a href={Astro.props.demoLink} target="_blank" rel="noopener noreferrer" style="background: rgba(56, 189, 248, 0.14); backdrop-filter: blur(10px); border: 1px solid rgba(56, 189, 248, 0.45); padding: 0.5rem 1rem; border-radius: 8px; color: #38bdf8; text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
+									🌐 Launch Live WebGPU Demo
+								</a>
+							)}
 							{Astro.props.itchLink && (
 								<a href={Astro.props.itchLink} target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 8px; color: var(--accent); text-decoration: none; font-weight: bold; transition: all 0.3s ease;">
 									🎮 Play on Itch.io

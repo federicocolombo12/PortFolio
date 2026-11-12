@@ -28,6 +28,7 @@ const getProjectBadge = (p: any): string => {
 	if (id === 'stylized-gaussian-splats') return 'Blender 5.3 / Geometry Nodes';
 	if (id === 'graphics-lab') return 'C++ / OpenGL';
 	if (id === 'thesis-medical-xr') return 'Unity 6 / HLSL';
+	if (id === 'webgpu-2d-gi') return 'WebGPU / WGSL Compute';
 	if (id === 'ue5-procedural-environment') return 'Unreal Engine 5';
 	if (id === 'ue5-niagara-vfx') return 'UE5 Niagara';
 	if (id === 'ue5-metahuman-cinematics') return 'UE5 MetaHuman';
@@ -78,6 +79,11 @@ const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: stri
 		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/02_Deferred.mp4`, thumb: `${baseUrl}/videos/graphics-lab/02_Deferred_poster.jpg`, title: 'Deferred Shading G-Buffer Pipeline' },
 		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/SPOM.mp4`, thumb: `${baseUrl}/videos/graphics-lab/SPOM_poster.jpg`, title: 'Silhouette Parallax Occlusion Mapping' },
 		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/01_RayMarcher.mp4`, thumb: `${baseUrl}/videos/graphics-lab/01_RayMarcher_poster.jpg`, title: 'SDF Raymarching Sandbox' },
+	],
+	'webgpu-2d-gi': [
+		{ type: 'video', url: `${baseUrl}/videos/webgpu-2d-gi/demo.mp4`, thumb: `${baseUrl}/videos/webgpu-2d-gi/demo_poster.jpg`, title: 'Real-Time 2D GI Compute Pipeline (512×512 @ 144 FPS)' },
+		{ type: 'image', url: `${baseUrl}/projects/webgpu-2d-gi/preview.jpg`, thumb: `${baseUrl}/projects/webgpu-2d-gi/preview.jpg`, title: '5-Stage Pass Inspector & AgX Composite' },
+		{ type: 'image', url: `${baseUrl}/projects/webgpu-2d-gi/pipeline_architecture_diagram.svg`, thumb: `${baseUrl}/projects/webgpu-2d-gi/pipeline_architecture_diagram.svg`, title: '15-Dispatch WebGPU Compute Render Graph' },
 	],
 	'smart-cable-generator': [
 		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/cable_demo_3_poster.jpg`, title: 'Real-Time Catenary Cable Physics' },
@@ -224,6 +230,14 @@ const showreelSlides = [
 		image: `${baseUrl}/projects/graphics-lab/hero.png`,
 		video: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`,
 		projectId: 'graphics-lab'
+	},
+	{
+		title: 'WebGPU 2D Global Illumination :: Compute Lab',
+		sub: 'WebGPU • 8 Hand-Written WGSL Kernels • JFA SDF • Shared-Memory Bloom',
+		tag: 'COMPUTE // WGSL',
+		image: `${baseUrl}/videos/webgpu-2d-gi/demo_poster.jpg`,
+		video: `${baseUrl}/videos/webgpu-2d-gi/demo.mp4`,
+		projectId: 'webgpu-2d-gi'
 	},
 	{
 		title: 'Smart Cable Generator :: Blender Add-on',
@@ -1973,6 +1987,7 @@ const showreelSlides = [
 									data-image={imgSrc}
 									data-tags={(post.data.tags || []).join(',')}
 									data-github={post.data.githubLink || ''}
+									data-demo={post.data.demoLink || ''}
 									data-itch={post.data.itchLink || ''}
 									data-raicinema={post.data.raiCinemaLink || ''}
 									data-youtube={post.data.youtubeLink || ''}
@@ -2198,7 +2213,7 @@ const showreelSlides = [
 							Hey there! I'm Federico and I'm a <strong>Computer Graphics Engineer</strong> and <strong>Technical Artist</strong> with a passion for creative technologies and low-level rendering.
 						</p>
 						<p>
-							I've spent the last few years diving deep into real-time rendering, GPU architectures (C++ / OpenGL), and writing custom shaders (HLSL/GLSL). I love experimenting with proceduralism, Signed Distance Fields, volumetric raymarching, and building engines from the ground up.
+							I've spent the last few years diving deep into real-time rendering, GPU architectures (C++ / OpenGL / WebGPU), and writing custom shaders and compute kernels (HLSL / GLSL / WGSL). I love experimenting with proceduralism, Jump Flooding Signed Distance Fields, volumetric raymarching, and building renderers from the ground up.
 						</p>
 						<p>
 							Alongside creating, I've had the opportunity to teach as Teaching Assistant at Politecnico di Torino, lead multidisciplinary student teams in Level Up Lab, and conduct cutting-edge Master Thesis R&D at Lemons in the Room for standalone XR (Quest 3).
@@ -2237,7 +2252,7 @@ const showreelSlides = [
 								<div class="cap-item-icon">
 									<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
 								</div>
-								<span class="cap-item-text">HLSL / GLSL</span>
+								<span class="cap-item-text">HLSL / GLSL / WGSL</span>
 							</div>
 
 							<div class="cap-item-card">
@@ -2300,7 +2315,7 @@ const showreelSlides = [
 
 							<div class="cap-item-card">
 								<div class="cap-item-icon">🌐</div>
-								<span class="cap-item-text">Volumetric Raymarching & SDFs</span>
+								<span class="cap-item-text">Compute Shaders, SDFs &amp; Raymarching</span>
 							</div>
 
 							<div class="cap-item-card">
@@ -2766,6 +2781,7 @@ const showreelSlides = [
 				const defaultImg = card.getAttribute('data-image') || '';
 				const tags = (card.getAttribute('data-tags') || '').split(',').filter(Boolean);
 				const github = card.getAttribute('data-github') || '';
+				const demo = card.getAttribute('data-demo') || '';
 				const itch = card.getAttribute('data-itch') || '';
 				const raicinema = card.getAttribute('data-raicinema') || '';
 				const youtube = card.getAttribute('data-youtube') || '';
@@ -2823,6 +2839,19 @@ const showreelSlides = [
 				// Actions Handling
 				if (modalActions) {
 					modalActions.innerHTML = '';
+
+					if (demo) {
+						const btn = document.createElement('a');
+						btn.href = demo;
+						btn.target = '_blank';
+						btn.rel = 'noopener noreferrer';
+						btn.className = 'btn-secondary';
+						btn.style.borderColor = 'rgba(56, 189, 248, 0.55)';
+						btn.style.background = 'rgba(56, 189, 248, 0.14)';
+						btn.style.color = '#38bdf8';
+						btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Launch Live Demo</span>`;
+						modalActions.appendChild(btn);
+					}
 
 					if (github) {
 						const btn = document.createElement('a');

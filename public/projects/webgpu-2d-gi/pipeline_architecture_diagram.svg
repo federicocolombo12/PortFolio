@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070a12"/>
+      <stop offset="100%" stop-color="#0d1424"/>
+    </linearGradient>
+    <linearGradient id="blueCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#172542"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="cyanCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f293a"/>
+      <stop offset="100%" stop-color="#0c1a27"/>
+    </linearGradient>
+    <linearGradient id="amberCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1f12"/>
+      <stop offset="100%" stop-color="#171316"/>
+    </linearGradient>
+    <linearGradient id="pinkCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2b1428"/>
+      <stop offset="100%" stop-color="#17101f"/>
+    </linearGradient>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowPink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f472b6"/>
+    </marker>
+    <marker id="arrowMuted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="640" rx="16" fill="url(#bgGrad)"/>
+  <rect width="1200" height="640" rx="16" fill="url(#grid)"/>
+
+  <!-- Header -->
+  <text x="40" y="48" fill="#f8fafc" font-size="22" font-weight="800" letter-spacing="0.2">WebGPU 2D Global Illumination — Frame Render Graph</text>
+  <text x="40" y="72" fill="#94a3b8" font-size="13.5">512×512 rgba16float Ping-Pong Buffers · 15 Compute Dispatches + 1 Fullscreen Render Pass / Frame · 8 Hand-Written WGSL Kernels</text>
+
+  <!-- Spec Pills -->
+  <rect x="920" y="30" width="118" height="28" rx="14" fill="rgba(56,189,248,0.14)" stroke="rgba(56,189,248,0.45)"/>
+  <text x="979" y="48" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">15 DISPATCHES</text>
+  <rect x="1048" y="30" width="112" height="28" rx="14" fill="rgba(244,114,182,0.14)" stroke="rgba(244,114,182,0.45)"/>
+  <text x="1104" y="48" text-anchor="middle" fill="#f472b6" font-size="12" font-weight="700">rgba16float</text>
+
+  <!-- CPU Uniforms & Shared Resources Bar -->
+  <rect x="40" y="96" width="1120" height="58" rx="10" fill="rgba(15,23,42,0.85)" stroke="rgba(148,163,184,0.22)"/>
+  <text x="60" y="121" fill="#e2e8f0" font-size="12.5" font-weight="700">CPU → GPU Bindings (Per Frame)</text>
+  <text x="60" y="140" fill="#94a3b8" font-size="12">Uniforms (64 B aligned: mouse, prevMouse, brushMode, clearRequested, activePass, frameIndex)  ·  9× JFA Step Uniforms (16 B distinct buffers for async encoder queue)</text>
+  <rect x="975" y="109" width="166" height="32" rx="7" fill="rgba(37,99,235,0.18)" stroke="rgba(59,130,246,0.4)"/>
+  <text x="1058" y="129" text-anchor="middle" fill="#93c5fd" font-size="11.5" font-weight="700">64×64 Workgroups (8×8)</text>
+
+  <!-- STAGE 1: PAINT -->
+  <rect x="40" y="182" width="235" height="176" rx="12" fill="url(#cyanCard)" stroke="#0ea5e9" stroke-width="1.5"/>
+  <rect x="54" y="196" width="76" height="20" rx="5" fill="rgba(14,165,233,0.22)"/>
+  <text x="92" y="210" text-anchor="middle" fill="#38bdf8" font-size="10.5" font-weight="800">TAPPA 1 · ×1</text>
+  <text x="54" y="238" fill="#f8fafc" font-size="16" font-weight="800">paint.wgsl</text>
+  <text x="54" y="258" fill="#94a3b8" font-size="12">Ping-Pong Scene Canvas</text>
+  <line x1="54" y1="270" x2="260" y2="270" stroke="rgba(255,255,255,0.08)"/>
+  <text x="54" y="290" fill="#cbd5e1" font-size="11.5">• sdSegment() capsule SDF</text>
+  <text x="54" y="308" fill="#cbd5e1" font-size="11.5">• Alpha: 0.0 empty, 1.0 wall,</text>
+  <text x="64" y="323" fill="#cbd5e1" font-size="11.5">2.0 HDR neon (rgb × 2.5)</text>
+  <text x="54" y="343" fill="#38bdf8" font-size="11" font-weight="600">Unconditional copy → A/B sync</text>
+
+  <!-- Arrow Stage 1 -> Stage 2 -->
+  <line x1="275" y1="270" x2="314" y2="270" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- STAGE 2: JFA + SDF -->
+  <rect x="320" y="182" width="320" height="176" rx="12" fill="url(#blueCard)" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="334" y="196" width="124" height="20" rx="5" fill="rgba(59,130,246,0.22)"/>
+  <text x="396" y="210" text-anchor="middle" fill="#93c5fd" font-size="10.5" font-weight="800">TAPPA 2 · ×11 DISPATCH</text>
+  <text x="334" y="238" fill="#f8fafc" font-size="16" font-weight="800">JFA + Distance Field</text>
+  <text x="334" y="258" fill="#94a3b8" font-size="12">O(log₂ N) Parallel Flood &amp; Euclidean SDF</text>
+  <line x1="334" y1="270" x2="624" y2="270" stroke="rgba(255,255,255,0.08)"/>
+  <text x="334" y="290" fill="#cbd5e1" font-size="11.5">1. jfa_seed.wgsl (×1): encode seed coords</text>
+  <text x="334" y="309" fill="#cbd5e1" font-size="11.5">2. jfa_step.wgsl (×9): steps 256 → 128 → … → 1</text>
+  <text x="334" y="328" fill="#cbd5e1" font-size="11.5">3. sdf.wgsl (×1): length(p − seed) in px</text>
+  <text x="334" y="346" fill="#93c5fd" font-size="11" font-weight="600">Empty-scene safe guard: dist = 9999.0</text>
+
+  <!-- Arrow Stage 2 -> Stage 3 -->
+  <line x1="640" y1="270" x2="679" y2="270" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- STAGE 3: MONTE CARLO GI + TEMPORAL -->
+  <rect x="685" y="182" width="475" height="176" rx="12" fill="url(#amberCard)" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="699" y="196" width="124" height="20" rx="5" fill="rgba(245,158,11,0.2)"/>
+  <text x="761" y="210" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="800">TAPPA 3 · ×2 DISPATCH</text>
+  <text x="699" y="238" fill="#f8fafc" font-size="16" font-weight="800">gi.wgsl → temporal.wgsl</text>
+  <text x="699" y="258" fill="#94a3b8" font-size="12">16-Ray Sphere Tracing + 1-Bounce Indirect GI + EMA</text>
+  <line x1="699" y1="270" x2="1144" y2="270" stroke="rgba(255,255,255,0.08)"/>
+  <text x="699" y="290" fill="#cbd5e1" font-size="11.5">• 16 stratified rays/px × ≤32 SDF steps + PCG Hash jitter</text>
+  <text x="699" y="309" fill="#cbd5e1" font-size="11.5">• Wall hit (α=1.0): samples historyTex @ pos − dir×2.0 (albedo 0.42..0.54)</text>
+  <text x="699" y="328" fill="#cbd5e1" font-size="11.5">• Temporal EMA: α = 0.08 (static converge) / 0.35 (drawing) / 1.0 (clear)</text>
+  <text x="699" y="346" fill="#fbbf24" font-size="11" font-weight="600">Double-buffered GI Ping-Pong feeds next frame's indirect bounce</text>
+
+  <!-- Temporal Feedback Loop Arrow (Stage 3 bottom) -->
+  <path d="M 1035 358 L 1035 382 L 820 382 L 820 364" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#arrowAmber)"/>
+  <rect x="850" y="370" width="155" height="22" rx="6" fill="#171316" stroke="rgba(245,158,11,0.45)"/>
+  <text x="927" y="385" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="700">historyTex (frame t−1)</text>
+
+  <!-- Connector Stage 3 down to Stage 4 -->
+  <path d="M 922 358 L 922 406 L 340 406 L 340 426" fill="none" stroke="#f472b6" stroke-width="2" marker-end="url(#arrowPink)"/>
+
+  <!-- STAGE 4: SHARED MEMORY BLOOM -->
+  <rect x="40" y="432" width="540" height="172" rx="12" fill="url(#pinkCard)" stroke="#ec4899" stroke-width="1.5"/>
+  <rect x="54" y="446" width="124" height="20" rx="5" fill="rgba(236,72,153,0.2)"/>
+  <text x="116" y="460" text-anchor="middle" fill="#f472b6" font-size="10.5" font-weight="800">TAPPA 4 · ×4 DISPATCH</text>
+  <text x="54" y="488" fill="#f8fafc" font-size="16" font-weight="800">bloom.wgsl (Shared-Memory Separable Blur)</text>
+  <text x="54" y="508" fill="#94a3b8" font-size="12">Passes: blur_h (extractBright=1) → blur_v → blur_h → blur_v</text>
+  <line x1="54" y1="520" x2="564" y2="520" stroke="rgba(255,255,255,0.08)"/>
+  <text x="54" y="540" fill="#cbd5e1" font-size="11.5">• 64×1 / 1×64 threads cooperatively fill var&lt;workgroup&gt; tile: array&lt;vec3&lt;f32&gt;, 80&gt;</text>
+  <text x="54" y="559" fill="#cbd5e1" font-size="11.5">• Tile covers 64 px + 2×8 apron halo; soft HDR threshold (luma &gt; 0.85) on pass 1 only</text>
+  <text x="54" y="578" fill="#f472b6" font-size="11" font-weight="600">• Uniform control flow: workgroupBarrier() strictly before bounds guard return</text>
+
+  <!-- Arrow Stage 4 -> Stage 5 -->
+  <line x1="580" y1="518" x2="622" y2="518" stroke="#f472b6" stroke-width="2" marker-end="url(#arrowPink)"/>
+
+  <!-- STAGE 5: DISPLAY & PASS INSPECTOR -->
+  <rect x="628" y="432" width="532" height="172" rx="12" fill="url(#blueCard)" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect x="642" y="446" width="150" height="20" rx="5" fill="rgba(56,189,248,0.2)"/>
+  <text x="717" y="460" text-anchor="middle" fill="#38bdf8" font-size="10.5" font-weight="800">FINAL RENDER PASS · ×1</text>
+  <text x="642" y="488" fill="#f8fafc" font-size="16" font-weight="800">display.wgsl (Pass Inspector &amp; AgX Tone Map)</text>
+  <text x="642" y="508" fill="#94a3b8" font-size="12">Bufferless Fullscreen Triangle draw(3) → Swapchain Canvas</text>
+  <line x1="642" y1="520" x2="1144" y2="520" stroke="rgba(255,255,255,0.08)"/>
+  <text x="642" y="540" fill="#cbd5e1" font-size="11.5">• 5-Stage Pass Inspector (activePass 0..4): Scene → JFA → SDF → GI → Final Composite</text>
+  <text x="642" y="559" fill="#cbd5e1" font-size="11.5">• Blender-style AgX inset matrix + 6th-order polynomial + inverse gamma pow(v, 2.2)</text>
+  <text x="642" y="578" fill="#38bdf8" font-size="11" font-weight="600">• Unified linear → sRGB pow(1.0 / 2.2) display conversion across all 5 debug views</text>
+
+  <!-- Stage inputs into Display (subtle dashed line from Stage 1/2) -->
+  <path d="M 157 358 L 157 620 L 894 620 L 894 608" fill="none" stroke="rgba(148,163,184,0.35)" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrowMuted)"/>
+  <text x="520" y="616" text-anchor="middle" fill="#64748b" font-size="10.5">All intermediate textures (Scene, JFA, SDF, Temporal GI, Bloom) bound for real-time Pass Inspector switching</text>
+</svg>
