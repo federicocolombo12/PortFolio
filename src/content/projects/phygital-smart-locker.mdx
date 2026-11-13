@@ -1,6 +1,6 @@
 ---
 title: '"Phygital" Smart Locker with Audio Authentication & Cloud IoT'
-description: 'Smart IoT Locker'
+description: 'Smart IoT Locker with DTMF audio authentication, ESP32 non-blocking state machine, and Firebase RTDB sync.'
 pubDate: '2026-03-05'
 heroImage: '../../assets/covers/_Phygital_ Smart Locker with Audio Authentication & Cloud IoT.png'
 category: 'UX / Mobile Dev'
@@ -8,59 +8,32 @@ rank: 9
 tags: ['Hardware', 'Arduino', 'UX/UI']
 ---
 
-> [!NOTE]
-> **Action required for Media:** This project contains videos attached on Notion, which I have omitted below. Remember to download the videos (`IMG_5505.mov`, `WhatsApp_Video...`) from Notion and insert them into Astro using the `<video src="/video-path.mp4" controls></video>` tag. I also removed a Canva image; you can re-add it by downloading and linking it!
+Embedded firmware and hardware architecture for a screenless book-lending Smart Locker powered by **ESP32 (C++ / Arduino)**, **Firebase Realtime Database**, I2S digital audio, ultrasonic presence sensing, and NeoPixel LED rings. ([Project Report](https://www.canva.com/design/DAHAFhC8tz0/KKv57OQ4PoPhY5P6FZZRXQ/edit?utm_content=DAHAFhC8tz0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton))
 
-[Complete Project Report](https://www.canva.com/design/DAHAFhC8tz0/KKv57OQ4PoPhY5P6FZZRXQ/edit?utm_content=DAHAFhC8tz0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+### 1. Screenless DTMF Audio Handshake (I2S + Goertzel)
 
-## 📖 Project Overview
-I designed and developed the backend firmware and hardware infrastructure for an IoT Smart Locker system aimed at managing book lending and returns. The system acts as a bridge between the digital world (Mobile App) and the physical environment (Locker), ensuring security, real-time feedback, and advanced "Anti-Cheat" logic.
+<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/IMG_5505.mp4" autoPlay loop muted playsInline style={{float: 'left', width: '40%', margin: '0 1rem 1rem 0', borderRadius: '12px'}}></video>
 
-- **Role:** IoT & Embedded Systems Developer
-- **Tech Stack:** C++ (Arduino framework), ESP32 (Microcontroller), Firebase Realtime Database, I2S Audio Processing, HC-SR04 Ultrasonic Sensors, Adafruit NeoPixel LEDs.
+To avoid installing physical keypads or screens on the cabinet, authentication uses smartphone-emitted **DTMF audio tones**:
+- Samples a digital `INMP441` microphone at `16 kHz` over **I2S** without blocking the main loop.
+- Decodes dual-tone frequencies in real time on the ESP32 using a custom **Goertzel algorithm** with temporal debounce and anti-repetition filters against room noise.
+- Validates dynamic 4-digit Cloud session tokens wrapped with a `#` start frame and strict timeout guards.
 
----
+### 2. Anti-Cheat State Machine & Cloud Sync
 
-## 🛠️ Key Activities & Technical Development
+Instead of simple open/close toggles, each bay runs a non-blocking **Finite State Machine** reading the lock relay, door microswitch, and `HC-SR04` ultrasonic sensor: if a user requests a return, opens an empty bay, and closes the door without inserting a book, the ESP32 detects the state mismatch and **automatically reopens the compartment** while flagging Firebase (`isClosed`, `hasBook`).
 
-### 1. Secure Audio Authentication System (DTMF)
-<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/IMG_5505.mp4" autoplay loop muted playsinline style={{float: 'left', width: '40%', margin: '0 1rem 1rem 0', borderRadius: '12px'}}></video>
-I implemented a proprietary handshake protocol based on audio frequencies (Dual-Tone Multi-Frequency), eliminating the need for physical screens or keypads on the locker.
+### 3. Screenless Visual Feedback & Hardware Hardening
 
-- **I2S Audio Processing:** Integrated an INMP441 digital microphone via the I2S bus, ensuring clean 16kHz sampling without blocking the processor.
-- **Goertzel Algorithm:** Wrote and optimized the Goertzel mathematical algorithm for real-time audio frequency analysis (a simplified FFT), allowing the ESP32 to decode sounds emitted by the user's smartphone.
-- **Dynamic Security:** The ESP32 randomly generates a unique 4-digit "Token" for each session, syncing it to the Cloud.
-- **V5 Protocol & Noise Filters:** Developed filtering logic (temporal debounce and anti-repetition) to discard environmental noise. The protocol requires a Start command (`#`) and allows cancellation, autonomously managing timeouts to ensure system security.
+<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.23.mp4" autoPlay loop muted playsInline style={{float: 'right', width: '30%', margin: '0 0 1rem 1rem', borderRadius: '12px'}}></video>
 
-### 2. Sensor Logic & "Anti-Cheat" System (State Machine)
-Physical compartment management is not a simple "open/close" command, but a full Finite State Machine (FSM) based on non-blocking programming.
+- **NeoPixel Ring UX:** Drives non-blocking circular yellow scan progress during the 3s ultrasonic check and green/red status signals on completion.
+- **Watchdog & Power Isolation:** Eliminated `delay()` calls across I2S sampling, Firebase WebSockets, and LEDs to prevent ESP32 Watchdog resets, and physically isolated `5V` inductive lock coils from the `3.3V` sensor/audio rails to stop brownout kernel panics.
 
-- **Sensor Integration:** Each compartment features a relay (for the electric lock), a microswitch (to verify the physical closure of the door), and an HC-SR04 ultrasonic sensor (to detect the presence of an object).
-- **"Anti-Cheat" Logic Engine:** Programmed the ESP32 to recognize user intent. If the App requests to open an *empty* compartment for a return, and the user closes the door *without* inserting the book, the ESP32 detects the discrepancy via the ultrasonic sensor and **automatically reopens the door**, signaling an error.
-
-### 3. Real-Time Cloud Synchronization (Firebase RTDB)
-I structured the data architecture (JSON) so that the ESP32 acts as the "Operational Arm" (physical truth) and the App as the "Mind" (business logic), communicating via Firebase.
-
-- The ESP32 constantly listens in a non-blocking manner to receive opening commands (Push requests) from the database.
-- Upon any physical interaction (closing a compartment), the ESP32 instantly updates the database state (`isClosed`, `hasBook`), triggering real-time reactions on the user App interface.
-- Managed WiFi connection with auto-reconnection mechanisms and Watchdog timers to ensure device uptime.
-
-### 4. Dynamic Visual Feedback (Physical UX/UI)
-<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.23.mp4" autoplay loop muted playsinline style={{float: 'right', width: '30%', margin: '0 0 1rem 1rem', borderRadius: '12px'}}></video>
-To guide the user through the interaction without screens, I integrated visual management via RGB LED rings (Adafruit NeoPixel).
-- **Circular Feedback:** During the 3 seconds of ultrasonic sensor scanning, the LEDs show a yellow circular "loading" animation.
-- **Operation Outcome:** LEDs visually communicate success (Green for confirmed return or correct login) or error (Red for fraud attempt or wrong audio password), as well as the system's stand-by state.
-
-<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/IMG_5506.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px', marginTop: '1rem'}}></video>
-
----
-
-## 💡 Main Challenges Overcome
-- **Concurrency & Watchdog:** Kept high-frequency audio sampling (I2S), WebSocket connection with Firebase, ultrasonic measurements, and LED animations active simultaneously without ever blocking the main loop (`delay()`) and preventing the ESP32's Watchdog Timeout resets.
-- **Hardware Isolation:** Resolved power conflicts and electrical noise by logically and physically separating the power supply of the locks (5V inductive coils) from the control logic (3.3V sensors and microphone) and assigning specific general-purpose pins to avoid kernel panics.
+<video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/IMG_5506.mp4" autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px', marginTop: '1rem'}}></video>
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '2rem' }}>
-  <video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.24.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px'}}></video>
-  <video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.25.mp4" autoplay loop muted playsinline style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.24.mp4" autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px'}}></video>
+  <video src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Video_2026-03-05_at_15.23.25.mp4" autoPlay loop muted playsInline style={{width: '100%', borderRadius: '12px'}}></video>
   <img src="https://federicocolombo12.github.io/PortFolio/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg" style={{width: '100%', borderRadius: '12px', objectFit: 'cover'}} />
 </div>

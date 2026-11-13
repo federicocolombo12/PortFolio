@@ -8,40 +8,16 @@ rank: 5
 tags: ['Blender', '3D Modeling', 'Lighting']
 ---
 
-For this Computer Graphics project, I was tasked with creating high-quality, photorealistic 3D renders entirely from scratch. I managed the complete CGI (Computer-Generated Imagery) pipeline, taking the project from initial concept and blockout to the final rendered composition.
+Early CG generalist environment study in **Blender (Cycles)** covering hard-surface modeling, UV unwrapping, procedural PBR surface wear, and multi-camera interior lighting across a retro arcade and racing simulator room.
 
-- **Role:** 3D Artist / CG Generalist
-- **Tech Stack & Tools:** Blender, Cycles Render Engine, PBR Material Workflow, Node-based Procedural Texturing.
+- **Scope:** Full scene modeling, Shader Editor PBR layering (combining image textures with procedural roughness/dust breakup), HDRI + practical 3-point neon lighting, and Cycles compositor passes (glare, subtle chromatic aberration).
 
----
-
-## 🛠️ Key Activities & CGI Pipeline
-
-### 1. 3D Modeling & Topology
-I built the geometry of the scene focusing on clean topology and proper edge flow to ensure realistic light reflection and smooth subdivision surfaces.
-- **Hard-Surface & Organic Modeling:** Utilized a mix of polygonal modeling techniques, boolean operations, and subdivision surface modifiers to create detailed and accurate assets.
-- **Scene Optimization:** Managed polygon counts and utilized instancing to keep the viewport responsive and optimize rendering times without sacrificing visual quality.
-
-### 2. UV Unwrapping & Texturing (PBR)
-To achieve photorealism, I applied a Physically Based Rendering (PBR) workflow to all assets in the scene.
-- **UV Mapping:** Carefully unwrapped 3D models to minimize texture stretching and hide seams in less visible areas.
-- **Material Creation:** Built complex node trees in Blender's Shader Editor. I combined image textures (Albedo, Roughness, Normal, and Displacement maps) with procedural nodes to create realistic surface imperfections like dust, scratches, and wear-and-tear.
-
-### 3. Lighting & Camera Setup
-Lighting was a crucial step to set the mood and highlight the geometry of the models.
-- **Illumination Setup:** Combined HDRI (High Dynamic Range Imaging) for realistic environmental reflections with a customized 3-point lighting setup (Key, Fill, and Back/Rim lights) to enhance depth and volume.
-- **Cinematic Composition:** Set up virtual cameras using real-world photographic principles, adjusting focal length, depth of field (DoF), and rule-of-thirds composition to guide the viewer's eye.
-
-### 4. Rendering & Post-Processing
-- **Cycles Engine:** Configured the Cycles path-tracing engine for the final output, optimizing sample counts and light bounces for a noise-free image.
-- **Compositing:** Used Blender’s built-in Compositor to add post-processing effects such as glare, color grading, and subtle chromatic aberration, giving the final renders a cinematic and polished look.
-
-## 3D Render Gallery
+### Render Gallery
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginTop: '1.5rem' }}>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/SIMULATORI%20FRONT%20VIEW/SIMULATORI_FRONT_VIEW.jpg`} alt="Simulator Front View" style={{ width: '100%', display: 'block' }} />
-    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Simulator Front View · Cockpit & Rigging</div>
+    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Simulator Front View · Cockpit &amp; Rigging</div>
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Panoramica%20arcade/Panoramica_arcade.jpg`} alt="Arcade Panoramic View" style={{ width: '100%', display: 'block' }} />
@@ -49,7 +25,7 @@ Lighting was a crucial step to set the mood and highlight the geometry of the mo
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Close%20Up%20pokeball/Close_Up_pokeball.jpg`} alt="Pokeball Close-Up Detail" style={{ width: '100%', display: 'block' }} />
-    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Pokeball Close-Up · Subsurface & Micro-Scratches</div>
+    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Pokeball Close-Up · Subsurface &amp; Micro-Scratches</div>
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Fisheye%20Arcade/Fisheye_Arcade.jpg`} alt="Fisheye Arcade Perspective" style={{ width: '100%', display: 'block' }} />
@@ -57,15 +33,15 @@ Lighting was a crucial step to set the mood and highlight the geometry of the mo
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Close_Up_Arcade_2/Close_Up_Arcade_2.jpg`} alt="Arcade Cabinet Close-Up" style={{ width: '100%', display: 'block' }} />
-    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Arcade Cabinet Close-Up · Joystick & Button Wear</div>
+    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Arcade Cabinet Close-Up · Joystick &amp; Button Wear</div>
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Led%20View/Led_View.jpg`} alt="Neon LED Atmosphere" style={{ width: '100%', display: 'block' }} />
-    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Neon LED Lighting · Bloom & Volumetric Fog</div>
+    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Neon LED Lighting · Bloom &amp; Volumetric Fog</div>
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Bar-View/Bar-View.jpg`} alt="Bar Lounge Environment" style={{ width: '100%', display: 'block' }} />
-    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Bar Lounge View · Stools & Surface Reflections</div>
+    <div style={{ padding: '0.65rem 0.85rem', fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Bar Lounge View · Stools &amp; Surface Reflections</div>
   </div>
   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
     <img src={`${import.meta.env.BASE_URL}/projects/Blender_Renders/Untitled/Simulatore/Simulatore.jpg`} alt="Full Racing Simulator Rig" style={{ width: '100%', display: 'block' }} />

@@ -9,9 +9,9 @@ githubLink: 'https://github.com/Harmony-VIA/Harmony-2026'
 tags: ['Unity 6', 'VR', 'VFX Graph', 'C#', 'OpenXR', 'Tech Art']
 ---
 
-**Harmony VR: Singing The Light** is an immersive virtual reality experience that invites users to sculpt light, geometric particle fields, and sound within a responsive virtual environment using the expressive nuances of their singing voice.
+**Harmony VR: Singing The Light** is a standalone Meta Quest VR experience built during the international **Avenue Cove** program between **Politecnico di Torino** and **VIA University College** (Denmark), where singing voices sculpt reactive Cymatics particle fields in real time.
 
-<div style={{ margin: '2rem 0', borderRadius: '16px', overflow: 'hidden', background: '#0b0f19', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 12px 36px rgba(0,0,0,0.5)' }}>
+<div style={{ margin: '2rem 0', borderRadius: '12px', overflow: 'hidden', background: '#0b0f19', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 12px 36px rgba(0,0,0,0.5)' }}>
   <video 
     src={`${import.meta.env.BASE_URL}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo.mp4`} 
     poster={`${import.meta.env.BASE_URL}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo_poster.jpg`}
@@ -22,127 +22,40 @@ tags: ['Unity 6', 'VR', 'VFX Graph', 'C#', 'OpenXR', 'Tech Art']
     controls
     style={{ width: '100%', display: 'block', maxHeight: '540px', objectFit: 'cover' }}
   />
-  <div style={{ padding: '0.85rem 1.25rem', fontSize: '0.85rem', color: '#94a3b8', background: 'rgba(15, 23, 42, 0.75)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-    <strong style={{ color: '#38bdf8' }}>Live Gameplay Capture:</strong> Real-time Meta Quest performance demonstrating voice-driven Cymatics VFX morphing, real-time audio FFT pitch mapping, and physical hand tracking interaction.
+  <div style={{ padding: '0.75rem 1.1rem', fontSize: '0.85rem', color: '#a5adbc', background: 'rgba(20, 22, 26, 0.85)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    Meta Quest capture: voice-driven Cymatics 3D SDF morphing, FFT pitch color mapping, and hand-tracking particle dispersion.
   </div>
 </div>
 
-In this international production, I served as **Lead VFX Developer & Technical Artist**. My core technical responsibilities encompassed three interconnected systems:
-1. **The Voice-Driven Particle System & VFX Audio Interface** (`VfxAudio_Interface.cs`)
-2. **The Real-Time VR Hand Collider System** (`VfxHandController.cs`)
-3. **The Radial Procedural Achievement & Memory System** (`AchievementManager.cs` & `SingleTrophyControl.cs`)
+My role was **Lead VFX Developer & Technical Artist**, owning the audio-to-GPU interface, VR hand repulsion math, and the procedural trophy loop:
 
----
+### 1. Cymatics SDF Morphing & Pitch Deadband (`VfxAudio_Interface.cs`)
 
-### 1. Voice-Driven VFX Graph & Cymatics SDF Architecture
+Rather than spawning standard radial emitters, we baked **7 `Texture3D` Signed Distance Fields** from physical Chladni/Cymatics resonance patterns so VFX Graph could confine particle swarms to harmonic shapes.
 
-The visual core of Harmony is powered by Unity's **VFX Graph**, driven by a custom C# interface that translates live acoustic telemetry into GPU parameters without garbage collection or thread contention.
-
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', margin: '1.5rem 0' }}>
-  <div style={{ background: 'rgba(255,255,255,0.03)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
-    <h4 style={{ color: '#38bdf8', marginTop: 0 }}>Cymatics 3D Texture SDFs</h4>
-    <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.5', margin: 0 }}>
-      Rather than conventional particle emitters, we baked <strong>7 distinct 3D Signed Distance Fields (Texture3D)</strong> derived from physical Cymatics patterns (Chladni acoustic resonance geometries). The VFX Graph samples these SDFs to confine millions of particles to pure harmonic geometry.
-    </p>
-  </div>
-  <div style={{ background: 'rgba(255,255,255,0.03)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
-    <h4 style={{ color: '#38bdf8', marginTop: 0 }}>Continuous Morphing & Scale LERP</h4>
-    <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.5', margin: 0 }}>
-      To eliminate harsh popping when switching octave registers or fallback meshes, <code>VfxAudio_Interface.cs</code> executes a frame-by-frame vector LERP (<code>currentSdfScale → targetSdfScale</code>), smoothly transitioning the volumetric bounds while rotating on the yaw axis.
-    </p>
-  </div>
-</div>
-
-#### Real-Time Audio Telemetry Bindings:
-- **`Intensita` (Amplitude):** Inverted/remapped via LASP auto-gain to modulate particle turbulence, point size, emission rates, and core brightness.
-- **`Frequenza` (Pitch):** Normalizes fundamental singing frequencies (80 Hz – 400 Hz) via `InverseLerp` to shift chromatic color palettes and noise octaves.
-- **`Nota` & `Ottava`:** Chromatic note index (1–12) mapped to HSV color ramps and octave index routing directly to specific Cymatics 3D Texture SDF assets.
-- **`PitchDistance` with Soft-Clamping Deadband:** Implemented a custom mathematical deadband (`safePitchDistanceClampingTreshold`) with sign restoration. When the singer wavers off-pitch, the system injects subtle, organic vibrational perturbations without jittering.
+- **Smooth Register Switching:** `VfxAudio_Interface.cs` runs continuous scale interpolation (`currentSdfScale -> targetSdfScale`) to eliminate popping when jumping octaves.
+- **Acoustic Parameter Mapping:** LASP amplitude drives turbulence and brightness; normalized pitch (`80–400 Hz`) maps HSV ramps; octave index selects the active `Texture3D` SDF.
+- **Pitch Deadband:** Human singing vibrato causes jitter if passed raw to shader noise. I added a thresholded deadband (`safePitchDistanceClampingTreshold`) preserving sign symmetry so steady notes stay calm while intentional bends deform the field cleanly:
 
 ```csharp
-// Excerpt from VfxAudio_Interface.cs: Soft-clamping pitch deadband logic
-if (absDistance > safePitchDistanceClampingTreshold)
-{
-    float distanceOverThreshold = absDistance - safePitchDistanceClampingTreshold;
-    float sign = Mathf.Sign(safePitchDistance); 
-    finalDistance = distanceOverThreshold * sign * safePitchDistanceMultiplier;
+if (absDistance > safePitchDistanceClampingTreshold) {
+    float over = absDistance - safePitchDistanceClampingTreshold;
+    finalDistance = over * Mathf.Sign(safePitchDistance) * safePitchDistanceMultiplier;
 }
 vfx.SetFloat(pitchDistanceProperty, finalDistance);
 ```
 
----
+### 2. Local-Space VR Hand Colliders (`VfxHandController.cs`)
 
-### 2. VR Hand Collider & Particle Physical Dispersion
+To let players push through the particle field while the central orb rotates, tracking OpenXR `R_Palm` / `L_Palm` positions in world space broke collision alignment. Transforming both palms via `vfx.transform.InverseTransformPoint(palmPosition)` before feeding `HandPosition_R`, `HandPosition_L`, and `HandRadius` into VFX Graph kept physical repulsion locked to the simulation space.
 
-To ensure presence within Virtual Reality, players needed to physically touch and disturb the light they generated with their voices.
+### 3. Radial Trophy Ring (`AchievementManager.cs`, `SingleTrophyControl.cs`)
 
-<div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(56, 189, 248, 0.2)', margin: '1.5rem 0' }}>
-  <h4 style={{ color: '#38bdf8', marginTop: 0 }}>Coordinate Space Transformation Pipeline (`VfxHandController.cs`):</h4>
-  <ul style={{ color: '#cbd5e1', fontSize: '0.92rem', lineHeight: '1.6', paddingLeft: '1.2rem', margin: 0 }}>
-    <li><strong>Runtime Node Detection:</strong> Automatically discovers tracked OpenXR palm joints (<code>R_Palm</code> and <code>L_Palm</code>) as player hands enter tracking volumes.</li>
-    <li><strong>World-to-Local Vector Projection:</strong> Transforms global palm positions into the local coordinate frame of the VFX Graph using <code>vfx.transform.InverseTransformPoint(palmPosition)</code>, guaranteeing accurate collision even when the particle orb rotates or moves in 3D space.</li>
-    <li><strong>Blackboard Parameter Feeding:</strong> Transmits <code>HandPosition_R</code>, <code>HandPosition_L</code>, and <code>HandRadius</code> directly to the VFX Graph, where spherical vector field forces repel and disperse particles around the player's hands in real time.</li>
-  </ul>
-</div>
+Discovered `(Texture3D, note)` harmonies unlock persistent floating pedestals arranged around the player on a `5 m` polar ring (filtered via `colorDifferenceThreshold = 0.1f` to prevent near-duplicate unlocks) using `PrimeTween` animations. Each pedestal runs its own `SingleTrophyControl.cs` proximity collider so players can disturb past vocal creations directly by hand.
 
-```csharp
-// Excerpt from VfxHandController.cs: Local space hand collision projection
-if (rightHand != null)
-{
-    Vector3 posR = vfx.transform.InverseTransformPoint(rightHand.position);
-    vfx.SetVector3("HandPosition_R", posR);
-}
-if (leftHand != null)
-{
-    Vector3 posL = vfx.transform.InverseTransformPoint(leftHand.position);
-    vfx.SetVector3("HandPosition_L", posL);
-}
-vfx.SetFloat("HandRadius", handRadius);
-```
+### Team & Links
 
----
-
-### 3. Radial Procedural Achievement & Memory System
-
-Spontaneous vocal creation is paired with a persistent reward loop: as players discover unique note-and-shape harmonies, the system records them and spawns interactive memory pedestals in a circular constellation surrounding the player.
-
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', margin: '1.5rem 0' }}>
-  <div style={{ background: 'rgba(255,255,255,0.03)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
-    <h4 style={{ color: '#38bdf8', marginTop: 0 }}>Algorithmic Discovery Caching</h4>
-    <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.5', margin: 0 }}>
-      <code>AchievementManager.cs</code> evaluates active <code>(Texture3D, noteValue)</code> pairs against an unlocked shape registry. A circular color-difference threshold (<code>colorDifferenceThreshold = 0.1f</code>) prevents duplicate entries, requiring genuinely distinct vocal tones to unlock new trophies.
-    </p>
-  </div>
-  <div style={{ background: 'rgba(255,255,255,0.03)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
-    <h4 style={{ color: '#38bdf8', marginTop: 0 }}>Procedural Juice & PrimeTween</h4>
-    <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.5', margin: 0 }}>
-      Pedestals spawn procedurally along a polar circle (<code>radius = 5m</code>). Using <strong>PrimeTween</strong>, each trophy erupts from below the floor with an elastic <code>Ease.OutBack</code>, transitioning into an infinite floating hover (<code>Ease.InOutSine</code> Yoyo loop) with continuous yaw rotation.
-    </p>
-  </div>
-</div>
-
-#### Multi-Target Hand Collision on Memories:
-Each spawned pedestal operates its own `SingleTrophyControl.cs` script. When the player approaches a previously unlocked vocal memory, the script tracks palm proximity and feeds local coordinates into the trophy's VFX Graph, allowing the player to reach out and physically touch, swirl, and disperse their past vocal creations.
-
-```csharp
-// Excerpt from AchievementManager.cs: Circular Polar Coordinate Layout
-float angle = index * Mathf.PI * 2 / unlockedShapes.Count;
-return spawnCenter.position + new Vector3(Mathf.Cos(angle), spawnHeight, Mathf.Sin(angle)) * spawnRadius;
-```
-
----
-
-### Avenue Cove & Politecnico di Torino
-
-**Harmony VR** was developed within the international framework of **Avenue Cove**, a European initiative dedicated to rethinking and innovating creative education in visual industries, uniting talents from **Politecnico di Torino** and **VIA University College** (Denmark).
-
-- **Direction:** Morten Thorning
-- **Technical Supervision:** Edoardo Battegazzorre
-- **Art Direction:** Peter Smith & Remy Sandvej
-- **VFX Development & Technical Art:** Federico Colombo & Sofia Lo Sardo
-- **Audio Analysis & Tech Coordination:** Simone Aronica
-- **VR Development:** Giulia Avola & Sofia Lo Sardo
-- **Environment & UI Art:** Elena Santarella, Martina Cifarelli, Luca Potenza
-
-🔗 [Read the official article on PoliFlash (Politecnico di Torino)](https://www.polito.it/ateneo/comunicazione-e-ufficio-stampa/poliflash/al-via-il-progetto-avenue-cove-l-europa-ripensa-la)  
-💻 [Explore the full open-source repository on GitHub](https://github.com/Harmony-VIA/Harmony-2026)
+- **Direction / Technical Supervision:** Morten Thorning · Edoardo Battegazzorre (Art: Peter Smith, Remy Sandvej)
+- **VFX & Technical Art:** Federico Colombo, Sofia Lo Sardo
+- **Audio, VR & Environment/UI:** Simone Aronica, Giulia Avola, Elena Santarella, Martina Cifarelli, Luca Potenza
+- [PoliFlash Official Article (Politecnico di Torino)](https://www.polito.it/ateneo/comunicazione-e-ufficio-stampa/poliflash/al-via-il-progetto-avenue-cove-l-europa-ripensa-la) · [Source Code on GitHub](https://github.com/Harmony-VIA/Harmony-2026)

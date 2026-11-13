@@ -8,45 +8,43 @@ rank: 5
 tags: ['Unreal Engine 5', 'Niagara', 'VFX']
 ---
 
-**Niagara VFX: The Magic Comet** highlights the integration of logic-driven particle systems within Unreal Engine 5 to create dynamic, interactive visual effects. The goal was to take the environment created in the first phase and transform it into a moody, fairy-tale landscape.
+Built as an interactive VFX layer on top of the procedural UE5 environment, this study pairs multi-emitter **Niagara particle systems** with **Blueprint user-parameter injection** so projectiles track moving targets mid-air and trigger real-time Lumen lighting feedback on impact.
 
-### 1. Anatomy of the Fairy Field
-To inject magic into the environment, we engineered a dedicated Niagara System for the field itself:
-- **Main Emitter:** Generates glowing orbs with a bright head and a trailing tail that changes color and shrinks based on lifespan (managed via Splines).
-- **Light Renderer:** We attached a Light Renderer to the glow particles. This allowed us to dynamically control real-time lighting intensity based directly on the emissive color of the particles.
-- **Wind-swept Petals:** Thousands of pink petals were introduced to drift organically with the procedural wind, completing the magical aesthetic.
+### 1. Ambient Field System (Wisps & Wind Petals)
 
-### 2. Anatomy of the Meteor
-The core element of the scene is the homing magic comet, split across 4 distinct Emitters for maximum fidelity:
-1. **Main Emitter:** The core of the comet, the central light source from which all other elements derive.
-2. **Trail Ribbon:** A module managing dynamic trails (both luminous and dark) to emphasize the sense of speed as it cuts through the air.
-3. **Impact Flash:** An explosive burst of magical energy triggered exactly on the collision frame.
-4. **Impact Sparks:** Secondary physical particles and sparks that scatter upon impact to give weight and volume to the explosion.
+- **Spline-Scaled Orbs:** Main emitters drive glowing sprites whose radius and color gradient decay along lifespan curves.
+- **Niagara Light Renderer:** Couples dynamic point lighting directly to particle emissive intensity, illuminating nearby grass and rock in Lumen without manually placed point lights.
+- **Drifting Petals:** Secondary GPU emitter reacting to wind vector fields across the clearing.
+
+### 2. Target-Seeking Comet (4 Emitters + Blueprint Steering)
+
+Rather than animating the projectile along a fixed spline, the comet steers dynamically toward any runtime Actor:
+1. A Blueprint reads the target Actor's world location each tick and updates an exposed **`User.TargetPosition` (`Vector3`)** parameter on the Niagara component.
+2. Inside the emitter stack, a **Point Attraction Force** pulls particle velocity toward `User.TargetPosition`, bending the trajectory dynamically in 3D space.
+3. Four synchronized emitters split the visual layers: **Core Light Head**, **Dual Light/Dark Ribbon Trails**, **Collision Flash Burst**, and **Physical Impact Sparks**.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div>
-    The true magic, however, lies in the **Blueprint Logic**. The Niagara system isn't isolated; we exposed a parameter (`User.TargetPosition`) inside the Emitter. A custom Blueprint calculates the *World Location* of the target Actor and injects it into Niagara every single frame using a `Set Niagara Variable (Vector3)` node. 
-    <br/><br/>
-    Inside the particle framework, a **Point Attraction Force** module reads this updated coordinate, dynamically bending the comet's trajectory mid-air to hunt down the target.
+    Per-frame <code>Set Niagara Variable (Vector3)</code> binding driving Point Attraction Force steering inside the Niagara simulation stage.
   </div>
   <div>
     <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_final.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
   </div>
 </div>
 
-### Final Result Render
+### Final Sequence Capture
 <div style={{ margin: '2rem 0' }}>
   <video src={`${import.meta.env.BASE_URL}/videos/tech-art/a5_render.mp4`} autoPlay loop muted playsInline style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}></video>
 </div>
 
 ---
 
-## 📐 Niagara System & Blueprint Homing Architecture
+## Niagara System & Blueprint Homing Architecture
 
 <div class="pipeline-diagram">
   <div class="diagram-title">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-    <span>Particle Force Field & Emitter Pipeline</span>
+    <span>Particle Force Field &amp; Emitter Pipeline</span>
   </div>
   <div class="diagram-grid">
     <div class="diagram-step">
@@ -74,7 +72,7 @@ The core element of the scene is the homing magic comet, split across 4 distinct
 
 ---
 
-## 🎨 Dedicated Presentation Slides (Slides 57 – 64)
+## Dedicated Presentation Slides (Slides 57 – 64)
 
 <div class="deck-viewer-container" data-start="57" data-end="64" data-current="1" data-deck-id="ue5-niagara">
   <div class="deck-header">

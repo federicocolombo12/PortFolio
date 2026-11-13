@@ -10,23 +10,14 @@ githubLink: 'https://github.com/federicocolombo12/PulseEngine'
 tags: ['Unity 6', 'HLSL / Compute Shaders', 'Volumetric SDF', 'VFX Graph', 'Medical XR', 'Politecnico di Torino']
 ---
 
-<style>{`
-  body {
-    background-image: radial-gradient(circle at 50% 0%, rgba(10, 25, 45, 0.88) 0%, rgba(10, 15, 20, 0.98) 100%), url('${import.meta.env.BASE_URL}/projects/pulse-engine/banner.jpeg') !important;
-    background-size: cover !important;
-    background-position: center top !important;
-    background-attachment: fixed !important;
-  }
-`}</style>
-
 <div class="callout-box">
-  <strong>🔒 Project Status & Source Code:</strong><br />
-  <strong>PulseEngine</strong> is my ongoing Master's Thesis project at <strong>Politecnico di Torino</strong>, developed in clinical partnership with medical XR startup <strong>Lemons in the Room</strong>. I modularized the entire framework into a standalone Unity Package intended for the Unity Asset Store. The repositories are currently private during packaging and academic review; full access to code, package files, and documentation is available upon request for recruiters, partners, and reviewers.
+  <strong>Project Status &amp; Code Access:</strong><br />
+  <strong>PulseEngine</strong> is my Master's Thesis at <strong>Politecnico di Torino</strong>, built in clinical partnership with medical XR startup <strong>Lemons in the Room</strong> and packaged as a standalone Unity UPM module (<code>Documentation~/toc.yml</code>) targeting Unity Asset Store standards. Source repositories are currently private during packaging and academic review; full repository access is available on request.
 </div>
 
-**PulseEngine** is a real-time rendering and telemetry engine that bridges continuous biometric data streams (ECG, blood oxygenation, autonomic stress) with procedural computer graphics in Extended Reality. 
+**PulseEngine** connects live physiological telemetry (ECG/HRV, SpO2, autonomic stress) to procedural real-time graphics for Extended Reality biofeedback on standalone **Meta Quest 3**.
 
-Instead of traditional mesh skinning or static polygonal assets, PulseEngine translates human physiology into **living, mathematical Signed Distance Fields (SDFs)** and **massive GPU particle swarms**. To manage continuous multi-sensor telemetry without messy spaghetti code, I designed a **Virtual DAW Mixer Console** inside Unity, borrowing workflows directly from professional audio workstations like Ableton Live.
+Instead of deforming fixed-topology polygon meshes with blendshapes, the system models living shapes as **mathematical Signed Distance Fields (SDFs)** evaluated on GPU—and bridges them directly into **Unity VFX Graph** via compute voxelization so clinicians get fluid organic motion at a locked **90 FPS**.
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
@@ -51,13 +42,11 @@ Instead of traditional mesh skinning or static polygonal assets, PulseEngine tra
 
 ---
 
-## 🧭 The Research Pivot: From Room Scanning to Pure Math
+### Why Real-Time SDFs: The Research Pivot
 
-My thesis initially started with real-time environmental depth scanning for Mixed Reality on Meta Quest 3, testing raw depth extraction via Meta's Depth API and point cloud reprojection. 
+The thesis started as environmental depth reconstruction on Quest 3 using Meta's Depth API and point-cloud reprojection. Early benchmarks showed that open tools like `QuestRoomScan` and `UnityGaussianSplatting` already solved static room capture—continuing there meant reinventing an existing wheel.
 
-Early on, I realized open-source frameworks like `QuestRoomScan` and `UnityGaussianSplatting` already tackled environmental reconstruction effectively. Reinventing that wheel offered little novelty. I decided to pivot the research toward an unsolved problem: **how to represent dynamic, living biological forms in mobile XR without polygon limits or mesh artifacts**.
-
-By shifting to **Pure Mathematical Raymarching (HLSL)**, the visual medium gained infinite topological freedom. A heart or cellular organism can morph, divide, swell, and melt seamlessly—all computed mathematically on the GPU.
+The unsolved problem for our trauma-therapy scenario was representing **continuous autonomic arousal** (mapping calm parasympathetic rest vs. sympathetic stress along the cross-modal **Bouba ↔ Kiki** spectrum). Polygon meshes break or self-intersect when geometry needs to smoothly swell, split, and sprout spikes under erratic sensor input. Switching to analytical HLSL raymarching gave the visuals infinite topological freedom without vertex topology limits.
 
 <div style={{ margin: '2rem 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
   <div style={{ textAlign: 'center' }}>
@@ -72,15 +61,18 @@ By shifting to **Pure Mathematical Raymarching (HLSL)**, the visual medium gaine
 
 ---
 
-## 🎛️ The Virtual DAW Mixer: Audio Paradigms for Visual Telemetry
+### Mental Model for Live Signals: The Virtual DAW Mixer
 
-Connecting multi-protocol telemetry (OSC, WebSockets, Serial microcontrollers, BLE medical sensors) directly to scene objects usually creates unmaintainable chaos. To solve this, I built the **PulseEngine DAW Mixer** (`DAWMixerWindow`).
+When designing how to manage multiple noisy real-time biosignals (OSC, WebSockets, Serial microcontrollers, BLE wearables) at once, wiring packet parsers straight into shader uniforms immediately turns into unmaintainable glue code.
 
-Inspired by professional digital audio workstations, every biosignal has its own hardware-style channel strip with interactive faders, real-time OLED oscilloscopes, and VU meters. Clinicians or technical artists can hit **Solo [S]** or **Mute [M]** to isolate a specific biomarker or silence an erratic sensor without dropping network packets. An integrated signal sniffer auto-detects incoming packet keys and maps them in one click, while complete states serialize into ScriptableObject snapshots for immediate clinical recall.
+I pictured the problem like mixing live audio tracks in a studio, and built **`DAWMixerWindow`** directly inside Unity:
+
+- **Channel Strips per Sensor:** Each incoming stream gets gain/smoothing sliders, live OLED oscilloscopes, VU meters, and **Solo [S] / Mute [M]** switches so a clinician or tech artist can isolate a noisy sensor mid-session without dropping network state.
+- **Packet Sniffer & Snapshots:** Auto-detects incoming telemetry keys for 1-click binding, and serializes full routing states into `ScriptableObject` snapshots for clinical session recall.
 
 <div style={{ margin: '2rem 0', textAlign: 'center' }}>
   <img src={`${import.meta.env.BASE_URL}/projects/pulse-engine/daw_mixer_full.png`} alt="PulseEngine Virtual DAW Mixer Console" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }} />
-  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>PulseEngine Virtual DAW Mixer with real-time OLED oscilloscopes, VU meters, and channel faders.</p>
+  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>PulseEngine Virtual DAW Mixer with live OLED oscilloscopes, VU meters, and channel faders.</p>
 </div>
 
 <div style={{ margin: '1.5rem 0', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
@@ -89,9 +81,9 @@ Inspired by professional digital audio workstations, every biosignal has its own
 
 ---
 
-## 🧬 Procedural CSG & Solving the 180° Symmetry Seam Bug
+### Hierarchical GPU CSG & Fixing the 180° Symmetry Seam
 
-The volumetric engine evaluates Constructive Solid Geometry (CSG) entirely on the GPU. Taking cues from tools like MudBun, shapes are organized hierarchically via Unity sibling indices: Smooth Union, Smooth Subtraction, and Smooth Intersection are accumulated top-to-bottom with per-node blend softness. Standalone modifier volumes (`SdfModifierVolume`) apply localized field distortions—like twists, bends, and bounded 3D noise—with double-wireframe gizmos indicating the inner core and falloff margin.
+Taking workflow cues from MudBun, SDF primitives evaluate in Unity sibling order (`Smooth Union`, `Smooth Subtraction`, `Smooth Intersection` with per-node softness), modulated by bounded `SdfModifierVolume` domains (twist, bend, bounded 3D noise with inner/falloff gizmos). Asymmetric exponential damping (`tau ≈ 2.5s`) prevents jarring visual jumps during patient down-regulation.
 
 <div style={{ margin: '2rem 0' }}>
   <video 
@@ -103,9 +95,7 @@ The volumetric engine evaluates Constructive Solid Geometry (CSG) entirely on th
   <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Live Scene View CSG manipulation, modifier volume interaction, and inspector parameter tuning.</p>
 </div>
 
-Because implicit surfaces don't have traditional UVs, texturing required an object-space triplanar projection pipeline. A major technical hurdle here was normal mapping: standard triplanar implementations use Cartesian sign flips, which causes glaring 180° normal inversions and ugly seams across symmetry planes (X=0, Y=0, Z=0). 
-
-To fix this, I implemented the **Morten Mikkelsen Surface Gradient** formulation (`∇_surf(h) = ∇h - (N · ∇h)N`). Because the surface gradient is strictly tangent to the implicit normal, it guarantees continuous C¹ micro-relief across organic morphing shapes with zero symmetry seams. Paired with view-space MatCap shading and dynamic URP directional lighting, this gives clinical organic surfaces the look of living tissue or anatomical bone.
+**Bug Caught — Triplanar Normal Inversion:** Because implicit SDFs have no UVs, surface detail uses object-space triplanar projection. Naive triplanar normal blending relies on Cartesian axis sign flips, which caused 180° inverted normal seams along `X=0`, `Y=0`, and `Z=0` whenever organic geometry morphed through origin planes. Replacing it with **Morten Mikkelsen's Surface Gradient** (`∇_surf(h) = ∇h - (N · ∇h)N`) keeps micro-relief tangent to the true implicit gradient with `C¹` continuity across all axes.
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div>
@@ -118,7 +108,7 @@ To fix this, I implemented the **Morten Mikkelsen Surface Gradient** formulation
   </div>
   <div>
     <img src={`${import.meta.env.BASE_URL}/projects/pulse-engine/biosignal_sdf_material_inspector.png`} alt="BioSignalSDF Material Inspector" style={{ width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }} />
-    <p style={{ textAlign: 'center', fontSize: '0.75em', color: 'gray', marginTop: '0.3rem' }}>Triplanar & MatCap Shader</p>
+    <p style={{ textAlign: 'center', fontSize: '0.75em', color: 'gray', marginTop: '0.3rem' }}>Triplanar &amp; MatCap Shader</p>
   </div>
   <div>
     <img src={`${import.meta.env.BASE_URL}/projects/pulse-engine/sdf_volume_scene_gizmo.png`} alt="SdfVolume Scene Gizmo" style={{ width: '100%', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }} />
@@ -128,11 +118,15 @@ To fix this, I implemented the **Morten Mikkelsen Surface Gradient** formulation
 
 ---
 
-## ⚡ The 90 FPS VR Optimization: Physics-Only Mode
+### Breaking Quest 3's Fill-Rate Wall: Compute Voxelizer -> VFX Graph
 
-Full-screen raymarching at standalone VR resolutions (2064 × 2208 per eye on Meta Quest 3) is notorious for destroying GPU fill-rates. To achieve guaranteed 90 Hz framerates for clinical safety, I engineered a high-performance **GPU Voxelizer** (`SdfVolumeVoxelizer`) paired with Unity Visual Effect Graph.
+Full-screen raymarching at Quest 3 native resolution (`2064 × 2208` per eye) hit `7.84 ms` GPU (`72.1 FPS`)—too tight to guarantee zero motion sickness under clinical workloads.
 
-Every frame, a Compute Shader evaluates the entire CSG hierarchy and modifier stack over an 8×8×8 thread grid, baking a 128³ RGBAHalf 3D RenderTexture in under **0.8 milliseconds**. The red channel holds metric signed distance for particle adhesion, while the green, blue, and alpha channels store interpolated surface colors for dynamic cellular tinting.
+To break the fragment bottleneck without giving up runtime CSG morphing, I decoupled **field evaluation** from **rendering**:
+
+1. **`SdfVolumeVoxelizer` (Compute Shader, `8×8×8` thread groups):** Evaluates the CSG tree and modifier stack once per frame into a 3D `RGBAHalf` `RenderTexture` (`32³` / `64³` / `128³`) in **under 0.8 ms**, storing metric distance in `.r` and interpolated color in `.gba`.
+2. **VFX Graph Integration (`ConformToSDF`):** Samples that live 3D volume directly inside Unity Visual Effect Graph so particle swarms flow, adhere, and recolor dynamically against changing implicit geometry.
+3. **Physics-Only Mode:** On standalone XR, the full-screen fragment raymarching pass turns off completely while the compute SDF keeps driving GPU particles—delivering a **61.3% GPU frame time reduction**.
 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div>
@@ -145,18 +139,6 @@ Every frame, a Compute Shader evaluates the entire CSG hierarchy and modifier st
   </div>
 </div>
 
-This architecture unlocked **Physics-Only Mode**: on standalone headsets, the expensive fragment raymarching pass can be completely turned off. The SDF continues to voxelize into the 3D texture, allowing millions of particles to adhere, swirl, and collide against the invisible mathematical surface with **zero screen fragment raymarching overhead**.
-
----
-
-## 🧠 Affective Biofeedback & Cross-Modal Perception: The Bouba-Kiki Paradigm
-
-In somatic psychotherapy and trauma therapy, patients often struggle with **interoception**—the ability to perceive and interpret their own internal nervous system state. 
-
-To turn invisible autonomic biomarkers into intuitive somatic perception, PulseEngine grounds its biofeedback engine in the cross-modal neurological **Bouba/Kiki effect** (Ramachandran & Hubbard, 2001; Köhler, 1929) and Polyvagal Theory, developed in collaboration with **Politecnico di Torino** and **Lemons in the Room**.
-
-Autonomic nervous system arousal translates directly along the continuous **Bouba ↔ Kiki** affective spectrum:
-
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
     <video 
@@ -166,7 +148,7 @@ Autonomic nervous system arousal translates directly along the continuous **Boub
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
     <p style={{ fontSize: '0.85em', color: '#00e5ff', marginTop: '0.5rem', fontWeight: 'bold' }}>Bouba (Parasympathetic Rest)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>High HRV RMSSD and resting pulse melt geometry into soothing, bulbous, smooth-curved lobes with gentle laminar particle adhesion.</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>High HRV RMSSD softens CSG blend radii into smooth lobes with laminar particle adhesion.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <video 
@@ -176,7 +158,7 @@ Autonomic nervous system arousal translates directly along the continuous **Boub
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
     <p style={{ fontSize: '0.85em', color: '#ffd600', marginTop: '0.5rem', fontWeight: 'bold' }}>Real-Time Morphing</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Asymmetric exponential damping (τ ≈ 2.5s) ensures smooth transitions, preventing startle responses during down-regulation.</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Asymmetric exponential damping (τ ≈ 2.5s) prevents visual jitter on abrupt biometric spikes.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <video 
@@ -186,15 +168,15 @@ Autonomic nervous system arousal translates directly along the continuous **Boub
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
     <p style={{ fontSize: '0.85em', color: '#ff5252', marginTop: '0.5rem', fontWeight: 'bold' }}>Kiki (Sympathetic Stress)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Adrenergic fight-or-flight arousal drops blend softness to 0.05, warping surfaces into acute star protrusions with turbulent particle swarms.</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>High arousal drops blend softness to 0.05, driving sharp geometric protrusions and turbulence.</p>
   </div>
 </div>
 
 ---
 
-## 📊 Meta Quest 3 Profiling & Standalone Benchmarks
+### Standalone Meta Quest 3 Benchmarks
 
-To validate clinical feasibility, performance profiling was conducted natively on **Meta Quest 3 (Standalone Android OpenXR)** using an automated test harness (`MedicalXRBenchmarkRunner`).
+Profiled natively on **Meta Quest 3 (Android OpenXR)** using a repeatable automated harness (`MedicalXRBenchmarkRunner`):
 
 <div style={{ margin: '2rem 0', textAlign: 'center' }}>
   <img src={`${import.meta.env.BASE_URL}/projects/pulse-engine/daw_benchmark_results_table.png`} alt="DAW Benchmark Results Table" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }} />
@@ -208,8 +190,6 @@ To validate clinical feasibility, performance profiling was conducted natively o
 | **Full Solid Raymarch** | 64³ | **72.1 FPS** | **7.84 ms** | 2.00 MB | **0 Bytes** |
 | **Bouba-Kiki Stress Test** | 64³ | **90.0 FPS** | **3.08 ms** | 2.00 MB | **0 Bytes** |
 
-Decoupling the fill-rate in Physics-Only Mode delivers a **61.3% reduction in GPU frame time**, providing ample headroom for clinical sessions where preventing motion sickness is paramount.
-
 <div style={{ margin: '2rem 0' }}>
   <video 
     src={`${import.meta.env.BASE_URL}/videos/pulse-engine/profiling_hud_recording.mp4`} 
@@ -217,18 +197,8 @@ Decoupling the fill-rate in Physics-Only Mode delivers a **61.3% reduction in GP
     autoPlay loop muted playsInline preload="auto" 
     style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
   </video>
-  <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Standalone Quest 3 On-Screen Profiling HUD recording real-time frame times and memory allocations.</p>
+  <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Standalone Quest 3 On-Screen Profiling HUD recording live frame times and GC allocations.</p>
 </div>
-
----
-
-## 🎓 Academic Thesis & Asset Store Packaging
-
-PulseEngine represents the intersection of technical art, academic computer graphics research, and medical innovation:
-
-* **Institution:** Master's Degree in Cinema and Media Engineering at **Politecnico di Torino (DAUIN)**, supervised by **Prof. Francesco Strada**.
-* **Clinical Partner:** **Lemons in the Room** (Extended Reality trauma therapy).
-* **Package Standards:** Built to official Unity Package Manual standards (`Documentation~/toc.yml`, manual guides, quickstarts) in preparation for commercial release on the **Unity Asset Store**.
 
 ```bibtex
 @mastersthesis{colombo2026pulseengine,

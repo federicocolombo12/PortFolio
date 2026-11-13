@@ -8,15 +8,13 @@ rank: 4
 tags: ['Unreal Engine 5', 'Photogrammetry']
 ---
 
-**Gaussian Splats, Photogrammetry and Nerfs Trials** is an exploration of extracting high-fidelity 3D data from 2D videos, comparing traditional photogrammetry with modern neural rendering techniques like NeRFs and Gaussian Splatting.
+This R&D benchmark compared classic **Structure-from-Motion (COLMAP)**, **NeRF**, and **3D Gaussian Splatting (3DGS)** for turning raw handheld room video into usable interiors inside Unreal Engine 5.
 
-### 1. Photogrammetry (COLMAP)
-Extracting 3D data from video required strict photographic rules. Our "golden rules" were: 
-* **No Stabilization**: the camera must be "pure" to avoid confusing the algorithms.
-* **Chest Height**: camera facing forward to maintain a constant perspective.
-* **Crab Walk**: moving around the perimeter of the room first, followed by three slow 360° pans from the center.
+### 1. Capture Protocol & COLMAP Failure Recovery
 
-Processing 4500 frames through **COLMAP** locally led to a 10-hour failure due to non-convergent algorithms. We bypassed this by scripting an *FFmpeg* batch to sample frames (1 out of 7), and running COLMAP fully automated via CLI.
+Hand-held footage introduces rolling-shutter warp and excessive temporal overlap if processed raw:
+- **Capture Rules:** Disabled electronic stabilization (EIS) so intrinsics remained consistent, walked room perimeters at chest height, and recorded slow 360° center sweeps.
+- **Fixing 10-Hour SfM Stalls:** Feeding all 4,500 extracted video frames directly into local **COLMAP** ran for 10 hours without convergence. Writing an automated `FFmpeg` subsampling script (`1 in 7` frames -> ~640 frames) and executing COLMAP via CLI solved sparse alignment reliably.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div>
@@ -27,12 +25,12 @@ Processing 4500 frames through **COLMAP** locally led to a 10-hour failure due t
   </div>
 </div>
 
-### 2. Local vs Cloud Gaussian Splatting
-We compared **NeRF** (which suffered from "melted wax" artifacts and floaters) against **Gaussian Splatting**. 
+### 2. Local XScene vs. Cloud 3DGS inside UE5
 
-To generate Splats locally, we used **XScene**, a plugin for Unreal Engine 5.5. While it offered complete privacy and process customization without web waitlists, the performance was lacking. After 4 hours of elaboration on an RTX 4070, the resulting mesh was nearly unreadable, heavily corrupted, and impossible to clean up effectively.
-
-As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**. Despite having to wait in server queues (taking up to two days), the final `.ply` point clouds worked flawlessly *out-of-the-box* via NanoGS plugins, delivering an incredibly clean and faithful environment reconstruction compared to the local XScene attempt.
+Comparing output quality and practical iteration speed for interior spaces:
+- **NeRF:** Produced soft "melted wax" geometry and floating view-dependent haze inside tight rooms.
+- **Local XScene (UE 5.5 plugin):** After ~4 hours of local compute on an RTX 4070, the output remained noisy and fragmented with heavy boundary artifacts.
+- **Cloud Training (`Luma` / `Vid2Scene`) -> `NanoGS`:** Slower queue turnaround, but `.ply` Gaussian splats imported cleanly into UE5 via `NanoGS` with crisp interior edges and material response.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr', margin: '2rem 0' }}>
   <div style={{ overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
@@ -42,7 +40,7 @@ As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**
 
 ---
 
-## 📐 Photogrammetry & 3DGS Reconstruction Pipeline
+## Photogrammetry & 3DGS Reconstruction Pipeline
 
 <div class="pipeline-diagram">
   <div class="diagram-title">
@@ -57,7 +55,7 @@ As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**
     </div>
     <div class="diagram-step">
       <div class="step-num">STAGE 02</div>
-      <div class="step-name">Frame Sampling & SfM</div>
+      <div class="step-name">Frame Sampling &amp; SfM</div>
       <p class="step-desc">FFmpeg 1-in-7 frame downsampling. COLMAP CLI structure-from-motion sparse point cloud solving.</p>
     </div>
     <div class="diagram-step">
@@ -68,20 +66,20 @@ As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**
     <div class="diagram-step">
       <div class="step-num">STAGE 04</div>
       <div class="step-name">UE5 Runtime</div>
-      <p class="step-desc">Post-mortem pivot from local XScene to Cloud AI (Luma/Vid2Scene) delivering clean .ply point clouds via NanoGS.</p>
+      <p class="step-desc">Pivot from noisy local XScene on RTX 4070 to Cloud 3DGS (Luma/Vid2Scene) loaded cleanly via NanoGS.</p>
     </div>
   </div>
 </div>
 
 ---
 
-## 🎨 Dedicated Presentation Slides (Slides 37 – 56)
+## Dedicated Presentation Slides (Slides 37 – 56)
 
 <div class="deck-viewer-container" data-start="37" data-end="56" data-current="1" data-deck-id="ue5-reality">
   <div class="deck-header">
     <div class="deck-title-wrap">
       <span class="deck-badge">Figma Deck · Group 05</span>
-      <h4 class="deck-heading">Reality Capture & Gaussian Splatting</h4>
+      <h4 class="deck-heading">Reality Capture &amp; Gaussian Splatting</h4>
     </div>
     <div class="deck-counter-badge">
       <span class="deck-counter-current">1</span> / <span class="deck-counter-total">20</span>
@@ -99,7 +97,7 @@ As a post-mortem pivot, we tested AI Cloud tools like **Luma** and **Vid2Scene**
   </div>
 
   <div class="deck-footer">
-    <p class="deck-caption">Slide 1: Reality Capture & 3D Gaussian Splatting (Cover)</p>
+    <p class="deck-caption">Slide 1: Reality Capture &amp; 3D Gaussian Splatting (Cover)</p>
     <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" class="deck-figma-link">
       <span>Open Full Deck on Figma</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>

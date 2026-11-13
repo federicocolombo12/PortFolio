@@ -1,6 +1,6 @@
 ---
 title: 'Smart Cable Generator (Blender Add-on)'
-description: 'A custom Python add-on for Blender that procedurally generates parametric hanging cables between meshes. Built to speed up Tech Art pipelines for AAA environments.'
+description: 'A custom Python add-on for Blender that procedurally generates parametric hanging cables between meshes for modular environment art pipelines.'
 pubDate: '2026-09-18'
 heroImage: '../../assets/covers/Smart Cable Generator.jpg'
 category: 'Tech Art'
@@ -13,31 +13,30 @@ tags: ['Python', 'Blender API', 'Tech Art', 'Procedural Generation']
   <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_3.mp4`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
 </div>
 
-As a Technical Artist, one of my main goals is removing friction from the environment art pipeline. When building sci-fi or cyberpunk environments, artists spend hours manually placing bezier curves to simulate hanging cables and power lines. This process is tedious and highly destructive if the environment layout changes.
+Placing hanging cables manually with Bezier curves while building urban/sci-fi levels wastes hours and breaks completely whenever modular building kits get shifted around. I built **Smart Cable Generator** (`bpy` add-on) to make sagging cable bundles fast and non-destructive.
 
-I built the **Smart Cable Generator**, a Python `bpy` add-on for Blender, to fully automate this workflow. Here is a breakdown of the engineering decisions and iterations behind the tool.
+### Iteration 1: Surface Crawler vs. Modular Reality
 
-### Iteration 1: The Surface Crawler vs. Mid-Air Reality
-Initially, I designed the script using a custom **Dijkstra shortest-path algorithm** via the `bmesh` API. The idea was to select two points and have the cable crawl perfectly along the topology of the walls.
+My first prototype ran a custom **Dijkstra shortest-path solver** over `bmesh` topology so cables would hug building geometry between two selected vertices.
 
-However, after testing it in a real production scenario, I realized a critical flaw: environments are built using modular, disconnected meshes. If an artist wants to connect an antenna on Building A to an AC unit on Building B, a topology-based algorithm fails. I pivoted to a **Mid-Air Mathematical approach**, relying on global coordinate matrices (`matrix_world @ v.co`) to draw curves freely through 3D space, independent of the underlying geometry.
+In real modular environments, that broke immediately: environment kits consist of disconnected meshes, so trying to wire an antenna on Building A to an AC unit on Building B leaves no continuous edge graph to traverse. I threw out the surface crawler and switched to world-space coordinates (`matrix_world @ v.co`) to span open air between arbitrary separate objects.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_1.mp4`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
   <video src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/cable_demo_2.mp4`} autoPlay loop muted playsInline controls style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)'}}></video>
 </div>
 
-### Iteration 2: Scale-Independent Parabolic Gravity
-To simulate gravity without the immense performance cost of actual physics simulations, I implemented a parametric parabolic curve equation: `4.0 * gravity_sag * t * (1.0 - t)`.
+### Iteration 2: Distance-Proportional Parabolic Sag
 
-During testing, I noticed that a static gravity offset looked great on small props but was invisible on massive skyscrapers. I updated the math to be **proportional to the distance** between the two selected points (`distance = (p1 - p2).length`). Now, a 10% sag looks physically accurate regardless of whether the points are 10 centimeters or 1 kilometer apart.
+To avoid physics baking overhead, cables evaluate a lightweight parabolic curve `4.0 * gravity_sag * t * (1.0 - t)`.
 
-### Iteration 3: Making it "Production Ready" (V2.0)
+Testing across props and facades quickly showed that a fixed meter drop looked right on a 2m doorway but vanished across a 40m street gap. Scaling sag proportionally to endpoint span (`distance = (p1 - p2).length`) keeps slack visually consistent across any asset scale.
+
+### Iteration 3: Game-Engine Export Panel (V2.0)
 
 <img src={`${import.meta.env.BASE_URL}/projects/pipeline-tools/ui_screenshot.jpg`} alt="Smart Cable Generator 2.0 UI Panel" style={{width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', margin: '2rem 0'}} />
 
-To transform the script from a neat trick into a production-ready pipeline tool, I built a native UI panel into Blender's sidebar and added features tailored for Game Engine export:
-
-1. **Organic Bundle Generation:** Real cables don't hang perfectly parallel. I added a `Cable Count` slider that uses pseudo-random noise to apply slight X/Y offsets and gravity variations. This instantly generates messy, organic bundles.
-2. **Material Auto-Assignment:** Artists can pick a material directly from the UI, skipping the tedious step of assigning rubber shaders to 100 individual curves.
-3. **Auto-Convert for FBX:** Blender curves don't export cleanly to Unreal Engine. I added an "Auto-Convert to Mesh" toggle that programmatically switches context, applies the spline geometry, and prepares game-ready polygons for one-click FBX export.
+Wrapped the script into a Blender N-Panel tool ready for UE5/Unity workflows:
+1. **Organic Bundles:** `Cable Count` spawns grouped lines with seeded X/Y endpoint jitter and sag variation instead of sterile parallel tubes.
+2. **Material Picker:** Assigns a rubber/cable shader across all generated splines at creation time.
+3. **Auto-Convert for FBX:** Optional toggle converts Blender curve splines straight into clean polygon meshes ready for immediate FBX export.

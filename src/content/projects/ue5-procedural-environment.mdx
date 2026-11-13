@@ -8,20 +8,22 @@ rank: 2
 tags: ['Unreal Engine 5', 'PCG', 'Procedural']
 ---
 
-**UE5 Procedural Environments** is a technical exploration demonstrating problem-solving capabilities in Environment Art and non-destructive workflows within Unreal Engine 5. The primary challenge was to create a visual hybrid between the dark fantasy of *The Witcher* and the magical, vibrant aesthetic of *Studio Ghibli*.
+This Unreal Engine 5 Technical Art study focused on building a non-destructive open environment—blending grounded dark-fantasy terrain with stylized foliage and atmospheric lighting—without relying on manual sculpting or hand-placed props.
 
-### 1. Landscape Auto-Materials & Heightmaps
-To build a realistic topography without manual sculpting, we imported a 16-bit Heightmap (generated via Gaea/Motion Forge) directly into the Unreal Engine Landscape Tool. A critical step was correcting the Z-scale proportions to restore the correct height and majesty to the mountains.
+### 1. Heightmap Ingestion & Rule-Driven Auto-Materials
 
-Once the landscape geometry was generated, we applied a custom **Auto-Material** based on three core rules:
-- **Slope Masks (Z-axis Normals):** Instructs the material to spawn grass on flat surfaces and expose raw rock on steep slopes.
-- **Altitude Masks:** A procedural blend that automatically applies snow above a specific Z-height, regardless of the slope.
-- **Micro & Macro Variation:** We utilized Noise textures to break the visual repetition (tiling) typical of vast open worlds, maintaining realism from both macro (kilometers away) and micro distances.
+Instead of sculpting terrain manually, I imported a 16-bit heightmap (generated via Gaea / Motion Forge) into the UE5 Landscape system, calibrating Z-scale ratios so cliff proportions held up cleanly in-engine.
 
-### 2. Procedural Ecosystem & PCG
-Instead of hand-placing assets, the environment is 100% procedural, allowing the layout to change instantly without manual rework. **Splines govern the Procedural Content Generation (PCG)**—paths, fences, and the garden layout are all derived directly from the geometry rather than being hard-coded.
+I then authored a **3-rule Landscape Auto-Material**:
+- **Slope Masks (World Normal Z):** Blends grass across flat ground and exposes cliff rock automatically past threshold angles.
+- **Altitude Masks:** Applies snow transition strictly above a target world Z-height.
+- **Macro/Micro Tiling Breakup:** Layers multi-scale noise masks over distance to break visible texture repetition across wide terrain sweeps.
 
-To overcome the performance limits of traditional billboards, the ecosystem utilizes **Nanite-enabled Megaplants**: photogrammetry-scanned trees with actual geometry for leaves. This eliminates LOD pop-in and allows the **Subsurface Scattering (SSS)** to physically transmit light through the leaves, while the **World Position Offset (WPO)** simulates real-time procedural wind.
+### 2. Spline-Driven PCG & Nanite Foliage
+
+Layout elements (paths, fences, clearing zones, and foliage density) are governed by **PCG graphs reading level splines**. Moving a spline updates surrounding props and vegetation scatter without manual rework.
+
+For tree canopies, standard billboard LODs introduced harsh pop-in and flat shading, so I switched to **Nanite Megaplants** with Subsurface Scattering (SSS) and World Position Offset (WPO) wind shaders.
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center', margin: '2rem 0' }}>
   <div>
@@ -38,22 +40,22 @@ To overcome the performance limits of traditional billboards, the ecosystem util
   </div>
 </div>
 
-### 3. Dynamic Day/Night Cycle
-The lighting is managed by the **Celestial Night** system, a unified ecosystem controlled by a single "time" variable. It physically calculates the position of the sun, moon phases, and stars natively, driving the *Exponential Height Fog* and *Volumetric Clouds* to generate dynamic God Rays. 
+### 3. Time-of-Day Integration & Roadblocks
 
-Crucially, the global color temperature (PBR) is recalculated in real-time for fluid transitions from dawn to dusk. To handle artificial lighting, we engineered a custom **Switching Lights Blueprint**: it listens to the time variable and uses a "Tag" system to procedurally turn on the level's streetlights when the sun sets.
+Lighting integrates the **Celestial Night** sky plugin alongside Exponential Height Fog and Volumetric Clouds driven by a shared time variable, paired with a custom **Switching Lights Blueprint** that toggles tagged street lamps automatically as sun elevation drops past dusk.
 
-### Technical Roadblocks
-Developing this ecosystem came with heavy technical hurdles. Enabling Nanite on the Landscape initially caused severe framerate drops and continuous engine crashes. Integrating the Megaplants required a vastly different PCG instantiation logic compared to standard meshes, and configuring the atmospheric *Mie Scattering* accidentally caused a visual bug that looked like snow.
+**Roadblocks Encountered:**
+- **Nanite Landscape Instabilities:** Enabling Nanite directly on the full Landscape triggered severe frame drops and editor crashes on this hardware target, forcing a fallback to standard Landscape LOD tessellation paired with Nanite strictly on foliage/meshes.
+- **Megaplant PCG Instancing & Mie Scattering:** Megaplant assemblies required custom PCG spawning filters compared to single static meshes, and misconfigured Volumetric Fog Mie Scattering initially flooded scenes with bright white speckling resembling snowfall.
 
 ---
 
-## 📐 Procedural Architecture & Pipeline Flow
+## Procedural Architecture & Pipeline Flow
 
 <div class="pipeline-diagram">
   <div class="diagram-title">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-    <span>Topography & PCG World Building Flow</span>
+    <span>Topography &amp; PCG World Building Flow</span>
   </div>
   <div class="diagram-grid">
     <div class="diagram-step">
@@ -68,8 +70,8 @@ Developing this ecosystem came with heavy technical hurdles. Enabling Nanite on 
     </div>
     <div class="diagram-step">
       <div class="step-num">STAGE 03</div>
-      <div class="step-name">Splines & PCG</div>
-      <p class="step-desc">Curve-driven road & fence placement. PCG grass volume generation & Megaplants foliage.</p>
+      <div class="step-name">Splines &amp; PCG</div>
+      <p class="step-desc">Curve-driven road &amp; fence placement. PCG grass volume generation &amp; Megaplants foliage.</p>
     </div>
     <div class="diagram-step">
       <div class="step-num">STAGE 04</div>
@@ -81,13 +83,13 @@ Developing this ecosystem came with heavy technical hurdles. Enabling Nanite on 
 
 ---
 
-## 🎨 Dedicated Presentation Slides (Slides 01 – 13)
+## Dedicated Presentation Slides (Slides 01 – 13)
 
 <div class="deck-viewer-container" data-start="1" data-end="13" data-current="1" data-deck-id="ue5-pcg">
   <div class="deck-header">
     <div class="deck-title-wrap">
       <span class="deck-badge">Figma Deck · Group 05</span>
-      <h4 class="deck-heading">Environment Art & World Building</h4>
+      <h4 class="deck-heading">Environment Art &amp; World Building</h4>
     </div>
     <div class="deck-counter-badge">
       <span class="deck-counter-current">1</span> / <span class="deck-counter-total">13</span>
@@ -105,7 +107,7 @@ Developing this ecosystem came with heavy technical hurdles. Enabling Nanite on 
   </div>
 
   <div class="deck-footer">
-    <p class="deck-caption">Slide 1: Environment Art & World Building (Cover)</p>
+    <p class="deck-caption">Slide 1: Environment Art &amp; World Building (Cover)</p>
     <a href="https://www.figma.com/deck/Y8w4tPcqatEeqzEAsafK9Z" target="_blank" rel="noopener noreferrer" class="deck-figma-link">
       <span>Open Full Deck on Figma</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>

@@ -1,6 +1,6 @@
 ---
 title: 'EloPingPong Arena: Real-Time Competitive League & Gamified PWA'
-description: 'End-to-end solo product design & full-stack React Native / Expo / Firebase PWA tackling social competitive friction through asymmetric Elo math, table-side live refereeing, DP live betting odds, and procedural Web Audio.'
+description: 'Solo product design & full-stack React Native / Expo / Firebase PWA with asymmetric Elo math, live table-side refereeing, DP betting odds, and procedural Web Audio.'
 pubDate: '2026-09-11'
 heroImage: '../../assets/covers/EloPingPong.png'
 category: 'UX / Mobile Dev'
@@ -10,146 +10,41 @@ tags: ['React Native', 'TypeScript', 'Firebase', 'Expo', 'Web Audio API', 'UX/UI
 ---
 
 <div class="callout-box">
-  <strong>🏓 Solo Product Designer &amp; Full-Stack Mobile Developer (`v3.0.0`):</strong><br />
-  Designed, architected, and shipped independently from scratch as a cross-platform <strong>React Native + Expo (~57) + TypeScript (6.0) + Firebase Firestore</strong> Progressive Web App &amp; mobile client—featuring <strong>22 automated unit assertions</strong>, real-time Guard/Spectator synchronization, backward-induction DP live betting odds, and a zero-latency procedural <strong>Web Audio API</strong> synthesizer.
-  <br /><br />
-  🚀 <a href="https://elopingpong-arena.vercel.app" target="_blank" rel="noopener noreferrer"><strong>Launch Live Web App (elopingpong-arena.vercel.app)</strong></a> &nbsp;·&nbsp; 💻 <a href="https://github.com/federicocolombo12/EloPingPong" target="_blank" rel="noopener noreferrer"><strong>Source Code on GitHub</strong></a>
+  <strong>Solo Product &amp; Full-Stack Build (`v3.0.0`):</strong><br />
+  Built independently with <strong>React Native + Expo (~57) + TypeScript + Firebase Firestore</strong> as an offline-capable PWA (<a href="https://elopingpong-arena.vercel.app" target="_blank" rel="noopener noreferrer"><strong>Live Web App</strong></a> · <a href="https://github.com/federicocolombo12/EloPingPong" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong></a>). <em>(Live UI and copy are in Italian.)</em>
 </div>
 
-*(Note: the live app UI, AI coach copy, and league humor are written in **Italian**.)*
+Casual ping-pong leagues fail for predictable reasons: disputes over serve rotation, bottom-of-table players quitting once Elo drops, uneven conditions (*borrowed paddle, wind*), and bored spectators waiting between rotations.
 
----
+### Product & Systems Architecture
 
-### Act 1: Social Competitive Friction & Behavioral UX Strategy
-
-Informal table tennis leagues in clubs, studios, and campuses suffer from four recurring failure modes that cause casual groups to abandon tracking:
-
-1. **Table-Side Score & Serve Disputes:** Without an authoritative shared scoreboard, players waste time arguing over serve rotation, deuce calls, or forgotten match outcomes.
-2. **Bottom-of-Table Tilt & Churn:** Once a player falls behind in a pure Elo ladder, every loss hurts motivation—leading them to stop playing top seeds or quit the group.
-3. **Context-Blind Ratings:** A serious derby match and a casual windy outdoor game with a borrowed paddle are rarely equivalent.
-4. **Spectator Disengagement:** Players waiting off-table lose interest between rotations.
-
-To eliminate these friction points, I structured **EloPingPong Arena** around four tightly coupled UX mechanisms:
-
-* **Frictionless Private-League Onboarding & Dual Ladder:** Players join an isolated club via a 6-character invite code (`SPIN26`), competing simultaneously on the **Absolute Elo Ladder** and a **Seasonal ATP Race** (which rewards match volume and tight defeats, preventing bottom-table drop-off) alongside a self-deprecating **Wooden Spoon** comedy box.
-* **Table-Side Guard vs. Spectator Referee:** A full-screen one-handed live scoreboard syncs score, serve rotation, deuce rules (`10-10+`), and 1-tap telemetry (*Smash, Ace, Defense, Edge, Net, Style*) across every spectator device in real time.
-* **Anti-Biscotto Spectator Economy:** Sidelined players wager virtual *LUL Coins* across **5 live dynamic markets** or place **WANTED Bounties** on rivals—while an active on-table player is strictly locked to betting only on their own win.
-* **Zero Pay-to-Win Retention:** All coins and **8 × 6-tier retroactive achievements** (*Legno* through *Gear 5*) unlock purely cosmetic neon/gold card auras, titles, trophies, and procedurally synthesized victory anthems.
-
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/01_match_setup.png`} 
-      alt="EloPingPong Match Setup and Contextual Modifiers Screen" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Match Setup &amp; Modifiers</strong> — 3-step wizard for 11/21-pt rules &amp; contextual Elo multipliers.</p>
-  </div>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/02_leaderboard_podium.png`} 
-      alt="EloPingPong Leaderboard Podium and Wooden Spoon" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Podium &amp; Dual Ladder</strong> — Live match ticker, Elo vs. ATP Race &amp; 4th-place Wooden Spoon.</p>
-  </div>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/03_live_referee.png`} 
-      alt="EloPingPong Full-Screen Live Referee" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.82em', color: 'gray', marginTop: '0.5rem' }}><strong>Table-Side Live Referee</strong> — Serve tracker &amp; 1-tap telemetry (Ace, Smash, Edge, Net).</p>
-  </div>
-</div>
-
----
-
-### Act 2: System Architecture & Real-Time UX Loop
-
-The client separates UI state (`App.tsx`, 4 bottom tabs + contextual full-screen modals) from pure, unit-tested TypeScript domain engines (`elo.ts`, `betting.ts`, `achievements.ts`, `trophies.ts`, `shop.ts`, `security.ts`), synchronized over Firebase Firestore `onSnapshot` listeners with local `AsyncStorage` persistence.
-
-<div style={{ margin: '2rem 0', width: '100%' }}>
-  <img 
-    src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/architecture_diagram.svg`} 
-    alt="EloPingPong Gamified UX Loop and Real-Time Firebase Architecture Diagram" 
-    style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }} 
-  />
-  <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.6rem', textAlign: 'center' }}>
-    End-to-end UX loop and technical topology connecting table-side referee events, DP live betting odds, procedural Web Audio synthesis, and Firestore security/audit layers.
-  </p>
-</div>
-
----
-
-### Act 3: Domain Engineering Highlights
-
-#### 1. Backward-Induction DP Live Odds & Anti-Biscotto (`src/core/betting.ts`)
-Pre-match wagering closes automatically once total combined points reach `6` (`PRE_MATCH_BET_CUTOFF`). During in-play rallies, `calculateLiveDynamicOdds()` evaluates exact point-by-point win probabilities over a dynamic programming table `dp[score1][score2]` anchored by the closed-form deuce geometric series `deuceProb = (p * p) / (p * p + q * q)`—yielding responsive live odds across **5 markets** (`match_winner`, `total_points`, `total_smashes`, `luck_points`, and `deuce_happens`) while enforcing **Anti-Biscotto** (active players can wager only on their own victory) and **Anti-Hedging** rules:
+- **Dual Ladder & Contextual Elo (`elo.ts`):** Combines an absolute Elo ladder with a seasonal ATP Race (rewarding volume and close games so trailing players stay active) plus contextual multipliers (`wind`, `beer`, `dark`, `derby`, `borrowed_racket`), a `+15%` activity rhythm bonus, and weekly `-5` decay past 7 idle days (floored at `1200`).
+- **One-Handed Live Referee & Firestore Sync (`App.tsx`, `EloContext.tsx`):** Tracks serve turns, deuce states (`10-10+`), and 1-tap match telemetry (*Smash, Ace, Edge, Net*) synced via `onSnapshot` across spectator clients, plus automatic spectator eviction and anti-IDOR server sanitization (`security.ts`).
+- **Markov Backward-Induction Live Odds (`betting.ts`):** Evaluates exact win probability `dp[score1][score2]` point-by-point during rallies (anchored by closed-form deuce geometric series `deuceProb = (p * p) / (p * p + q * q)`) across 5 virtual-coin markets with Anti-Biscotto rules locking active players to their own side:
 
 ```ts
-// Exact Markov win probability via Backward-Induction DP (src/core/betting.ts)
-const rawPointProb = 1 / (1 + Math.pow(10, (p2Elo - p1Elo) / 400));
-const p = Math.min(0.8, Math.max(0.2, rawPointProb));
-const q = 1 - p;
-const deuceProb = (p * p) / (p * p + q * q);
-
+const p = Math.min(0.8, Math.max(0.2, 1 / (1 + Math.pow(10, (p2Elo - p1Elo) / 400))));
+const deuceProb = (p * p) / (p * p + (1 - p) * (1 - p));
 for (let i = targetPoints; i >= score1; i--) {
   for (let j = targetPoints; j >= score2; j--) {
-    if (i >= targetPoints - 1 && j >= targetPoints - 1 && i === j) {
-      dp[i][j] = deuceProb;
-    } else {
-      dp[i][j] = p * dp[i + 1][j] + q * dp[i][j + 1];
-    }
+    dp[i][j] = (i >= targetPoints - 1 && j >= targetPoints - 1 && i === j)
+      ? deuceProb : p * dp[i + 1][j] + (1 - p) * dp[i][j + 1];
   }
 }
 ```
 
-#### 2. Asymmetric Contextual Elo, Decay & Rhythm Bonus (`src/core/elo.ts`)
-Rather than treating every rally identically, `calculateEloChange()` multiplies base logistic deltas by environmental tags (`wind`, `beer`, `dark`, `derby`) and asymmetric personal handicaps (`borrowed_racket`, `injured`), plus a `+15%` **Rhythm Bonus** for active players (`>= 3` matches in 5 days) and a weekly `-5` Elo **Inactivity Decay** beyond a 7-day grace period (floored at `1200`).
+- **Zero-Asset Web Audio SFX (`soundEffects.ts`):** Synthesizes match SFX and unlockable cosmetic victory jingles procedurally via `AudioContext` oscillators/envelopes (**0 KB** audio bundle overhead).
+- **Verification:** Strict `tsc --noEmit` check and **22/22 unit assertions** (`npm test`) covering Elo multipliers, decay, DP convergence, Anti-Biscotto, and Anti-IDOR sanitization.
 
-#### 3. Zero-Latency Procedural Web Audio & Cloud Integrity (`src/utils/soundEffects.ts`, `src/core/security.ts`)
-* **Procedural Audio Synthesis:** Uses the Web Audio `AudioContext` (oscillators, frequency envelopes, noise buffers, waveshaper distortion) to synthesize tactile SFX (*Smash, Ace, Edge, Net, Wheel Tick*) and equippable victory anthems (*FFVII Fanfare, Heavy Rock, Cyber Rave, Stadium Cheer*) with **0 KB of audio file downloads**.
-* **Cloud Safety & Audit Vault:** `EloContext.tsx` enforces instant spectator auto-eviction when the referee closes a live match, `sanitizePlayerUpdates()` prevents IDOR stat tampering, `sanitizePlayerTags()` strips unearned badges, and `MatchBackupVaultModal` preserves snapshots of both completed and cancelled live matches.
-
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '1.1rem', margin: '2rem 0' }}>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/04_live_betting.png`} 
-      alt="EloPingPong Multi-Market Live Betting Drawer" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.8em', color: 'gray', marginTop: '0.5rem' }}><strong>Live Multi-Market Bet</strong> — Point-by-point DP odds &amp; Anti-Biscotto guardrails.</p>
-  </div>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/05_stats_coach_analytics.png`} 
-      alt="EloPingPong AI Tactical Coach and Player Stats" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.8em', color: 'gray', marginTop: '0.5rem' }}><strong>AI Coach &amp; Analytics</strong> — Actionable tips &amp; live telemetry breakdowns.</p>
-  </div>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/06_bazar_lucky_wheel.png`} 
-      alt="EloPingPong Bazar Shop and Lucky Wheel" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.8em', color: 'gray', marginTop: '0.5rem' }}><strong>Bazar &amp; Lucky Wheel</strong> — Cosmetic auras, audio anthems &amp; 24h spin.</p>
-  </div>
-  <div style={{ textAlign: 'center' }}>
-    <img 
-      src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/07_profile_wanted_bounty.png`} 
-      alt="EloPingPong Agent Card and WANTED Bounty Poster" 
-      style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} 
-    />
-    <p style={{ fontSize: '0.8em', color: 'gray', marginTop: '0.5rem' }}><strong>WANTED Bounties</strong> — Rival coin bounties &amp; 6-tier career milestones.</p>
-  </div>
+<div style={{ margin: '2rem 0', width: '100%' }}>
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/architecture_diagram.svg`} alt="EloPingPong Architecture Diagram" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)' }} />
 </div>
 
----
-
-### Act 4: Verification & Production Deployment
-
-* **Automated Domain Test Suite (`npm test`):** **22/22 unit assertions passing** across `elo.ts`, `betting.ts`, `trophies.ts`, `achievements.ts`, `shop.ts`, and `security.ts` (verifying asymmetric multipliers, ATP Race, 7-day decay, DP odds convergence, bilateral bet cancellation, Anti-Biscotto, 6-tier retroactive claims, and Anti-IDOR sanitization).
-* **Type Safety & Live Deployment:** Passes strict `tsc --noEmit` (`npm run check`) and deploys as a mobile-first static PWA via Expo Web export to [`elopingpong-arena.vercel.app`](https://elopingpong-arena.vercel.app).
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '1.1rem', margin: '2rem 0' }}>
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/01_match_setup.png`} alt="Match Setup" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} />
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/02_leaderboard_podium.png`} alt="Dual Ladder Leaderboard" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} />
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/03_live_referee.png`} alt="Live Referee" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} />
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/04_live_betting.png`} alt="Live Betting Drawer" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} />
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/05_stats_coach_analytics.png`} alt="Analytics & Coach" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} />
+  <img src={`${import.meta.env.BASE_URL}/projects/elo-ping-pong/07_profile_wanted_bounty.png`} alt="Profile & Bounties" style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)' }} />
+</div>

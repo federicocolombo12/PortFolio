@@ -20,16 +20,16 @@ tags: ['WebGPU', 'WGSL', 'Compute Shaders', 'Jump Flooding', 'Monte Carlo GI', '
 </div>
 
 <div class="callout-box">
-  <strong>🔬 Why WebGPU &amp; Hand-Written Compute Shaders (The Intent):</strong><br />
-  After writing production HLSL/GLSL shaders and profiling real-time pipelines inside Unreal Engine 5, Unity, and custom C++/OpenGL renderers, I wanted a focused <strong>compute-first sandbox</strong> to sharpen how I reason about raw GPU execution: explicit bind groups, ping-pong state synchronization, parallel O(log₂ N) propagation, hardware workgroup SRAM, and WGSL control-flow rules.<br /><br />
-  Rather than spending hours writing browser UI boilerplate, I deliberately kept the TypeScript/Vite harness pre-structured around typed double-buffered textures (<code>PingPongTexture</code>) and wrote <strong>all 8 WGSL compute &amp; display shaders completely by hand</strong> across four progressive milestones—debugging real GPU pitfalls directly in the browser.
+  <strong>Why I Built This &amp; Deliberate Scope:</strong><br />
+  After writing HLSL/GLSL shaders inside UE5, Unity, and C++/OpenGL, I wanted a compact <strong>compute-first sandbox</strong> to force myself to deal with raw WebGPU execution rules: explicit bind group layouts, async command-encoder buffering, parallel <code>O(log₂ N)</code> Jump Flooding, workgroup SRAM tiling, and WGSL uniform control-flow validation.<br /><br />
+  Rather than spending days writing browser UI boilerplate, I kept the Vite/TypeScript host minimal around typed double-buffered textures (<code>PingPongTexture</code>) and wrote <strong>all 8 WGSL compute and display shaders completely by hand</strong>.
 </div>
 
 ---
 
-### Frame Render Graph: 15 Compute Dispatches + 1 Render Pass
+### Frame Execution: 15 Compute Dispatches + 1 Render Pass
 
-Every frame runs on a `512×512` `rgba16float` HDR pipeline organized as **15 compute dispatches** followed by a single bufferless fullscreen render pass (`draw(3)`), updating `262,144` texels cleanly without VRAM reallocation:
+Every frame runs on a `512×512` `rgba16float` HDR pipeline (**15 compute dispatches** followed by one bufferless fullscreen pass `draw(3)`), updating `262,144` texels with zero per-frame VRAM reallocation:
 
 <div style={{ margin: '2rem 0', width: '100%' }}>
   <img 
@@ -38,108 +38,37 @@ Every frame runs on a `512×512` `rgba16float` HDR pipeline organized as **15 co
     style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }} 
   />
   <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.6rem', textAlign: 'center' }}>
-    Complete per-frame GPU execution graph: Ping-Pong scene canvas, 9-step Jump Flooding SDF, 16-ray sphere-traced Monte Carlo GI with 1-bounce temporal feedback, 4-pass shared-memory Bloom, and a 5-stage Pass Inspector with AgX tone mapping.
+    Ping-Pong canvas -> 9-step Jump Flooding SDF -> 16-ray sphere-traced GI with 1-bounce history -> 4-pass shared-memory Bloom -> 5-stage Pass Inspector with AgX.
   </p>
 </div>
 
-#### Explicit Bindings & Command-Encoder Constraints
-- **64-Byte Aligned Uniform Buffer:** Packs `resolution`, `mouse`, `prevMouse`, `brushRadius`, `isDrawing`, `brushColor`, `brushMode`, `clearRequested`, `activePass`, and `frameIndex` for deterministic GPU reads.
-- **9 Separate `jfaStepBuffers` (16 B each):** Because a WebGPU `GPUCommandEncoder` records compute dispatches asynchronously before `queue.submit()`, mutating a single uniform buffer between JFA passes would make all 9 dispatches observe only the last written `stepSize`. Binding 9 distinct buffers cleanly preserves `stepSize ∈ {256, 128, 64, 32, 16, 8, 4, 2, 1}`.
+- **`paint.wgsl` (`@workgroup_size(8, 8)`):** Encodes empty air (`0.0`), occluders (`1.0`), and HDR neon emitters (`2.0`) into alpha, using capsule distance (`sdSegment`) between `prevMouse` and `mouse` so fast drags never leave gaps.
+- **`jfa_seed.wgsl` -> 9× `jfa_step.wgsl` -> `sdf.wgsl`:** Parallel Jump Flooding resolves Euclidean distances across `512×512` in 9 dispatches (`stepSize ∈ {256..1}`).
+- **`gi.wgsl` & `temporal.wgsl`:** Marches `16` stratified jittered rays (`<= 32` steps each) with a PCG hash RNG, reads 1-bounce indirect color bleeding from `historyTex`, and blends temporally (`alpha = 0.08` static for clean convergence, `0.35` while painting to kill ghosting).
+- **`bloom.wgsl` & `display.wgsl`:** Four separable compute blur passes (`RADIUS = 8`) load an **80-pixel strip** (`64 + 2×8` apron) into `var<workgroup>` SRAM per workgroup before exposing all 5 pipeline stages in a live Pass Inspector.
 
 ---
 
-### Stage 1 & 2: Ping-Pong Canvas, JFA Flood & Live Euclidean SDF
+### Five Real WebGPU / Shader Bugs Caught & Solved
 
-The scene stores geometry and HDR lighting inside a single `rgba16float` buffer encoded via alpha convention: `0.0` for empty air, `1.0` for occluding walls, and `2.0` for emissive neon emitters (`brushColor.rgb * 2.5`).
-
-1. **`paint.wgsl` (`@workgroup_size(8, 8)`):** Evaluates capsule signed distance (`sdSegment`) between `prevMouse` and `mouse` so fast cursor drags draw solid, gap-free strokes—with `max(dot(ba, ba), 0.0001)` preventing division-by-zero `NaN` artifacts on static clicks.
-2. **`jfa_seed.wgsl` → 9× `jfa_step.wgsl` → `sdf.wgsl`:** Converts wall and light pixels into coordinate seeds and runs parallel Jump Flooding in `O(log₂ N)` steps (`9` dispatches for `512×512`), resolving exact pixel-space distances (`9999.0` fallback when the canvas is cleared empty).
-
-> **Real Bug Caught & Solved — Ping-Pong Desync on Clear:** During early testing, placing `textureStore` inside `if (u.isDrawing == 1u)` caused Texture A and Texture B of the Ping-Pong pair to diverge whenever `Clear Scene` fired, blinking alternating old/empty frames on screen. Moving `textureStore(dstTex, vec2<i32>(id.xy), val)` unconditionally at the end of `main` kept both surfaces locked in sync every frame.
+1. **Async Command Encoder Overwriting `stepSize`:** Mutating one uniform buffer between the 9 JFA dispatches caused all passes to observe only the final `stepSize = 1` once `queue.submit()` executed. **Fix:** allocated `9` separate 16-byte `jfaStepBuffers`, one per step size.
+2. **Ping-Pong Texture Desync on Clear:** Putting `textureStore` inside `if (u.isDrawing == 1u)` caused Texture A and Texture B to diverge after pressing `Clear Scene`, flickering alternating stale frames. **Fix:** moved `textureStore(dstTex, ...)` unconditionally to the end of `paint.wgsl`.
+3. **Ray State Leak & Zero Indirect Bounce:** Declaring `var pos` outside the 16-ray loop reused hit coordinates buried inside walls, causing coherent diagonal banding; later, sampling `historyTex` directly at wall hit `pos` returned near-black wall texels (`vec3(0.02, 0.025, 0.035)`). **Fix:** reset `pos` per ray with permuted seeds (`seed + i * 747796405u`) and stepped back into free air (`pos - dir * 2.0`) before reading `historyTex`.
+4. **Workgroup Barrier Deadlock Validation:** Returning out-of-bounds threads (`if (gid.x >= res.x) { return; }`) *before* `workgroupBarrier()` failed WebGPU's uniform control-flow validator. **Fix:** placed the shared-memory strip load before the barrier and deferred the bounds return until afterward:
 
 ```wgsl
-// jfa_step.wgsl — 3×3 neighborhood flooding at stepSize ∈ {256..1}
-for (var dy = -1; dy <= 1; dy += 1) {
-  for (var dx = -1; dx <= 1; dx += 1) {
-    let sampleCoord = vec2<i32>(id.xy) + vec2<i32>(dx, dy) * jfa.stepSize;
-    if (sampleCoord.x < 0 || sampleCoord.x >= i32(u.resolution.x) ||
-        sampleCoord.y < 0 || sampleCoord.y >= i32(u.resolution.y)) {
-      continue;
-    }
-    let candidate = textureLoad(srcJfaTex, vec2<u32>(sampleCoord), 0);
-    if (candidate.z > 0.5) {
-      let d = length(myPos - candidate.xy);
-      if (d < bestDist) { bestDist = d; bestSeed = candidate; }
-    }
-  }
-}
-```
-
----
-
-### Stage 3: Stratified Sphere-Traced GI, Indirect Bounce & Temporal EMA
-
-Once the live SDF is built, `gi.wgsl` marches `16` stratified jittered rays per empty pixel (up to `32` sphere-tracing steps each) driven by a decorrelated **PCG Hash RNG**:
-
-```wgsl
-// gi.wgsl — Stratified Monte Carlo raymarching + 1-bounce color bleeding
-let seed = (id.x * 1973u) ^ (id.y * 9277u) ^ (u.frameIndex * 26699u);
-var accum = vec3<f32>(0.0);
-
-for (var i = 0u; i < 16u; i++) {
-  var pos = vec2<f32>(id.xy) + 0.5;
-  let angle = (f32(i) + rand(seed + i * 747796405u)) / f32(16u) * 6.2831853;
-  let dir = vec2<f32>(cos(angle), sin(angle));
-
-  for (var j = 0u; j < 32u; j++) {
-    if (pos.x < 0.0 || pos.x >= u.resolution.x || pos.y < 0.0 || pos.y >= u.resolution.y) { break; }
-    let d = textureLoad(sdfTex, vec2<i32>(pos), 0).r;
-    if (d < 1.0) {
-      let hit = textureLoad(sceneTex, vec2<i32>(pos), 0);
-      if (hit.a >= 1.5) {
-        accum += hit.rgb;
-      } else if (hit.a >= 0.5 && u.clearRequested == 0u && u.frameIndex > 1u) {
-        let bouncePos = clamp(vec2<i32>(pos - dir * 2.0), vec2<i32>(0), vec2<i32>(u.resolution) - vec2<i32>(1));
-        accum += vec3<f32>(0.42, 0.46, 0.54) * textureLoad(historyTex, bouncePos, 0).rgb;
-      }
-      break;
-    }
-    pos += dir * max(d, 1.0);
-  }
-}
-```
-
-#### Engineering Pitfalls Solved in `gi.wgsl` & `temporal.wgsl`
-- **Ray State Leak & RNG Correlation:** An initial draft declared `var pos` outside the `i` ray loop and reused `seed` unchanged per ray, causing rays `1..15` to start buried inside the wall hit by ray `0` and producing coherent diagonal banding. Resetting `pos` per ray and permuting with `seed + i * 747796405u` restored clean isotropic Monte Carlo noise.
-- **1-Bounce Indirect GI in Screen Space:** Sampling `historyTex` directly at `pos` returned near-black wall pixels (`vec3(0.02, 0.025, 0.035)`). Stepping slightly back into free air (`pos - dir * 2.0`) via a dedicated bind-group layout (`threeTexToStorageLayout`) reads the previous frame's incident irradiance right in front of the surface, producing genuine **diffuse color bleeding** modulated by `wallAlbedo = vec3(0.42, 0.46, 0.54)`.
-- **Adaptive Temporal EMA (`temporal.wgsl`):** Blends raw GI with history at `alpha = 0.08` when static for smooth noise-free convergence, `0.35` while actively painting strokes to prevent ghosting trails, and `1.0` on reset.
-
----
-
-### Stage 4: Workgroup Shared-Memory Bloom & AgX Pass Inspector
-
-To keep the post-process pipeline memory-bandwidth friendly, `bloom.wgsl` runs 4 separable compute passes (`blur_h` → `blur_v` → `blur_h` → `blur_v`, `RADIUS = 8`, `sigma ≈ 4.0`). Rather than triggering 17 global VRAM reads per pixel, all 64 threads in a workgroup cooperatively stream a contiguous **80-pixel strip** (`TILE_SIZE = 64u + 2 × 8` apron) into fast on-chip SRAM (`var<workgroup> tile: array<vec3<f32>, 80>`), extracting bright HDR emissives softly above luminance `0.85` on the initial horizontal pass only:
-
-```wgsl
-// bloom.wgsl — Uniform control flow compliant shared-memory strip loader
+// bloom.wgsl — Uniform control-flow compliant SRAM strip loader
 for (var i = lid; i < SHARED_LEN; i += TILE_SIZE) {
   let sx = clamp(x0 + i32(i), 0, i32(u.resolution.x) - 1);
-  var c = textureLoad(srcTex, vec2<i32>(sx, y), 0).rgb;
-  if (params.extractBright == 1u) {
-    let luma = dot(c, vec3<f32>(0.2126, 0.7152, 0.0722));
-    let soft = max(luma - 0.85, 0.0) / max(luma, 1e-4);
-    c = c * soft;
-  }
-  tile[i] = c;
+  tile[i] = loadThresholded(sx, y, params.extractBright);
 }
-workgroupBarrier(); // Must run under uniform control flow BEFORE bounds return!
+workgroupBarrier(); // All workgroup threads MUST reach the barrier before returning
 if (gid.x >= u32(u.resolution.x) || gid.y >= u32(u.resolution.y)) { return; }
 ```
 
-- **WebGPU Uniform Control Flow Compliance:** Placing `if (gid.x >= res.x) { return; }` before `workgroupBarrier()` violates WebGPU's uniform control-flow validation to protect against workgroup deadlocks. Deferring the out-of-bounds return until after the barrier guarantees every thread participates in shared loading cleanly.
-- **AgX Double-Gamma Fix & 5-Stage Pass Inspector (`display.wgsl`):** The final bufferless render pass switches live between **5 intermediate buffers** (`1. Scene Input`, `2. JFA Voronoi Seeds`, `3. Live SDF`, `4. Raw Monte Carlo GI`, `5. Temporal + Bloom + AgX`). During integration, Blender's 6th-order AgX polynomial output (already in sRGB curve space) was accidentally gamma-encoded a second time; applying `pow(max(v, 0.0), 2.2)` at the end of `agxToneMapping()` cleanly aligned linear output with the unified `pow(..., 1.0 / 2.2)` display transform.
+5. **Double Gamma Encoding on AgX:** The 6th-order AgX polynomial output already sits in sRGB curve space, so the final `pow(..., 1.0 / 2.2)` display transform washed out shadows. **Fix:** applied `pow(max(v, 0.0), 2.2)` inside `agxToneMapping()` to keep linear/display spaces aligned.
 
 <div class="callout-box" style="margin-top: 2rem;">
-  <strong>🚀 Try It Yourself:</strong><br />
-  If your browser supports WebGPU (Chrome / Edge Desktop or recent Safari), launch the <a href="https://federicocolombo12.github.io/webgpu-2d-gi-jfa/" target="_blank" rel="noopener noreferrer"><strong>Live WebGPU Demo</strong></a> to paint neon emitters and walls in real time, toggle the procedural <code>Demo Scene</code>, and inspect each compute buffer directly in the Pass Inspector.
+  <strong>Interactive Browser Demo:</strong><br />
+  On any WebGPU-capable browser (Chrome / Edge Desktop or recent Safari), open the <a href="https://federicocolombo12.github.io/webgpu-2d-gi-jfa/" target="_blank" rel="noopener noreferrer"><strong>Live WebGPU Demo</strong></a> to paint neon emitters and walls and switch live between all 5 intermediate buffers in the Pass Inspector.
 </div>
