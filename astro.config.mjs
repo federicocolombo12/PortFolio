@@ -8,7 +8,10 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	site: 'https://federicocolombo12.github.io',
 	base: '/PortFolio',
-	integrations: [mdx(), sitemap()],
+	integrations: [
+		mdx(),
+		sitemap(),
+	],
 	fonts: [
 		{
 			provider: fontProviders.local(),

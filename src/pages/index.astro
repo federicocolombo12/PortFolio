@@ -1,10 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getProjectBadge, getProjectMediaMap, getShowreelSlides } from '../data/projects-media';
 
 const allProjects = (await getCollection('projects')).sort(
 	(a, b) => (a.data.rank ?? 99) - (b.data.rank ?? 99)
@@ -22,2366 +21,421 @@ const renderedProjects = await Promise.all(
 );
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-
-const getProjectBadge = (p: any): string => {
-	const id = p.id;
-	if (id === 'stylized-gaussian-splats') return 'Blender 5.3 / Geometry Nodes';
-	if (id === 'graphics-lab') return 'C++ / OpenGL';
-	if (id === 'thesis-medical-xr') return 'Unity 6 / HLSL';
-	if (id === 'webgpu-2d-gi') return 'WebGPU / WGSL Compute';
-	if (id === 'ue5-procedural-environment') return 'Unreal Engine 5';
-	if (id === 'ue5-niagara-vfx') return 'UE5 Niagara';
-	if (id === 'ue5-metahuman-cinematics') return 'UE5 MetaHuman';
-	if (id === 'ue5-reality-capture') return '3DGS / Photogrammetry';
-	if (id === 'smart-cable-generator') return 'Blender / Python';
-	if (id === 'line-operator') return 'Unity C# / HLSL';
-	if (id === 'spicy-mercante') return 'Unity C#';
-	if (id === 'harmony') return 'Unity 6 / VR';
-	if (id === 'awaken-asylum') return 'Unity VR';
-	if (id === 'nihil') return 'Unity 2D';
-	if (id === 'blender-renders') return 'Blender 3D';
-	if (id === 'froglet') return 'Blender Rigging';
-	if (id === 'corto-in-3d') return 'Blender Animation';
-	if (id === 'ziva') return 'VR 360° Film';
-	if (id === 'chiavi-ombra') return 'VR 360° Film';
-	if (id === 'visual-effects') return 'VFX / Tracking';
-	if (id === 'easycooking') return 'DaVinci / Editing';
-	if (id === 'video-shooting-and-editing') return 'Cinematography';
-	if (id === 'phygital-smart-locker') return 'ESP32 / IoT';
-	if (id === 'mathify') return 'React Native / UXD';
-	if (id === 'elo-ping-pong') return 'React Native / PWA';
-	return p.data?.category || 'Graphics';
-};
-
-// Rich media galleries for key projects
-const projectMediaMap: Record<string, Array<{ type: 'video' | 'image', url: string, thumb: string, title?: string }>> = {
-	'stylized-gaussian-splats': [
-		{ type: 'video', url: `${baseUrl}/videos/stylized-gaussian/demonstration.mp4`, thumb: `${baseUrl}/videos/stylized-gaussian/demonstration_poster.jpg`, title: 'Stylized 3DGS Viewport Demo (60 FPS)' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/01_pixar_watercolor_final.png`, thumb: `${baseUrl}/projects/stylized-gaussian/01_pixar_watercolor_final.png`, title: 'Watercolor Master Render' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/02_pixar_heavy_impasto.png`, thumb: `${baseUrl}/projects/stylized-gaussian/02_pixar_heavy_impasto.png`, title: 'Heavy Impasto Stroke Detail' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/03_brush_tangent_flow_field.png`, thumb: `${baseUrl}/projects/stylized-gaussian/03_brush_tangent_flow_field.png`, title: 'Soft Watercolor & Anisotropic Flow' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/04_delighting_rd_experiment.png`, thumb: `${baseUrl}/projects/stylized-gaussian/04_delighting_rd_experiment.png`, title: 'Delighting R&D Luminance Pass' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/05_pixar_raw_capture_reference.png`, thumb: `${baseUrl}/projects/stylized-gaussian/05_pixar_raw_capture_reference.png`, title: 'Raw 3DGS Capture Reference' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/pipeline_architecture_diagram.svg`, thumb: `${baseUrl}/projects/stylized-gaussian/pipeline_architecture_diagram.svg`, title: 'Pipeline Architecture Schematic' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/geonodes_flow_graph.jpg`, thumb: `${baseUrl}/projects/stylized-gaussian/geonodes_flow_graph.jpg`, title: 'Geometry Nodes Deformation Graph' },
-		{ type: 'image', url: `${baseUrl}/projects/stylized-gaussian/blender_ui_panel.jpg`, thumb: `${baseUrl}/projects/stylized-gaussian/blender_ui_panel.jpg`, title: 'Blender N-Panel Extension UI' },
-	],
-	'thesis-medical-xr': [
-		{ type: 'video', url: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph.mp4`, thumb: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`, title: 'Bouba/Kiki SDF Morphing (Quest 3 90FPS)' },
-		{ type: 'video', url: `${baseUrl}/videos/pulse-engine/csg_modeling_demo.mp4`, thumb: `${baseUrl}/videos/pulse-engine/csg_modeling_demo_poster.jpg`, title: 'Real-Time CSG Boolean Modeling' },
-		{ type: 'video', url: `${baseUrl}/videos/pulse-engine/vfx_swarm_adhesion.mp4`, thumb: `${baseUrl}/videos/pulse-engine/vfx_swarm_adhesion_poster.jpg`, title: 'GPU Voxelizer Particle Swarm' },
-		{ type: 'video', url: `${baseUrl}/videos/pulse-engine/profiling_hud_recording.mp4`, thumb: `${baseUrl}/videos/pulse-engine/profiling_hud_recording_poster.jpg`, title: 'Snapdragon XR2 Profiling HUD' },
-		{ type: 'image', url: `${baseUrl}/projects/pulse-engine/daw_mixer_full.png`, thumb: `${baseUrl}/projects/pulse-engine/daw_mixer_full.png`, title: 'Virtual DAW Biometric Mixer' },
-		{ type: 'image', url: `${baseUrl}/projects/pulse-engine/biosignal_sdf_material_inspector.png`, thumb: `${baseUrl}/projects/pulse-engine/biosignal_sdf_material_inspector.png`, title: 'Shader Material Inspector' },
-	],
-	'graphics-lab': [
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`, thumb: `${baseUrl}/videos/graphics-lab/PBR_Screen_poster.jpg`, title: 'Cook-Torrance PBR Engine' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/02_Deferred.mp4`, thumb: `${baseUrl}/videos/graphics-lab/02_Deferred_poster.jpg`, title: 'Deferred Shading G-Buffer Pipeline' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/SPOM.mp4`, thumb: `${baseUrl}/videos/graphics-lab/SPOM_poster.jpg`, title: 'Silhouette Parallax Occlusion Mapping' },
-		{ type: 'video', url: `${baseUrl}/videos/graphics-lab/01_RayMarcher.mp4`, thumb: `${baseUrl}/videos/graphics-lab/01_RayMarcher_poster.jpg`, title: 'SDF Raymarching Sandbox' },
-	],
-	'webgpu-2d-gi': [
-		{ type: 'video', url: `${baseUrl}/videos/webgpu-2d-gi/demo.mp4`, thumb: `${baseUrl}/videos/webgpu-2d-gi/demo_poster.jpg`, title: 'Real-Time 2D GI Compute Pipeline (512×512 @ 144 FPS)' },
-		{ type: 'image', url: `${baseUrl}/projects/webgpu-2d-gi/preview.jpg`, thumb: `${baseUrl}/projects/webgpu-2d-gi/preview.jpg`, title: '5-Stage Pass Inspector & AgX Composite' },
-		{ type: 'image', url: `${baseUrl}/projects/webgpu-2d-gi/pipeline_architecture_diagram.svg`, thumb: `${baseUrl}/projects/webgpu-2d-gi/pipeline_architecture_diagram.svg`, title: '15-Dispatch WebGPU Compute Render Graph' },
-	],
-	'smart-cable-generator': [
-		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/cable_demo_3_poster.jpg`, title: 'Real-Time Catenary Cable Physics' },
-		{ type: 'video', url: `${baseUrl}/projects/pipeline-tools/cable_demo_1.mp4`, thumb: `${baseUrl}/projects/pipeline-tools/cable_demo_1_poster.jpg`, title: 'Multi-Object Surface Snapping' },
-		{ type: 'image', url: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, thumb: `${baseUrl}/projects/pipeline-tools/ui_screenshot.jpg`, title: 'Blender Add-on Custom UI Panel' },
-	],
-	'ue5-procedural-environment': [
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a1_pcg.mp4`, thumb: `${baseUrl}/videos/tech-art/a1_pcg_poster.jpg`, title: 'Procedural Content Generation (PCG)' },
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/env_a1.mp4`, thumb: `${baseUrl}/videos/tech-art/env_a1_poster.jpg`, title: 'Dynamic Weather & Lighting Pipeline' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_03.webp`, thumb: `${baseUrl}/figma-slides/slide_03.webp`, title: 'Slide 03 · Tool Breakdown & Architecture' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_04.webp`, thumb: `${baseUrl}/figma-slides/slide_04.webp`, title: 'Slide 04 · Ecosistema Auto-Materials' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_06.webp`, thumb: `${baseUrl}/figma-slides/slide_06.webp`, title: 'Slide 06 · Flusso Heightmap & Topografia' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_10.webp`, thumb: `${baseUrl}/figma-slides/slide_10.webp`, title: 'Slide 10 · PCG Spline Grass & Megaplants' },
-	],
-	'ue5-metahuman-cinematics': [
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a2_hair.mp4`, thumb: `${baseUrl}/videos/tech-art/a2_hair_poster.jpg`, title: 'MetaHuman Grooming & Hair Simulation' },
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a3_cartwheel.mp4`, thumb: `${baseUrl}/videos/tech-art/a3_cartwheel_poster.jpg`, title: 'Full-Body Motion Capture & Sequencer' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_18.webp`, thumb: `${baseUrl}/figma-slides/slide_18.webp`, title: 'Slide 18 · RealityScan to MetaHuman Pipeline' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_20.webp`, thumb: `${baseUrl}/figma-slides/slide_20.webp`, title: 'Slide 20 · Confronto A/B MetaHumans' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_24.webp`, thumb: `${baseUrl}/figma-slides/slide_24.webp`, title: 'Slide 24 · Hair Grooming Blender to UE5' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_31.webp`, thumb: `${baseUrl}/figma-slides/slide_31.webp`, title: 'Slide 31 · Sequencer Camera Shots' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_34.webp`, thumb: `${baseUrl}/figma-slides/slide_34.webp`, title: 'Slide 34 · Shot Breakdown Regia' },
-	],
-	'ue5-reality-capture': [
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a4_house.mp4`, thumb: `${baseUrl}/videos/tech-art/a4_house_poster.jpg`, title: 'RealityCapture Photogrammetry Dataset' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_40.webp`, thumb: `${baseUrl}/figma-slides/slide_40.webp`, title: 'Slide 40 · Pipeline RealityCapture' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_42.webp`, thumb: `${baseUrl}/figma-slides/slide_42.webp`, title: 'Slide 42 · COLMAP Structure from Motion' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_46.webp`, thumb: `${baseUrl}/figma-slides/slide_46.webp`, title: 'Slide 46 · Dependency & DLL Analysis' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_51.webp`, thumb: `${baseUrl}/figma-slides/slide_51.webp`, title: 'Slide 51 · 3D Gaussian Splatting Training' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_55.webp`, thumb: `${baseUrl}/figma-slides/slide_55.webp`, title: 'Slide 55 · Cloud AI Tools Post-Mortem' },
-	],
-	'ue5-niagara-vfx': [
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_render.mp4`, thumb: `${baseUrl}/videos/tech-art/a5_render_poster.jpg`, title: 'Niagara GPU Comet Particle System' },
-		{ type: 'video', url: `${baseUrl}/videos/tech-art/a5_final.mp4`, thumb: `${baseUrl}/videos/tech-art/a5_final_poster.jpg`, title: 'Final Cinematics Composite' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_59.webp`, thumb: `${baseUrl}/figma-slides/slide_59.webp`, title: 'Slide 59 · Environment Lighting & VFX Setup' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_62.webp`, thumb: `${baseUrl}/figma-slides/slide_62.webp`, title: 'Slide 62 · Anatomia Niagara System' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_63.webp`, thumb: `${baseUrl}/figma-slides/slide_63.webp`, title: 'Slide 63 · Meteor System: 4 Emitters' },
-		{ type: 'image', url: `${baseUrl}/figma-slides/slide_64.webp`, thumb: `${baseUrl}/figma-slides/slide_64.webp`, title: 'Slide 64 · Homing Logic & Dynamic Lighting' },
-	],
-	'blender-renders': [
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/SIMULATORI%20FRONT%20VIEW/SIMULATORI_FRONT_VIEW.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/SIMULATORI%20FRONT%20VIEW/SIMULATORI_FRONT_VIEW.jpg`, title: 'Simulator Front View' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Panoramica%20arcade/Panoramica_arcade.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Panoramica%20arcade/Panoramica_arcade.jpg`, title: 'Arcade Panoramic View' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Close%20Up%20pokeball/Close_Up_pokeball.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Close%20Up%20pokeball/Close_Up_pokeball.jpg`, title: 'Pokeball Close-Up Detail' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Fisheye%20Arcade/Fisheye_Arcade.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Fisheye%20Arcade/Fisheye_Arcade.jpg`, title: 'Fisheye Arcade View' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Close_Up_Arcade_2/Close_Up_Arcade_2.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Close_Up_Arcade_2/Close_Up_Arcade_2.jpg`, title: 'Arcade Cabinet Close-Up' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Led%20View/Led_View.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Led%20View/Led_View.jpg`, title: 'Neon LED Atmosphere' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Bar-View/Bar-View.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Bar-View/Bar-View.jpg`, title: 'Bar Lounge Environment' },
-		{ type: 'image', url: `${baseUrl}/projects/Blender_Renders/Untitled/Simulatore/Simulatore.jpg`, thumb: `${baseUrl}/projects/Blender_Renders/Untitled/Simulatore/Simulatore.jpg`, title: 'Racing Simulator Rig' },
-	],
-	'spicy-mercante': [
-		{ type: 'video', url: `${baseUrl}/projects/spicy-mercante/video2.mp4`, thumb: `${baseUrl}/projects/spicy-mercante/image1.jpeg`, title: 'Multiplayer Card Game Mechanics' },
-		{ type: 'image', url: `${baseUrl}/projects/spicy-mercante/image1.jpeg`, thumb: `${baseUrl}/projects/spicy-mercante/image1.jpeg`, title: 'Spicy Mercante Board View' },
-	],
-	'visual-effects': [
-		{ type: 'video', url: `${baseUrl}/projects/visual-effects/tech_art_video.mp4`, thumb: `${baseUrl}/projects/visual-effects/set_photo1.jpg`, title: 'VFX Breakdown & Tracking' },
-		{ type: 'image', url: `${baseUrl}/projects/visual-effects/set_photo1.jpg`, thumb: `${baseUrl}/projects/visual-effects/set_photo1.jpg`, title: 'On-Set Camera Tracking Markers' },
-		{ type: 'image', url: `${baseUrl}/projects/visual-effects/set_photo2.jpg`, thumb: `${baseUrl}/projects/visual-effects/set_photo2.jpg`, title: 'Camera Operation & Lens Setup' },
-		{ type: 'image', url: `${baseUrl}/projects/visual-effects/set_photo3.jpg`, thumb: `${baseUrl}/projects/visual-effects/set_photo3.jpg`, title: 'Close-Up Matte & Plate Capture' },
-		{ type: 'video', url: `${baseUrl}/projects/visual-effects/cloth_video.mp4`, thumb: `${baseUrl}/projects/visual-effects/cloth_photo1.jpg`, title: 'Digital Cloth Simulation' },
-		{ type: 'image', url: `${baseUrl}/projects/visual-effects/cloth_photo1.jpg`, thumb: `${baseUrl}/projects/visual-effects/cloth_photo1.jpg`, title: 'Cloth Solver Wireframe & Mesh' },
-		{ type: 'image', url: `${baseUrl}/projects/visual-effects/cloth_photo2.jpg`, thumb: `${baseUrl}/projects/visual-effects/cloth_photo2.jpg`, title: 'Cloth Material Shading' },
-	],
-	'froglet': [
-		{ type: 'video', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/EspressioniFacciali.mp4`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/First_Shot_Def0001-0055.mp40004.png`, title: 'Facial Rigging & Shape Keys' },
-		{ type: 'video', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/DisplacementAndTexture.mp4`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/ScreenNodi_Texture.png`, title: 'Procedural Texture & Displacement' },
-		{ type: 'image', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/First_Shot_Def0001-0055.mp40004.png`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/First_Shot_Def0001-0055.mp40004.png`, title: 'Froglet Final Frame Render' },
-		{ type: 'image', url: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/ScreenNodi_Texture.png`, thumb: `${baseUrl}/projects/3D_Animation/Animation%20Stuff/Froglet/ScreenNodi_Texture.png`, title: 'Blender Shader Nodes' },
-	],
-	'phygital-smart-locker': [
-		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5505.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Locking Actuator & Servo Test' },
-		{ type: 'video', url: `${baseUrl}/projects/Phygital_Smart_Locker/IMG_5506.mp4`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'RFID Sensor & Card Read' },
-		{ type: 'image', url: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, thumb: `${baseUrl}/projects/Phygital_Smart_Locker/WhatsApp_Image_2026-03-05_at_15.23.23.jpeg`, title: 'Smart Locker Prototype Hardware' },
-	],
-	'elo-ping-pong': [
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/hero_showcase.png`, thumb: `${baseUrl}/projects/elo-ping-pong/hero_showcase.png`, title: 'EloPingPong Arena Mobile Showcase' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/architecture_diagram.svg`, thumb: `${baseUrl}/projects/elo-ping-pong/architecture_diagram.svg`, title: 'UX Gamification Loop & Real-Time Firebase Architecture' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/01_match_setup.png`, thumb: `${baseUrl}/projects/elo-ping-pong/01_match_setup.png`, title: 'Match Setup & Contextual Elo Modifiers' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/02_leaderboard_podium.png`, thumb: `${baseUrl}/projects/elo-ping-pong/02_leaderboard_podium.png`, title: 'Podium, Dual Elo/ATP Race & Wooden Spoon' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/03_live_referee.png`, thumb: `${baseUrl}/projects/elo-ping-pong/03_live_referee.png`, title: 'Full-Screen Table-Side Live Referee' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/04_live_betting.png`, thumb: `${baseUrl}/projects/elo-ping-pong/04_live_betting.png`, title: 'Multi-Market Live Betting & DP Odds' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/05_stats_coach_analytics.png`, thumb: `${baseUrl}/projects/elo-ping-pong/05_stats_coach_analytics.png`, title: 'AI Tactical Coach & Telemetry Stats' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/06_bazar_lucky_wheel.png`, thumb: `${baseUrl}/projects/elo-ping-pong/06_bazar_lucky_wheel.png`, title: 'Meritocratic Bazar & 24h Lucky Wheel' },
-		{ type: 'image', url: `${baseUrl}/projects/elo-ping-pong/07_profile_wanted_bounty.png`, thumb: `${baseUrl}/projects/elo-ping-pong/07_profile_wanted_bounty.png`, title: 'Agent Profile & WANTED Bounties' },
-	],
-	'mathify': [
-		{ type: 'image', url: `${baseUrl}/projects/mathify/hero_cover.png`, thumb: `${baseUrl}/projects/mathify/hero_cover.png`, title: 'Mathify Mobile App Showcase' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/architecture_diagram.svg`, thumb: `${baseUrl}/projects/mathify/architecture_diagram.svg`, title: 'UXD Process & React Native / Firebase Architecture' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/app_home_sfide.png`, thumb: `${baseUrl}/projects/mathify/app_home_sfide.png`, title: 'Home Challenges Explore Screen' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/app_play_quiz.png`, thumb: `${baseUrl}/projects/mathify/app_play_quiz.png`, title: 'Timed Quiz Arena & Power-Ups' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/app_summary_results.png`, thumb: `${baseUrl}/projects/mathify/app_summary_results.png`, title: 'Post-Challenge Accuracy Breakdown' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/app_report_modal.png`, thumb: `${baseUrl}/projects/mathify/app_report_modal.png`, title: 'Inline Error Reporting Modal' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/lowfi_flow_diagram.png`, thumb: `${baseUrl}/projects/mathify/lowfi_flow_diagram.png`, title: 'Complete Mobile Navigation Flowchart' },
-		{ type: 'image', url: `${baseUrl}/projects/mathify/storyboard.jpg`, thumb: `${baseUrl}/projects/mathify/storyboard.jpg`, title: 'User Needfinding Comic Storyboard' },
-	],
-	'harmony': [
-		{ type: 'video', url: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo.mp4`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo_poster.jpg`, title: 'Real-Time Vocal Cymatics & Meta Quest Live Interaction' },
-		{ type: 'image', url: `${baseUrl}/covers/Harmony.png`, thumb: `${baseUrl}/covers/Harmony.png`, title: 'Harmony VR Key Visual' },
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_logo.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_logo.png`, title: 'Harmony VR Logo' },
-	],
-	'awaken-asylum': [
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_145331.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_145331.png`, title: 'Asylum Interior Shading & Architecture' },
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_144349.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Awaken%20Asylum/Screenshot_2025-02-15_144349.png`, title: 'Volumetric Fog & Atmospheric Lighting' },
-	],
-	'easycooking': [
-		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-8e21/Screenshot_2024-06-22_alle_21.00.22.png`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-8e21/Screenshot_2024-06-22_alle_21.00.22.png`, title: 'Production Set & Lighting' },
-		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-0bbe/Screenshot_2024-09-29_alle_15.54.39.png`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/EasyCooking/EasyCooking%20Gallery/Untitled%2019b9-0bbe/Screenshot_2024-09-29_alle_15.54.39.png`, title: 'Color Grade & DaVinci Timeline' },
-	],
-	'line-operator': [
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/KxDAsD.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/KxDAsD.png`, title: 'Core Gameplay & Level Layout' },
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/HIc0z.png`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Line%20Operator/HIc0z.png`, title: 'Circuit Routing & Mechanics' },
-	],
-	'nihil': [
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/IXYPN-.gif`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/IXYPN-.gif`, title: 'Combat Mechanics & Animations' },
-		{ type: 'image', url: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/sssOhB.gif`, thumb: `${baseUrl}/projects/Game_Development/Gamedev/Nihil/sssOhB.gif`, title: 'Character Transformation Sequence' },
-	],
-	'ziva': [
-		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/canvas_moodboard-ci-250221_1201.png`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/canvas_moodboard-ci-250221_1201.png`, title: 'VR 360° Moodboard & Visual Research' },
-		{ type: 'image', url: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/gifCI.gif`, thumb: `${baseUrl}/projects/Short_Movie_Production/Short%20Movie%20List/Ziva/gifCI.gif`, title: '360° Spherical Production Sequence' },
-	],
-};
-
-// Representative showreel slides
-const showreelSlides = [
-	{
-		title: 'PulseEngine :: Volumetric Raymarching',
-		sub: 'Unity 6 • HLSL Compute • CSG Morphing • 90 FPS Quest 3',
-		tag: 'MEDICAL XR',
-		image: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`,
-		video: `${baseUrl}/videos/pulse-engine/bouba_kiki_morph.mp4`,
-		projectId: 'thesis-medical-xr'
-	},
-	{
-		title: 'Stylized 3D Gaussian Splats :: NPR Toolchain',
-		sub: 'Blender 5.3 Beta • Geometry Nodes • Vector Flow Fields • EEVEE-Next 60 FPS',
-		tag: '3DGS // NPR',
-		image: `${baseUrl}/videos/stylized-gaussian/demonstration_poster.jpg`,
-		video: `${baseUrl}/videos/stylized-gaussian/demonstration.mp4`,
-		projectId: 'stylized-gaussian-splats'
-	},
-	{
-		title: 'Graphics Lab :: Custom C++ Engine',
-		sub: 'C++17 • OpenGL 3.3 Core • Deferred Shading • Cook-Torrance PBR',
-		tag: 'ENGINE DEV',
-		image: `${baseUrl}/projects/graphics-lab/hero.png`,
-		video: `${baseUrl}/videos/graphics-lab/PBR_Screen.mp4`,
-		projectId: 'graphics-lab'
-	},
-	{
-		title: 'WebGPU 2D Global Illumination :: Compute Lab',
-		sub: 'WebGPU • 8 Hand-Written WGSL Kernels • JFA SDF • Shared-Memory Bloom',
-		tag: 'COMPUTE // WGSL',
-		image: `${baseUrl}/videos/webgpu-2d-gi/demo_poster.jpg`,
-		video: `${baseUrl}/videos/webgpu-2d-gi/demo.mp4`,
-		projectId: 'webgpu-2d-gi'
-	},
-	{
-		title: 'Smart Cable Generator :: Blender Add-on',
-		sub: 'Python 3 • Catenary Physics • Procedural Curve Authoring',
-		tag: 'TOOLING',
-		image: `${baseUrl}/covers/Smart Cable Generator.jpg`,
-		video: `${baseUrl}/projects/pipeline-tools/cable_demo_3.mp4`,
-		projectId: 'smart-cable-generator'
-	},
-	{
-		title: 'UE5 Procedural Environments',
-		sub: 'Unreal Engine 5 • PCG Graph • Megascents Biomes • Nanite',
-		tag: 'TECH ART',
-		image: `${baseUrl}/covers/UE5 Tech Art Showcase.png`,
-		video: `${baseUrl}/videos/tech-art/a1_pcg.mp4`,
-		projectId: 'ue5-procedural-environment'
-	},
-	{
-		title: 'Line Operator :: Retro CRT Shaders',
-		sub: 'Unity C# • Custom HLSL Shaders • Lead Technical Producer',
-		tag: 'STUDENT GAME',
-		image: `${baseUrl}/covers/Line Operator.png`,
-		video: '',
-		projectId: 'line-operator'
-	},
-	{
-		title: 'Harmony VR :: Singing the Light',
-		sub: 'VR Interactive Experience • Spatial Audio Interaction',
-		tag: 'XR GAME',
-		image: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo_poster.jpg`,
-		video: `${baseUrl}/projects/Game_Development/Gamedev/Harmony/harmony_live_demo.mp4`,
-		projectId: 'harmony'
-	}
-];
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const projectMediaMap = getProjectMediaMap(baseUrl);
+const showreelSlides = getShowreelSlides(baseUrl);
+const firstSlide = showreelSlides[0];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="editorial-dark">
 	<head>
-		<BaseHead title={`${SITE_TITLE} | Computer Graphics Engineer & Tech Artist`} description={SITE_DESCRIPTION} />
-		<style>
-			/* Layout Base */
-			html {
-				scroll-behavior: smooth;
-			}
-			main {
-				width: 1140px;
-				max-width: calc(100% - 2.5rem);
-				margin: 0 auto;
-				padding: 2rem 0 5rem;
-			}
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
+		<link rel="icon" href={`${baseUrl}/favicon.ico`} />
+		<link rel="sitemap" href={`${baseUrl}/sitemap-index.xml`} />
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title={SITE_TITLE}
+			href={new URL('rss.xml', Astro.site)}
+		/>
+		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={canonicalURL} />
 
-			/* Section Shared Header */
-			.section-header {
-				margin-bottom: 2.75rem;
-				text-align: center;
-			}
-			.section-tag {
-				font-family: var(--font-mono);
-				font-size: 0.82rem;
-				font-weight: 600;
-				color: var(--accent);
-				letter-spacing: 0.08em;
-				text-transform: uppercase;
-				display: block;
-				margin-bottom: 0.4rem;
-			}
-			.section-title {
-				font-size: 2.4rem;
-				font-weight: 800;
-				letter-spacing: -0.025em;
-				color: #ffffff;
-				margin-bottom: 0.5rem;
-				text-transform: uppercase;
-			}
-			.section-subtitle {
-				font-size: 1.08rem;
-				color: #94a3b8;
-				margin: 0 auto;
-				max-width: 680px;
-				line-height: 1.6;
-			}
+		<title>{SITE_TITLE}</title>
+		<meta name="description" content={SITE_DESCRIPTION} />
 
-			/* ----------------------------------------------------
-			   1. HERO SECTION & SHOWREEL SLIDESHOW
-			   ---------------------------------------------------- */
-			.hero {
-				padding: 3rem 0 4.5rem;
-				display: grid;
-				grid-template-columns: 1.15fr 0.85fr;
-				gap: 3.5rem;
-				align-items: center;
-			}
-			.hero-left {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-			}
-			.hero-status {
-				margin-bottom: 1.25rem;
-			}
-			.hero-title {
-				font-size: 3.6rem;
-				font-weight: 800;
-				letter-spacing: -0.035em;
-				line-height: 1.08;
-				margin-bottom: 0.65rem;
-				color: #ffffff;
-			}
-			.hero-role {
-				font-size: 1.45rem;
-				font-weight: 600;
-				color: #60a5fa;
-				margin-bottom: 1.5rem;
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				flex-wrap: wrap;
-			}
-			.hero-role .accent-pipe {
-				color: rgba(255, 255, 255, 0.25);
-				font-weight: 300;
-			}
-			.hero-bio {
-				font-size: 1.08rem;
-				line-height: 1.8;
-				color: #cbd5e1;
-				margin-bottom: 2rem;
-				max-width: 580px;
-			}
-			.hero-bio strong {
-				color: #ffffff;
-			}
-			.hero-actions {
-				display: flex;
-				align-items: center;
-				gap: 1rem;
-				flex-wrap: wrap;
-			}
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={SITE_TITLE} />
+		<meta property="og:description" content={SITE_DESCRIPTION} />
+		<meta property="og:image" content={new URL(FallbackImage.src, Astro.url)} />
+		<meta name="twitter:card" content="summary_large_image" />
 
-			/* Hero Showreel Showcase Card */
-			.hero-showreel-card {
-				position: relative;
-				border-radius: 18px;
-				background: rgba(15, 20, 32, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.12);
-				box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 35px rgba(59, 130, 246, 0.15);
-				overflow: hidden;
-				backdrop-filter: blur(16px);
-			}
-			.showreel-hud-header {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 0.75rem 1rem;
-				background: rgba(0, 0, 0, 0.5);
-				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-				font-family: var(--font-mono);
-				font-size: 0.75rem;
-				color: #94a3b8;
-			}
-			.terminal-dots {
-				display: flex;
-				gap: 0.35rem;
-			}
-			.terminal-dot {
-				width: 9px;
-				height: 9px;
-				border-radius: 50%;
-			}
-			.dot-red { background: #ef4444; }
-			.dot-yellow { background: #eab308; }
-			.dot-green { background: #22c55e; }
-
-			.showreel-screen {
-				position: relative;
-				width: 100%;
-				aspect-ratio: 16/10;
-				background: #000;
-				overflow: hidden;
-				cursor: pointer;
-			}
-			.showreel-slide-media {
-				position: absolute;
-				inset: 0;
-				width: 100%;
-				height: 100%;
-				opacity: 0;
-				transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-				pointer-events: none;
-			}
-			.showreel-slide-media.active {
-				opacity: 1;
-				pointer-events: auto;
-			}
-			.showreel-slide-media img,
-			.showreel-slide-media video {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				display: block;
-			}
-			.showreel-play-overlay {
-				position: absolute;
-				inset: 0;
-				background: rgba(0, 0, 0, 0.25);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				opacity: 0;
-				transition: opacity 0.25s ease;
-			}
-			.showreel-screen:hover .showreel-play-overlay {
-				opacity: 1;
-			}
-			.showreel-inspect-badge {
-				background: rgba(15, 23, 42, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				backdrop-filter: blur(8px);
-				color: #ffffff;
-				padding: 0.5rem 1rem;
-				border-radius: 9999px;
-				font-size: 0.85rem;
-				font-weight: 600;
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-			}
-
-			.showreel-hud-footer {
-				padding: 0.85rem 1rem;
-				background: rgba(10, 14, 24, 0.95);
-				border-top: 1px solid rgba(255, 255, 255, 0.07);
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-			}
-			.showreel-meta {
-				display: flex;
-				flex-direction: column;
-				gap: 0.2rem;
-				min-width: 0;
-			}
-			.showreel-meta-title {
-				font-size: 0.88rem;
-				font-weight: 700;
-				color: #f8fafc;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-			.showreel-meta-sub {
-				font-family: var(--font-mono);
-				font-size: 0.73rem;
-				color: var(--accent-light);
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-			.showreel-indicators {
-				display: flex;
-				align-items: center;
-				gap: 0.35rem;
-			}
-			.showreel-dot {
-				width: 7px;
-				height: 7px;
-				border-radius: 50%;
-				background: rgba(255, 255, 255, 0.2);
-				cursor: pointer;
-				transition: all 0.25s;
-			}
-			.showreel-dot.active {
-				background: var(--accent);
-				width: 18px;
-				border-radius: 4px;
-			}
-
-			/* ----------------------------------------------------
-			   2. PORTFOLIO & IN-PAGE MODAL
-			   ---------------------------------------------------- */
-			.portfolio-section {
-				padding: 4.5rem 0;
-				border-top: 1px solid rgba(255, 255, 255, 0.06);
-			}
-			.filter-bar {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.6rem;
-				justify-content: center;
-				margin-bottom: 2.75rem;
-			}
-			.filter-btn {
-				background: rgba(18, 24, 38, 0.75);
-				border: 1px solid rgba(255, 255, 255, 0.08);
-				color: #94a3b8;
-				padding: 0.5rem 1.15rem;
-				border-radius: 9999px;
-				cursor: pointer;
-				transition: all 0.25s ease;
-				font-size: 0.88rem;
-				font-weight: 500;
-				font-family: inherit;
-			}
-			.filter-btn:hover {
-				background: rgba(255, 255, 255, 0.08);
-				border-color: rgba(255, 255, 255, 0.22);
-				color: #ffffff;
-			}
-			.filter-btn.active {
-				background: var(--accent);
-				color: #ffffff;
-				border-color: var(--accent);
-				font-weight: 600;
-				box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.35);
-			}
-
-			/* Projects Grid with 3 cards per row matching Francisco reference */
-			.projects-grid {
-				display: grid;
-				grid-template-columns: repeat(3, 1fr);
-				gap: 1.75rem;
-				margin-bottom: 2rem;
-			}
-			.project-card {
-				background: var(--bg-card);
-				border: 1px solid var(--border-subtle);
-				border-radius: 16px;
-				overflow: hidden;
-				display: flex;
-				flex-direction: column;
-				transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease, box-shadow 0.45s ease;
-				cursor: pointer;
-				text-align: left;
-				padding: 0;
-				position: relative;
-			}
-			.project-card:hover {
-				transform: translateY(-5px);
-				border-color: var(--border-glow);
-				box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(var(--accent-rgb), 0.15);
-			}
-			.project-card:active {
-				transform: translateY(-2px) scale(0.985);
-				transition: transform 0.15s ease;
-			}
-			.project-card.hidden-card {
-				opacity: 0;
-				transform: translateY(22px);
-				transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease, box-shadow 0.45s ease;
-			}
-			.project-card.hidden-card.revealed {
-				opacity: 1;
-				transform: translateY(0);
-			}
-			.card-thumb-wrapper {
-				position: relative;
-				width: 100%;
-				aspect-ratio: 16/9;
-				overflow: hidden;
-				background: #090d14;
-			}
-			.card-thumb-wrapper img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				border-radius: 0;
-				box-shadow: none;
-				transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-			}
-			.project-card:hover .card-thumb-wrapper img {
-				transform: scale(1.04);
-			}
-			.card-overlay-badge {
-				position: absolute;
-				top: 0.85rem;
-				left: 0.85rem;
-				background: rgba(10, 14, 24, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				backdrop-filter: blur(8px);
-				padding: 0.25rem 0.65rem;
-				border-radius: 6px;
-				font-family: var(--font-mono);
-				font-size: 0.72rem;
-				color: var(--accent-light);
-				font-weight: 600;
-			}
-			.card-media-indicator {
-				position: absolute;
-				top: 0.85rem;
-				right: 0.85rem;
-				background: rgba(10, 14, 24, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				backdrop-filter: blur(8px);
-				padding: 0.25rem 0.55rem;
-				border-radius: 6px;
-				font-family: var(--font-mono);
-				font-size: 0.7rem;
-				color: #ffffff;
-				display: flex;
-				align-items: center;
-				gap: 0.3rem;
-			}
-			.card-body {
-				padding: 1.35rem;
-				display: flex;
-				flex-direction: column;
-				flex-grow: 1;
-			}
-			.card-title {
-				font-size: 1.25rem;
-				font-weight: 700;
-				margin-bottom: 0.5rem;
-				color: #ffffff;
-				line-height: 1.3;
-				transition: color 0.2s;
-			}
-			.project-card:hover .card-title {
-				color: var(--accent-light);
-			}
-			.card-desc {
-				font-size: 0.92rem;
-				line-height: 1.6;
-				color: #94a3b8;
-				margin-bottom: 1rem;
-				flex-grow: 1;
-			}
-			.card-footer {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding-top: 0.85rem;
-				border-top: 1px solid rgba(255, 255, 255, 0.05);
-			}
-			.card-tags {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.4rem;
-			}
-			.card-open-hint {
-				font-family: var(--font-mono);
-				font-size: 0.75rem;
-				color: var(--accent);
-				display: inline-flex;
-				align-items: center;
-				gap: 0.3rem;
-				font-weight: 600;
-				flex-shrink: 0;
-			}
-
-			/* Chevron Expand Arrow Button */
-			.expand-trigger-bar {
-				display: flex;
-				justify-content: center;
-				margin-top: 1.5rem;
-			}
-			.expand-chevron-btn {
-				background: rgba(18, 24, 38, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.12);
-				color: #94a3b8;
-				width: 48px;
-				height: 48px;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-			}
-			.expand-chevron-btn:hover {
-				background: var(--accent);
-				color: #ffffff;
-				border-color: var(--accent);
-				transform: translateY(2px) scale(1.05);
-				box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4);
-			}
-			.expand-chevron-btn svg {
-				transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-			}
-			.expand-chevron-btn.expanded svg {
-				transform: rotate(180deg);
-			}
-
-			/* ----------------------------------------------------
-			   IN-PAGE MODAL (IMAGE 2 / REFERENCE MATCH)
-			   ---------------------------------------------------- */
-			.modal-overlay {
-				position: fixed;
-				inset: 0;
-				z-index: 1000;
-				background: rgba(7, 10, 16, 0.88);
-				backdrop-filter: blur(16px);
-				-webkit-backdrop-filter: blur(16px);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 2rem 1.5rem;
-				opacity: 0;
-				visibility: hidden;
-				pointer-events: none;
-				transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
-			}
-			.modal-overlay.open {
-				opacity: 1;
-				visibility: visible;
-				pointer-events: auto;
-			}
-			.modal-overlay.closing {
-				opacity: 0;
-				pointer-events: none;
-			}
-			.modal-box {
-				background: #0f1422;
-				border: 1px solid rgba(255, 255, 255, 0.12);
-				box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 50px rgba(59, 130, 246, 0.18);
-				border-radius: 20px;
-				width: 100%;
-				max-width: 920px;
-				max-height: 90vh;
-				overflow-y: auto;
-				position: relative;
-				opacity: 0;
-				transform: translate3d(0, 24px, 0) scale(0.72);
-				transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-				display: flex;
-				flex-direction: column;
-				will-change: transform, opacity;
-				backface-visibility: hidden;
-				-webkit-backface-visibility: hidden;
-			}
-			.modal-overlay.open .modal-box {
-				opacity: 1;
-				transform: translate3d(0, 0, 0) scale(1);
-			}
-			.modal-overlay.closing .modal-box {
-				opacity: 0;
-				transform: translate3d(0, 18px, 0) scale(0.78);
-				transition: transform 0.28s ease-in, opacity 0.24s ease-in;
-			}
-
-			/* Staggered entrance for modal content elements */
-			@keyframes modalContentReveal {
-				from {
-					opacity: 0;
-					transform: translateY(16px);
-				}
-				to {
-					opacity: 1;
-					transform: translateY(0);
-				}
-			}
-
-			.modal-overlay.open .modal-viewer-container {
-				animation: modalContentReveal 0.48s 0.08s cubic-bezier(0.16, 1, 0.3, 1) both;
-			}
-
-			.modal-overlay.open .modal-details-body {
-				animation: modalContentReveal 0.5s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
-			}
-			.modal-close-btn {
-				position: absolute;
-				top: 1.25rem;
-				right: 1.25rem;
-				z-index: 30;
-				background: rgba(15, 20, 32, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				color: #ffffff;
-				width: 38px;
-				height: 38px;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				transition: all 0.2s;
-			}
-			.modal-close-btn:hover {
-				background: rgba(239, 68, 68, 0.85);
-				border-color: #ef4444;
-				transform: scale(1.08);
-			}
-
-			/* Modal Media Viewer & Carousel */
-			.modal-viewer-container {
-				background: #000;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-				position: relative;
-			}
-			.modal-main-display {
-				position: relative;
-				width: 100%;
-				aspect-ratio: 16/9;
-				background: #000;
-				overflow: hidden;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.modal-main-display video,
-			.modal-main-display img {
-				width: 100%;
-				height: 100%;
-				object-fit: contain;
-				display: block;
-			}
-			.viewer-arrow-btn {
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				z-index: 20;
-				background: rgba(10, 14, 24, 0.7);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				color: #ffffff;
-				width: 44px;
-				height: 44px;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				transition: all 0.2s;
-			}
-			.viewer-arrow-btn:hover {
-				background: var(--accent);
-				color: #ffffff;
-				transform: translateY(-50%) scale(1.1);
-			}
-			.arrow-left { left: 1rem; }
-			.arrow-right { right: 1rem; }
-
-			/* Thumbnail Strip (Image 2 match) */
-			.modal-thumb-strip {
-				display: flex;
-				align-items: center;
-				gap: 0.6rem;
-				padding: 0.75rem 1.25rem;
-				background: rgba(10, 14, 22, 0.95);
-				border-top: 1px solid rgba(255, 255, 255, 0.06);
-				overflow-x: auto;
-			}
-			:global(.modal-thumb-item) {
-				width: 74px;
-				height: 44px;
-				border-radius: 6px;
-				overflow: hidden;
-				border: 2px solid transparent;
-				opacity: 0.6;
-				cursor: pointer;
-				flex-shrink: 0;
-				position: relative;
-				transition: all 0.2s;
-				box-sizing: border-box;
-				display: block;
-			}
-			:global(.modal-thumb-item:hover) {
-				opacity: 0.9;
-				transform: translateY(-1px);
-			}
-			:global(.modal-thumb-item.active) {
-				opacity: 1;
-				border-color: var(--accent);
-				box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
-			}
-			:global(.modal-thumb-item img) {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				display: block;
-			}
-			:global(.thumb-video-icon) {
-				position: absolute;
-				bottom: 3px;
-				right: 3px;
-				background: rgba(0, 0, 0, 0.75);
-				border-radius: 3px;
-				padding: 1px 3px;
-				display: flex;
-				align-items: center;
-			}
-
-			/* Modal Content & Technical Deep Dive */
-			.modal-content {
-				padding: 2.25rem;
-			}
-			.modal-meta-row {
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-				margin-bottom: 0.75rem;
-			}
-			.modal-category {
-				font-family: var(--font-mono);
-				font-size: 0.75rem;
-				font-weight: 600;
-				color: var(--accent);
-				background: rgba(var(--accent-rgb), 0.1);
-				border: 1px solid rgba(var(--accent-rgb), 0.25);
-				padding: 0.2rem 0.6rem;
-				border-radius: 6px;
-			}
-			.modal-title {
-				font-size: 2.1rem;
-				font-weight: 800;
-				color: #ffffff;
-				margin-bottom: 0.5rem;
-				line-height: 1.25;
-			}
-			.modal-subtitle {
-				font-size: 1.15rem;
-				font-weight: 600;
-				color: #94a3b8;
-				margin-bottom: 1.25rem;
-			}
-			.modal-tags {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem;
-				margin-bottom: 1.75rem;
-			}
-			.modal-actions {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.85rem;
-				margin-bottom: 2rem;
-				padding-bottom: 1.75rem;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-			}
-			.modal-body-prose {
-				font-size: 1.02rem;
-				line-height: 1.8;
-				color: #cbd5e1;
-			}
-			.modal-body-prose h2, .modal-body-prose h3, .modal-body-prose h4 {
-				color: #ffffff;
-				margin: 1.75rem 0 0.75rem;
-			}
-			.modal-body-prose video {
-				max-width: 100%;
-				border-radius: 12px;
-				margin: 1.5rem 0;
-			}
-			.modal-body-prose table {
-				width: 100%;
-				border-collapse: collapse;
-				margin: 1.5rem 0;
-			}
-			.modal-body-prose th, .modal-body-prose td {
-				padding: 0.6rem 0.85rem;
-				border: 1px solid rgba(255, 255, 255, 0.1);
-			}
-			.modal-body-prose th {
-				background: rgba(59, 130, 246, 0.15);
-				color: #ffffff;
-			}
-
-			/* Interactive In-Article Slide Deck Viewer */
-			.deck-viewer-container {
-				background: rgba(10, 15, 26, 0.95);
-				border: 1px solid rgba(255, 255, 255, 0.12);
-				border-radius: 14px;
-				overflow: hidden;
-				margin: 2.25rem 0;
-				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-			}
-			.deck-header {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 0.9rem 1.25rem;
-				background: rgba(14, 20, 32, 0.9);
-				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-			}
-			.deck-title-wrap {
-				display: flex;
-				flex-direction: column;
-				gap: 0.15rem;
-			}
-			.deck-badge {
-				font-family: var(--font-mono);
-				font-size: 0.68rem;
-				color: var(--accent);
-				text-transform: uppercase;
-				letter-spacing: 0.08em;
-			}
-			.deck-heading {
-				margin: 0;
-				font-size: 0.95rem;
-				font-weight: 600;
-				color: #fff;
-			}
-			.deck-counter-badge {
-				font-family: var(--font-mono);
-				font-size: 0.8rem;
-				font-weight: 600;
-				color: #94a3b8;
-				background: rgba(255, 255, 255, 0.06);
-				padding: 0.25rem 0.65rem;
-				border-radius: 20px;
-				border: 1px solid rgba(255, 255, 255, 0.1);
-			}
-			.deck-counter-current {
-				color: var(--accent);
-				font-weight: 700;
-			}
-			.deck-main-frame {
-				position: relative;
-				width: 100%;
-				aspect-ratio: 16 / 9;
-				background: #000;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.deck-slide-img {
-				width: 100%;
-				height: 100%;
-				object-fit: contain;
-				display: block;
-			}
-			.deck-nav-btn {
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				width: 44px;
-				height: 44px;
-				border-radius: 50%;
-				background: rgba(10, 14, 22, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				color: #fff;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				transition: all 0.2s;
-				backdrop-filter: blur(8px);
-				z-index: 10;
-			}
-			.deck-nav-btn:hover {
-				background: var(--accent);
-				color: #000;
-				border-color: var(--accent);
-				transform: translateY(-50%) scale(1.08);
-			}
-			.deck-prev { left: 14px; }
-			.deck-next { right: 14px; }
-			.deck-footer {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				padding: 0.85rem 1.25rem;
-				background: rgba(14, 20, 32, 0.9);
-				border-top: 1px solid rgba(255, 255, 255, 0.08);
-				gap: 1rem;
-				flex-wrap: wrap;
-			}
-			.deck-caption {
-				margin: 0;
-				font-size: 0.85rem;
-				color: #94a3b8;
-			}
-			.deck-figma-link {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				font-family: var(--font-mono);
-				font-size: 0.75rem;
-				color: var(--accent);
-				text-decoration: none;
-				padding: 0.35rem 0.75rem;
-				border-radius: 6px;
-				background: rgba(var(--accent-rgb), 0.08);
-				border: 1px solid rgba(var(--accent-rgb), 0.25);
-				transition: all 0.2s;
-			}
-			.deck-figma-link:hover {
-				background: rgba(var(--accent-rgb), 0.2);
-				transform: translateY(-1px);
-			}
-
-			/* Architecture / Pipeline Diagram */
-			.pipeline-diagram {
-				background: rgba(14, 20, 32, 0.85);
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				border-radius: 12px;
-				padding: 1.5rem;
-				margin: 2rem 0;
-			}
-			.diagram-title {
-				font-family: var(--font-mono);
-				font-size: 0.75rem;
-				color: var(--accent);
-				text-transform: uppercase;
-				letter-spacing: 0.08em;
-				margin-bottom: 1.25rem;
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-			}
-			.diagram-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 1rem;
-			}
-			.diagram-step {
-				background: rgba(20, 28, 44, 0.8);
-				border: 1px solid rgba(255, 255, 255, 0.08);
-				border-radius: 8px;
-				padding: 1rem;
-			}
-			.step-num {
-				font-family: var(--font-mono);
-				font-size: 0.7rem;
-				color: var(--accent);
-				margin-bottom: 0.3rem;
-			}
-			.step-name {
-				font-size: 0.88rem;
-				font-weight: 600;
-				color: #fff;
-				margin-bottom: 0.3rem;
-			}
-			.step-desc {
-				font-size: 0.78rem;
-				color: #94a3b8;
-				line-height: 1.4;
-				margin: 0;
-			}
-
-			/* ----------------------------------------------------
-			   3. EXPERIENCE & EDUCATION WITH REAL LOGOS
-			   ---------------------------------------------------- */
-			.experience-section {
-				padding: 4.5rem 0;
-				border-top: 1px solid rgba(255, 255, 255, 0.06);
-			}
-			.tab-toggle-bar {
-				display: flex;
-				justify-content: center;
-				margin-bottom: 2.75rem;
-			}
-			.tab-toggle-inner {
-				display: inline-flex;
-				background: rgba(15, 20, 32, 0.8);
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				border-radius: 12px;
-				padding: 0.35rem;
-			}
-			.tab-toggle-btn {
-				background: transparent;
-				border: none;
-				color: #94a3b8;
-				padding: 0.65rem 1.4rem;
-				border-radius: 8px;
-				font-size: 0.92rem;
-				font-weight: 600;
-				cursor: pointer;
-				transition: all 0.2s ease;
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-			}
-			.tab-toggle-btn:hover {
-				color: #ffffff;
-			}
-			.tab-toggle-btn.active {
-				background: var(--accent);
-				color: #ffffff;
-				box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);
-			}
-
-			.timeline-list {
-				display: flex;
-				flex-direction: column;
-				gap: 1.5rem;
-			}
-			.experience-card {
-				background: var(--bg-card);
-				border: 1px solid var(--border-subtle);
-				border-radius: 16px;
-				padding: 1.75rem;
-				display: grid;
-				grid-template-columns: 68px 1fr;
-				gap: 1.5rem;
-				align-items: flex-start;
-				transition: border-color 0.3s, transform 0.3s;
-			}
-			.experience-card:hover {
-				border-color: rgba(59, 130, 246, 0.35);
-				transform: translateY(-2px);
-			}
-			.exp-logo-wrap {
-				width: 64px;
-				height: 64px;
-				border-radius: 14px;
-				background: #ffffff;
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 7px;
-				box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-				flex-shrink: 0;
-			}
-			.exp-logo-wrap img {
-				max-width: 100%;
-				max-height: 100%;
-				object-fit: contain;
-				display: block;
-				box-shadow: none;
-				border-radius: 0;
-			}
-
-			.exp-content {
-				display: flex;
-				flex-direction: column;
-			}
-			.exp-header-row {
-				display: flex;
-				align-items: flex-start;
-				justify-content: space-between;
-				gap: 1rem;
-				margin-bottom: 0.4rem;
-				flex-wrap: wrap;
-			}
-			.exp-title {
-				font-size: 1.25rem;
-				font-weight: 700;
-				color: #ffffff;
-				margin: 0;
-			}
-			.exp-date-pill {
-				font-family: var(--font-mono);
-				font-size: 0.78rem;
-				color: #93c5fd;
-				background: rgba(59, 130, 246, 0.12);
-				border: 1px solid rgba(59, 130, 246, 0.28);
-				padding: 0.25rem 0.65rem;
-				border-radius: 6px;
-				font-weight: 600;
-				display: inline-flex;
-				align-items: center;
-				gap: 0.35rem;
-			}
-			.exp-company {
-				font-size: 0.95rem;
-				font-weight: 600;
-				color: #94a3b8;
-				margin-bottom: 0.85rem;
-			}
-			.exp-details {
-				list-style-type: none;
-				padding: 0;
-				margin: 0;
-				display: flex;
-				flex-direction: column;
-				gap: 0.5rem;
-			}
-			.exp-details li {
-				position: relative;
-				padding-left: 1.25rem;
-				font-size: 0.94rem;
-				line-height: 1.6;
-				color: #cbd5e1;
-			}
-			.exp-details li::before {
-				content: '▹';
-				position: absolute;
-				left: 0;
-				color: var(--accent);
-				font-size: 0.9rem;
-			}
-
-			/* ----------------------------------------------------
-			   4. ABOUT ME SECTION (IMAGE 3 MATCH)
-			   ---------------------------------------------------- */
-			.about-section {
-				padding: 4.5rem 0;
-				border-top: 1px solid rgba(255, 255, 255, 0.06);
-			}
-			.about-bio-split {
-				display: grid;
-				grid-template-columns: 260px 1fr;
-				gap: 3.5rem;
-				align-items: center;
-				margin-bottom: 3.5rem;
-			}
-			.about-avatar-col {
-				display: flex;
-				justify-content: center;
-			}
-			.about-avatar-frame {
-				width: 230px;
-				height: 230px;
-				border-radius: 50%;
-				overflow: hidden;
-				border: 3px solid rgba(255, 255, 255, 0.15);
-				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.2);
-				background: #111624;
-			}
-			.about-avatar-frame img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				display: block;
-				box-shadow: none;
-				border-radius: 0;
-			}
-			.about-text-col p {
-				font-size: 1.05rem;
-				line-height: 1.85;
-				color: #cbd5e1;
-				margin-bottom: 1.25rem;
-			}
-			.about-text-col strong {
-				color: #ffffff;
-			}
-			.about-cta-row {
-				display: flex;
-				align-items: center;
-				gap: 1rem;
-				margin-top: 1.5rem;
-				flex-wrap: wrap;
-			}
-
-			/* Software & Skills Grids (Image 3 match) */
-			.capabilities-grid-split {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 3rem;
-				border-top: 1px solid rgba(255, 255, 255, 0.08);
-				padding-top: 3rem;
-			}
-			.cap-col-title {
-				font-size: 1.15rem;
-				font-weight: 700;
-				color: #ffffff;
-				margin-bottom: 1.25rem;
-				text-transform: uppercase;
-				letter-spacing: 0.04em;
-			}
-			.cap-items-grid {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 1rem;
-			}
-			.cap-item-card {
-				background: var(--bg-card);
-				border: 1px solid var(--border-subtle);
-				border-radius: 12px;
-				padding: 0.85rem 1rem;
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-				transition: all 0.2s;
-			}
-			.cap-item-card:hover {
-				border-color: rgba(59, 130, 246, 0.35);
-				transform: translateY(-2px);
-				background: var(--bg-card-hover);
-			}
-			.cap-item-icon {
-				width: 22px;
-				height: 22px;
-				flex-shrink: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.cap-item-text {
-				font-size: 0.88rem;
-				font-weight: 600;
-				color: #f1f5f9;
-			}
-
-			/* ----------------------------------------------------
-			   5. CONTACT & RESUME SECTION
-			   ---------------------------------------------------- */
-			.contact-section {
-				padding: 4.5rem 0 2rem;
-				border-top: 1px solid rgba(255, 255, 255, 0.06);
-			}
-			.contact-card {
-				background: linear-gradient(135deg, rgba(18, 24, 38, 0.95), rgba(13, 17, 26, 0.95));
-				border: 1px solid rgba(255, 255, 255, 0.1);
-				border-radius: 20px;
-				padding: 3rem;
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 3rem;
-				box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-			}
-			.contact-left h3 {
-				font-size: 1.8rem;
-				font-weight: 800;
-				color: #ffffff;
-				margin-bottom: 0.8rem;
-			}
-			.contact-left p {
-				color: #94a3b8;
-				font-size: 1.02rem;
-				line-height: 1.7;
-				margin-bottom: 1.75rem;
-			}
-			.contact-links-list {
-				display: flex;
-				flex-direction: column;
-				gap: 0.85rem;
-			}
-			.contact-link-item {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.65rem;
-				color: #e2e8f0;
-				font-size: 0.95rem;
-				text-decoration: none;
-				transition: color 0.2s;
-			}
-			.contact-link-item:hover {
-				color: var(--accent);
-				text-shadow: none;
-			}
-			.contact-link-item svg {
-				color: var(--accent);
-			}
-
-			.contact-right {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				gap: 1.25rem;
-				background: rgba(0, 0, 0, 0.25);
-				border: 1px solid rgba(255, 255, 255, 0.06);
-				border-radius: 16px;
-				padding: 2rem;
-			}
-			.cv-downloads-title {
-				font-family: var(--font-mono);
-				font-size: 0.82rem;
-				color: var(--accent);
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-				margin-bottom: 0.4rem;
-				font-weight: 600;
-			}
-			.cv-buttons-grid {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 0.75rem;
-			}
-
-			/* Floating Back-To-Top Button */
-			.back-to-top-btn {
-				position: fixed;
-				bottom: 2rem;
-				right: 2rem;
-				z-index: 90;
-				background: rgba(18, 24, 38, 0.9);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				color: #ffffff;
-				width: 44px;
-				height: 44px;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				cursor: pointer;
-				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-				opacity: 0;
-				transform: translateY(10px);
-				pointer-events: none;
-				transition: all 0.25s ease;
-			}
-			.back-to-top-btn.visible {
-				opacity: 1;
-				transform: translateY(0);
-				pointer-events: auto;
-			}
-			.back-to-top-btn:hover {
-				background: var(--accent);
-				box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.5);
-			}
-
-			/* Responsive */
-			@media (max-width: 960px) {
-				.hero {
-					grid-template-columns: 1fr;
-					gap: 2.5rem;
-					padding: 2rem 0 3.5rem;
-				}
-				.hero-title {
-					font-size: 2.8rem;
-				}
-				.projects-grid {
-					grid-template-columns: repeat(2, 1fr);
-				}
-				.about-bio-split {
-					grid-template-columns: 1fr;
-					text-align: center;
-					gap: 2rem;
-				}
-				.capabilities-grid-split {
-					grid-template-columns: 1fr;
-					gap: 2rem;
-				}
-				.contact-card {
-					grid-template-columns: 1fr;
-					padding: 2rem;
-				}
-			}
-
-			/* Mobile Tablet & Phone Ergonomics (max-width: 768px) */
-			@media (max-width: 768px) {
-				.hero {
-					grid-template-columns: 1fr;
-					min-width: 0;
-					width: 100%;
-					max-width: 100%;
-					gap: 1.75rem;
-					padding: 1.25rem 0 2.5rem;
-				}
-				.hero-left, .hero-right {
-					min-width: 0;
-					width: 100%;
-					max-width: 100%;
-				}
-				.hero-title {
-					font-size: clamp(2rem, 7.5vw, 2.6rem);
-					line-height: 1.15;
-					word-break: break-word;
-				}
-				.hero-role {
-					font-size: 1.05rem;
-					line-height: 1.45;
-					white-space: normal;
-					flex-wrap: wrap;
-					margin-bottom: 1.25rem;
-				}
-				.hero-bio {
-					font-size: 0.98rem;
-					line-height: 1.68;
-					margin-bottom: 1.5rem;
-					max-width: 100%;
-				}
-
-				/* Showreel Card Mobile */
-				.hero-showreel-card {
-					border-radius: 14px;
-					max-width: 100%;
-				}
-				.showreel-hud-header {
-					padding: 0.6rem 0.85rem;
-					font-size: 0.7rem;
-				}
-				.showreel-screen {
-					aspect-ratio: 16/9;
-				}
-				.showreel-hud-footer {
-					padding: 0.7rem 0.85rem;
-				}
-				.showreel-meta-title {
-					font-size: 0.82rem;
-				}
-				.showreel-meta-sub {
-					font-size: 0.68rem;
-				}
-				.showreel-inspect-badge {
-					font-size: 0.78rem;
-					padding: 0.4rem 0.85rem;
-				}
-
-				/* Swipeable Chip Bar */
-				.filter-bar {
-					display: flex;
-					flex-wrap: nowrap;
-					overflow-x: auto;
-					justify-content: flex-start;
-					-webkit-overflow-scrolling: touch;
-					scrollbar-width: none;
-					-ms-overflow-style: none;
-					padding: 0.35rem 0.25rem;
-					margin: 0 0 2rem 0;
-					gap: 0.5rem;
-					max-width: 100%;
-					box-sizing: border-box;
-				}
-				.filter-bar::-webkit-scrollbar {
-					display: none;
-				}
-				.filter-btn {
-					flex-shrink: 0;
-					white-space: nowrap;
-					font-size: 0.84rem;
-					padding: 0.45rem 1rem;
-					min-height: 42px;
-					box-sizing: border-box;
-				}
-
-				/* Full-Screen Sheet Modal */
-				.modal-overlay {
-					padding: 0;
-					align-items: stretch;
-					justify-content: stretch;
-				}
-				.modal-box {
-					width: 100%;
-					max-width: 100%;
-					height: 100vh;
-					height: 100dvh;
-					max-height: 100dvh;
-					border-radius: 0;
-					border: none;
-					transform: translate3d(0, 100%, 0) scale(1);
-					transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-				}
-				.modal-overlay.open .modal-box {
-					transform: translate3d(0, 0, 0) scale(1);
-				}
-				.modal-overlay.closing .modal-box {
-					transform: translate3d(0, 100%, 0) scale(1);
-					transition: transform 0.28s cubic-bezier(0.4, 0, 1, 1);
-				}
-				.modal-close-btn {
-					top: calc(env(safe-area-inset-top, 0px) + 0.85rem);
-					right: 0.85rem;
-					width: 42px;
-					height: 42px;
-					font-size: 1.15rem;
-					z-index: 60;
-					background: rgba(10, 14, 24, 0.88);
-					backdrop-filter: blur(12px);
-					-webkit-backdrop-filter: blur(12px);
-					border: 1px solid rgba(255, 255, 255, 0.2);
-				}
-				.modal-viewer-container {
-					position: sticky;
-					top: 0;
-					z-index: 25;
-					border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-				}
-				.modal-main-display {
-					aspect-ratio: 16/9;
-				}
-				.modal-thumb-strip {
-					padding: 0.6rem 0.85rem;
-					gap: 0.5rem;
-					scrollbar-width: none;
-					-webkit-overflow-scrolling: touch;
-				}
-				.modal-thumb-strip::-webkit-scrollbar {
-					display: none;
-				}
-				:global(.modal-thumb-item) {
-					width: 64px;
-					height: 38px;
-				}
-				.viewer-arrow-btn {
-					width: 40px;
-					height: 40px;
-				}
-				.arrow-left { left: 0.5rem; }
-				.arrow-right { right: 0.5rem; }
-				.modal-content {
-					padding: 1.5rem 1.15rem calc(env(safe-area-inset-bottom, 0px) + 3rem);
-				}
-				.modal-title {
-					font-size: 1.65rem;
-					line-height: 1.22;
-				}
-				.modal-subtitle {
-					font-size: 1.05rem;
-				}
-				.modal-actions {
-					flex-direction: column;
-					gap: 0.75rem;
-				}
-				.modal-actions a,
-				.modal-actions button {
-					width: 100%;
-					justify-content: center;
-					min-height: 46px;
-					box-sizing: border-box;
-				}
-				.modal-body-prose {
-					font-size: 0.98rem;
-					line-height: 1.75;
-				}
-
-				.back-to-top-btn {
-					bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
-					right: 1.25rem;
-					width: 42px;
-					height: 42px;
-				}
-			}
-
-			/* Mobile Small Phones Ergonomics (max-width: 640px) */
-			@media (max-width: 640px) {
-				.hero-title {
-					font-size: clamp(2rem, 7.5vw, 2.75rem);
-					line-height: 1.14;
-				}
-				.hero-role {
-					font-size: 1.1rem;
-					gap: 0.35rem;
-				}
-				.hero-actions {
-					flex-direction: column;
-					width: 100%;
-					gap: 0.75rem;
-				}
-				.hero-actions .btn-primary,
-				.hero-actions .btn-secondary {
-					width: 100%;
-					justify-content: center;
-					min-height: 48px;
-					box-sizing: border-box;
-				}
-				.projects-grid {
-					grid-template-columns: 1fr;
-					gap: 1.35rem;
-				}
-				.about-avatar-frame {
-					width: 180px;
-					height: 180px;
-				}
-				.about-cta-row {
-					flex-direction: column;
-					width: 100%;
-					gap: 0.75rem;
-				}
-				.about-cta-row a {
-					width: 100%;
-					justify-content: center;
-					min-height: 48px;
-					box-sizing: border-box;
-				}
-				.capabilities-grid-split {
-					padding-top: 2rem;
-					gap: 2rem;
-				}
-				.cap-items-grid {
-					grid-template-columns: 1fr;
-					gap: 0.75rem;
-				}
-				.contact-card {
-					padding: 1.75rem 1.25rem;
-					gap: 2rem;
-					border-radius: 16px;
-				}
-				.contact-left h3 {
-					font-size: 1.5rem;
-				}
-				.contact-right {
-					padding: 1.25rem 1rem;
-				}
-				.cv-buttons-grid {
-					grid-template-columns: 1fr;
-					gap: 0.65rem;
-				}
-				.cv-buttons-grid a {
-					min-height: 46px;
-				}
-				.deck-viewer-container {
-					margin: 1.5rem -0.5rem;
-					border-radius: 10px;
-				}
-				.deck-header {
-					padding: 0.75rem 0.85rem;
-				}
-				.deck-heading {
-					font-size: 0.88rem;
-				}
-				.deck-counter-badge {
-					font-size: 0.72rem;
-					padding: 0.2rem 0.5rem;
-				}
-				.deck-nav-btn {
-					width: 38px;
-					height: 38px;
-				}
-				.deck-prev { left: 8px; }
-				.deck-next { right: 8px; }
-				.deck-footer {
-					padding: 0.75rem 0.85rem;
-					flex-direction: column;
-					align-items: flex-start;
-					gap: 0.65rem;
-				}
-				.deck-caption {
-					font-size: 0.8rem;
-				}
-				.deck-figma-link {
-					width: 100%;
-					justify-content: center;
-					min-height: 42px;
-					box-sizing: border-box;
-				}
-				.pipeline-diagram {
-					padding: 1.15rem 1rem;
-					margin: 1.5rem 0;
-				}
-				.diagram-grid {
-					grid-template-columns: 1fr;
-					gap: 0.75rem;
-				}
-			}
-		</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<Header />
-		<main>
-			<!-- 1. HERO SECTION -->
-			<section class="hero" id="hero">
-				<div class="hero-left">
-					<div class="hero-status">
-						<div class="status-pill">
-							<span class="pulse-dot"></span>
-							<span>Open to Graphics & Tech Art Roles</span>
-						</div>
-					</div>
-					<h1 class="hero-title">Federico Colombo</h1>
-					<h2 class="hero-role">
-						<span>Computer Graphics Engineer</span>
-						<span class="accent-pipe">/</span>
-						<span>Technical Artist</span>
-					</h2>
-					<p class="hero-bio">
-						Specialized in <strong>real-time rendering</strong>, low-level <strong>engine architecture (C++)</strong>, and <strong>procedural pipelines</strong>. M.Sc. in Cinema & Media Engineering at Politecnico di Torino (<strong>Expected Graduation: December 2026, 110/110 Cum Laude</strong>), with active R&D in bio-adaptive volumetric SDF raymarching and mobile XR optimization.
-					</p>
-					<div class="hero-actions">
-						<a href="#projects" class="btn-primary nav-scroll-btn">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-							<span>Explore Projects</span>
-						</a>
-						<a href="#experience" class="btn-secondary nav-scroll-btn">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-							<span>Experience</span>
-						</a>
-						<a href={`${baseUrl}/cv`} class="btn-secondary">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-							<span>View CV</span>
-						</a>
-					</div>
+		<header class="site-header">
+			<div class="shell header-inner">
+				<div class="brand-cluster">
+					<a href="#top" class="brand-name">Federico Colombo</a>
+					<span class="brand-role">GRAPHICS ENGINEER · TURIN</span>
 				</div>
 
-				<!-- Hero Showreel Showcase Card (Slideshow) -->
-				<div class="hero-right">
-					<div class="hero-showreel-card" id="heroShowreelCard">
-						<div class="showreel-hud-header">
-							<div class="terminal-dots">
-								<span class="terminal-dot dot-red"></span>
-								<span class="terminal-dot dot-yellow"></span>
-								<span class="terminal-dot dot-green"></span>
-							</div>
-							<span id="showreelHudTitle">SHOWREEL // SELECTED WORK</span>
-						</div>
+				<nav class="nav-links" aria-label="Primary navigation">
+					<a href="#projects">Work</a>
+					<a href="#experience">Experience</a>
+					<a href="#about">About</a>
+					<a href={`${baseUrl}/cv`}>CV</a>
+					<a href={`${baseUrl}/Federico Colombo - Resume.pdf`} download class="nav-cv-btn">
+						CV.PDF
+					</a>
+				</nav>
+			</div>
+		</header>
 
-						<div class="showreel-screen" id="showreelScreen" title="Click to inspect this project">
-							{
-								showreelSlides.map((slide, idx) => (
-									<div 
-										class={`showreel-slide-media ${idx === 0 ? 'active' : ''}`}
-										data-index={idx}
-										data-project-id={slide.projectId}
-										data-title={slide.title}
-										data-sub={slide.sub}
-									>
-										{slide.video ? (
-											<video 
-												src={slide.video} 
-												poster={slide.image} 
-												autoplay={idx === 0}
-												preload={idx === 0 ? "auto" : "none"}
-												loop 
-												muted 
-												playsinline
-											></video>
-										) : (
-											<img src={slide.image} alt={slide.title} />
-										)}
-									</div>
-								))
-							}
-							<div class="showreel-play-overlay">
-								<span class="showreel-inspect-badge">
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-									<span>Inspect Project Details</span>
-								</span>
-							</div>
-						</div>
+		<main id="top" class="shell">
+			<!-- 1. COMPACT ASYMMETRIC HERO -->
+			<section class="hero-band">
+				<p class="hero-eyebrow">GRAPHICS ENGINEERING · TECHNICAL ART · STANDALONE XR</p>
 
-						<div class="showreel-hud-footer">
-							<div class="showreel-meta">
-								<span class="showreel-meta-title" id="showreelTitle">{showreelSlides[0].title}</span>
-								<span class="showreel-meta-sub" id="showreelSub">{showreelSlides[0].sub}</span>
-							</div>
-							<div class="showreel-indicators" id="showreelIndicators">
-								{
-									showreelSlides.map((_, idx) => (
-										<span class={`showreel-dot ${idx === 0 ? 'active' : ''}`} data-index={idx}></span>
-									))
-								}
-							</div>
+				<div class="hero-split">
+					<h1 class="hero-headline">
+						Rendering, <em>Shaders</em><br />
+						&amp; Tech Art Systems.
+					</h1>
+
+					<div class="hero-bio-col">
+						<p class="hero-lead">
+							Low-level C++/OpenGL renderers, WebGPU compute shaders, procedural DCC pipelines, and standalone Quest 3 XR optimization. M.Sc. Cinema &amp; Media Engineering, Politecnico di Torino.
+						</p>
+						<div class="hero-inline-links">
+							<a href="#projects" class="hero-link-accent">Explore Selected Work</a>
+							<a href="https://github.com/federicocolombo12" target="_blank" rel="noopener noreferrer">
+								GitHub
+							</a>
+							<a href="https://www.linkedin.com/in/federico-colombo10" target="_blank" rel="noopener noreferrer">
+								LinkedIn
+							</a>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<!-- 2. PORTFOLIO & IN-PAGE MODAL -->
-			<section class="portfolio-section" id="projects">
-				<div class="section-header">
-					<span class="section-tag">// PORTFOLIO</span>
-					<h2 class="section-title">Projects</h2>
-					<p class="section-subtitle">
-						Low-level graphics engines, custom HLSL shaders, procedural DCC pipelines, and shipped real-time games. Click any card to inspect.
-					</p>
+			<!-- 2. FEATURED SHOWCASE (LOCKED 16:9 GEOMETRY ACROSS ALL SLIDES) -->
+			<section class="featured-band" id="featured">
+				<div class="featured-grid">
+					<div class="featured-media-frame" id="showreelViewport" title="Click to inspect full breakdown">
+						<video
+							id="featuredVideo"
+							src={firstSlide.video}
+							poster={firstSlide.image}
+							autoplay
+							muted
+							loop
+							playsinline
+							preload="auto"
+						></video>
+						<img id="featuredImage" src={firstSlide.image} alt={firstSlide.title} style="display: none;" />
+						<div class="featured-telemetry" id="reelMetricBadge">
+							{firstSlide.metric || firstSlide.tag}
+						</div>
+					</div>
+
+					<div class="featured-info-col">
+						<div>
+							<div class="featured-kicker-row">
+								<span class="featured-kicker" id="reelKicker">01 / FEATURED THESIS R&amp;D · 2026</span>
+								<div class="reel-stepper" aria-label="Switch featured showcase">
+									<button type="button" id="reelPrevBtn" aria-label="Previous showcase">&lsaquo;</button>
+									<span id="reelCounter">01/{String(showreelSlides.length).padStart(2, '0')}</span>
+									<button type="button" id="reelNextBtn" aria-label="Next showcase">&rsaquo;</button>
+								</div>
+							</div>
+
+							<h2 class="featured-title" id="reelTitle">{firstSlide.title}</h2>
+							<p class="featured-summary" id="reelSummary">
+								Real-time HLSL volumetric raymarching driven by BLE physiological telemetry. Engineered for Meta Quest 3 with Dynamic Bounding Volumes, adaptive step marching, and zero-allocation C# buffers.
+							</p>
+						</div>
+
+						<div class="featured-footer-bar">
+							<span class="featured-stack" id="reelSub">{firstSlide.sub}</span>
+							<button type="button" class="featured-cta-link" id="inspectActiveReelBtn">
+								Read breakdown &rarr;
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- 3. SELECTED WORKS GRID -->
+			<section class="work-band" id="projects">
+				<div class="work-header-row">
+					<h2 class="work-section-title">Selected Works</h2>
+					<div class="filter-tabs" role="tablist" aria-label="Filter projects by discipline">
+						<button type="button" class="filter-btn active" data-category="all">
+							All [{String(allProjects.length).padStart(2, '0')}]
+						</button>
+						<button type="button" class="filter-btn" data-category="Tech Art">Graphics &amp; Engine</button>
+						<button type="button" class="filter-btn" data-category="Game Development">Game Dev</button>
+						<button type="button" class="filter-btn" data-category="3D Animation">3D Art</button>
+						<button type="button" class="filter-btn" data-category="Filmmaking">3D &amp; VFX</button>
+						<button type="button" class="filter-btn" data-category="UX / Mobile Dev">UX / Mobile</button>
+					</div>
 				</div>
 
-				<!-- Category Filters -->
-				<div class="filter-bar">
-					<button class="filter-btn active" data-category="all">All Projects</button>
-					<button class="filter-btn" data-category="Tech Art">Graphics & Engine</button>
-					<button class="filter-btn" data-category="Game Development">Game Development</button>
-					<button class="filter-btn" data-category="3D Animation">3D Art & Animation</button>
-					<button class="filter-btn" data-category="Filmmaking">Filmmaking & VFX</button>
-					<button class="filter-btn" data-category="UX / Mobile Dev">UX / Mobile Dev</button>
-				</div>
+				<div class="work-grid" id="projectsGrid">
+					{allProjects.map((post, idx) => {
+						const imgSrc = post.data.heroImage ? post.data.heroImage.src : '';
+						const isInitiallyVisible = idx < 6;
+						const badgeText = getProjectBadge(post);
+						const indexNum = String(idx + 1).padStart(2, '0');
+						const stackLine = (post.data.tags || []).slice(0, 3).join(' · ') || badgeText;
 
-				<!-- Projects Grid (3 columns matching Francisco reference) -->
-				<div class="projects-grid" id="projectsGrid">
-					{
-						allProjects.map((post, idx) => {
-							const mediaList = projectMediaMap[post.id] || [];
-							const imgSrc = post.data.heroImage ? post.data.heroImage.src : '';
-							const isInitiallyVisible = idx < 3; // Initially show top 3 projects matching user image 1
-							const badgeText = getProjectBadge(post);
-							return (
-								<article 
-									class={`project-card ${!isInitiallyVisible ? 'hidden-card' : ''}`}
-									data-id={post.id}
-									data-index={idx}
-									data-category={post.data.category || 'Tech Art'}
-									data-badge={badgeText}
-									data-title={post.data.title}
-									data-desc={post.data.description}
-									data-image={imgSrc}
-									data-tags={(post.data.tags || []).join(',')}
-									data-github={post.data.githubLink || ''}
-									data-demo={post.data.demoLink || ''}
-									data-itch={post.data.itchLink || ''}
-									data-raicinema={post.data.raiCinemaLink || ''}
-									data-youtube={post.data.youtubeLink || ''}
-									style={!isInitiallyVisible ? 'display: none;' : ''}
-								>
-									<div class="card-thumb-wrapper">
-										{post.data.heroImage && (
-											<Image width={720} height={405} src={post.data.heroImage} alt={post.data.title} />
-										)}
-										<span class="card-overlay-badge">{badgeText}</span>
-										{mediaList.some(m => m.type === 'video') && (
-											<span class="card-media-indicator">
-												<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-												<span>VIDEO</span>
-											</span>
+						return (
+							<article
+								class={`work-card ${!isInitiallyVisible ? 'hidden-card' : ''}`}
+								data-id={post.id}
+								data-index={idx}
+								data-category={post.data.category || 'Tech Art'}
+								data-badge={badgeText}
+								data-title={post.data.title}
+								data-desc={post.data.description}
+								data-image={imgSrc}
+								data-tags={(post.data.tags || []).join(',')}
+								data-github={post.data.githubLink || ''}
+								data-demo={post.data.demoLink || ''}
+								data-itch={post.data.itchLink || ''}
+								data-raicinema={post.data.raiCinemaLink || ''}
+								data-youtube={post.data.youtubeLink || ''}
+								style={!isInitiallyVisible ? 'display: none;' : ''}
+							>
+								<div class="card-thumb">
+									{post.data.heroImage && (
+										<Image
+											width={720}
+											height={405}
+											src={post.data.heroImage}
+											alt={post.data.title}
+											loading={isInitiallyVisible ? 'eager' : 'lazy'}
+										/>
+									)}
+									<span class="card-idx">{indexNum}</span>
+									{post.data.githubLink && (
+										<a
+											href={post.data.githubLink}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="card-gh-corner"
+											title="Inspect Source on GitHub"
+											aria-label={`GitHub repository for ${post.data.title}`}
+										>
+											<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+												<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+											</svg>
+										</a>
+									)}
+								</div>
+
+								<div class="card-body">
+									<span class="card-cat">{badgeText.toUpperCase()}</span>
+									<h3 class="card-title">{post.data.title}</h3>
+									<p class="card-desc">{post.data.description}</p>
+									<div class="card-foot">
+										<span>{stackLine}</span>
+										{post.data.demoLink && (
+											<a
+												href={post.data.demoLink}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="card-demo-pill"
+											>
+												Demo &rarr;
+											</a>
 										)}
 									</div>
-									<div class="card-body">
-										<h3 class="card-title">{post.data.title}</h3>
-										<p class="card-desc">{post.data.description}</p>
-										<div class="card-footer">
-											<div class="card-tags">
-												{(post.data.tags || []).slice(0, 3).map((tag) => (
-													<span class="tech-badge">{tag}</span>
-												))}
-											</div>
-											<span class="card-open-hint">
-												<span>Inspect</span>
-												<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-											</span>
-										</div>
-									</div>
-								</article>
-							);
-						})
-					}
+								</div>
+							</article>
+						);
+					})}
 				</div>
 
-				<!-- Chevron Expand Arrow Button (Image 1 match) -->
-				<div class="expand-trigger-bar">
-					<button class="expand-chevron-btn" id="expandChevronBtn" aria-label="Show more projects" title="Show all projects">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-							<polyline points="6 9 12 15 18 9"></polyline>
-						</svg>
+				<div class="expand-row">
+					<button type="button" class="expand-btn" id="expandGridBtn">
+						Show all {allProjects.length} projects ({allProjects.length - 6} archived)
 					</button>
 				</div>
 			</section>
 
-			<!-- 3. EXPERIENCE & EDUCATION WITH REAL LOGOS -->
-			<section class="experience-section" id="experience">
-				<div class="section-header">
-					<span class="section-tag">// CAREER & BACKGROUND</span>
-					<h2 class="section-title">Experience</h2>
-					<p class="section-subtitle">
-						Professional studio engineering, academic mentorship, and Master's engineering studies at Politecnico di Torino.
-					</p>
-				</div>
-
-				<div class="tab-toggle-bar">
-					<div class="tab-toggle-inner">
-						<button class="tab-toggle-btn active" id="tabExpBtn" data-target="expList">
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-							<span>Professional Experience</span>
-						</button>
-						<button class="tab-toggle-btn" id="tabEduBtn" data-target="eduList">
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-							<span>Education</span>
-						</button>
+			<!-- 4. EXPERIENCE & EDUCATION -->
+			<section class="experience-band" id="experience">
+				<div class="band-top-bar">
+					<span class="band-mono-label">03 // BACKGROUND</span>
+					<div class="tab-switch-inline" role="tablist">
+						<button type="button" class="tab-btn active" id="tabExpBtn">Experience (4)</button>
+						<button type="button" class="tab-btn" id="tabEduBtn">Education (2)</button>
 					</div>
 				</div>
 
-				<!-- Professional Experience Tab -->
-				<div class="timeline-list" id="expList">
-					<!-- Lemons in the Room -->
-					<div class="experience-card">
-						<div class="exp-logo-wrap" title="Lemons in the Room">
-							<img src={`${baseUrl}/logos/lemons.png`} alt="Lemons in the Room Logo" />
+				<div class="timeline-rows" id="expList">
+					<div class="timeline-row">
+						<div class="tl-left">
+							<span class="tl-date">03/2026 – Present</span>
+							<span class="tl-org">Lemons in the Room · Firenze / Remote</span>
 						</div>
-						<div class="exp-content">
-							<div class="exp-header-row">
-								<h3 class="exp-title">Technical Artist & Producer (XR Master Thesis R&D)</h3>
-								<span class="exp-date-pill">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-									<span>03/2026 – Present</span>
-								</span>
-							</div>
-							<div class="exp-company">Lemons in the Room | Firenze / Remote</div>
-							<ul class="exp-details">
-								<li>Architected a real-time bio-adaptive volumetric raymarching framework in HLSL for Meta Quest 3, rendering dynamic Signed Distance Fields (SDFs) driven by Bluetooth physiological sensors.</li>
-								<li>Engineered low-level mobile GPU optimizations: Dynamic Bounding Volumes, adaptive ray step stepping, and foveated marching to maintain a locked 90 FPS on standalone XR hardware.</li>
-								<li>Served as technical bridge between creative art direction and compute shader math, ensuring seamless asset ingestion and zero-draw-call volumetric effects.</li>
+						<div class="tl-right">
+							<h3 class="tl-role">Technical Artist &amp; Producer (XR Master Thesis R&amp;D)</h3>
+							<ul class="tl-bullets">
+								<li>Architected <em>PulseEngine</em>: a real-time bio-adaptive volumetric raymarching framework in HLSL for Meta Quest 3 driven by Bluetooth physiological sensors.</li>
+								<li>Engineered Dynamic Bounding Volumes, adaptive ray-marching step sizes, and zero-allocation C# marshaling to sustain 90 FPS at 2.91ms GPU time.</li>
 							</ul>
 						</div>
 					</div>
 
-					<!-- Level Up Lab -->
-					<div class="experience-card">
-						<div class="exp-logo-wrap" title="Level Up Lab">
-							<img src={`${baseUrl}/logos/lul.svg`} alt="Level Up Lab Logo" />
+					<div class="timeline-row">
+						<div class="tl-left">
+							<span class="tl-date">11/2024 – 07/2026</span>
+							<span class="tl-org">Level Up Lab · Politecnico di Torino</span>
 						</div>
-						<div class="exp-content">
-							<div class="exp-header-row">
-								<h3 class="exp-title">Technical Artist, Gameplay Programmer & Project Manager</h3>
-								<span class="exp-date-pill">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-									<span>11/2024 – 07/2026</span>
-								</span>
-							</div>
-							<div class="exp-company">Level Up Lab (Student Team Politecnico di Torino) | Torino</div>
-							<ul class="exp-details">
-								<li>Developed custom shaders in HLSL (retro CRT curvature, procedural water vertex displacement, cutaway systems) and core C# gameplay for <em>Line Operator</em> and <em>Spicy Mercante</em>.</li>
-								<li>Modeled 3D assets in Blender and engineered full architectural refactorings (3D-to-2D engine transition, buoyancy physics, inventory systems).</li>
-								<li>Coordinated multidisciplinary student pods of 6–7 developers as technical producer and project manager, establishing Git LFS workflows.</li>
+						<div class="tl-right">
+							<h3 class="tl-role">Technical Artist, Gameplay Programmer &amp; Project Manager</h3>
+							<ul class="tl-bullets">
+								<li>Built custom HLSL shaders (procedural water vertex displacement, dynamic cutaway systems), Blender 3D asset pipelines, and core C# gameplay for <em>Spicy Mercante</em> and <em>Line Operator</em>.</li>
+								<li>Modeled 3D assets across full pipelines, executed 3D-to-2D C# architecture refactors, and coordinated 6–7 student developers with Git LFS workflows.</li>
 							</ul>
 						</div>
 					</div>
 
-					<!-- Politecnico di Torino TA -->
-					<div class="experience-card">
-						<div class="exp-logo-wrap" title="Politecnico di Torino">
-							<img src={`${baseUrl}/logos/polito.svg`} alt="Politecnico di Torino Logo" />
+					<div class="timeline-row">
+						<div class="tl-left">
+							<span class="tl-date">10/2024 – 01/2025</span>
+							<span class="tl-org">Politecnico di Torino · Torino</span>
 						</div>
-						<div class="exp-content">
-							<div class="exp-header-row">
-								<h3 class="exp-title">Teaching Assistant (GUI)</h3>
-								<span class="exp-date-pill">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-									<span>10/2024 – 01/2025</span>
-								</span>
-							</div>
-							<div class="exp-company">Politecnico di Torino | Torino</div>
-							<ul class="exp-details">
-								<li>Tutored students in UI/UX principles and frontend programming during weekly laboratory sessions.</li>
-								<li>Created high-quality instructional content to improve students' comprehension of UI/UX principles and programming fundamentals.</li>
+						<div class="tl-right">
+							<h3 class="tl-role">Teaching Assistant (GUI &amp; Interaction)</h3>
+							<ul class="tl-bullets">
+								<li>Tutored undergraduate students during weekly lab sessions in UI/UX architecture and frontend programming fundamentals.</li>
 							</ul>
 						</div>
 					</div>
 
-					<!-- RKH Studio -->
-					<div class="experience-card">
-						<div class="exp-logo-wrap" title="RKH Studio">
-							<img src={`${baseUrl}/logos/rkh.png`} alt="RKH Studio Logo" />
+					<div class="timeline-row">
+						<div class="tl-left">
+							<span class="tl-date">09/2023 – 06/2024</span>
+							<span class="tl-org">RKH SRL · Torino</span>
 						</div>
-						<div class="exp-content">
-							<div class="exp-header-row">
-								<h3 class="exp-title">Video Artist</h3>
-								<span class="exp-date-pill">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-									<span>09/2023 – 06/2024</span>
-								</span>
-							</div>
-							<div class="exp-company">RKH SRL | Torino</div>
-							<ul class="exp-details">
-								<li>Operated professional cameras (RED, Blackmagic 4K/6K, Panasonic S1) and assisted DOP with complex lighting setups.</li>
-								<li>Handled editing and post-production workflows using DaVinci Resolve for music videos, podcasts, and corporate content.</li>
+						<div class="tl-right">
+							<h3 class="tl-role">Video Artist &amp; Color/Post-Production</h3>
+							<ul class="tl-bullets">
+								<li>Operated cinema cameras (RED, Blackmagic 4K/6K, Panasonic S1) and managed DaVinci Resolve grading &amp; editing pipelines.</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 
-				<!-- Education Tab -->
-				<div class="timeline-list" id="eduList" style="display: none;">
-					<!-- Master Degree -->
-					<div class="experience-card">
-						<div class="exp-logo-wrap" title="Politecnico di Torino">
-							<img src={`${baseUrl}/logos/polito.svg`} alt="Politecnico di Torino Logo" />
+				<div class="timeline-rows" id="eduList" style="display: none;">
+					<div class="timeline-row">
+						<div class="tl-left">
+							<span class="tl-date">2024 – Dec 2026</span>
+							<span class="tl-org">Politecnico di Torino · Expected 110/110L</span>
 						</div>
-						<div class="exp-content">
-							<div class="exp-header-row">
-								<h3 class="exp-title">Master’s Degree in Cinema & Media Engineering</h3>
-								<span class="exp-date-pill">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-									<span>2024 – Dec 2026 (Expected)</span>
-								</span>
-							</div>
-							<div class="exp-company">Politecnico di Torino | Expected: December 2026 (110/110 Cum Laude)</div>
-							<ul class="exp-details">
-								<li>Core Specialization: Real-Time Computer Graphics, Shader Programming (HLSL/GLSL), Computer Vision, Digital Signal Processing, Game Engine Architecture.</li>
-								<li>Master Thesis: <em>PulseEngine — Real-Time Bio-Adaptive Signal Routing and Volumetric SDF Raymarching in Standalone XR</em>.</li>
-								<li>Academic Excellence: Master's candidate with top academic standing, serving as academic tutor and teaching assistant for lower-year engineering courses.</li>
+						<div class="tl-right">
+							<h3 class="tl-role">M.Sc. in Cinema &amp; Media Engineering</h3>
+							<ul class="tl-bullets">
+								<li>Focus: Real-Time Computer Graphics, Shader Programming (HLSL/GLSL/WGSL), Computer Vision, Digital Signal Processing, Engine Architecture.</li>
+								<li>Thesis: <em>PulseEngine — Real-Time Bio-Adaptive Signal Routing and Volumetric SDF Raymarching in Standalone XR</em>.</li>
 							</ul>
 						</div>
 					</div>
 
-					<!-- Bachelor Degree -->
-					<div class="experience-card">
-						<div class="exp-logo-wrap" title="Politecnico di Torino">
-							<img src={`${baseUrl}/logos/polito.svg`} alt="Politecnico di Torino Logo" />
+					<div class="timeline-row">
+						<div class="tl-left">
+							<span class="tl-date">2021 – 2024</span>
+							<span class="tl-org">Politecnico di Torino · 100/110</span>
 						</div>
-						<div class="exp-content">
-							<div class="exp-header-row">
-								<h3 class="exp-title">Bachelor’s Degree in Cinema & Media Engineering</h3>
-								<span class="exp-date-pill">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-									<span>2021 – 2024</span>
-								</span>
-							</div>
-							<div class="exp-company">Politecnico di Torino | Torino (Grade: 100/110)</div>
-							<ul class="exp-details">
-								<li>Engineering Core: Linear Algebra, Multivariate Calculus, Physics, Discrete Mathematics, Object-Oriented Programming (C/C++), Algorithms & Data Structures.</li>
-								<li>Media Systems: Digital Audio/Video Compression, 3D Computer Animation, Interactive Graphics, Telecommunications.</li>
+						<div class="tl-right">
+							<h3 class="tl-role">B.Sc. in Cinema &amp; Media Engineering</h3>
+							<ul class="tl-bullets">
+								<li>Engineering Core: Linear Algebra, Multivariate Calculus, Physics, Object-Oriented Programming (C/C++), Algorithms &amp; Data Structures.</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<!-- 4. ABOUT ME SECTION (IMAGE 3 MATCH) -->
-			<section class="about-section" id="about">
-				<div class="section-header">
-					<h2 class="section-title">About Me</h2>
+			<!-- 5. ABOUT & CAPABILITIES -->
+			<section class="about-band" id="about">
+				<div class="band-top-bar">
+					<span class="band-mono-label">04 // CAPABILITIES &amp; PROFILE</span>
 				</div>
 
-				<div class="about-bio-split">
-					<div class="about-avatar-col">
-						<div class="about-avatar-frame">
-							<img src={`${baseUrl}/profile.jpeg`} alt="Federico Colombo" />
-						</div>
+				<div class="about-split">
+					<div class="portrait-box">
+						<img src={`${baseUrl}/profile.jpeg`} alt="Federico Colombo" />
 					</div>
-
-					<div class="about-text-col">
+					<div class="bio-copy">
+						<h2 class="work-section-title">Engineering between shader math and art direction.</h2>
 						<p>
-							Hey there! I'm Federico and I'm a <strong>Computer Graphics Engineer</strong> and <strong>Technical Artist</strong> with a passion for creative technologies and low-level rendering.
+							My work sits where low-level graphics programming meets production artist workflows: writing multi-pass compute graphs and Deferred C++ renderers, optimizing volumetric raymarchers for mobile Quest 3 silicon, and shipping procedural Python add-ons that keep 3D teams fast.
 						</p>
 						<p>
-							I've spent the last few years diving deep into real-time rendering, GPU architectures (C++ / OpenGL / WebGPU), and writing custom shaders and compute kernels (HLSL / GLSL / WGSL). I love experimenting with proceduralism, Jump Flooding Signed Distance Fields, volumetric raymarching, and building renderers from the ground up.
+							Alongside university research, I shipped multiple student games at Level Up Lab, taught GUI engineering labs as a Teaching Assistant, and handled on-set cinematography and post-production at RKH SRL.
 						</p>
-						<p>
-							Alongside creating, I've had the opportunity to teach as Teaching Assistant at Politecnico di Torino, lead multidisciplinary student teams in Level Up Lab, and conduct cutting-edge Master Thesis R&D at Lemons in the Room for standalone XR (Quest 3).
-						</p>
-						<p>
-							Whether I'm collaborating with a team or working solo, I thrive on bringing innovative ideas to life and building experiences that encourage people to explore and immerse themselves. Completing my Master's Degree in Cinema & Media Engineering at Politecnico di Torino (<strong>Expected: December 2026, 110/110 Cum Laude</strong>), I'm always excited to chat about new opportunities. Feel free to reach out!
-						</p>
-
-						<div class="about-cta-row">
-							<a href={`${baseUrl}/Federico Colombo - Resume.pdf`} download class="btn-primary">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-								<span>DOWNLOAD RESUME</span>
-							</a>
-							<a href="#contact" class="btn-secondary nav-scroll-btn">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-								<span>CONTACT ME</span>
-							</a>
-						</div>
 					</div>
 				</div>
 
-				<!-- Software & Skills Parallel Grids (Image 3 match) -->
-				<div class="capabilities-grid-split">
-					<!-- Software -->
-					<div class="cap-column">
-						<h3 class="cap-col-title">Software</h3>
-						<div class="cap-items-grid">
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 32 32" width="20" height="20"><polygon points="16 2 29 9.5 29 22.5 16 30 3 22.5 3 9.5" fill="#00599C"/><path d="M19 13.5h2v5h-2v-5zm-5.5 0h2v5h-2v-5zm-6 2.5a5 5 0 0 1 5-5h1v2h-1a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v2h-1a5 5 0 0 1-5-5v-2z" fill="#ffffff"/></svg>
-								</div>
-								<span class="cap-item-text">C++ (17/20, OpenGL)</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
-								</div>
-								<span class="cap-item-text">HLSL / GLSL / WGSL</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><path d="M12 2L2 7.8v8.4L12 22l10-5.8V7.8L12 2zm0 3.2l6.2 3.6-2.5 1.5-3.7-2.1-3.7 2.1-2.5-1.5L12 5.2zm-7 5.2l2.5 1.5v4.3L5 14.8v-4.4zm9 4.3v-4.3l2.5-1.5v4.4l-2.5 1.4z"/></svg>
-								</div>
-								<span class="cap-item-text">Unity 6 (URP, C#)</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20" fill="#ffffff"><circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="2" fill="none"/><path d="M8.5 7h2v6.5a1.5 1.5 0 0 0 3 0V7h2v6.5a3.5 3.5 0 0 1-7 0V7z"/></svg>
-								</div>
-								<span class="cap-item-text">Unreal Engine 5</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4" fill="#ea580c"/><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 15a5 5 0 1 1 5-5 5 5 0 0 1-5 5z" fill="#0284c7"/></svg>
-								</div>
-								<span class="cap-item-text">Blender & Python API</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20"><path d="M11.9 2c-4.2 0-4 1.8-4 1.8l.01 1.9h4.1v.6H6.1S2 5.8 2 10.2s3.6 4.3 3.6 4.3h1.2v-1.7s-.1-2 2-2h4.1s1.9.1 1.9-1.9V4s.3-2-2.9-2zm-2.4 1.3a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm2.6 18.7c4.2 0 4-1.8 4-1.8l-.01-1.9h-4.1v-.6h5.9s4.1.5 4.1-3.9-3.6-4.3-3.6-4.3h-1.2v1.7s.1 2-2 2h-4.1s-1.9-.1-1.9 1.9V20s-.3 2 2.9 2zm2.4-1.3a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6z" fill="#0284c7"/></svg>
-								</div>
-								<span class="cap-item-text">Python 3</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-								</div>
-								<span class="cap-item-text">RenderDoc & Nsight</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">
-									<svg viewBox="0 0 24 24" width="20" height="20" fill="#f05032"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="9" r="3"/><path d="M6 9v6M9 6h4a5 5 0 0 1 5 3" stroke="#f05032" stroke-width="2" fill="none"/></svg>
-								</div>
-								<span class="cap-item-text">Git & Git LFS</span>
-							</div>
-						</div>
+				<div class="skills-cols" aria-label="Technical stack matrix">
+					<div class="skill-col">
+						<h3 class="skill-col-title">Graphics APIs &amp; Shading</h3>
+						<ul>
+							<li>C++17 / 20 &amp; OpenGL 3.3 / 4.6</li>
+							<li>HLSL / GLSL / WGSL Compute</li>
+							<li>WebGPU (JFA SDF, Radiance, Bloom)</li>
+							<li>Deferred MRT &amp; Cook-Torrance PBR</li>
+							<li>Volumetric SDF Raymarching</li>
+						</ul>
 					</div>
-
-					<!-- Skills -->
-					<div class="cap-column">
-						<h3 class="cap-col-title">Skills</h3>
-						<div class="cap-items-grid">
-							<div class="cap-item-card">
-								<div class="cap-item-icon">⚡</div>
-								<span class="cap-item-text">Realtime Performance Optimization</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">⚙️</div>
-								<span class="cap-item-text">Low-Level Engine Architecture</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">🌐</div>
-								<span class="cap-item-text">Compute Shaders, SDFs &amp; Raymarching</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">🛠️</div>
-								<span class="cap-item-text">Procedural Content Creation & Tools</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">🥽</div>
-								<span class="cap-item-text">Standalone XR (Meta Quest 3)</span>
-							</div>
-
-							<div class="cap-item-card">
-								<div class="cap-item-icon">👥</div>
-								<span class="cap-item-text">Multidisciplinary Team Production</span>
-							</div>
-						</div>
+					<div class="skill-col">
+						<h3 class="skill-col-title">Engines &amp; DCC</h3>
+						<ul>
+							<li>Unity 6 (URP, C#, Job System)</li>
+							<li>Unreal Engine 5 (PCG, Niagara, MetaHuman)</li>
+							<li>Blender 5.3 &amp; Python API (`bpy`)</li>
+							<li>Geometry Nodes &amp; OpenUSD</li>
+							<li>DaVinci Resolve &amp; RealityCapture</li>
+						</ul>
+					</div>
+					<div class="skill-col">
+						<h3 class="skill-col-title">Profiling &amp; Tooling</h3>
+						<ul>
+							<li>RenderDoc Frame Capture Analysis</li>
+							<li>NVIDIA Nsight &amp; Snapdragon Profiler</li>
+							<li>Python 3 Pipeline Automation</li>
+							<li>Zero-Allocation C# / GC Hygiene</li>
+							<li>Git &amp; Git LFS Team Workflows</li>
+						</ul>
 					</div>
 				</div>
 			</section>
 
-			<!-- 5. CONTACT & RESUME SECTION -->
-			<section class="contact-section" id="contact">
-				<div class="contact-card">
-					<div class="contact-left">
-						<span class="section-tag">// GET IN TOUCH</span>
-						<h3>Let's Build Something Exceptional</h3>
-						<p>
-							I am actively seeking full-time opportunities as a <strong>Computer Graphics Engineer</strong> or <strong>Technical Artist</strong>. Open to on-site roles across Europe/worldwide and remote collaborations.
+			<!-- 6. CONTACT & CV FOOTER -->
+			<section class="contact-band" id="contact">
+				<div class="band-top-bar">
+					<span class="band-mono-label">05 // CONTACT &amp; DOCUMENTS</span>
+				</div>
+
+				<div class="contact-grid">
+					<div>
+						<h2 class="work-section-title">Open to full-time Graphics Engineering &amp; Technical Art roles.</h2>
+						<p class="contact-note">
+							Turin, Italy · EU Citizen (immediate right to work across Europe) · Open to relocation or remote collaborations.
 						</p>
-						<div class="contact-links-list">
-							<a href="mailto:colombofederico28@gmail.com" class="contact-link-item">
-								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-								<span>colombofederico28@gmail.com</span>
-							</a>
-							<span class="contact-link-item">
-								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-								<span>Turin, Italy • Open to Relocation</span>
-							</span>
-							<a href="https://www.linkedin.com/in/federico-colombo10" target="_blank" class="contact-link-item">
-								<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-								<span>linkedin.com/in/federico-colombo10</span>
-							</a>
-							<a href="https://github.com/federicocolombo12" target="_blank" class="contact-link-item">
-								<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
-								<span>github.com/federicocolombo12</span>
-							</a>
+						<div class="contact-links">
+							<a href="mailto:colombofederico28@gmail.com">colombofederico28@gmail.com</a>
+							<a href="https://github.com/federicocolombo12" target="_blank" rel="noopener noreferrer">github.com/federicocolombo12</a>
+							<a href="https://www.linkedin.com/in/federico-colombo10" target="_blank" rel="noopener noreferrer">linkedin.com/in/federico-colombo10</a>
 						</div>
 					</div>
 
-					<div class="contact-right">
-						<div>
-							<div class="cv-downloads-title">Curriculum Vitae Downloads</div>
-							<p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 1rem;">
-								Download updated 2026 CV formats in English and Italian:
-							</p>
-						</div>
-
-						<div class="cv-buttons-grid">
-							<a href={`${baseUrl}/Federico Colombo - Resume.pdf`} download class="btn-primary" style="font-size: 0.85rem; padding: 0.6rem 0.85rem;">
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-								<span>Resume (EN)</span>
+					<div class="cv-card">
+						<span class="band-mono-label">CV DOWNLOADS (2026)</span>
+						<div class="cv-btn-stack">
+							<a href={`${baseUrl}/Federico Colombo - Resume.pdf`} download class="btn-solid-full">
+								Resume (EN · PDF)
 							</a>
-							<a href={`${baseUrl}/Federico Colombo - Curriculum Vitae.pdf`} download class="btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 0.85rem;">
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-								<span>Curriculum Vitae (IT)</span>
+							<a href={`${baseUrl}/Federico Colombo - Curriculum Vitae.pdf`} download class="btn-outline-full">
+								Curriculum Vitae (IT · PDF)
+							</a>
+							<a href={`${baseUrl}/cv`} class="btn-outline-full">
+								Interactive Web CV &rarr;
 							</a>
 						</div>
 					</div>
@@ -2389,303 +443,247 @@ const showreelSlides = [
 			</section>
 		</main>
 
-		<!-- Floating Back To Top Button -->
-		<button class="back-to-top-btn" id="backToTopBtn" aria-label="Back to top">
-			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-				<polyline points="18 15 12 9 6 15"></polyline>
-			</svg>
-		</button>
+		<footer class="site-footer">
+			<div class="shell footer-inner">
+				<span>Federico Colombo · Turin, Italy</span>
+				<span>Graphics Engineering &amp; Technical Art Portfolio</span>
+			</div>
+		</footer>
 
-		<!-- IN-PAGE PROJECT MODAL OVERLAY (IMAGE 2 MATCH) -->
+		<!-- Floating Back To Top Button -->
+		<button type="button" class="back-to-top-btn" id="backToTopBtn" aria-label="Back to top">&uarr;</button>
+
+		<!-- IN-PAGE PROJECT MODAL -->
 		<div class="modal-overlay" id="projectModal" role="dialog" aria-modal="true" aria-hidden="true">
 			<div class="modal-box">
-				<button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">✕</button>
-				
-				<!-- Media Display & Carousel -->
-				<div class="modal-viewer-container">
-					<div class="modal-main-display">
-						<button class="viewer-arrow-btn arrow-left" id="modalArrowLeft" aria-label="Previous media">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
-						</button>
-						<button class="viewer-arrow-btn arrow-right" id="modalArrowRight" aria-label="Next media">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"></polyline></svg>
-						</button>
+				<button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">&times;</button>
 
+				<div class="modal-viewer">
+					<div class="modal-stage">
+						<button type="button" class="stage-arrow arrow-left" id="modalArrowLeft" aria-label="Previous media">&lsaquo;</button>
+						<button type="button" class="stage-arrow arrow-right" id="modalArrowRight" aria-label="Next media">&rsaquo;</button>
 						<video id="modalVideo" controls loop playsinline muted style="display: none;"></video>
-						<img id="modalImage" alt="Project preview" style="display: none;" />
+						<img id="modalImage" alt="Project media preview" style="display: none;" />
 					</div>
-
-					<!-- Thumbnail Strip Below Player -->
-					<div class="modal-thumb-strip" id="modalThumbStrip"></div>
+					<div class="modal-thumbs" id="modalThumbStrip"></div>
 				</div>
 
-				<!-- Content & Full Technical Deep Dive -->
 				<div class="modal-content">
-					<div class="modal-meta-row">
-						<span class="modal-category" id="modalCategory"></span>
-					</div>
+					<div class="modal-kicker" id="modalCategory"></div>
 					<h2 class="modal-title" id="modalTitle"></h2>
 					<div class="modal-tags" id="modalTags"></div>
-
-					<div class="modal-actions" id="modalActions">
-						<!-- Action buttons dynamically inserted -->
-					</div>
-
-					<div class="modal-body-prose" id="modalArticleBody">
-						<!-- Full technical explanation markdown rendered here -->
-					</div>
+					<div class="modal-actions" id="modalActions"></div>
+					<div class="modal-prose" id="modalArticleBody"></div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Hidden pre-rendered technical content containers for all projects -->
+		<!-- Pre-rendered MDX deep-dives -->
 		<div style="display: none;" aria-hidden="true">
-			{
-				renderedProjects.map((p) => (
-					<div id={`article-content-${p.id}`} class="stored-project-article">
-						<p.Content />
-					</div>
-				))
-			}
+			{renderedProjects.map((p) => (
+				<div id={`article-content-${p.id}`} class="stored-project-article">
+					<p.Content />
+				</div>
+			))}
 		</div>
 
-		<!-- Embedded JSON map for project media galleries -->
 		<script id="projectMediaData" type="application/json" set:html={JSON.stringify(projectMediaMap)}></script>
+		<script id="showreelData" type="application/json" set:html={JSON.stringify(showreelSlides)}></script>
 
-		<Footer />
-
-		<!-- Interactive Client Script -->
 		<script>
-			// Parse media map
+			import { initDeckViewer } from '../scripts/deck-viewer';
+			initDeckViewer();
+
 			const mediaDataEl = document.getElementById('projectMediaData');
 			const projectMediaMap = mediaDataEl ? JSON.parse(mediaDataEl.textContent || '{}') : {};
+			const reelDataEl = document.getElementById('showreelData');
+			const showreelSlides = reelDataEl ? JSON.parse(reelDataEl.textContent || '[]') : [];
 
-			// 1. Hardware-Accelerated Smooth Navigation Anchors
-			document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
-				const href = anchor.getAttribute('href');
-				if (!href || href === '#' || (href.startsWith('http') && !href.includes(window.location.hostname))) return;
-				const hash = href.includes('#') ? href.split('#')[1] : '';
-				if (!hash) return;
-				const target = document.getElementById(hash);
-				if (target) {
-					anchor.addEventListener('click', (e) => {
-						e.preventDefault();
-						const headerOffset = 70;
-						const elementPosition = target.getBoundingClientRect().top;
-						const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-						window.scrollTo({
-							top: offsetPosition,
-							behavior: 'smooth'
-						});
-						try {
-							history.pushState(null, '', '#' + hash);
-						} catch (err) {}
-					});
-				}
+			// Smooth anchor scroll
+			document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+				anchor.addEventListener('click', (e) => {
+					const href = anchor.getAttribute('href') || '';
+					const target = document.getElementById(href.slice(1));
+					if (!target) return;
+					e.preventDefault();
+					const top = target.getBoundingClientRect().top + window.scrollY - 62;
+					window.scrollTo({ top, behavior: 'smooth' });
+				});
 			});
 
-			// Back to Top Button
+			// Back to top visibility
 			const backToTopBtn = document.getElementById('backToTopBtn');
-			window.addEventListener('scroll', () => {
-				if (window.scrollY > 400) {
-					backToTopBtn?.classList.add('visible');
-				} else {
-					backToTopBtn?.classList.remove('visible');
-				}
-			}, { passive: true });
+			window.addEventListener(
+				'scroll',
+				() => {
+					backToTopBtn?.classList.toggle('visible', window.scrollY > 500);
+				},
+				{ passive: true }
+			);
 			backToTopBtn?.addEventListener('click', () => {
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			});
 
-			// 2. Hero Showreel Slideshow
-			const slides = document.querySelectorAll('.showreel-slide-media');
-			const dots = document.querySelectorAll('.showreel-dot');
-			const showreelTitle = document.getElementById('showreelTitle');
-			const showreelSub = document.getElementById('showreelSub');
-			const showreelScreen = document.getElementById('showreelScreen');
-			let currentSlide = 0;
-			let slideInterval: any = null;
+			// 1. Featured Viewport (locked 16:9 aspect-ratio box, zero layout shift)
+			const featuredVideo = document.getElementById('featuredVideo') as HTMLVideoElement | null;
+			const featuredImage = document.getElementById('featuredImage') as HTMLImageElement | null;
+			const reelKicker = document.getElementById('reelKicker');
+			const reelTitle = document.getElementById('reelTitle');
+			const reelSub = document.getElementById('reelSub');
+			const reelSummary = document.getElementById('reelSummary');
+			const reelMetricBadge = document.getElementById('reelMetricBadge');
+			const reelCounter = document.getElementById('reelCounter');
+			const reelPrevBtn = document.getElementById('reelPrevBtn');
+			const reelNextBtn = document.getElementById('reelNextBtn');
+			const inspectActiveReelBtn = document.getElementById('inspectActiveReelBtn');
+			const showreelViewport = document.getElementById('showreelViewport');
+			let activeReelIdx = 0;
 
-			function goToSlide(index: number) {
-				slides.forEach((s) => {
-					s.classList.remove('active');
-					const v = s.querySelector('video') as HTMLVideoElement;
-					if (v && !v.paused) {
-						v.pause();
-					}
-				});
-				dots.forEach((d) => d.classList.remove('active'));
-
-				currentSlide = (index + slides.length) % slides.length;
-				const activeSlide = slides[currentSlide] as HTMLElement;
-				activeSlide.classList.add('active');
-				dots[currentSlide]?.classList.add('active');
-
-				if (showreelTitle) showreelTitle.textContent = activeSlide.getAttribute('data-title') || '';
-				if (showreelSub) showreelSub.textContent = activeSlide.getAttribute('data-sub') || '';
-
-				// If slide has video, trigger play
-				const vid = activeSlide.querySelector('video') as HTMLVideoElement;
-				if (vid) {
-					vid.currentTime = 0;
-					vid.play().catch(() => {});
+			function ensureHeroVideoPlays() {
+				if (featuredVideo && featuredVideo.style.display !== 'none') {
+					featuredVideo.muted = true;
+					const p = featuredVideo.play();
+					if (p && typeof p.catch === 'function') p.catch(() => {});
 				}
 			}
 
-			function startSlideshow() {
-				slideInterval = setInterval(() => {
-					goToSlide(currentSlide + 1);
-				}, 4800);
+			ensureHeroVideoPlays();
+			featuredVideo?.addEventListener('canplay', ensureHeroVideoPlays, { once: true });
+
+			function setReelSlide(idx: number) {
+				if (!showreelSlides.length) return;
+				activeReelIdx = (idx + showreelSlides.length) % showreelSlides.length;
+				const slide = showreelSlides[activeReelIdx];
+				const numStr = String(activeReelIdx + 1).padStart(2, '0');
+				const totalStr = String(showreelSlides.length).padStart(2, '0');
+
+				if (reelKicker) reelKicker.textContent = `${numStr} / FEATURED ${slide.tag} · 2026`;
+				if (reelCounter) reelCounter.textContent = `${numStr}/${totalStr}`;
+				if (reelTitle) reelTitle.textContent = slide.title;
+				if (reelSub) reelSub.textContent = slide.sub;
+				if (reelMetricBadge) reelMetricBadge.textContent = slide.metric || slide.tag;
+
+				const matchingCard = document.querySelector(
+					`.work-card[data-id="${slide.projectId}"]`
+				) as HTMLElement | null;
+				if (reelSummary && matchingCard) {
+					reelSummary.textContent = matchingCard.getAttribute('data-desc') || '';
+				}
+
+				if (slide.video && featuredVideo && featuredImage) {
+					featuredImage.style.display = 'none';
+					featuredVideo.style.display = 'block';
+					featuredVideo.poster = slide.image || '';
+					featuredVideo.src = slide.video;
+					featuredVideo.load();
+					ensureHeroVideoPlays();
+				} else if (featuredImage && featuredVideo) {
+					featuredVideo.pause();
+					featuredVideo.style.display = 'none';
+					featuredImage.src = slide.image || '';
+					featuredImage.style.display = 'block';
+				}
 			}
 
-			function stopSlideshow() {
-				if (slideInterval) clearInterval(slideInterval);
+			reelPrevBtn?.addEventListener('click', (e) => {
+				e.stopPropagation();
+				setReelSlide(activeReelIdx - 1);
+			});
+			reelNextBtn?.addEventListener('click', (e) => {
+				e.stopPropagation();
+				setReelSlide(activeReelIdx + 1);
+			});
+
+			function openActiveReelModal() {
+				const slide = showreelSlides[activeReelIdx];
+				if (!slide) return;
+				const card = document.querySelector(
+					`.work-card[data-id="${slide.projectId}"]`
+				) as HTMLElement | null;
+				if (card) openModal(card);
 			}
 
-			dots.forEach((dot) => {
-				dot.addEventListener('click', (e) => {
-					e.stopPropagation();
-					const idx = parseInt(dot.getAttribute('data-index') || '0', 10);
-					goToSlide(idx);
-				});
-			});
+			inspectActiveReelBtn?.addEventListener('click', openActiveReelModal);
+			showreelViewport?.addEventListener('click', openActiveReelModal);
 
-			showreelScreen?.addEventListener('mouseenter', stopSlideshow);
-			showreelScreen?.addEventListener('mouseleave', startSlideshow);
-
-			// Touch swipe gestures for mobile
-			let touchStartX = 0;
-			let touchStartY = 0;
-			let isSwiping = false;
-
-			showreelScreen?.addEventListener('touchstart', (e: TouchEvent) => {
-				if (e.touches.length === 1) {
-					touchStartX = e.touches[0].clientX;
-					touchStartY = e.touches[0].clientY;
-					isSwiping = false;
-					stopSlideshow();
-				}
-			}, { passive: true });
-
-			showreelScreen?.addEventListener('touchmove', (e: TouchEvent) => {
-				if (e.touches.length === 1) {
-					const deltaX = e.touches[0].clientX - touchStartX;
-					const deltaY = e.touches[0].clientY - touchStartY;
-					if (Math.abs(deltaX) > 15 && Math.abs(deltaX) > Math.abs(deltaY)) {
-						isSwiping = true;
-					}
-				}
-			}, { passive: true });
-
-			showreelScreen?.addEventListener('touchend', (e: TouchEvent) => {
-				if (e.changedTouches.length === 1) {
-					const touchEndX = e.changedTouches[0].clientX;
-					const touchEndY = e.changedTouches[0].clientY;
-					const deltaX = touchEndX - touchStartX;
-					const deltaY = touchEndY - touchStartY;
-
-					if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
-						if (deltaX < 0) {
-							goToSlide(currentSlide + 1);
-						} else {
-							goToSlide(currentSlide - 1);
-						}
-					}
-					startSlideshow();
-				}
-			}, { passive: true });
-
-			showreelScreen?.addEventListener('click', () => {
-				if (isSwiping) {
-					isSwiping = false;
-					return;
-				}
-				const activeSlide = slides[currentSlide] as HTMLElement;
-				const projectId = activeSlide.getAttribute('data-project-id');
-				if (projectId) {
-					const card = document.querySelector(`.project-card[data-id="${projectId}"]`) as HTMLElement;
-					if (card) openModal(card);
-				}
-			});
-
-			startSlideshow();
-
-			// 3. Expand Chevron Arrow (Image 1 match)
-			const expandChevronBtn = document.getElementById('expandChevronBtn');
-			let isExpanded = false;
-
-			expandChevronBtn?.addEventListener('click', () => {
-				isExpanded = !isExpanded;
-				const hiddenCards = document.querySelectorAll('.project-card.hidden-card');
-				if (isExpanded) {
-					hiddenCards.forEach((c, idx) => {
-						const cardEl = c as HTMLElement;
-						cardEl.style.display = 'flex';
-						setTimeout(() => {
-							cardEl.classList.add('revealed');
-						}, 35 * idx + 20);
-					});
-				} else {
-					hiddenCards.forEach((c) => {
-						const cardEl = c as HTMLElement;
-						cardEl.classList.remove('revealed');
-						setTimeout(() => {
-							if (!isExpanded) cardEl.style.display = 'none';
-						}, 450);
-					});
-				}
-				expandChevronBtn.classList.toggle('expanded', isExpanded);
-			});
-
-			// Category Filter Handler
+			// 2. Work Grid Filter & Expand
 			const filterButtons = document.querySelectorAll('.filter-btn');
-			const projectCards = document.querySelectorAll('.project-card');
+			const workCards = document.querySelectorAll('.work-card');
+			const expandBtn = document.getElementById('expandGridBtn');
+			let isExpanded = false;
+			let activeCat = 'all';
+
+			function applyWorkFilter() {
+				let shownInAll = 0;
+				workCards.forEach((c) => {
+					const el = c as HTMLElement;
+					const cardCat = el.getAttribute('data-category') || '';
+					const matches = activeCat === 'all' || cardCat === activeCat;
+
+					if (!matches) {
+						el.style.display = 'none';
+						return;
+					}
+
+					if (activeCat === 'all') {
+						el.style.display = isExpanded || shownInAll < 6 ? 'flex' : 'none';
+						shownInAll++;
+					} else {
+						el.style.display = 'flex';
+					}
+				});
+
+				if (expandBtn) {
+					expandBtn.style.display = activeCat === 'all' ? 'inline-flex' : 'none';
+					expandBtn.textContent = isExpanded
+						? 'Collapse archive (top 6)'
+						: `Show all ${workCards.length} projects (${workCards.length - 6} archived)`;
+				}
+			}
 
 			filterButtons.forEach((btn) => {
 				btn.addEventListener('click', () => {
 					filterButtons.forEach((b) => b.classList.remove('active'));
 					btn.classList.add('active');
-
-					const cat = btn.getAttribute('data-category');
-					let count = 0;
-					projectCards.forEach((c) => {
-						const cardEl = c as HTMLElement;
-						const cardCat = cardEl.getAttribute('data-category');
-						const matches = cat === 'all' || cardCat === cat;
-
-						if (matches) {
-							// If filtered, show cards matching filter
-							if (cat === 'all') {
-								if (isExpanded || count < 3) {
-									cardEl.style.display = 'flex';
-									if (isExpanded) cardEl.classList.add('revealed');
-								} else {
-									cardEl.style.display = 'none';
-									cardEl.classList.remove('revealed');
-								}
-							} else {
-								cardEl.style.display = 'flex';
-								cardEl.classList.add('revealed');
-							}
-							count++;
-						} else {
-							cardEl.style.display = 'none';
-						}
-					});
-
-					// Hide chevron button if viewing specific category
-					if (expandChevronBtn) {
-						expandChevronBtn.style.display = cat === 'all' ? 'flex' : 'none';
-					}
+					activeCat = btn.getAttribute('data-category') || 'all';
+					applyWorkFilter();
 				});
 			});
 
-			// 4. In-Page Project Modal with Gallery Carousel (Image 2 match)
+			expandBtn?.addEventListener('click', () => {
+				isExpanded = !isExpanded;
+				applyWorkFilter();
+			});
+
+			document.querySelectorAll('.card-gh-corner, .card-demo-pill').forEach((link) => {
+				link.addEventListener('click', (e) => e.stopPropagation());
+			});
+
+			// 3. Experience / Education Tabs
+			const tabExpBtn = document.getElementById('tabExpBtn');
+			const tabEduBtn = document.getElementById('tabEduBtn');
+			const expList = document.getElementById('expList');
+			const eduList = document.getElementById('eduList');
+
+			tabExpBtn?.addEventListener('click', () => {
+				tabExpBtn.classList.add('active');
+				tabEduBtn?.classList.remove('active');
+				if (expList) expList.style.display = 'flex';
+				if (eduList) eduList.style.display = 'none';
+			});
+
+			tabEduBtn?.addEventListener('click', () => {
+				tabEduBtn.classList.add('active');
+				tabExpBtn?.classList.remove('active');
+				if (eduList) eduList.style.display = 'flex';
+				if (expList) expList.style.display = 'none';
+			});
+
+			// 4. Project Deep-Dive Modal
 			const modal = document.getElementById('projectModal');
 			const modalCloseBtn = document.getElementById('modalCloseBtn');
-			const modalVideo = document.getElementById('modalVideo') as HTMLVideoElement;
-			const modalImage = document.getElementById('modalImage') as HTMLImageElement;
+			const modalVideo = document.getElementById('modalVideo') as HTMLVideoElement | null;
+			const modalImage = document.getElementById('modalImage') as HTMLImageElement | null;
 			const modalArrowLeft = document.getElementById('modalArrowLeft');
 			const modalArrowRight = document.getElementById('modalArrowRight');
 			const modalThumbStrip = document.getElementById('modalThumbStrip');
@@ -2695,7 +693,7 @@ const showreelSlides = [
 			const modalActions = document.getElementById('modalActions');
 			const modalArticleBody = document.getElementById('modalArticleBody');
 
-			let currentMediaItems: Array<{ type: 'video' | 'image', url: string, thumb: string, title?: string }> = [];
+			let currentMediaItems: Array<{ type: 'video' | 'image'; url: string; thumb: string; title?: string }> = [];
 			let activeMediaIdx = 0;
 
 			function renderMediaItem(index: number) {
@@ -2703,26 +701,18 @@ const showreelSlides = [
 				activeMediaIdx = (index + currentMediaItems.length) % currentMediaItems.length;
 				const item = currentMediaItems[activeMediaIdx];
 
-				// Update Thumbnails
 				document.querySelectorAll('.modal-thumb-item').forEach((th, i) => {
-					const isActive = i === activeMediaIdx;
-					th.classList.toggle('active', isActive);
-					if (isActive && modalThumbStrip) {
-						th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-					}
+					const active = i === activeMediaIdx;
+					th.classList.toggle('active', active);
+					if (active) th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 				});
 
 				if (item.type === 'video') {
 					if (modalImage) modalImage.style.display = 'none';
 					if (modalVideo) {
-						if (item.thumb) {
-							modalVideo.poster = item.thumb;
-						}
-						modalVideo.preload = 'auto';
+						modalVideo.poster = item.thumb || '';
 						modalVideo.muted = true;
-						if (modalVideo.src !== item.url) {
-							modalVideo.src = item.url;
-						}
+						if (modalVideo.src !== item.url) modalVideo.src = item.url;
 						modalVideo.style.display = 'block';
 						modalVideo.play().catch(() => {});
 					}
@@ -2730,7 +720,6 @@ const showreelSlides = [
 					if (modalVideo) {
 						modalVideo.pause();
 						modalVideo.style.display = 'none';
-						modalVideo.poster = '';
 					}
 					if (modalImage) {
 						modalImage.src = item.url;
@@ -2739,46 +728,28 @@ const showreelSlides = [
 				}
 			}
 
-			let isModalClosing = false;
-			let closeTimer: any = null;
-
 			function closeModal() {
-				if (!modal || isModalClosing) return;
-				isModalClosing = true;
-				modal.classList.add('closing');
+				if (!modal) return;
+				modal.classList.remove('open');
 				modal.setAttribute('aria-hidden', 'true');
 				document.body.style.overflow = '';
-				
-				if (closeTimer) clearTimeout(closeTimer);
-				closeTimer = setTimeout(() => {
-					modal.classList.remove('open');
-					modal.classList.remove('closing');
-					isModalClosing = false;
-					closeTimer = null;
-					if (modalVideo) {
-						modalVideo.pause();
-						modalVideo.src = '';
-						modalVideo.style.display = 'none';
-					}
-					if (modalImage) {
-						modalImage.src = '';
-						modalImage.style.display = 'none';
-					}
-				}, 320);
+				if (modalVideo) {
+					modalVideo.pause();
+					modalVideo.src = '';
+					modalVideo.style.display = 'none';
+				}
+				if (modalImage) {
+					modalImage.src = '';
+					modalImage.style.display = 'none';
+				}
 			}
 
 			function openModal(card: HTMLElement) {
 				if (!modal) return;
-				if (closeTimer) {
-					clearTimeout(closeTimer);
-					closeTimer = null;
-				}
-				isModalClosing = false;
-				modal.classList.remove('closing');
 				const id = card.getAttribute('data-id') || '';
 				const title = card.getAttribute('data-title') || '';
-				const category = card.getAttribute('data-category') || '';
 				const defaultImg = card.getAttribute('data-image') || '';
+				const badge = card.getAttribute('data-badge') || card.getAttribute('data-category') || '';
 				const tags = (card.getAttribute('data-tags') || '').split(',').filter(Boolean);
 				const github = card.getAttribute('data-github') || '';
 				const demo = card.getAttribute('data-demo') || '';
@@ -2786,11 +757,9 @@ const showreelSlides = [
 				const raicinema = card.getAttribute('data-raicinema') || '';
 				const youtube = card.getAttribute('data-youtube') || '';
 
-				const badge = card.getAttribute('data-badge') || category;
-				if (modalTitle) modalTitle.textContent = title;
 				if (modalCategory) modalCategory.textContent = badge;
+				if (modalTitle) modalTitle.textContent = title;
 
-				// Setup Media Gallery
 				const explicitMedia = projectMediaMap[id] || [];
 				if (explicitMedia.length > 0) {
 					currentMediaItems = explicitMedia;
@@ -2800,118 +769,73 @@ const showreelSlides = [
 					currentMediaItems = [];
 				}
 
-				// Build Thumbnail Strip
 				if (modalThumbStrip) {
 					modalThumbStrip.innerHTML = '';
-					if (currentMediaItems.length > 1) {
-						modalThumbStrip.style.display = 'flex';
-						if (modalArrowLeft) modalArrowLeft.style.display = 'flex';
-						if (modalArrowRight) modalArrowRight.style.display = 'flex';
+					const hasMulti = currentMediaItems.length > 1;
+					modalThumbStrip.style.display = hasMulti ? 'flex' : 'none';
+					if (modalArrowLeft) modalArrowLeft.style.display = hasMulti ? 'flex' : 'none';
+					if (modalArrowRight) modalArrowRight.style.display = hasMulti ? 'flex' : 'none';
 
-						currentMediaItems.forEach((media, idx) => {
-							const thumbBtn = document.createElement('div');
-							thumbBtn.className = `modal-thumb-item ${idx === 0 ? 'active' : ''}`;
-							thumbBtn.innerHTML = `
-								<img src="${media.thumb}" alt="Thumbnail ${idx + 1}" />
-								${media.type === 'video' ? '<span class="thumb-video-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span>' : ''}
-							`;
-							thumbBtn.addEventListener('click', () => renderMediaItem(idx));
-							modalThumbStrip.appendChild(thumbBtn);
+					if (hasMulti) {
+						currentMediaItems.forEach((media, i) => {
+							const btn = document.createElement('button');
+							btn.type = 'button';
+							btn.className = `modal-thumb-item ${i === 0 ? 'active' : ''}`;
+							btn.innerHTML = `<img src="${media.thumb}" alt="Media ${i + 1}" />`;
+							btn.addEventListener('click', () => renderMediaItem(i));
+							modalThumbStrip.appendChild(btn);
 						});
-					} else {
-						modalThumbStrip.style.display = 'none';
-						if (modalArrowLeft) modalArrowLeft.style.display = 'none';
-						if (modalArrowRight) modalArrowRight.style.display = 'none';
 					}
 				}
 
-				// Tags Handling
 				if (modalTags) {
 					modalTags.innerHTML = '';
 					tags.forEach((tag) => {
 						const span = document.createElement('span');
-						span.className = 'tech-badge';
+						span.className = 'modal-tag';
 						span.textContent = tag.trim();
 						modalTags.appendChild(span);
 					});
 				}
 
-				// Actions Handling
 				if (modalActions) {
 					modalActions.innerHTML = '';
-
-					if (demo) {
-						const btn = document.createElement('a');
-						btn.href = demo;
-						btn.target = '_blank';
-						btn.rel = 'noopener noreferrer';
-						btn.className = 'btn-secondary';
-						btn.style.borderColor = 'rgba(56, 189, 248, 0.55)';
-						btn.style.background = 'rgba(56, 189, 248, 0.14)';
-						btn.style.color = '#38bdf8';
-						btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Launch Live Demo</span>`;
-						modalActions.appendChild(btn);
-					}
-
-					if (github) {
-						const btn = document.createElement('a');
-						btn.href = github;
-						btn.target = '_blank';
-						btn.className = 'btn-secondary';
-						btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg><span>GitHub Source</span>`;
-						modalActions.appendChild(btn);
-					}
-
-					if (itch) {
-						const btn = document.createElement('a');
-						btn.href = itch;
-						btn.target = '_blank';
-						btn.className = 'btn-secondary';
-						btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play on Itch.io</span>`;
-						modalActions.appendChild(btn);
-					}
-
-					if (raicinema) {
-						const btn = document.createElement('a');
-						btn.href = raicinema;
-						btn.target = '_blank';
-						btn.className = 'btn-secondary';
-						btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path></svg><span>Rai Cinema Channel</span>`;
-						modalActions.appendChild(btn);
-					}
-
-					if (youtube) {
-						const btn = document.createElement('a');
-						btn.href = youtube;
-						btn.target = '_blank';
-						btn.className = 'btn-secondary';
-						btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Watch Video</span>`;
-						modalActions.appendChild(btn);
-					}
+					const appendLink = (href: string, label: string, solid = false) => {
+						const a = document.createElement('a');
+						a.href = href;
+						a.target = '_blank';
+						a.rel = 'noopener noreferrer';
+						a.className = solid ? 'btn-solid-inline' : 'btn-outline-inline';
+						a.textContent = label;
+						modalActions.appendChild(a);
+					};
+					if (demo) appendLink(demo, 'Launch Live Demo', true);
+					if (github) appendLink(github, 'GitHub Source');
+					if (itch) appendLink(itch, 'Play on Itch.io');
+					if (raicinema) appendLink(raicinema, 'Rai Cinema Channel');
+					if (youtube) appendLink(youtube, 'Watch Video');
 				}
 
-				// Inject Full Technical Deep Dive Article directly in the modal!
 				if (modalArticleBody) {
-					const storedArticle = document.getElementById(`article-content-${id}`);
-					if (storedArticle) {
-						modalArticleBody.innerHTML = storedArticle.innerHTML;
-					} else {
-						modalArticleBody.innerHTML = `<p>${card.getAttribute('data-desc') || ''}</p>`;
-					}
+					const stored = document.getElementById(`article-content-${id}`);
+					modalArticleBody.innerHTML = stored
+						? stored.innerHTML
+						: `<p>${card.getAttribute('data-desc') || ''}</p>`;
 				}
 
-				// Launch modal opening transition immediately
 				modal.classList.add('open');
 				modal.setAttribute('aria-hidden', 'false');
 				document.body.style.overflow = 'hidden';
-
-				// Defer media load to the next animation frame so opening is instantly responsive
-				requestAnimationFrame(() => {
-					renderMediaItem(0);
-				});
+				requestAnimationFrame(() => renderMediaItem(0));
 			}
 
-			// Modal Arrow Clicks
+			workCards.forEach((c) => {
+				c.addEventListener('click', () => openModal(c as HTMLElement));
+			});
+			modalCloseBtn?.addEventListener('click', closeModal);
+			modal?.addEventListener('click', (e) => {
+				if (e.target === modal) closeModal();
+			});
 			modalArrowLeft?.addEventListener('click', (e) => {
 				e.stopPropagation();
 				renderMediaItem(activeMediaIdx - 1);
@@ -2920,83 +844,1133 @@ const showreelSlides = [
 				e.stopPropagation();
 				renderMediaItem(activeMediaIdx + 1);
 			});
-
-			// Modal Main Media Touch Swipe
-			const modalMainDisplay = document.querySelector('.modal-main-display');
-			let modalTouchStartX = 0;
-			let modalTouchStartY = 0;
-
-			modalMainDisplay?.addEventListener('touchstart', (e: any) => {
-				if (e.touches && e.touches.length === 1) {
-					modalTouchStartX = e.touches[0].clientX;
-					modalTouchStartY = e.touches[0].clientY;
-				}
-			}, { passive: true });
-
-			modalMainDisplay?.addEventListener('touchend', (e: any) => {
-				if (e.changedTouches && e.changedTouches.length === 1) {
-					const deltaX = e.changedTouches[0].clientX - modalTouchStartX;
-					const deltaY = e.changedTouches[0].clientY - modalTouchStartY;
-					if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
-						if (deltaX < 0) {
-							renderMediaItem(activeMediaIdx + 1);
-						} else {
-							renderMediaItem(activeMediaIdx - 1);
-						}
-					}
-				}
-			}, { passive: true });
-
-			// Attach project card clicks
-			document.querySelectorAll('.project-card').forEach((card) => {
-				card.addEventListener('click', () => {
-					openModal(card as HTMLElement);
-				});
-			});
-
-			modalCloseBtn?.addEventListener('click', closeModal);
-
-			modal?.addEventListener('click', (e) => {
-				if (e.target === modal) {
-					closeModal();
-				}
-			});
-
 			document.addEventListener('keydown', (e) => {
-				if (e.key === 'Escape' && modal?.classList.contains('open')) {
-					closeModal();
-				}
-				if (modal?.classList.contains('open')) {
-					if (e.key === 'ArrowLeft') renderMediaItem(activeMediaIdx - 1);
-					if (e.key === 'ArrowRight') renderMediaItem(activeMediaIdx + 1);
-				}
+				if (!modal?.classList.contains('open')) return;
+				if (e.key === 'Escape') closeModal();
+				if (e.key === 'ArrowLeft') renderMediaItem(activeMediaIdx - 1);
+				if (e.key === 'ArrowRight') renderMediaItem(activeMediaIdx + 1);
 			});
-
-			// Slide Deck Interactive Navigation (Universal)
-			import { initDeckViewer } from '../scripts/deck-viewer';
-			initDeckViewer();
-
-			// 5. Experience vs Education Toggle Handler
-			const tabExpBtn = document.getElementById('tabExpBtn');
-			const tabEduBtn = document.getElementById('tabEduBtn');
-			const expList = document.getElementById('expList');
-			const eduList = document.getElementById('eduList');
-
-			if (tabExpBtn && tabEduBtn && expList && eduList) {
-				tabExpBtn.addEventListener('click', () => {
-					tabExpBtn.classList.add('active');
-					tabEduBtn.classList.remove('active');
-					expList.style.display = 'flex';
-					eduList.style.display = 'none';
-				});
-
-				tabEduBtn.addEventListener('click', () => {
-					tabEduBtn.classList.add('active');
-					tabExpBtn.classList.remove('active');
-					eduList.style.display = 'flex';
-					expList.style.display = 'none';
-				});
-			}
 		</script>
+
+		<style is:global>
+			:root {
+				--max-w: 1200px;
+				--radius: 3px;
+				--bg: #131416;
+				--surface: #181a1e;
+				--surface-2: #202329;
+				--ink: #eceae4;
+				--ink-2: #a9a69e;
+				--muted: #767a84;
+				--border: #272a32;
+				--border-strong: #3a3f4b;
+				--accent: #e09f3e;
+				--accent-ink: #131416;
+				--accent-soft: rgba(224, 159, 62, 0.12);
+				--font-display: 'Instrument Serif', Georgia, serif;
+				--font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+				--font-mono: 'IBM Plex Mono', monospace;
+				color-scheme: dark;
+			}
+
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			/* High specificity beats injected style tag from thesis-medical-xr.mdx */
+			html.editorial-dark body {
+				margin: 0;
+				background: var(--bg) !important;
+				background-color: var(--bg) !important;
+				background-image: none !important;
+				color: var(--ink);
+				font-family: var(--font-sans);
+				font-size: 15px;
+				line-height: 1.55;
+				-webkit-font-smoothing: antialiased;
+			}
+
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			button {
+				font: inherit;
+				color: inherit;
+				background: none;
+				border: none;
+				cursor: pointer;
+			}
+
+			img,
+			video {
+				display: block;
+				max-width: 100%;
+			}
+
+			.shell {
+				width: 100%;
+				max-width: var(--max-w);
+				margin: 0 auto;
+				padding-left: 28px;
+				padding-right: 28px;
+			}
+
+			/* =========================================================
+			   HEADER
+			   ========================================================= */
+			.site-header {
+				position: sticky;
+				top: 0;
+				z-index: 40;
+				background: rgba(19, 20, 22, 0.92);
+				backdrop-filter: blur(8px);
+				border-bottom: 1px solid var(--border);
+			}
+
+			.header-inner {
+				height: 56px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 20px;
+			}
+
+			.brand-cluster {
+				display: flex;
+				align-items: baseline;
+				gap: 14px;
+			}
+
+			.brand-name {
+				font-family: var(--font-display);
+				font-size: 21px;
+				font-weight: 400;
+				letter-spacing: -0.01em;
+			}
+
+			.brand-role {
+				font-family: var(--font-mono);
+				font-size: 10.5px;
+				letter-spacing: 0.06em;
+				color: var(--muted);
+			}
+
+			.nav-links {
+				display: flex;
+				align-items: center;
+				gap: 24px;
+				font-size: 13.5px;
+				color: var(--ink-2);
+			}
+
+			.nav-links a:hover {
+				color: var(--ink);
+			}
+
+			.nav-cv-btn {
+				padding: 6px 13px;
+				border-radius: 2px;
+				background: var(--accent);
+				color: var(--accent-ink) !important;
+				font-family: var(--font-mono);
+				font-size: 11.5px;
+				font-weight: 500;
+				letter-spacing: 0.04em;
+			}
+
+			/* =========================================================
+			   1. COMPACT ASYMMETRIC HERO
+			   ========================================================= */
+			.hero-band {
+				padding: 28px 0 24px;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.hero-eyebrow {
+				margin: 0 0 10px;
+				font-family: var(--font-mono);
+				font-size: 10.5px;
+				letter-spacing: 0.08em;
+				color: var(--accent);
+			}
+
+			.hero-split {
+				display: grid;
+				grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.95fr);
+				gap: 40px;
+				align-items: end;
+			}
+
+			.hero-headline {
+				margin: 0;
+				font-family: var(--font-display);
+				font-weight: 400;
+				font-size: clamp(2.85rem, 4.8vw, 3.85rem);
+				line-height: 1.0;
+				letter-spacing: -0.015em;
+				color: var(--ink);
+			}
+
+			.hero-headline em {
+				font-style: italic;
+				color: var(--accent);
+			}
+
+			.hero-bio-col {
+				padding-bottom: 4px;
+			}
+
+			.hero-lead {
+				margin: 0 0 14px;
+				font-size: 14.5px;
+				line-height: 1.55;
+				color: var(--ink-2);
+			}
+
+			.hero-inline-links {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 18px;
+				font-family: var(--font-mono);
+				font-size: 12px;
+			}
+
+			.hero-inline-links a {
+				border-bottom: 1px solid var(--border-strong);
+				padding-bottom: 2px;
+				transition: color 0.15s ease, border-color 0.15s ease;
+			}
+
+			.hero-inline-links a:hover {
+				color: var(--accent);
+				border-color: var(--accent);
+			}
+
+			.hero-link-accent {
+				color: var(--accent);
+				border-color: var(--accent) !important;
+			}
+
+			/* =========================================================
+			   2. FEATURED SHOWCASE (INVARIANT 16:9 GEOMETRY)
+			   ========================================================= */
+			.featured-band {
+				padding: 26px 0 30px;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.featured-grid {
+				display: grid;
+				grid-template-columns: minmax(0, 1.28fr) minmax(300px, 0.92fr);
+				gap: 32px;
+				align-items: center;
+			}
+
+			.featured-media-frame {
+				position: relative;
+				width: 100%;
+				aspect-ratio: 16 / 9;
+				background: #060708;
+				overflow: hidden;
+				cursor: pointer;
+				border-radius: var(--radius);
+				border: 1px solid var(--border);
+			}
+
+			.featured-media-frame video,
+			.featured-media-frame img {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				background: #060708;
+			}
+
+			.featured-telemetry {
+				position: absolute;
+				left: 12px;
+				bottom: 12px;
+				z-index: 2;
+				padding: 4px 10px;
+				border-radius: 2px;
+				background: rgba(14, 15, 18, 0.86);
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				color: #eceae4;
+				font-family: var(--font-mono);
+				font-size: 11px;
+			}
+
+			.featured-info-col {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				min-height: 280px;
+				padding: 4px 0;
+			}
+
+			.featured-kicker-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 10px;
+				margin-bottom: 10px;
+			}
+
+			.featured-kicker {
+				font-family: var(--font-mono);
+				font-size: 10.5px;
+				letter-spacing: 0.06em;
+				color: var(--accent);
+			}
+
+			.reel-stepper {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--muted);
+			}
+
+			.reel-stepper button {
+				width: 22px;
+				height: 22px;
+				border: 1px solid var(--border);
+				border-radius: 2px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--ink-2);
+			}
+
+			.reel-stepper button:hover {
+				border-color: var(--accent);
+				color: var(--accent);
+			}
+
+			.featured-title {
+				margin: 0 0 10px;
+				font-family: var(--font-display);
+				font-weight: 400;
+				font-size: clamp(1.85rem, 2.6vw, 2.3rem);
+				line-height: 1.1;
+				color: var(--ink);
+			}
+
+			.featured-summary {
+				margin: 0;
+				font-size: 14.5px;
+				line-height: 1.55;
+				color: var(--ink-2);
+				display: -webkit-box;
+				-webkit-line-clamp: 4;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+
+			.featured-footer-bar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 12px;
+				margin-top: 20px;
+				padding-top: 12px;
+				border-top: 1px solid var(--border);
+			}
+
+			.featured-stack {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--muted);
+			}
+
+			.featured-cta-link {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				color: var(--accent);
+				flex-shrink: 0;
+			}
+
+			.featured-cta-link:hover {
+				text-decoration: underline;
+			}
+
+			/* =========================================================
+			   3. SELECTED WORKS GRID
+			   ========================================================= */
+			.work-band {
+				padding: 28px 0 48px;
+			}
+
+			.work-header-row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				justify-content: space-between;
+				gap: 16px;
+				margin-bottom: 20px;
+			}
+
+			.work-section-title {
+				margin: 0;
+				font-family: var(--font-display);
+				font-weight: 400;
+				font-size: clamp(1.65rem, 2.4vw, 2.1rem);
+				color: var(--ink);
+			}
+
+			.filter-tabs {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 16px;
+			}
+
+			.filter-btn {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				color: var(--muted);
+				padding-bottom: 3px;
+				border-bottom: 1.5px solid transparent;
+				transition: color 0.12s ease, border-color 0.12s ease;
+			}
+
+			.filter-btn:hover {
+				color: var(--ink);
+			}
+
+			.filter-btn.active {
+				color: var(--ink);
+				border-bottom-color: var(--accent);
+			}
+
+			.work-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 24px;
+			}
+
+			.work-card {
+				display: flex;
+				flex-direction: column;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				overflow: hidden;
+				cursor: pointer;
+				transition: transform 0.16s ease, border-color 0.16s ease;
+			}
+
+			.work-card:hover {
+				border-color: var(--border-strong);
+				transform: translateY(-2px);
+			}
+
+			.card-thumb {
+				position: relative;
+				aspect-ratio: 16 / 9;
+				background: #0d0e11;
+				border-bottom: 1px solid var(--border);
+				overflow: hidden;
+			}
+
+			.card-thumb img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.28s ease;
+			}
+
+			.work-card:hover .card-thumb img {
+				transform: scale(1.025);
+			}
+
+			.card-idx {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				padding: 2px 7px;
+				border-radius: 2px;
+				background: rgba(19, 20, 22, 0.85);
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				font-family: var(--font-mono);
+				font-size: 10.5px;
+				color: #eceae4;
+			}
+
+			.card-gh-corner {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				width: 26px;
+				height: 26px;
+				border-radius: 50%;
+				background: rgba(19, 20, 22, 0.86);
+				border: 1px solid rgba(255, 255, 255, 0.18);
+				color: #eceae4;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: border-color 0.12s ease, color 0.12s ease;
+			}
+
+			.card-gh-corner:hover {
+				border-color: var(--accent);
+				color: var(--accent);
+			}
+
+			.card-body {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				padding: 16px 18px;
+			}
+
+			.card-cat {
+				font-family: var(--font-mono);
+				font-size: 10.5px;
+				letter-spacing: 0.05em;
+				color: var(--accent);
+				margin-bottom: 4px;
+			}
+
+			.card-title {
+				margin: 0 0 8px;
+				font-family: 'Instrument Serif', Georgia, serif;
+				font-weight: 400;
+				font-size: 21px;
+				line-height: 1.15;
+				color: var(--ink);
+			}
+
+			.card-desc {
+				margin: 0 0 14px;
+				font-size: 13px;
+				line-height: 1.5;
+				color: var(--ink-2);
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+
+			.card-foot {
+				margin-top: auto;
+				padding-top: 10px;
+				border-top: 1px solid var(--border);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 10px;
+				font-family: var(--font-mono);
+				font-size: 10.5px;
+				color: var(--muted);
+			}
+
+			.card-demo-pill {
+				color: var(--accent);
+				flex-shrink: 0;
+			}
+
+			.expand-row {
+				margin-top: 28px;
+				display: flex;
+				justify-content: center;
+			}
+
+			.expand-btn {
+				padding: 9px 18px;
+				border: 1px solid var(--border-strong);
+				border-radius: var(--radius);
+				font-family: var(--font-mono);
+				font-size: 12px;
+				color: var(--ink);
+				transition: border-color 0.12s ease, color 0.12s ease;
+			}
+
+			.expand-btn:hover {
+				border-color: var(--accent);
+				color: var(--accent);
+			}
+
+			/* =========================================================
+			   4, 5, 6. BACKGROUND, ABOUT, CONTACT
+			   ========================================================= */
+			.experience-band,
+			.about-band,
+			.contact-band {
+				padding: 36px 0 48px;
+			}
+
+			.band-top-bar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 12px;
+				padding-bottom: 12px;
+				margin-bottom: 24px;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.band-mono-label {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				letter-spacing: 0.06em;
+				color: var(--muted);
+			}
+
+			.tab-switch-inline {
+				display: inline-flex;
+				gap: 6px;
+			}
+
+			.tab-btn {
+				padding: 4px 10px;
+				border: 1px solid var(--border);
+				border-radius: 2px;
+				font-family: var(--font-mono);
+				font-size: 11.5px;
+				color: var(--ink-2);
+			}
+
+			.tab-btn.active {
+				border-color: var(--accent);
+				background: var(--accent-soft);
+				color: var(--accent);
+			}
+
+			.timeline-rows {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.timeline-row {
+				display: grid;
+				grid-template-columns: 260px minmax(0, 1fr);
+				gap: 28px;
+				padding: 18px 0;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.tl-left {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+			}
+
+			.tl-date {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				color: var(--accent);
+			}
+
+			.tl-org {
+				font-size: 13px;
+				color: var(--muted);
+			}
+
+			.tl-role {
+				margin: 0 0 6px;
+				font-size: 16px;
+				font-weight: 600;
+				color: var(--ink);
+			}
+
+			.tl-bullets {
+				margin: 0;
+				padding-left: 18px;
+				color: var(--ink-2);
+				font-size: 14px;
+			}
+
+			.tl-bullets li + li {
+				margin-top: 4px;
+			}
+
+			.about-split {
+				display: grid;
+				grid-template-columns: 180px minmax(0, 1fr);
+				gap: 30px;
+				margin-bottom: 28px;
+				align-items: start;
+			}
+
+			.portrait-box {
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				overflow: hidden;
+			}
+
+			.portrait-box img {
+				width: 100%;
+				aspect-ratio: 1 / 1;
+				object-fit: cover;
+				filter: grayscale(18%);
+			}
+
+			.bio-copy h2 {
+				margin-bottom: 12px;
+			}
+
+			.bio-copy p {
+				margin: 0 0 10px;
+				max-width: 66ch;
+				color: var(--ink-2);
+			}
+
+			.skills-cols {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 20px;
+			}
+
+			.skill-col {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 16px 18px;
+			}
+
+			.skill-col-title {
+				margin: 0 0 10px;
+				font-family: var(--font-mono);
+				font-size: 11.5px;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				color: var(--accent);
+			}
+
+			.skill-col ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				font-size: 13.5px;
+				color: var(--ink-2);
+			}
+
+			.skill-col li {
+				padding: 5px 0;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.skill-col li:last-child {
+				border-bottom: none;
+				padding-bottom: 0;
+			}
+
+			.contact-grid {
+				display: grid;
+				grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.85fr);
+				gap: 32px;
+			}
+
+			.contact-note {
+				margin: 10px 0 16px;
+				color: var(--ink-2);
+				max-width: 56ch;
+			}
+
+			.contact-links {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px 22px;
+				font-family: var(--font-mono);
+				font-size: 12px;
+			}
+
+			.contact-links a {
+				border-bottom: 1px solid var(--border-strong);
+				padding-bottom: 2px;
+			}
+
+			.contact-links a:hover {
+				color: var(--accent);
+				border-color: var(--accent);
+			}
+
+			.cv-card {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 18px;
+			}
+
+			.cv-btn-stack {
+				margin-top: 12px;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+
+			.btn-solid-full,
+			.btn-outline-full,
+			.btn-solid-inline,
+			.btn-outline-inline {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 9px 15px;
+				border-radius: 2px;
+				font-size: 13px;
+				font-weight: 500;
+			}
+
+			.btn-solid-full,
+			.btn-solid-inline {
+				background: var(--accent);
+				color: var(--accent-ink);
+				border: 1px solid var(--accent);
+			}
+
+			.btn-outline-full,
+			.btn-outline-inline {
+				border: 1px solid var(--border-strong);
+				color: var(--ink);
+			}
+
+			.btn-solid-full,
+			.btn-outline-full {
+				width: 100%;
+			}
+
+			.site-footer {
+				border-top: 1px solid var(--border);
+				padding: 20px 0;
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--muted);
+			}
+
+			.footer-inner {
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				gap: 10px;
+			}
+
+			.back-to-top-btn {
+				position: fixed;
+				right: 22px;
+				bottom: 22px;
+				z-index: 35;
+				width: 36px;
+				height: 36px;
+				border-radius: 2px;
+				border: 1px solid var(--border-strong);
+				background: var(--surface);
+				color: var(--ink);
+				font-family: var(--font-mono);
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.18s ease, border-color 0.15s ease;
+			}
+
+			.back-to-top-btn.visible {
+				opacity: 1;
+				pointer-events: auto;
+			}
+
+			.back-to-top-btn:hover {
+				border-color: var(--accent);
+				color: var(--accent);
+			}
+
+			/* =========================================================
+			   MODAL
+			   ========================================================= */
+			.modal-overlay {
+				position: fixed;
+				inset: 0;
+				z-index: 100;
+				background: rgba(12, 13, 15, 0.8);
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+			}
+
+			.modal-overlay.open {
+				display: flex;
+			}
+
+			.modal-box {
+				position: relative;
+				width: 100%;
+				max-width: 940px;
+				max-height: 90vh;
+				overflow-y: auto;
+				background: var(--bg);
+				border: 1px solid var(--border-strong);
+				border-radius: var(--radius);
+				color: var(--ink);
+			}
+
+			.modal-close-btn {
+				position: sticky;
+				top: 12px;
+				float: right;
+				margin: 12px 12px 0 0;
+				z-index: 10;
+				width: 32px;
+				height: 32px;
+				border: 1px solid var(--border-strong);
+				background: var(--bg);
+				color: var(--ink);
+				font-size: 20px;
+				line-height: 1;
+			}
+
+			.modal-viewer {
+				background: #060708;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.modal-stage {
+				position: relative;
+				aspect-ratio: 16 / 9;
+				max-height: 52vh;
+				margin: 0 auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.modal-stage video,
+			.modal-stage img {
+				max-width: 100%;
+				max-height: 52vh;
+				object-fit: contain;
+			}
+
+			.stage-arrow {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				z-index: 4;
+				width: 36px;
+				height: 36px;
+				border-radius: 50%;
+				background: rgba(19, 20, 22, 0.8);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				color: #fff;
+				font-size: 20px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.stage-arrow.arrow-left {
+				left: 12px;
+			}
+
+			.stage-arrow.arrow-right {
+				right: 12px;
+			}
+
+			.modal-thumbs {
+				display: flex;
+				gap: 8px;
+				padding: 10px 14px;
+				overflow-x: auto;
+				background: var(--surface);
+				border-top: 1px solid var(--border);
+			}
+
+			.modal-thumb-item {
+				width: 80px;
+				height: 46px;
+				flex-shrink: 0;
+				padding: 0;
+				border: 2px solid transparent;
+				opacity: 0.65;
+			}
+
+			.modal-thumb-item.active {
+				border-color: var(--accent);
+				opacity: 1;
+			}
+
+			.modal-thumb-item img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.modal-content {
+				padding: 24px 28px 32px;
+			}
+
+			.modal-kicker {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				color: var(--accent);
+				margin-bottom: 4px;
+			}
+
+			.modal-title {
+				margin: 0 0 12px;
+				font-family: var(--font-display);
+				font-weight: 400;
+				font-size: clamp(1.5rem, 2.5vw, 2rem);
+			}
+
+			.modal-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 6px;
+				margin-bottom: 16px;
+			}
+
+			.modal-tag {
+				font-family: var(--font-mono);
+				font-size: 11px;
+				padding: 2px 8px;
+				border: 1px solid var(--border);
+				color: var(--ink-2);
+			}
+
+			.modal-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-bottom: 20px;
+			}
+
+			.modal-prose {
+				font-size: 15px;
+				line-height: 1.65;
+				color: var(--ink-2);
+			}
+
+			.modal-prose h2,
+			.modal-prose h3,
+			.modal-prose h4 {
+				color: var(--ink);
+				margin: 1.3em 0 0.5em;
+			}
+
+			.modal-prose pre,
+			.modal-prose code {
+				font-family: var(--font-mono);
+				font-size: 13px;
+			}
+
+			.modal-prose pre {
+				padding: 14px;
+				border: 1px solid var(--border);
+				overflow-x: auto;
+			}
+
+			.modal-prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1em 0;
+				font-size: 13.5px;
+			}
+
+			.modal-prose th,
+			.modal-prose td {
+				border: 1px solid var(--border);
+				padding: 8px 10px;
+				text-align: left;
+			}
+
+			.modal-prose .deck-viewer-container {
+				border: 1px solid var(--border);
+				overflow: hidden;
+				margin: 1.2em 0;
+				background: var(--surface);
+			}
+
+			.modal-prose .deck-main-frame {
+				position: relative;
+			}
+
+			.modal-prose .deck-slide-img {
+				width: 100%;
+			}
+
+			.modal-prose .deck-nav-btn {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				background: rgba(19, 20, 22, 0.8);
+				color: #fff;
+				padding: 8px 12px;
+			}
+
+			.modal-prose .deck-prev {
+				left: 10px;
+			}
+
+			.modal-prose .deck-next {
+				right: 10px;
+			}
+
+			.modal-prose .deck-footer-bar {
+				padding: 8px 12px;
+				font-family: var(--font-mono);
+				font-size: 12px;
+				display: flex;
+				justify-content: space-between;
+				color: var(--ink-2);
+			}
+
+			/* =========================================================
+			   RESPONSIVE
+			   ========================================================= */
+			@media (max-width: 960px) {
+				.hero-split,
+				.featured-grid,
+				.contact-grid {
+					grid-template-columns: 1fr;
+					gap: 20px;
+				}
+
+				.featured-info-col {
+					min-height: auto;
+				}
+
+				.work-grid,
+				.skills-cols {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+
+				.timeline-row {
+					grid-template-columns: 1fr;
+					gap: 6px;
+				}
+			}
+
+			@media (max-width: 640px) {
+				.shell {
+					padding-left: 16px;
+					padding-right: 16px;
+				}
+
+				.brand-role,
+				.nav-links a:not(.nav-cv-btn) {
+					display: none;
+				}
+
+				.work-grid,
+				.skills-cols,
+				.about-split {
+					grid-template-columns: 1fr;
+				}
+
+				.portrait-box {
+					max-width: 160px;
+				}
+			}
+		</style>
 	</body>
 </html>
