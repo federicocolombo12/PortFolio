@@ -158,10 +158,10 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			.cv-avatar {
 				width: 86px;
 				height: 86px;
-				border-radius: 50%;
 				object-fit: cover;
-				border: 2.5px solid rgba(255, 255, 255, 0.9);
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+				background: transparent;
+				border: none;
+				box-shadow: none;
 			}
 
 			/* ----------------------------------------------------
@@ -333,6 +333,12 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					size: A4 portrait;
 					margin: 0;
 				}
+				* {
+					font-family: Arial, Helvetica, sans-serif !important;
+					font-variant-ligatures: none !important;
+					font-feature-settings: 'liga' 0, 'clig' 0, 'calt' 0 !important;
+					letter-spacing: normal !important;
+				}
 				html, body {
 					width: 210mm !important;
 					height: 297mm !important;
@@ -355,6 +361,19 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					page-break-after: avoid !important;
 					page-break-inside: avoid !important;
 					break-inside: avoid !important;
+				}
+				.entry-bullets {
+					list-style: disc !important;
+					padding-left: 13px !important;
+				}
+				.entry-bullets li {
+					position: static !important;
+					padding-left: 0 !important;
+					text-align: left !important;
+				}
+				.entry-bullets li::before {
+					content: none !important;
+					display: none !important;
 				}
 			}
 
@@ -394,6 +413,9 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			<a href={`${baseUrl}/Federico Colombo - Resume.pdf`} target="_blank" rel="noopener noreferrer">
 				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
 				<span>Print PDF</span>
+			</a>
+			<a href={`${baseUrl}/Federico Colombo - Resume (Standard).pdf`} download="Federico_Colombo_Resume_ATS.pdf">
+				<span>Download ATS PDF (1-Page)</span>
 			</a>
 			<a href={`${baseUrl}/cv-it`}>🇮🇹 Versione Italiana</a>
 			<a href={baseUrl}>← Back to Portfolio</a>
@@ -437,7 +459,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 				</div>
 
 				<div class="cv-avatar-wrap">
-					<img src={`${baseUrl}/profile.jpeg`} alt="Federico Colombo" class="cv-avatar" />
+					<img src={`${baseUrl}/profile-circle.png`} alt="Federico Colombo" class="cv-avatar" />
 				</div>
 			</header>
 
@@ -448,7 +470,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					<!-- WORK EXPERIENCE -->
 					<div>
 						<div class="section-heading">
-							<span class="section-heading-accent">💼</span>
+							<span class="section-heading-accent">//</span>
 							<span>Work Experience</span>
 						</div>
 
@@ -500,21 +522,21 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 							</div>
 							<div class="entry-sub">Politecnico di Torino &bull; <span class="loc">Turin, Italy</span></div>
 							<ul class="entry-bullets">
-								<li>Tutored 60+ engineering students in UI/UX principles and frontend programming, achieving a 95% lab submission pass rate.</li>
-								<li>Authored technical documentation and comprehensive instructional modules to improve laboratory comprehension.</li>
+								<li>Mentored 60+ engineering students in UI/UX architecture, frontend performance optimization, and structured debugging workflows during weekly lab sessions.</li>
+								<li>Authored technical guides, practical exercises, and documentation to help students master new tools efficiently.</li>
 							</ul>
 						</div>
 
 						<!-- RKH SRL -->
 						<div class="entry-block">
 							<div class="entry-header">
-								<h2 class="entry-title">Video Artist & Post-Production Specialist</h2>
+								<h2 class="entry-title">Video Artist & Technical Camera Operator</h2>
 								<span class="entry-date">09/2023 – 06/2024</span>
 							</div>
 							<div class="entry-sub">RKH SRL &bull; <span class="loc">Turin, Italy</span></div>
 							<ul class="entry-bullets">
-								<li>Operated cinema camera systems (RED, Blackmagic 6K) across 12+ commercial productions, coordinating multi-point lighting setups.</li>
-								<li>Managed DaVinci Resolve post-production workflows, accelerating corporate media turnaround timelines by 25%.</li>
+								<li>Managed camera tracking, plate preparation, and studio lighting grids with cinema camera systems (RED, Blackmagic) for corporate and broadcast media productions.</li>
+								<li>Maintained digital asset workflows and color grading pipelines in DaVinci Resolve (ACES/Rec.709).</li>
 							</ul>
 						</div>
 					</div>
@@ -522,7 +544,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					<!-- EDUCATION -->
 					<div>
 						<div class="section-heading">
-							<span class="section-heading-accent">🎓</span>
+							<span class="section-heading-accent">//</span>
 							<span>Education</span>
 						</div>
 
@@ -555,7 +577,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					<!-- CORE COMPETENCIES -->
 					<div>
 						<div class="section-heading">
-							<span class="section-heading-accent">⚡</span>
+							<span class="section-heading-accent">//</span>
 							<span>Core Competencies</span>
 						</div>
 
@@ -583,7 +605,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					<!-- SOFTWARE & TOOLS WITH BRAND SVG ICONS -->
 					<div>
 						<div class="section-heading">
-							<span class="section-heading-accent">🛠️</span>
+							<span class="section-heading-accent">//</span>
 							<span>Software & Tools</span>
 						</div>
 
@@ -665,7 +687,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 					<!-- LANGUAGES -->
 					<div>
 						<div class="section-heading">
-							<span class="section-heading-accent">🌐</span>
+							<span class="section-heading-accent">//</span>
 							<span>Languages</span>
 						</div>
 

@@ -1,299 +1,292 @@
 ---
-// Standard ATS-friendly CV (Italian)
+// Standard ATS-friendly CV (Italian) — Strict 1-Page A4 Linear Single-Column
 import BaseHead from '../components/BaseHead.astro';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
 <html lang="it">
 	<head>
-		<BaseHead title="Federico Colombo - Curriculum Vitae (Standard ATS)" description="Curriculum Vitae standard ottimizzato per ATS di Federico Colombo - Computer Graphics Engineer & Technical Artist" />
+		<BaseHead title="Federico Colombo - Curriculum Vitae (ATS)" description="CV ottimizzato per ATS di Federico Colombo - Technical Artist & Real-Time Graphics Programmer" />
 		<style>
-			* { box-sizing: border-box; }
-			body {
-				font-family: 'Times New Roman', Times, serif; /* Standard ATS font */
-				font-size: 10.5pt;
-				line-height: 1.36;
-				color: #111;
-				background-color: #f5f5f5;
+			@page {
+				size: A4 portrait;
+				margin: 0;
+			}
+			* {
+				box-sizing: border-box;
 				margin: 0;
 				padding: 0;
+				font-variant-ligatures: none !important;
+				font-feature-settings: 'liga' 0, 'clig' 0, 'calt' 0 !important;
+				letter-spacing: normal !important;
+				text-align: left;
+			}
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				background-color: #f1f5f9;
+				color: #1f2937;
+				line-height: 1.32;
+				-webkit-print-color-adjust: exact;
+				print-color-adjust: exact;
 			}
 			.controls {
 				text-align: center;
-				padding: 20px;
-				background-color: #1a1a1a;
-				color: white;
+				padding: 14px 20px;
+				background-color: #0f172a;
+				color: #ffffff;
 				display: flex;
 				justify-content: center;
-				gap: 20px;
+				gap: 12px;
 				flex-wrap: wrap;
 			}
-			.controls button, .controls a {
-				background-color: #0d6b63;
-				color: white;
-				border: none;
-				padding: 10px 20px;
-				font-size: 1rem;
-				font-family: sans-serif;
-				cursor: pointer;
+			.controls a {
+				background-color: #1e293b;
+				color: #e2e8f0;
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				padding: 8px 16px;
+				font-size: 0.85rem;
+				font-family: Arial, Helvetica, sans-serif;
 				text-decoration: none;
-				border-radius: 5px;
+				border-radius: 6px;
 				font-weight: 600;
 			}
-			.controls button:hover, .controls a:hover { opacity: 0.8; }
-			
+			.controls a.primary {
+				background-color: #1d4ed8;
+				border-color: #1d4ed8;
+				color: #ffffff;
+			}
 			.document {
-				max-width: 210mm; /* A4 */
-				min-height: 297mm;
-				margin: 40px auto;
-				background-color: #fff;
-				padding: 20mm 22mm;
-				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+				width: 210mm;
+				height: 297mm;
+				max-height: 297mm;
+				margin: 24px auto;
+				background-color: #ffffff;
+				padding: 10mm 14mm 8mm 14mm;
+				box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+				overflow: hidden;
 			}
-
-			h1 {
-				text-align: center;
-				font-size: 22pt;
-				margin: 0 0 4px 0;
-				text-transform: uppercase;
-				letter-spacing: 0.5px;
-			}
-			.subtitle {
-				text-align: center;
-				font-size: 11pt;
-				font-weight: bold;
-				margin-bottom: 4px;
-				color: #222;
-			}
-			.contact {
-				text-align: center;
-				font-size: 9.5pt;
-				margin-bottom: 12px;
-				line-height: 1.4;
-			}
-			.contact a {
-				color: #111;
-				text-decoration: none;
-			}
-			.contact a:hover {
-				text-decoration: underline;
-			}
-
-			h2 {
-				font-size: 11.5pt;
-				border-bottom: 1.5px solid #111;
-				text-transform: uppercase;
-				margin-top: 10px;
-				margin-bottom: 5px;
-				padding-bottom: 2px;
-				letter-spacing: 0.5px;
-				break-after: avoid;
-				page-break-after: avoid;
-			}
-
-			/* Atomic entries that MUST NEVER be broken across pages */
-			.job-entry, .education-entry, .project-entry, .summary-section, .skills-section {
-				break-inside: avoid;
-				page-break-inside: avoid;
+			.cv-header {
+				border-bottom: 1.5px solid #0f172a;
+				padding-bottom: 5px;
 				margin-bottom: 6px;
 			}
-
-			.job-title-row, .education-title-row {
-				display: flex;
-				justify-content: space-between;
-				align-items: baseline;
-				margin-bottom: 1px;
-			}
-
-			h3.job-title, h3.education-title {
-				font-size: 10.5pt;
-				font-weight: bold;
-				margin: 0;
-				color: #000;
-			}
-
-			.job-date, .education-date {
-				font-size: 9.5pt;
-				font-style: italic;
-				white-space: nowrap;
-			}
-
-			.job-company, .education-school {
-				font-size: 10pt;
-				font-style: italic;
+			h1.cv-name {
+				font-size: 17.5pt;
+				font-weight: 800;
+				color: #0f172a;
+				line-height: 1.1;
 				margin-bottom: 2px;
-				color: #222;
 			}
-
-			ul {
-				margin-top: 2px;
-				padding-left: 18px;
-				margin-bottom: 4px;
+			.cv-role {
+				font-size: 9pt;
+				font-weight: 700;
+				color: #1e3a8a;
+				margin-bottom: 3px;
 			}
-			li {
+			.cv-meta-line {
+				font-size: 7.5pt;
+				color: #334155;
+				line-height: 1.35;
+			}
+			.cv-meta-line a {
+				color: #1e40af;
+				text-decoration: none;
+				font-weight: 600;
+			}
+			h2.cv-section-title {
+				font-size: 8.6pt;
+				font-weight: 800;
+				text-transform: uppercase;
+				color: #0f172a;
+				border-bottom: 1px solid #94a3b8;
+				padding-bottom: 1.5px;
+				margin-top: 6.5px;
+				margin-bottom: 3.5px;
+			}
+			.summary-text {
+				font-size: 7.65pt;
+				line-height: 1.32;
+				color: #1f2937;
+			}
+			.skills-row {
+				font-size: 7.55pt;
+				line-height: 1.30;
+				margin-bottom: 2px;
+				color: #1f2937;
+			}
+			.skills-row strong {
+				color: #0f172a;
+			}
+			.entry-item {
+				margin-bottom: 5px;
+			}
+			.entry-item:last-child {
+				margin-bottom: 0;
+			}
+			.entry-header {
+				font-size: 8pt;
+				font-weight: 700;
+				color: #0f172a;
+				line-height: 1.24;
 				margin-bottom: 1.5px;
-				text-align: justify;
 			}
-			p {
-				margin: 0 0 6px 0;
-				text-align: justify;
+			.entry-meta {
+				font-size: 7.45pt;
+				font-weight: 500;
+				color: #475569;
 			}
-
+			.entry-link {
+				font-size: 7.45pt;
+				font-weight: 700;
+				color: #1e40af;
+				text-decoration: none;
+			}
+			.entry-bullets {
+				list-style: disc;
+				padding-left: 14px;
+			}
+			.entry-bullets li {
+				font-size: 7.55pt;
+				line-height: 1.29;
+				margin-bottom: 1.4px;
+				color: #1f2937;
+			}
 			@media print {
-				body { background-color: #fff; }
-				.controls { display: none !important; }
+				body {
+					background-color: #ffffff;
+					margin: 0;
+				}
+				.controls {
+					display: none !important;
+				}
 				.document {
 					margin: 0;
-					padding: 0;
 					box-shadow: none;
-					width: 100%;
-					max-width: 100%;
+					width: 210mm;
+					height: 297mm;
+					max-height: 297mm;
+					padding: 10mm 14mm 8mm 14mm;
 				}
-				@page { margin: 13.5mm 16mm; size: A4; }
 			}
 		</style>
 	</head>
 	<body>
 		<div class="controls">
-			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Curriculum Vitae (Standard).pdf`} download="Federico_Colombo_CV_Standard.pdf">📥 Scarica PDF</a>
-			<a href={`${import.meta.env.BASE_URL}/Federico Colombo - Curriculum Vitae (Standard).pdf`} target="_blank" rel="noopener noreferrer">🖨️ Stampa / Visualizza PDF</a>
-			<a href={`${import.meta.env.BASE_URL}/cv-ats`}>🇬🇧 English Version</a>
-			<a href={`${import.meta.env.BASE_URL}/cv-it`}>Torna al CV Completo</a>
+			<a href={`${baseUrl}/Federico Colombo - Curriculum Vitae (Standard).pdf`} download="Federico_Colombo_CV_ATS.pdf" class="primary">Scarica PDF ATS (1 Pagina)</a>
+			<a href={`${baseUrl}/cv-ats`}>English Version (ATS)</a>
+			<a href={`${baseUrl}/cv-it`}>CV Visuale Web</a>
+			<a href={baseUrl}>Torna al Portfolio</a>
 		</div>
 
 		<div class="document">
-			<header class="resume-header">
-				<h1>FEDERICO COLOMBO</h1>
-				<div class="subtitle">Computer Graphics Engineer | Technical Artist | XR Developer</div>
-				<div class="contact">
-					<span>Torino, Italia</span> &bull; 
-					<span>+39 351 307 8191</span> &bull; 
-					<a href="mailto:colombofederico28@gmail.com">colombofederico28@gmail.com</a> &bull; 
-					<a href="https://linkedin.com/in/federico-colombo10" target="_blank">linkedin.com/in/federico-colombo10</a> &bull; 
-					<a href="https://federicocolombo12.github.io/PortFolio/" target="_blank">federicocolombo12.github.io/PortFolio</a>
+			<header class="cv-header">
+				<h1 class="cv-name">FEDERICO COLOMBO</h1>
+				<div class="cv-role">Technical Artist &bull; Real-Time Graphics Programmer &bull; Pipeline &amp; XR Engineer</div>
+				<div class="cv-meta-line">
+					Torino, Italia (Disponibile a trasferimento UE e remoto CET) &bull; Cittadino Italiano / UE &bull; +39 351 307 8191 &bull; <a href="mailto:colombofederico28@gmail.com">colombofederico28@gmail.com</a><br />
+					Portfolio: <a href="https://federicocolombo12.github.io/PortFolio/">federicocolombo12.github.io/PortFolio</a> &bull; GitHub: <a href="https://github.com/federicocolombo12">github.com/federicocolombo12</a> &bull; LinkedIn: <a href="https://www.linkedin.com/in/federico-colombo10">linkedin.com/in/federico-colombo10</a>
 				</div>
 			</header>
 
-			<section class="summary-section">
-				<h2>PROFILO PROFESSIONALE</h2>
-				<p>Computer Graphics Engineer e Technical Artist specializzato in rendering real-time, spatial computing (XR) e sviluppo di tool procedurali. Laureato con lode in Ingegneria del Cinema e dei Mezzi di Comunicazione. Profonda esperienza nello sviluppo di motori di rendering custom in C++, ottimizzazione di architetture GPU (HLSL/GLSL) e project management di team multidisciplinari. Attivamente alla ricerca di opportunità per applicare competenze ingegneristiche e di gestione per costruire architetture software scalabili e produzioni interattive ad alta fedeltà visiva.</p>
+			<section>
+				<h2 class="cv-section-title">PROFILO PROFESSIONALE</h2>
+				<p class="summary-text">
+					Technical Artist e Real-Time Graphics Programmer laureando magistrale in Ingegneria del Cinema e dei Mezzi di Comunicazione al Politecnico di Torino (Prevista: Dicembre 2026, 110/110 e Lode; Triennale 100/110). Unisce sviluppo di renderer C++17/OpenGL 3.3 e pipeline compute WebGPU/WGSL con Unity 6 (URP/SRP), Unreal Engine 5, automazione DCC in Python e ottimizzazione XR su visori standalone. Ridotto il tempo frame GPU del 61.3% (da 7.52ms a 2.91ms) a 90 FPS stabili con 0B di allocazioni GC in PulseEngine su Meta Quest 3, costruito un lab compute WebGPU 2D GI da 15 dispatch/frame e formato oltre 60 studenti come Assistente alla Didattica.
+				</p>
 			</section>
 
-			<section class="education-section">
-				<h2>FORMAZIONE</h2>
-				
-				<article class="education-entry">
-					<div class="education-title-row">
-						<h3 class="education-title">Laurea Magistrale in Ingegneria del Cinema</h3>
-						<span class="education-date">2024 – Dic 2026 (Prevista)</span>
-					</div>
-					<div class="education-school">Politecnico di Torino &bull; Torino, Italia</div>
-					<ul>
-						<li><strong>Laurea Prevista:</strong> Dicembre 2026 (110/110 e Lode Previsto)</li>
-					</ul>
-				</article>
-
-				<article class="education-entry">
-					<div class="education-title-row">
-						<h3 class="education-title">Laurea Triennale in Ingegneria del Cinema</h3>
-						<span class="education-date">2021 – 2024</span>
-					</div>
-					<div class="education-school">Politecnico di Torino &bull; Torino, Italia</div>
-					<ul>
-						<li><strong>Voto Finale:</strong> 100/110</li>
-					</ul>
-				</article>
+			<section>
+				<h2 class="cv-section-title">COMPETENZE TECNICHE</h2>
+				<div class="skills-row"><strong>Linguaggi e Shader:</strong> C++17, C#, Python 3, HLSL, GLSL, WGSL, TypeScript/JavaScript, Shader Graph, Unreal Material Editor</div>
+				<div class="skills-row"><strong>Motori e API Grafiche:</strong> Unity 6 (URP, SRP Batcher, Compute Shaders, OpenXR, UPM, EditorWindow), Unreal Engine 5 (PCG, Niagara, MetaHumans, Alembic Groom, Live Link, Sequencer, C++/Blueprints), OpenGL 3.3, WebGPU</div>
+				<div class="skills-row"><strong>Rendering e Profiling:</strong> Deferred Shading (G-Buffer), Cook-Torrance PBR, Raymarching &amp; SDF, Jump Flooding (JFA), Mikkelsen Surface Gradients, Silhouette POM, 3D Gaussian Splats, RenderDoc, NVIDIA Nsight Graphics, Unity Profiler</div>
+				<div class="skills-row"><strong>DCC, Pipeline e Colore:</strong> Blender (scripting bpy), Autodesk Maya, RealityCapture, DaVinci Resolve (ACES/OCIO), OpenUSD, Git / Git LFS, CMake, CI/CD</div>
 			</section>
 
-			<section class="experience-section">
-				<h2>ESPERIENZA LAVORATIVA</h2>
+			<section>
+				<h2 class="cv-section-title">ESPERIENZA PROFESSIONALE</h2>
 
-				<article class="job-entry">
-					<div class="job-title-row">
-						<h3 class="job-title">Software Developer & Consulente Soluzioni AI</h3>
-						<span class="job-date">06/2026 – Presente</span>
-					</div>
-					<div class="job-company">Intellecto IP &bull; Torino / Remoto</div>
-					<ul>
-						<li>Progettato e sviluppato un'applicazione web/mobile di personal banking centralizzato in React, unificando conti multi-banca in un'unica interfaccia reattiva e sicura con architettura modulare dello stato.</li>
-						<li>Fornita consulenza strategica sull'adozione aziendale di soluzioni AI; integrati modelli LLM (Anthropic Claude) nei processi operativi per l'analisi e l'automazione decisionale.</li>
-						<li>Automatizzati flussi di lavoro e task operativi ripetitivi nell'ecosistema Notion tramite script e integrazioni API, riducendo drasticamente il carico manuale del team.</li>
+				<article class="entry-item">
+					<div class="entry-header">Technical Artist &amp; Producer (R&amp;D Tesi Magistrale XR — PulseEngine) <span class="entry-meta">&bull; Lemons in the Room &amp; Politecnico di Torino &bull; Firenze / Remoto &bull; 03/2026 – Presente</span></div>
+					<ul class="entry-bullets">
+						<li>Progettato un framework di raymarching volumetrico bio-adattivo in Unity 6 URP e compute shader HLSL per Meta Quest 3, mantenendo 90 FPS stabili su hardware standalone.</li>
+						<li>Ridotto il frame time GPU del 61.3% (da 7.52ms a 2.91ms) con 0B di allocazioni GC per frame tramite Dynamic Bounding Volumes, ray stepping adattivo e voxelizzazione GPU in compute shader.</li>
+						<li>Sviluppato shader HLSL con Surface Gradients di Morten Mikkelsen su volumi SDF per eliminare cuciture UV triplanari, tool Editor di telemetria (DAWMixerWindow) e packaging modulare UPM.</li>
 					</ul>
 				</article>
 
-				<article class="job-entry">
-					<div class="job-title-row">
-						<h3 class="job-title">Technical Artist & Producer (R&D Tesi Magistrale XR)</h3>
-						<span class="job-date">03/2026 – Presente</span>
-					</div>
-					<div class="job-company">Lemons in the Room & Politecnico di Torino &bull; Firenze / Remoto</div>
-					<ul>
-						<li>Ingegnerizzato un framework di raymarching volumetrico bio-adattivo real-time in HLSL per Meta Quest 3, renderizzando Signed Distance Fields (SDF) dinamici guidati da telemetria biometrica BLE (<strong>PulseEngine</strong>).</li>
-						<li>Implementato ottimizzazioni GPU mobile (Dynamic Bounding Volumes, ray stepping adattivo) bloccando <strong>90 FPS stabili su visore standalone</strong> (riduzione del 61.3% del tempo GPU, 2.91ms tempo GPU, 0B allocazione GC).</li>
-						<li>Integrato shading a Surface Gradients di Morten Mikkelsen su volumi procedurali per azzerare le cuciture UV triplanari, e un voxelizzatore GPU via Compute Shader (&lt;0.8ms) per sciami di particelle VFX Graph.</li>
-						<li>Architettata una console <strong>Virtual DAW Mixer</strong> (<code>DAWMixerWindow</code>) in Unity con oscilloscopi OLED e packet-sniffer per instradare segnali biometrici (BLE, OSC, WebSockets, Seriale); mappato il biofeedback sullo spettro neurologico <strong>Bouba-Kiki</strong> e modularizzato secondo standard Unity Package (UPM).</li>
+				<article class="entry-item">
+					<div class="entry-header">Technical Artist, Gameplay Programmer &amp; Project Lead <span class="entry-meta">&bull; Level Up Lab (Team Studentesco PoliTo) &bull; Torino, Italia &bull; 11/2024 – 07/2026</span></div>
+					<ul class="entry-bullets">
+						<li>Impostato pipeline artistiche 2D/3D per <em>Spicy Mercante</em> e <em>Line Operator</em>, definendo sprite atlasing, sorting layer, budget poligonali, naming convention e flussi Git LFS per un team di 6–7 sviluppatori.</li>
+						<li>Scritto shader HLSL custom (acqua procedurale con vertex displacement, cutaway dinamici), utility C# di validazione asset e pipeline Blender 3D, profilando draw call e batching per ogni milestone.</li>
 					</ul>
 				</article>
 
-				<article class="job-entry">
-					<div class="job-title-row">
-						<h3 class="job-title">Technical Artist, Gameplay Programmer & Project Manager</h3>
-						<span class="job-date">11/2024 – 07/2026</span>
-					</div>
-					<div class="job-company">LEVEL UP LAB (Team Studentesco PoliTo) &bull; Torino, Italia</div>
-					<ul>
-						<li>Sviluppato shader HLSL personalizzati (acqua procedurale con vertex displacement, cutaway dinamico) e sistemi di gameplay in C# per <em>Spicy Mercante</em> e <em>Line Operator</em>.</li>
-						<li>Modellazione 3D di asset in Blender ed esecuzione di refactoring architetturali completi (transizione 3D-2D, fisica di galleggiamento, sistemi di inventario).</li>
-						<li>Coordinato team multidisciplinari da 6–7 sviluppatori come Technical Producer e Project Manager, impostando pipeline Git LFS e milestone di produzione.</li>
+				<article class="entry-item">
+					<div class="entry-header">Software Developer &amp; Consulente AI <span class="entry-meta">&bull; Intellecto IP &bull; Torino / Remoto &bull; 06/2026 – Presente</span></div>
+					<ul class="entry-bullets">
+						<li>Sviluppata una dashboard React per aggregazione di 4+ feed bancari e automatizzati oltre 15 flussi operativi settimanali tramite pipeline LLM Anthropic Claude e integrazioni Notion API.</li>
 					</ul>
 				</article>
 
-				<article class="job-entry">
-					<div class="job-title-row">
-						<h3 class="job-title">Assistente alla Didattica (GUI & Frontend Development)</h3>
-						<span class="job-date">10/2024 – 01/2025</span>
-					</div>
-					<div class="job-company">Politecnico di Torino &bull; Torino, Italia</div>
-					<ul>
-						<li>Fornito supporto e tutoraggio agli studenti sui principi di UI/UX e programmazione frontend durante i laboratori settimanali.</li>
-						<li>Redatto documentazione tecnica e creato materiale didattico di alta qualità per migliorare la comprensione.</li>
+				<article class="entry-item">
+					<div class="entry-header">Assistente alla Didattica — Interfacce Grafiche e Sistemi Multimediali <span class="entry-meta">&bull; Politecnico di Torino &bull; Torino, Italia &bull; 10/2024 – 01/2025</span></div>
+					<ul class="entry-bullets">
+						<li>Affiancato oltre 60 studenti di ingegneria nei laboratori settimanali su architettura UI, ottimizzazione frontend e debugging strutturato, redigendo guide tecniche ed esercitazioni pratiche.</li>
 					</ul>
 				</article>
 
-				<article class="job-entry">
-					<div class="job-title-row">
-						<h3 class="job-title">Video Artist & Specialista Post-Produzione</h3>
-						<span class="job-date">09/2023 – 06/2024</span>
-					</div>
-					<div class="job-company">RKH SRL &bull; Torino, Italia</div>
-					<ul>
-						<li>Operato macchine da presa cinema (RED, Blackmagic 4K/6K) e assistito il DOP in complessi setup di illuminazione.</li>
-						<li>Gestito i flussi di montaggio e post-produzione su DaVinci Resolve per produzioni video e contenuti corporate.</li>
+				<article class="entry-item">
+					<div class="entry-header">Video Artist &amp; Tecnico Operatore Camera <span class="entry-meta">&bull; RKH SRL &bull; Torino, Italia &bull; 09/2023 – 06/2024</span></div>
+					<ul class="entry-bullets">
+						<li>Gestito riprese con cineprese digitali (RED, Blackmagic), griglie luci da studio, tracking plate e pipeline di color grading su DaVinci Resolve (ACES/Rec.709).</li>
 					</ul>
 				</article>
 			</section>
 
-			<section class="skills-section">
-				<h2>COMPETENZE TECNICHE</h2>
-				<ul>
-					<li><strong>Linguaggi:</strong> C++, C#, Python, HLSL / GLSL / WGSL (WebGPU), JavaScript/TypeScript</li>
-					<li><strong>Motori Grafici & Web:</strong> Unity, Unreal Engine 5, Custom OpenGL Frameworks, React</li>
-					<li><strong>AI & Automazione:</strong> Anthropic Claude (Integrazione LLM), Notion API, Automazione Workflow</li>
-					<li><strong>Software & DCC:</strong> Blender, DaVinci Resolve, Jira, Git</li>
-					<li><strong>Management:</strong> Direzione Tecnica, Project Management, Pianificazione Agile Milestone</li>
-				</ul>
+			<section>
+				<h2 class="cv-section-title">PROGETTI CHIAVE</h2>
+
+				<article class="entry-item">
+					<div class="entry-header">Graphics Lab Engine (C++17, OpenGL 3.3, GLSL, CMake, RenderDoc) <span class="entry-meta">&bull;</span> <a class="entry-link" href="https://github.com/federicocolombo12">GitHub</a></div>
+					<ul class="entry-bullets">
+						<li>Sviluppato da zero un renderer 3D deferred shading in C++17 con G-Buffer, modello PBR Cook-Torrance, Silhouette Parallax Occlusion Mapping (SPOM) in tangent space e profiling su RenderDoc.</li>
+					</ul>
+				</article>
+
+				<article class="entry-item">
+					<div class="entry-header">WebGPU 2D Global Illumination Compute Lab (TypeScript, WGSL, 512x512 Float16) <span class="entry-meta">&bull;</span> <a class="entry-link" href="https://github.com/federicocolombo12/webgpu-2d-gi-jfa">Repo</a> <span class="entry-meta">&bull;</span> <a class="entry-link" href="https://federicocolombo12.github.io/webgpu-2d-gi-jfa/">Live</a></div>
+					<ul class="entry-bullets">
+						<li>Scritti a mano 8 shader WGSL su una pipeline compute da 15 dispatch/frame: Jump Flooding SDF, Monte Carlo sphere tracing a 16 raggi con GI indiretta 1-bounce, EMA temporale, Bloom in shared memory e AgX Pass Inspector.</li>
+					</ul>
+				</article>
+
+				<article class="entry-item">
+					<div class="entry-header">Smart Cable Generator &amp; Stylized 3D Gaussian Splats (Python bpy, OpenUSD, EEVEE-Next) <span class="entry-meta">&bull;</span> <a class="entry-link" href="https://github.com/federicocolombo12/Blender-Smart-Cables-Generator">Cables Repo</a></div>
+					<ul class="entry-bullets">
+						<li>Creato add-on Python per Blender per cavi catenari parametrici con export FBX/UV automatico e pipeline NPR su 3DGS tramite OpenUSD PointClouds e filtro Kuwahara in Geometry Nodes.</li>
+					</ul>
+				</article>
+
+				<article class="entry-item">
+					<div class="entry-header">UE5 Technical Art Studies (PCG, Niagara, MetaHumans, Alembic Groom, Live Link) <span class="entry-meta">&bull;</span> <a class="entry-link" href="https://federicocolombo12.github.io/PortFolio/">Portfolio</a></div>
+					<ul class="entry-bullets">
+						<li>Realizzati ambienti procedurali con spline PCG e auto-materiali per pendenza/altitudine, sistemi particellari Niagara con curl noise e setup MetaHuman con fisica Alembic groom e mocap Live Link Face.</li>
+					</ul>
+				</article>
 			</section>
 
-			<section class="projects-section">
-				<h2>PROGETTI TECNICI</h2>
-				<ul class="project-list">
-					<li class="project-entry"><strong>Smart Cable Generator (Tool Blender):</strong> Sviluppato un add-on procedurale in Python per la generazione parametrica di cavi su mesh multiple con fisica catenaria proporzionale alla distanza e conversione automatica delle mesh per i game engine.</li>
-					<li class="project-entry"><strong>Graphics Lab (Motore C++ Custom):</strong> Programmato un framework di rendering 3D in OpenGL partendo da zero. Implementata architettura Deferred Shading, Physically Based Rendering (PBR) e Silhouette Parallax Occlusion Mapping (SPOM).</li>
-					<li class="project-entry"><strong>WebGPU 2D Global Illumination (Compute Shader Lab):</strong> Scritti a mano 8 shader WGSL su una pipeline compute da 15 dispatch/frame (Ping-Pong 512×512 <code>rgba16float</code>): Jump Flooding SDF, Monte Carlo sphere tracing a 16 raggi con rimbalzo indiretto, EMA temporale, Bloom in memoria condivisa (<code>var&lt;workgroup&gt;</code>) e Pass Inspector con tone mapping AgX.</li>
-					<li class="project-entry"><strong>Stylized 3D Gaussian Splats:</strong> Implementata pipeline NPR pittorica in tempo reale su Blender 5.3 Beta ed EEVEE-Next via OpenUSD PointClouds, campi vettoriali in Geometry Nodes e filtro Kuwahara.</li>
-					<li class="project-entry"><strong>UE5 Tech Art Pipeline:</strong> Sviluppati ambienti procedurali utilizzando PCG. Scriptato un sistema di proiettili a ricerca in Niagara e integrati MetaHumans con collisioni fisiche complesse del groom.</li>
-					<li class="project-entry"><strong>Awaken Asylum & Nihil:</strong> Sviluppata un'esperienza VR immersiva (Unity) e un prototipo Metroidvania 2D basato su meccaniche di trasformazione complesse. Gestita la produzione tecnica end-to-end.</li>
-				</ul>
+			<section>
+				<h2 class="cv-section-title">FORMAZIONE</h2>
+				<div class="entry-item">
+					<div class="entry-header">Laurea Magistrale in Ingegneria del Cinema e dei Mezzi di Comunicazione (LM-32) <span class="entry-meta">&bull; Politecnico di Torino &bull; Ott 2024 – Dic 2026 (Prevista, 110/110 e Lode)</span></div>
+				</div>
+				<div class="entry-item">
+					<div class="entry-header">Laurea Triennale in Ingegneria del Cinema e dei Mezzi di Comunicazione (L-8) <span class="entry-meta">&bull; Politecnico di Torino &bull; Ott 2021 – Lug 2024 (Voto Finale: 100/110)</span></div>
+				</div>
+				<div class="skills-row" style="margin-top: 2px;"><strong>Lingue:</strong> Italiano (Madrelingua), Inglese (Fluente / C1), Francese (Base), Tedesco (Base)</div>
 			</section>
 		</div>
 	</body>
