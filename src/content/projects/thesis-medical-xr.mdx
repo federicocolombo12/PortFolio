@@ -22,21 +22,21 @@ Instead of deforming fixed-topology polygon meshes with blendshapes, the system 
 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/csg_modeling_demo.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/csg_modeling_demo_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/Clip1_Atto1_mobile.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/Clip1_Atto1_mobile_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Procedural CSG Sculpting with Dynamic Blend Softness</p>
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Showreel Act I: Bio-Responsive SDF Morphing &amp; GPU Particle Swarm (1080p60)</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/vfx_swarm_adhesion.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/vfx_swarm_adhesion_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/volumetric_sdf_csg_blending.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/volumetric_sdf_csg_blending_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>GPU Particles (VFX Graph) Adhering to the Implicit Distance Field</p>
+    <p style={{ fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Live Unity Hierarchy: SmoothUnion CSG Liquid Neck Blending &amp; Camera PiP</p>
   </div>
 </div>
 
@@ -87,12 +87,12 @@ Taking workflow cues from MudBun, SDF primitives evaluate in Unity sibling order
 
 <div style={{ margin: '2rem 0' }}>
   <video 
-    src={`${import.meta.env.BASE_URL}/videos/pulse-engine/sdf_editing_recording.mp4`} 
-    poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/sdf_editing_recording_poster.jpg`}
+    src={`${import.meta.env.BASE_URL}/videos/pulse-engine/decoupled_colors_recording.mp4`} 
+    poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/decoupled_colors_recording_poster.jpg`}
     autoPlay loop muted playsInline preload="auto" 
     style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
   </video>
-  <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>Live Scene View CSG manipulation, modifier volume interaction, and inspector parameter tuning.</p>
+  <p style={{ textAlign: 'center', fontSize: '0.85em', color: 'gray', marginTop: '0.5rem' }}>World-space decoupled color evaluation on 128³ voxel grid with VFX Graph particle adhesion.</p>
 </div>
 
 **Bug Caught — Triplanar Normal Inversion:** Because implicit SDFs have no UVs, surface detail uses object-space triplanar projection. Naive triplanar normal blending relies on Cartesian axis sign flips, which caused 180° inverted normal seams along `X=0`, `Y=0`, and `Z=0` whenever organic geometry morphed through origin planes. Replacing it with **Morten Mikkelsen's Surface Gradient** (`∇_surf(h) = ∇h - (N · ∇h)N`) keeps micro-relief tangent to the true implicit gradient with `C¹` continuity across all axes.
@@ -139,36 +139,26 @@ To break the fragment bottleneck without giving up runtime CSG morphing, I decou
   </div>
 </div>
 
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', margin: '2rem 0' }}>
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', margin: '2rem 0' }}>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_bouba.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_bouba_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/bio_macro_stress_to_calm.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/bio_macro_stress_to_calm_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: '#00e5ff', marginTop: '0.5rem', fontWeight: 'bold' }}>Bouba (Parasympathetic Rest)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>High HRV RMSSD softens CSG blend radii into smooth lobes with laminar particle adhesion.</p>
+    <p style={{ fontSize: '0.85em', color: '#ffd600', marginTop: '0.5rem', fontWeight: 'bold' }}>Macro 60fps: Stress (135 BPM Kiki) → Calm (60 BPM Bouba)</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Asymmetric exponential damping (τ ≈ 2.5s) transitions sharp crimson protrusions into smooth laminar lobes.</p>
   </div>
   <div style={{ textAlign: 'center' }}>
     <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/bouba_kiki_morph.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/bouba_kiki_morph_poster.jpg`}
+      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/clinical_telemetry_loop.mp4`} 
+      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/clinical_telemetry_loop_poster.jpg`}
       autoPlay loop muted playsInline preload="auto" 
       style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
     </video>
-    <p style={{ fontSize: '0.85em', color: '#ffd600', marginTop: '0.5rem', fontWeight: 'bold' }}>Real-Time Morphing</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>Asymmetric exponential damping (τ ≈ 2.5s) prevents visual jitter on abrupt biometric spikes.</p>
-  </div>
-  <div style={{ textAlign: 'center' }}>
-    <video 
-      src={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_kiki.mp4`} 
-      poster={`${import.meta.env.BASE_URL}/videos/pulse-engine/scenario_kiki_poster.jpg`}
-      autoPlay loop muted playsInline preload="auto" 
-      style={{ width: '100%', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-    </video>
-    <p style={{ fontSize: '0.85em', color: '#ff5252', marginTop: '0.5rem', fontWeight: 'bold' }}>Kiki (Sympathetic Stress)</p>
-    <p style={{ fontSize: '0.78em', color: 'gray' }}>High arousal drops blend softness to 0.05, driving sharp geometric protrusions and turbulence.</p>
+    <p style={{ fontSize: '0.85em', color: '#00e5ff', marginTop: '0.5rem', fontWeight: 'bold' }}>Clinical Bio-Telemetry HUD &amp; Autonomic Mapping</p>
+    <p style={{ fontSize: '0.78em', color: 'gray' }}>Live HR, HRV RMSSD, and SpO2 telemetry driving continuous biofeedback arousal states.</p>
   </div>
 </div>
 
