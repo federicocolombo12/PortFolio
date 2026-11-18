@@ -976,7 +976,14 @@ const firstSlide = showreelSlides[0];
 					if (!thumb) return;
 
 					let vid: HTMLVideoElement | null = null;
+					let resetTimer: number | undefined;
+					const HOVER_RESET_MS = 6000;
+
 					cardEl.addEventListener('mouseenter', () => {
+						if (resetTimer !== undefined) {
+							window.clearTimeout(resetTimer);
+							resetTimer = undefined;
+						}
 						if (!vid) {
 							vid = document.createElement('video');
 							vid.className = 'card-hover-video';
@@ -993,7 +1000,12 @@ const firstSlide = showreelSlides[0];
 					});
 					cardEl.addEventListener('mouseleave', () => {
 						cardEl.classList.remove('is-video-playing');
-						if (vid) vid.pause();
+						if (vid) {
+							vid.pause();
+							resetTimer = window.setTimeout(() => {
+								if (vid) vid.currentTime = 0;
+							}, HOVER_RESET_MS);
+						}
 					});
 				});
 			}
