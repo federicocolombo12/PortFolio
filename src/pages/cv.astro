@@ -12,12 +12,12 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 		<style>
 			:root {
-				--cv-dark: #121620;
-				--cv-accent: #2563eb;
-				--cv-accent-light: #38bdf8;
-				--cv-text: #334155;
+				--cv-dark: #131416;
+				--cv-accent: #c48422;
+				--cv-accent-light: #e09f3e;
+				--cv-text: #272a32;
 				--cv-text-muted: #64748b;
-				--cv-heading: #0f172a;
+				--cv-heading: #131416;
 				--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 				--font-mono: 'JetBrains Mono', monospace;
 			}
@@ -28,7 +28,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			}
 			body {
 				font-family: var(--font-sans);
-				background-color: #0b0f17;
+				background-color: #131416;
 				color: var(--cv-text);
 				line-height: 1.42;
 				-webkit-print-color-adjust: exact;
@@ -38,9 +38,9 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			/* Web Controls Bar */
 			.cv-controls {
 				text-align: center;
-				padding: 16px 20px;
-				background-color: #0f141f;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+				padding: 14px 20px;
+				background-color: #131416;
+				border-bottom: 1px solid #272a32;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -51,32 +51,36 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 				z-index: 100;
 			}
 			.cv-controls a, .cv-controls button {
-				background: rgba(255, 255, 255, 0.06);
-				color: #e2e8f0;
-				border: 1px solid rgba(255, 255, 255, 0.12);
-				padding: 8px 16px;
-				font-size: 0.85rem;
-				font-family: var(--font-sans);
-				font-weight: 600;
+				background: #181a1e;
+				color: #eceae4;
+				border: 1px solid #3a3f4b;
+				padding: 8px 15px;
+				font-size: 0.82rem;
+				font-family: var(--font-mono);
+				font-weight: 500;
 				cursor: pointer;
 				text-decoration: none;
-				border-radius: 8px;
-				transition: all 0.2s ease;
+				border-radius: 3px;
+				transition: all 0.15s ease;
 				display: inline-flex;
 				align-items: center;
 				gap: 6px;
 			}
 			.cv-controls a:hover, .cv-controls button:hover {
-				background: rgba(255, 255, 255, 0.12);
-				color: #ffffff;
+				background: #202329;
+				border-color: #e09f3e;
+				color: #e09f3e;
 			}
 			.cv-controls a.primary {
-				background: var(--cv-accent);
-				border-color: var(--cv-accent);
-				color: #ffffff;
+				background: #e09f3e;
+				border-color: #e09f3e;
+				color: #131416;
+				font-weight: 600;
 			}
 			.cv-controls a.primary:hover {
-				background: #1d4ed8;
+				background: #c8892c;
+				border-color: #c8892c;
+				color: #131416;
 			}
 
 			/* A4 Container */
@@ -97,27 +101,27 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 			   1. DARK HEADER BLOCK (FRANCISCO STYLE)
 			   ---------------------------------------------------- */
 			.cv-header {
-				background: linear-gradient(135deg, #131826 0%, #1a2236 100%);
-				color: #ffffff;
+				background: linear-gradient(135deg, #131416 0%, #1d1f24 100%);
+				color: #eceae4;
 				padding: 24px 28px 20px;
 				display: grid;
 				grid-template-columns: 1fr 92px;
 				gap: 20px;
 				align-items: center;
-				border-bottom: 3px solid var(--cv-accent);
+				border-bottom: 3px solid #e09f3e;
 			}
 			.cv-name {
 				font-size: 1.85rem;
 				font-weight: 800;
 				letter-spacing: -0.025em;
 				line-height: 1.1;
-				color: #ffffff;
+				color: #eceae4;
 				margin-bottom: 3px;
 			}
 			.cv-title {
 				font-size: 0.96rem;
 				font-weight: 600;
-				color: #60a5fa;
+				color: #e09f3e;
 				margin-bottom: 8px;
 				letter-spacing: 0.01em;
 			}
@@ -146,7 +150,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 				text-decoration: none;
 			}
 			.cv-contact-item svg {
-				color: #60a5fa;
+				color: #e09f3e;
 				flex-shrink: 0;
 			}
 
@@ -622,7 +626,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 							<!-- HLSL / Shaders -->
 							<div class="tool-item">
 								<div class="tool-icon">
-									<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#2563eb" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+									<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#c48422" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
 								</div>
 								<span>HLSL / GLSL / WGSL</span>
 								<span class="tool-desc">WebGPU / Ray</span>

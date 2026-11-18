@@ -277,6 +277,7 @@ const firstSlide = showreelSlides[0];
 						<div class="tl-left">
 							<span class="tl-date">03/2026 – Present</span>
 							<span class="tl-org">Lemons in the Room · Firenze / Remote</span>
+							<div class="tl-logo-mark"><img src={`${baseUrl}/logos/lemons.png`} alt="Lemons in the Room" /></div>
 						</div>
 						<div class="tl-right">
 							<h3 class="tl-role">Technical Artist &amp; Producer (XR Master Thesis R&amp;D)</h3>
@@ -284,6 +285,7 @@ const firstSlide = showreelSlides[0];
 								<li>Architected <em>PulseEngine</em>: a real-time bio-adaptive volumetric raymarching framework in HLSL for Meta Quest 3 driven by Bluetooth physiological sensors.</li>
 								<li>Engineered Dynamic Bounding Volumes, adaptive ray-marching step sizes, and zero-allocation C# marshaling to sustain 90 FPS at 2.91ms GPU time.</li>
 							</ul>
+							<span class="tl-stack">Unity 6 · HLSL Compute · OpenXR · 90 FPS · 0B GC</span>
 						</div>
 					</div>
 
@@ -291,6 +293,7 @@ const firstSlide = showreelSlides[0];
 						<div class="tl-left">
 							<span class="tl-date">11/2024 – 07/2026</span>
 							<span class="tl-org">Level Up Lab · Politecnico di Torino</span>
+							<div class="tl-logo-mark"><img src={`${baseUrl}/logos/lul.svg`} alt="Level Up Lab" /></div>
 						</div>
 						<div class="tl-right">
 							<h3 class="tl-role">Technical Artist, Gameplay Programmer &amp; Project Manager</h3>
@@ -298,6 +301,7 @@ const firstSlide = showreelSlides[0];
 								<li>Built custom HLSL shaders (procedural water vertex displacement, dynamic cutaway systems), Blender 3D asset pipelines, and core C# gameplay for <em>Spicy Mercante</em> and <em>Line Operator</em>.</li>
 								<li>Modeled 3D assets across full pipelines, executed 3D-to-2D C# architecture refactors, and coordinated 6–7 student developers with Git LFS workflows.</li>
 							</ul>
+							<span class="tl-stack">Unity C# · HLSL Shaders · Blender · Git LFS</span>
 						</div>
 					</div>
 
@@ -305,12 +309,14 @@ const firstSlide = showreelSlides[0];
 						<div class="tl-left">
 							<span class="tl-date">10/2024 – 01/2025</span>
 							<span class="tl-org">Politecnico di Torino · Torino</span>
+							<div class="tl-logo-mark tl-logo-dark"><img src={`${baseUrl}/logos/polito.svg`} alt="Politecnico di Torino" /></div>
 						</div>
 						<div class="tl-right">
 							<h3 class="tl-role">Teaching Assistant (GUI &amp; Interaction)</h3>
 							<ul class="tl-bullets">
-								<li>Tutored undergraduate students during weekly lab sessions in UI/UX architecture and frontend programming fundamentals.</li>
+								<li>Mentored 60+ engineering students during weekly lab sessions in UI/UX architecture, performance optimization, and structured debugging workflows.</li>
 							</ul>
+							<span class="tl-stack">GUI Architecture · UI/UX · 60+ Students Mentored</span>
 						</div>
 					</div>
 
@@ -318,12 +324,14 @@ const firstSlide = showreelSlides[0];
 						<div class="tl-left">
 							<span class="tl-date">09/2023 – 06/2024</span>
 							<span class="tl-org">RKH SRL · Torino</span>
+							<div class="tl-logo-mark tl-logo-screen"><img src={`${baseUrl}/logos/rkh.png`} alt="RKH SRL" /></div>
 						</div>
 						<div class="tl-right">
 							<h3 class="tl-role">Video Artist &amp; Color/Post-Production</h3>
 							<ul class="tl-bullets">
-								<li>Operated cinema cameras (RED, Blackmagic 4K/6K, Panasonic S1) and managed DaVinci Resolve grading &amp; editing pipelines.</li>
+								<li>Operated cinema cameras (RED, Blackmagic 4K/6K, Panasonic S1) and managed DaVinci Resolve grading &amp; editing pipelines across commercial productions.</li>
 							</ul>
+							<span class="tl-stack">RED / Blackmagic 6K · DaVinci Resolve · ACES / Rec.709</span>
 						</div>
 					</div>
 				</div>
@@ -333,6 +341,7 @@ const firstSlide = showreelSlides[0];
 						<div class="tl-left">
 							<span class="tl-date">2024 – Dec 2026</span>
 							<span class="tl-org">Politecnico di Torino · Expected 110/110L</span>
+							<div class="tl-logo-mark tl-logo-dark"><img src={`${baseUrl}/logos/polito.svg`} alt="Politecnico di Torino" /></div>
 						</div>
 						<div class="tl-right">
 							<h3 class="tl-role">M.Sc. in Cinema &amp; Media Engineering</h3>
@@ -347,6 +356,7 @@ const firstSlide = showreelSlides[0];
 						<div class="tl-left">
 							<span class="tl-date">2021 – 2024</span>
 							<span class="tl-org">Politecnico di Torino · 100/110</span>
+							<div class="tl-logo-mark tl-logo-dark"><img src={`${baseUrl}/logos/polito.svg`} alt="Politecnico di Torino" /></div>
 						</div>
 						<div class="tl-right">
 							<h3 class="tl-role">B.Sc. in Cinema &amp; Media Engineering</h3>
@@ -1644,8 +1654,62 @@ const firstSlide = showreelSlides[0];
 				color: var(--accent);
 			}
 
+			.tl-logo-mark {
+				margin-top: 8px;
+				display: flex;
+				align-items: center;
+				height: 34px;
+			}
+
+			.tl-logo-mark img {
+				height: 30px;
+				width: auto;
+				max-width: 112px;
+				object-fit: contain;
+				filter: grayscale(40%) opacity(0.8);
+				transition: filter 0.18s ease, opacity 0.18s ease;
+			}
+
+			.timeline-row:hover .tl-logo-mark img {
+				filter: grayscale(0%) opacity(1);
+			}
+
+			.tl-logo-dark img {
+				height: 32px;
+				filter: brightness(0) invert(0.92) opacity(0.75);
+			}
+
+			.timeline-row:hover .tl-logo-dark img {
+				filter: brightness(0) invert(1) opacity(1);
+			}
+
+			.tl-logo-screen img {
+				height: 34px;
+				filter: invert(1) contrast(1.15);
+				mix-blend-mode: screen;
+				opacity: 0.78;
+			}
+
+			.timeline-row:hover .tl-logo-screen img {
+				filter: invert(1) contrast(1.15);
+				opacity: 1;
+			}
+
 			.tl-org {
 				font-size: 13px;
+				color: var(--muted);
+				line-height: 1.35;
+			}
+
+			.tl-stack {
+				display: inline-block;
+				margin-top: 10px;
+				padding: 2px 8px;
+				border: 1px solid var(--border);
+				border-radius: 2px;
+				background: var(--surface);
+				font-family: var(--font-mono);
+				font-size: 11px;
 				color: var(--muted);
 			}
 
