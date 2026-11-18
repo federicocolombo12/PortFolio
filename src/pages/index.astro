@@ -83,7 +83,8 @@ const firstSlide = showreelSlides[0];
 
 		<main id="top" class="shell">
 			<!-- 1. COMPACT ASYMMETRIC HERO -->
-			<section class="hero-band">
+			<section class="hero-band" id="heroBand">
+				<canvas id="heroSdfCanvas" class="hero-sdf-canvas" aria-hidden="true"></canvas>
 				<p class="hero-eyebrow">GRAPHICS ENGINEERING · TECHNICAL ART · STANDALONE XR</p>
 
 				<div class="hero-split">
@@ -98,6 +99,9 @@ const firstSlide = showreelSlides[0];
 						</p>
 						<div class="hero-inline-links">
 							<a href="#projects" class="hero-link-accent">Explore Selected Work</a>
+							<a href="https://federicocolombo12.github.io/webgpu-2d-gi-jfa/" target="_blank" rel="noopener noreferrer">
+								Live WebGPU GI &nearr;
+							</a>
 							<a href="https://github.com/federicocolombo12" target="_blank" rel="noopener noreferrer">
 								GitHub
 							</a>
@@ -124,9 +128,6 @@ const firstSlide = showreelSlides[0];
 							preload="auto"
 						></video>
 						<img id="featuredImage" src={firstSlide.image} alt={firstSlide.title} style="display: none;" />
-						<div class="featured-telemetry" id="reelMetricBadge">
-							{firstSlide.metric || firstSlide.tag}
-						</div>
 					</div>
 
 					<div class="featured-info-col">
@@ -138,6 +139,10 @@ const firstSlide = showreelSlides[0];
 									<span id="reelCounter">01/{String(showreelSlides.length).padStart(2, '0')}</span>
 									<button type="button" id="reelNextBtn" aria-label="Next showcase">&rsaquo;</button>
 								</div>
+							</div>
+
+							<div class="featured-telemetry" id="reelMetricBadge">
+								{firstSlide.metric || firstSlide.tag}
 							</div>
 
 							<h2 class="featured-title" id="reelTitle">{firstSlide.title}</h2>
@@ -179,6 +184,7 @@ const firstSlide = showreelSlides[0];
 						const badgeText = getProjectBadge(post);
 						const indexNum = String(idx + 1).padStart(2, '0');
 						const stackLine = (post.data.tags || []).slice(0, 3).join(' · ') || badgeText;
+						const previewVideo = (projectMediaMap[post.id] || []).find((m) => m.type === 'video')?.url || '';
 
 						return (
 							<article
@@ -190,6 +196,7 @@ const firstSlide = showreelSlides[0];
 								data-title={post.data.title}
 								data-desc={post.data.description}
 								data-image={imgSrc}
+								data-preview-video={previewVideo}
 								data-tags={(post.data.tags || []).join(',')}
 								data-github={post.data.githubLink || ''}
 								data-demo={post.data.demoLink || ''}
@@ -852,6 +859,134 @@ const firstSlide = showreelSlides[0];
 				if (e.key === 'ArrowLeft') renderMediaItem(activeMediaIdx - 1);
 				if (e.key === 'ArrowRight') renderMediaItem(activeMediaIdx + 1);
 			});
+
+			// 5. Subtle Hero SDF Contour Shader (prefers-reduced-motion & visibility-aware)
+			const heroBand = document.getElementById('heroBand');
+			const heroCanvas = document.getElementById('heroSdfCanvas') as HTMLCanvasElement | null;
+			const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (heroBand && heroCanvas && !reducedMotion) {
+				const gl = heroCanvas.getContext('webgl2') || heroCanvas.getContext('webgl');
+				if (gl) {
+					const compile = (type: number, src: string) => {
+						const sh = gl.createShader(type);
+						if (!sh) return null;
+						gl.shaderSource(sh, src);
+						gl.compileShader(sh);
+						return sh;
+					};
+					const vs = compile(gl.VERTEX_SHADER, 'attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }');
+					const fs = compile(
+						gl.FRAGMENT_SHADER,
+						`precision highp float;
+						uniform vec2 u_res;
+						uniform vec2 u_mouse;
+						uniform float u_time;
+						float smin(float a, float b, float k) {
+							float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
+							return mix(b, a, h) - k * h * (1.0 - h);
+						}
+						void main() {
+							vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / min(u_res.x, u_res.y);
+							vec2 mp = (u_mouse * u_res - 0.5 * u_res) / min(u_res.x, u_res.y);
+							float d1 = length(uv - mp) - 0.24;
+							float d2 = length(uv - vec2(0.42 * sin(u_time * 0.24), 0.12 * cos(u_time * 0.3))) - 0.34;
+							float d = smin(d1, d2, 0.45);
+							float iso = smoothstep(0.045, 0.008, abs(fract(d * 7.0 - u_time * 0.10) - 0.5));
+							float mask = smoothstep(1.35, 0.12, length(uv - mp * 0.55));
+							vec3 base = vec3(0.0745, 0.0784, 0.0863);
+							vec3 amber = vec3(0.878, 0.624, 0.243);
+							gl_FragColor = vec4(base + amber * iso * 0.085 * mask, 1.0);
+						}`
+					);
+					if (vs && fs) {
+						const prog = gl.createProgram();
+						if (prog) {
+							gl.attachShader(prog, vs);
+							gl.attachShader(prog, fs);
+							gl.linkProgram(prog);
+							gl.useProgram(prog);
+							const buf = gl.createBuffer();
+							gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+							gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+							const loc = gl.getAttribLocation(prog, 'a_pos');
+							gl.enableVertexAttribArray(loc);
+							gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+							const uRes = gl.getUniformLocation(prog, 'u_res');
+							const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+							const uTime = gl.getUniformLocation(prog, 'u_time');
+
+							let mx = 0.72, my = 0.45, tx = 0.72, ty = 0.45;
+							let heroVisible = true;
+							const t0 = performance.now();
+
+							heroBand.addEventListener('mousemove', (ev) => {
+								const rect = heroBand.getBoundingClientRect();
+								tx = (ev.clientX - rect.left) / rect.width;
+								ty = 1.0 - (ev.clientY - rect.top) / rect.height;
+							});
+
+							const resizeHero = () => {
+								const dpr = Math.min(window.devicePixelRatio || 1, 2);
+								heroCanvas.width = Math.max(1, Math.floor(heroBand.clientWidth * dpr));
+								heroCanvas.height = Math.max(1, Math.floor(heroBand.clientHeight * dpr));
+								gl.viewport(0, 0, heroCanvas.width, heroCanvas.height);
+							};
+							window.addEventListener('resize', resizeHero);
+							resizeHero();
+
+							const io = new IntersectionObserver((entries) => {
+								heroVisible = entries[0]?.isIntersecting ?? true;
+							});
+							io.observe(heroBand);
+
+							const tick = (now: number) => {
+								if (heroVisible && !document.hidden) {
+									mx += (tx - mx) * 0.06;
+									my += (ty - my) * 0.06;
+									gl.uniform2f(uRes, heroCanvas.width, heroCanvas.height);
+									gl.uniform2f(uMouse, mx, my);
+									gl.uniform1f(uTime, (now - t0) * 0.001);
+									gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+								}
+								requestAnimationFrame(tick);
+							};
+							requestAnimationFrame(tick);
+						}
+					}
+				}
+			}
+
+			// 6. Silent Video Preview on Hover for Desktop Cards
+			if (window.matchMedia('(hover: hover)').matches && !reducedMotion) {
+				document.querySelectorAll('.work-card[data-preview-video]').forEach((cardEl) => {
+					const videoUrl = cardEl.getAttribute('data-preview-video');
+					if (!videoUrl) return;
+					const thumb = cardEl.querySelector('.card-thumb');
+					if (!thumb) return;
+
+					let vid: HTMLVideoElement | null = null;
+					cardEl.addEventListener('mouseenter', () => {
+						if (!vid) {
+							vid = document.createElement('video');
+							vid.className = 'card-hover-video';
+							vid.src = videoUrl;
+							vid.muted = true;
+							vid.loop = true;
+							vid.playsInline = true;
+							vid.preload = 'auto';
+							thumb.insertBefore(vid, thumb.querySelector('.card-idx'));
+						}
+						vid.play().then(() => {
+							cardEl.classList.add('is-video-playing');
+						}).catch(() => {});
+					});
+					cardEl.addEventListener('mouseleave', () => {
+						cardEl.classList.remove('is-video-playing');
+						if (vid) vid.pause();
+					});
+				});
+			}
 		</script>
 
 		<style is:global>
@@ -992,8 +1127,24 @@ const firstSlide = showreelSlides[0];
 			   1. COMPACT ASYMMETRIC HERO
 			   ========================================================= */
 			.hero-band {
+				position: relative;
+				overflow: hidden;
 				padding: 28px 0 24px;
 				border-bottom: 1px solid var(--border);
+			}
+
+			.hero-sdf-canvas {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			.hero-band > :not(.hero-sdf-canvas) {
+				position: relative;
+				z-index: 1;
 			}
 
 			.hero-eyebrow {
@@ -1098,15 +1249,13 @@ const firstSlide = showreelSlides[0];
 			}
 
 			.featured-telemetry {
-				position: absolute;
-				left: 12px;
-				bottom: 12px;
-				z-index: 2;
-				padding: 4px 10px;
+				display: inline-block;
+				margin-bottom: 10px;
+				padding: 3px 9px;
 				border-radius: 2px;
-				background: rgba(14, 15, 18, 0.86);
-				border: 1px solid rgba(255, 255, 255, 0.14);
-				color: #eceae4;
+				background: var(--accent-soft);
+				border: 1px solid rgba(224, 159, 62, 0.35);
+				color: var(--accent);
 				font-family: var(--font-mono);
 				font-size: 11px;
 			}
@@ -1291,6 +1440,27 @@ const firstSlide = showreelSlides[0];
 				transition: transform 0.28s ease;
 			}
 
+			.card-thumb video.card-hover-video {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				opacity: 0;
+				transition: opacity 0.3s ease;
+				pointer-events: none;
+				z-index: 1;
+			}
+
+			.work-card.is-video-playing .card-hover-video {
+				opacity: 1;
+			}
+
+			.card-idx,
+			.card-gh-corner {
+				z-index: 2;
+			}
+
 			.work-card:hover .card-thumb img {
 				transform: scale(1.025);
 			}
@@ -1359,7 +1529,7 @@ const firstSlide = showreelSlides[0];
 				line-height: 1.5;
 				color: var(--ink-2);
 				display: -webkit-box;
-				-webkit-line-clamp: 2;
+				-webkit-line-clamp: 3;
 				-webkit-box-orient: vertical;
 				overflow: hidden;
 			}
